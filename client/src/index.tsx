@@ -6,7 +6,7 @@ import ons from 'onsenui';
 
 // OnsenUI CSS
 import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
+import 'onsenui/css/dark-onsen-css-components.css';
 
 ons.ready(() => ReactDOM.render(<App />, document.getElementById('root')));
 
