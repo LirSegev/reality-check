@@ -10,7 +10,7 @@ const LoginPageValidView: React.FC<Props> = props => (
 		<section style={{ textAlign: 'center' }}>
 			<p>
 				<Input
-					name="username"
+					name="displayName"
 					type="text"
 					placeholder="Username"
 					modifier="underbar"

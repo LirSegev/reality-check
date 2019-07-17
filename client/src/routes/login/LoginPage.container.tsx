@@ -41,8 +41,15 @@ class LoginPageContainer extends React.Component<Props, State> {
 			.catch(reason => console.error(reason));
 	}
 
-class LoginPageContainer extends React.Component {
-	onLogin() {}
+	onLogin() {
+		firebase
+			.auth()
+			.signInAnonymously()
+			.catch(err => {
+				// Handle Errors here.
+				console.error(err.message);
+			});
+	}
 
 	render() {
 		return this.state.isLoading ? (
