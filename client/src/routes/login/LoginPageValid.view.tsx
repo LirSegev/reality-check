@@ -1,9 +1,11 @@
 import React from 'react';
 import { Page, Input, Button } from 'react-onsenui';
 
-const LoginPageView: React.FC<{
+interface Props {
 	onLogin: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-}> = props => (
+}
+
+const LoginPageValidView: React.FC<Props> = props => (
 	<Page>
 		<section style={{ textAlign: 'center' }}>
 			<p>
@@ -22,4 +24,4 @@ const LoginPageView: React.FC<{
 	</Page>
 );
 
-export default LoginPageView;
+export default LoginPageValidView;

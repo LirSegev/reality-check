@@ -9,6 +9,7 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/dark-onsen-css-components.css';
 
 import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 import firebaseConfig from './config/firebase';
 firebase.initializeApp(firebaseConfig);
 
