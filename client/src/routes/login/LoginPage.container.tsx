@@ -19,7 +19,7 @@ interface State {
 }
 
 class LoginPageContainer extends React.Component<Props, State> {
-	constructor(props: { match: match<GameLogin> }) {
+	constructor(props: Props) {
 		super(props);
 		this.state = {
 			isLoading: true,
