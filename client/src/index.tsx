@@ -8,6 +8,10 @@ import ons from 'onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/dark-onsen-css-components.css';
 
+import * as firebase from 'firebase/app';
+import firebaseConfig from './config/firebase';
+firebase.initializeApp(firebaseConfig);
+
 ons.ready(() => ReactDOM.render(<App />, document.getElementById('root')));
 
 // If you want your app to work offline and load faster, you can change
