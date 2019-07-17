@@ -5,7 +5,7 @@ const LoginPageView: React.FC<{
 	onLogin: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }> = props => (
 	<Page>
-		<form method="POST" action="/api/login" style={{ textAlign: 'center' }}>
+		<section style={{ textAlign: 'center' }}>
 			<p>
 				<Input
 					name="username"
@@ -18,7 +18,7 @@ const LoginPageView: React.FC<{
 			<p>
 				<Button onClick={props.onLogin}>Login</Button>
 			</p>
-		</form>
+		</section>
 	</Page>
 );
 
