@@ -5,6 +5,7 @@ import AppView from './App.view';
 interface State {
 	isLogged: boolean;
 	gameId: string | null;
+	isLoading: boolean;
 }
 
 class AppContainer extends React.Component<{}, State> {
@@ -14,6 +15,7 @@ class AppContainer extends React.Component<{}, State> {
 		this.state = {
 			isLogged: false,
 			gameId: null,
+			isLoading: true,
 		};
 
 		firebase.auth().onAuthStateChanged(player => {
@@ -27,10 +29,23 @@ class AppContainer extends React.Component<{}, State> {
 				// Sign out
 			}
 		});
+
+		this.stopLoading = this.stopLoading.bind(this);
+	}
+
+	stopLoading() {
+		this.setState({ isLoading: false });
 	}
 
 	render() {
-		return <AppView isLogged={this.state.isLogged} />;
+		const { isLogged, isLoading } = this.state;
+		return (
+			<AppView
+				isLogged={isLogged}
+				isLoading={isLoading}
+				stopLoading={this.stopLoading}
+			/>
+		);
 	}
 }
 

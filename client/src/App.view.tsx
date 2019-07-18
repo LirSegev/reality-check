@@ -4,18 +4,40 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Components
 import LoginPage from './routes/login';
 import HomePage from './routes/home';
+import LoadingIndicator from './components/LoadingIndicator.component';
 
-const AppView: React.FC<{ isLogged: boolean }> = props => {
-	if (props.isLogged) return <div>The game</div>;
+interface Props {
+	isLogged: boolean;
+	isLoading: boolean;
+	stopLoading: () => void;
+}
+
+const AppView: React.FC<Props> = props => {
+	const { isLoading, isLogged, stopLoading } = props;
+	let app: JSX.Element;
+
+	if (isLogged) app = <div>The game</div>;
 	else
-		return (
+		app = (
 			<Router>
 				<Switch>
 					<Route exact path="/" component={HomePage} />
-					<Route path="/:gameId" component={LoginPage} />
+					<Route
+						path="/:gameId"
+						render={routeProps => (
+							<LoginPage stopLoading={stopLoading} {...routeProps} />
+						)}
+					/>
 				</Switch>
 			</Router>
 		);
+
+	return (
+		<React.Fragment>
+			<LoadingIndicator isLoading={isLoading} />
+			{app}
+		</React.Fragment>
+	);
 };
 
 export default AppView;

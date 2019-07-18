@@ -1,10 +1,10 @@
 import React from 'react';
-import { ProgressCircular } from 'react-onsenui';
+import { Modal, ProgressCircular } from 'react-onsenui';
 
-const LoadingIndicator: React.FC = props => (
-	<section style={{ textAlign: 'center' }}>
+const LoadingIndicator: React.FC<{ isLoading: boolean }> = props => (
+	<Modal isOpen={props.isLoading}>
 		<ProgressCircular indeterminate />
-	</section>
+	</Modal>
 );
 
 export default LoadingIndicator;
