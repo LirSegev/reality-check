@@ -25,17 +25,27 @@ class LoginPageContainer extends React.Component<Props, State> {
 		this.onLogin = this.onLogin.bind(this);
 	}
 
+	_isMounted: boolean = false;
+
 	componentDidMount() {
+		this._isMounted = true;
+
 		const db = firebase.firestore();
 		db.collection('games')
 			.doc(this.props.match.params.gameId)
 			.get()
 			.then(game => {
-				if (game.exists) this.setState({ isValidGame: true });
-				else this.setState({ isValidGame: false });
-				this.props.stopLoading();
+				if (this._isMounted) {
+					if (game.exists) this.setState({ isValidGame: true });
+					else this.setState({ isValidGame: false });
+					this.props.stopLoading();
+				}
 			})
 			.catch(reason => console.error(reason));
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
 	}
 
 	onLogin() {
