@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Components
 import LoginPage from './routes/login';
-import HomePage from './routes/home';
 import LoadingIndicator from './components/LoadingIndicator.component';
 
 interface Props {
@@ -21,7 +20,7 @@ const AppView: React.FC<Props> = props => {
 		app = (
 			<Router>
 				<Switch>
-					<Route exact path="/" component={HomePage} />
+					<Route exact path="/" render={() => <div>Home</div>} />
 					<Route
 						path="/:gameId"
 						render={routeProps => (
