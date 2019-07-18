@@ -10,6 +10,7 @@ import { Page } from 'react-onsenui';
 interface Props {
 	match: match<{ gameId: string }>;
 	stopLoading: () => void;
+	startLoading: () => void;
 }
 interface State {
 	isValidGame: boolean | null;
@@ -49,6 +50,7 @@ class LoginPageContainer extends React.Component<Props, State> {
 	}
 
 	onLogin() {
+		this.props.startLoading();
 		firebase
 			.auth()
 			.signInAnonymously()

@@ -28,6 +28,7 @@ class AppContainer extends React.Component<{}, State> {
 		});
 
 		this.stopLoading = this.stopLoading.bind(this);
+		this.startLoading = this.startLoading.bind(this);
 	}
 
 	onPlayerLogin(player: firebase.User) {
@@ -49,8 +50,18 @@ class AppContainer extends React.Component<{}, State> {
 		this.setState({ isLoading: false });
 	}
 
+	startLoading() {
+		this.setState({ isLoading: true });
+	}
+
 	render() {
-		return <AppView stopLoading={this.stopLoading} {...this.state} />;
+		return (
+			<AppView
+				startLoading={this.startLoading}
+				stopLoading={this.stopLoading}
+				{...this.state}
+			/>
+		);
 	}
 }
 

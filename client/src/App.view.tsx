@@ -10,11 +10,12 @@ interface Props {
 	isLogged: boolean;
 	isLoading: boolean;
 	stopLoading: () => void;
+	startLoading: () => void;
 	gameId: string | null;
 }
 
 const AppView: React.FC<Props> = props => {
-	const { isLoading, isLogged, stopLoading, gameId } = props;
+	const { isLoading, isLogged, stopLoading, gameId, startLoading } = props;
 	let app: JSX.Element;
 
 	if (isLogged && gameId)
@@ -27,7 +28,11 @@ const AppView: React.FC<Props> = props => {
 					<Route
 						path="/:gameId"
 						render={routeProps => (
-							<LoginPage stopLoading={stopLoading} {...routeProps} />
+							<LoginPage
+								startLoading={startLoading}
+								stopLoading={stopLoading}
+								{...routeProps}
+							/>
 						)}
 					/>
 				</Switch>
