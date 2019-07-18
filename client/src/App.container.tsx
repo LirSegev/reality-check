@@ -21,16 +21,20 @@ class AppContainer extends React.Component<{}, State> {
 		firebase.auth().onAuthStateChanged(player => {
 			if (player && player.isAnonymous) {
 				// Sign in
-				const gameId = window.location.pathname.slice(1);
-				this.setState({ gameId, isLogged: true });
-
-				addPlayerToGame(player, gameId);
+				this.onPlayerLogin(player);
 			} else {
 				// Sign out
 			}
 		});
 
 		this.stopLoading = this.stopLoading.bind(this);
+	}
+
+	onPlayerLogin(player: firebase.User) {
+		const gameId = window.location.pathname.slice(1);
+		this.setState({ gameId, isLogged: true });
+
+		addPlayerToGame(player, gameId);
 	}
 
 	stopLoading() {
@@ -51,6 +55,9 @@ class AppContainer extends React.Component<{}, State> {
 
 export default AppContainer;
 
+/**
+ * Adds player to game if they're not already in game
+ */
 function addPlayerToGame(player: firebase.User, gameId: string) {
 	// prettier-ignore
 	const gameDoc = firebase.firestore().collection('games').doc(gameId);
