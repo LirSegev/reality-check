@@ -50,14 +50,7 @@ class AppContainer extends React.Component<{}, State> {
 	}
 
 	render() {
-		const { isLogged, isLoading } = this.state;
-		return (
-			<AppView
-				isLogged={isLogged}
-				isLoading={isLoading}
-				stopLoading={this.stopLoading}
-			/>
-		);
+		return <AppView stopLoading={this.stopLoading} {...this.state} />;
 	}
 }
 
