@@ -1,14 +1,16 @@
 import React from 'react';
 import { Page, Input, Button } from 'react-onsenui';
 
-const LoginPageView: React.FC<{
+interface Props {
 	onLogin: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-}> = props => (
+}
+
+const LoginPageValidView: React.FC<Props> = props => (
 	<Page>
-		<form method="POST" action="/api/login" style={{ textAlign: 'center' }}>
+		<section style={{ textAlign: 'center' }}>
 			<p>
 				<Input
-					name="username"
+					name="displayName"
 					type="text"
 					placeholder="Username"
 					modifier="underbar"
@@ -18,8 +20,8 @@ const LoginPageView: React.FC<{
 			<p>
 				<Button onClick={props.onLogin}>Login</Button>
 			</p>
-		</form>
+		</section>
 	</Page>
 );
 
-export default LoginPageView;
+export default LoginPageValidView;
