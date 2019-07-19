@@ -37,7 +37,7 @@ class AppContainer extends React.Component<{}, State> {
 		const dpEl: HTMLInputElement | null = document.querySelector(
 			'input[name=displayName]'
 		);
-		const displayName = dpEl ? dpEl.value : 'Agent';
+		const displayName = dpEl ? dpEl.value || player.uid : player.uid;
 		player.updateProfile({
 			displayName,
 		});
