@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Page, Tab, Tabbar } from 'react-onsenui';
-import MapTabView from './map';
-import ChatTabView from './chat';
+import MapTab from './map';
+import ChatTab from './chat';
 
 const OperationTabView: React.FC = () => (
 	<Page>
@@ -11,11 +11,11 @@ const OperationTabView: React.FC = () => (
 			swipeable={true}
 			renderTabs={() => [
 				{
-					content: <MapTabView key="mapTab-content" />,
+					content: <MapTab key="mapTab-content" />,
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{
-					content: <ChatTabView key="chatTab-content" />,
+					content: <ChatTab key="chatTab-content" />,
 					tab: <Tab label="Chat" key="chatTab-button" />,
 				},
 			]}
