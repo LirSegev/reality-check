@@ -1,3 +1,3 @@
-import IntelTab from './IntelTab.view';
+import IntelTab from './Intel.tab.view';
 
 export default IntelTab;

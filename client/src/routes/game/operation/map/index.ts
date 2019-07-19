@@ -1,3 +1,3 @@
-import MapTab from './MapTab.view';
+import MapTab from './Map.tab.view';
 
 export default MapTab;

@@ -3,8 +3,8 @@ import * as firebase from 'firebase/app';
 import { match } from 'react-router-dom';
 
 // Components
-import LoginPageValidView from './LoginPageValid.view';
-import LoginPageInvalidView from './LoginPageInvalid.view';
+import LoginPageValidView from './Login-valid.page.view';
+import LoginPageInvalidView from './Login-invalid.page.view';
 import { Page } from 'react-onsenui';
 
 interface Props {
