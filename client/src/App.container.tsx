@@ -20,10 +20,31 @@ class AppContainer extends React.Component<{}, State> {
 
 		firebase.auth().onAuthStateChanged(player => {
 			if (player && player.isAnonymous) {
-				// Sign in
-				this.onPlayerLogin(player);
+				// Player sign in
+
+				const gameId = localStorage.getItem('gameId');
+				if (gameId) {
+					// Player resigning in
+					
+					const db = firebase.firestore();
+					db.collection('games')
+						.doc(gameId)
+						.get()
+						.then(game => {
+							if (game.exists) {
+								this.onPlayerLogin(player);
+							} else {
+								firebase.auth().signOut();
+							}
+						})
+						.catch(reason => console.error(reason));
+				} else {
+					// First time signing in
+					this.onPlayerLogin(player);
+				}
 			} else {
 				// Sign out
+				localStorage.removeItem('gameId');
 			}
 		});
 
@@ -79,21 +100,13 @@ function addPlayerToGame(
 	// prettier-ignore
 	const gameDoc = firebase.firestore().collection('games').doc(gameId);
 
-	gameDoc
-		.collection('players')
-		.where('uid', '==', player.uid)
-		.get()
-		.then(users => !(users.size >= 1))
-		.then((isNew: boolean) => {
-			if (isNew && !localStorage.getItem('gameId')) {
-				// New player
-				gameDoc.collection('players').add({
-					displayName,
-					location: null,
-					uid: player.uid,
-				});
-				localStorage.setItem('gameId', gameId);
-			}
-		})
-		.catch(reason => console.error(reason));
+	if (!localStorage.getItem('gameId')) {
+		// New player
+		gameDoc.collection('players').add({
+			displayName,
+			location: null,
+			uid: player.uid,
+		});
+		localStorage.setItem('gameId', gameId);
+	}
 }
