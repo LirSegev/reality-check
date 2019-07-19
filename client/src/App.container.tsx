@@ -6,6 +6,7 @@ interface State {
 	isLogged: boolean;
 	gameId: string | null;
 	isLoading: boolean;
+	isAdmin: boolean;
 }
 
 class AppContainer extends React.Component<{}, State> {
@@ -16,6 +17,7 @@ class AppContainer extends React.Component<{}, State> {
 			isLogged: false,
 			gameId: null,
 			isLoading: true,
+			isAdmin: false,
 		};
 
 		firebase.auth().onAuthStateChanged(player => {
@@ -25,7 +27,7 @@ class AppContainer extends React.Component<{}, State> {
 				const gameId = localStorage.getItem('gameId');
 				if (gameId) {
 					// Player resigning in
-					
+
 					const db = firebase.firestore();
 					db.collection('games')
 						.doc(gameId)
@@ -42,6 +44,12 @@ class AppContainer extends React.Component<{}, State> {
 					// First time signing in
 					this.onPlayerLogin(player);
 				}
+			} else if (player) {
+				// Admin sign in
+				this.setState({
+					isAdmin: true,
+					isLogged: true,
+				});
 			} else {
 				// Sign out
 				localStorage.removeItem('gameId');
