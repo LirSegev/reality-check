@@ -32,7 +32,8 @@ class AppContainer extends React.Component<{}, State> {
 	}
 
 	onPlayerLogin(player: firebase.User) {
-		const gameId = window.location.pathname.slice(1);
+		const gameId =
+			localStorage.getItem('gameId')! || window.location.pathname.slice(1);
 		const dpEl: HTMLInputElement | null = document.querySelector(
 			'input[name=displayName]'
 		);
@@ -84,13 +85,15 @@ function addPlayerToGame(
 		.get()
 		.then(users => !(users.size >= 1))
 		.then((isNew: boolean) => {
-			if (isNew)
+			if (isNew && !localStorage.getItem('gameId')) {
 				// New player
 				gameDoc.collection('players').add({
 					displayName,
 					location: null,
 					uid: player.uid,
 				});
+				localStorage.setItem('gameId', gameId);
+			}
 		})
 		.catch(reason => console.error(reason));
 }
