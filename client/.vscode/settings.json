@@ -3,6 +3,7 @@
 		"firestore",
 		"fsevents",
 		"onsen",
-		"onsenui"
+		"onsenui",
+		"tabbar"
 	]
 }
