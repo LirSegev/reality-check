@@ -8,7 +8,6 @@ const OperationTabView: React.FC = () => (
 		<Tabbar
 			index={0}
 			position="auto"
-			swipeable={true}
 			renderTabs={() => [
 				{
 					content: <MapTab key="mapTab-content" />,

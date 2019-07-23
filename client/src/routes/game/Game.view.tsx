@@ -9,7 +9,6 @@ const GameView: React.FC = () => (
 		<Tabbar
 			index={2}
 			position="auto"
-			swipeable={true}
 			renderTabs={() => [
 				{
 					content: <TargetTabView key="targetTab-content" />,
