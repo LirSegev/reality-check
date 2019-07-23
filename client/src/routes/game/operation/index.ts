@@ -1,3 +1,3 @@
-import OperationTab from './OperationTab.view';
+import OperationTab from './Operation.tab.view';
 
 export default OperationTab;
