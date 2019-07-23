@@ -2,6 +2,8 @@
 	"cSpell.words": [
 		"firestore",
 		"fsevents",
+		"geolocate",
+		"mapbox",
 		"onsen",
 		"onsenui",
 		"tabbar"
