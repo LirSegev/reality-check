@@ -12,7 +12,7 @@ class GameContainer extends React.Component<Props> {
 	}
 
 	render() {
-		return <GameView />;
+		return <GameView gameId={this.props.gameId} />;
 	}
 }
 

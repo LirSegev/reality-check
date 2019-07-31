@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Page } from 'react-onsenui';
 
-import ReactMapboxFactory, { MapContext } from 'react-mapbox-gl';
+import ReactMapboxFactory, { MapContext, Layer } from 'react-mapbox-gl';
 import { GeolocateControl } from 'mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
 
@@ -9,7 +9,11 @@ const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
 });
 
-const MapTabView: React.FC = () => (
+interface Props {
+	playerLocationMarkers: JSX.Element[];
+}
+
+const MapTabView: React.FC<Props> = props => (
 	<Page>
 		<Map
 			// eslint-disable-next-line
@@ -36,6 +40,9 @@ const MapTabView: React.FC = () => (
 					return <React.Fragment />;
 				}}
 			</MapContext.Consumer>
+			<Layer layout={{ 'icon-image': 'point-large' }}>
+				{props.playerLocationMarkers}
+			</Layer>
 		</Map>
 	</Page>
 );

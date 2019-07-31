@@ -3,6 +3,7 @@
 		"firestore",
 		"fsevents",
 		"geolocate",
+		"geopoint",
 		"mapbox",
 		"onsen",
 		"onsenui",
