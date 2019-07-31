@@ -27,22 +27,23 @@ class GameContainer extends React.Component<Props> {
 			.where('uid', '==', firebase.auth().currentUser!.uid)
 			.get()
 			.then(playerList => {
-				if (playerList.size < 1) throw new Error('More than one user found');
-
-				const player = db.doc(
-					`games/${this.props.gameId}/players/${playerList.docs[0].id}`
-				);
-				player
-					.update({
-						location: {
-							geopoint: new firebase.firestore.GeoPoint(latitude, longitude),
-							timestamp: new firebase.firestore.Timestamp(
-								Math.round(pos.timestamp / 1000),
-								0
-							),
-						},
-					})
-					.catch(err => console.error(err));
+				if (playerList.size > 1) throw new Error('More than one user found');
+				else if (playerList.size === 1) {
+					const player = db.doc(
+						`games/${this.props.gameId}/players/${playerList.docs[0].id}`
+					);
+					player
+						.update({
+							location: {
+								geopoint: new firebase.firestore.GeoPoint(latitude, longitude),
+								timestamp: new firebase.firestore.Timestamp(
+									Math.round(pos.timestamp / 1000),
+									0
+								),
+							},
+						})
+						.catch(err => console.error(err));
+				}
 			})
 			.catch(err => console.error(err));
 	}
