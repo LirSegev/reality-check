@@ -14,9 +14,22 @@ class GameContainer extends React.Component<Props> {
 		this.props.stopLoading();
 
 		if (navigator.geolocation)
-			this._watchId = navigator.geolocation.watchPosition(
-				this._updatePlayerLocation.bind(this)
-			);
+			navigator.geolocation.getCurrentPosition(pos => {
+				this._updateLastPos(pos);
+				setInterval(() => {
+					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
+				}, 30 * 1000);
+			});
+
+		this._watchId = navigator.geolocation.watchPosition(pos => {
+			this._updateLastPos(pos);
+		});
+	}
+
+	_lastPos: Position | null = null;
+
+	_updateLastPos(pos: Position) {
+		this._lastPos = pos;
 	}
 
 	_updatePlayerLocation(pos: Position) {
