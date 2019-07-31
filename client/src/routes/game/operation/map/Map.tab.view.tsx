@@ -9,6 +9,8 @@ const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
 });
 
+let hasControl = false;
+
 interface Props {
 	playerLocationMarkers: JSX.Element[];
 }
@@ -28,7 +30,7 @@ const MapTabView: React.FC<Props> = props => (
 			<MapContext.Consumer>
 				{/* Locate the user */
 				map => {
-					if (map)
+					if (map && !hasControl)
 						map.addControl(
 							new GeolocateControl({
 								positionOptions: {
@@ -37,6 +39,7 @@ const MapTabView: React.FC<Props> = props => (
 								trackUserLocation: true,
 							})
 						);
+					hasControl = true;
 					return <React.Fragment />;
 				}}
 			</MapContext.Consumer>
