@@ -48,8 +48,10 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_updatePlayerLocations(playerList: firebase.firestore.QuerySnapshot) {
+		let playerLocations: { [key: string]: PlayerLocation } = {};
 		playerList.forEach(doc => {
 			const player = doc.data() as Player;
+
 			if (player.location && player.uid !== firebase.auth().currentUser!.uid) {
 				const playerLocation: PlayerLocation = {
 					playerName: player.displayName,
@@ -57,15 +59,10 @@ class MapTabContainer extends React.Component<Props, State> {
 					longitude: player.location.geopoint.longitude,
 					timestamp: player.location.timestamp.seconds,
 				};
-
-				this.setState(prevState => ({
-					playerLocations: {
-						...prevState.playerLocations,
-						[player.uid]: playerLocation,
-					},
-				}));
+				playerLocations[player.uid] = playerLocation;
 			}
 		});
+		this.setState({ playerLocations });
 	}
 
 	_onMove(map: mapboxgl.Map) {
