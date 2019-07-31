@@ -4,6 +4,7 @@ import { Page } from 'react-onsenui';
 import ReactMapboxFactory, { MapContext, Layer } from 'react-mapbox-gl';
 import { GeolocateControl } from 'mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
+import { MapOrientation } from '../../../../index.d';
 
 const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
@@ -13,21 +14,27 @@ let hasControl = false;
 
 interface Props {
 	playerLocationMarkers: JSX.Element[];
+	mapOrientation: MapOrientation;
+	onMove: (map: mapboxgl.Map) => void;
 }
 
 const MapTabView: React.FC<Props> = props => (
-	<Page>
-		<Map
+		<Page>
+			<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}
-			center={[14.42, 50.08]}
-			zoom={[12]}
+			center={[
+				props.mapOrientation.center.longitude,
+				props.mapOrientation.center.latitude,
+			]}
+			zoom={[props.mapOrientation.zoom]}
 			containerStyle={{
-				height: '100%',
-				width: '100%',
-			}}
-		>
-			<MapContext.Consumer>
+					height: '100%',
+					width: '100%',
+				}}
+				onMove={props.onMove}
+			>
+				<MapContext.Consumer>
 				{/* Locate the user */
 				map => {
 					if (map && !hasControl)

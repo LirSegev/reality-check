@@ -4,6 +4,7 @@ import MapTabView from './Map.tab.view';
 import * as firebase from 'firebase/app';
 import { Player } from '../../../../index.d';
 import { Feature } from 'react-mapbox-gl';
+import { MapOrientation } from '../../../../index.d';
 
 interface PlayerLocation {
 	playerName: string;
@@ -15,6 +16,7 @@ interface State {
 	playerLocations: {
 		[uid: string]: PlayerLocation;
 	};
+	mapOrientation: MapOrientation;
 }
 interface Props {
 	gameId: string;
@@ -26,9 +28,14 @@ class MapTabContainer extends React.Component<Props, State> {
 
 		this.state = {
 			playerLocations: {},
+			mapOrientation: {
+				center: { longitude: 14.42, latitude: 50.08 },
+				zoom: 12,
+			},
 		};
 
 		this._updatePlayerLocations = this._updatePlayerLocations.bind(this);
+		this._onMove = this._onMove.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,6 +68,19 @@ class MapTabContainer extends React.Component<Props, State> {
 		});
 	}
 
+	_onMove(map: mapboxgl.Map) {
+		this.setState(prevState => ({
+			mapOrientation: {
+				...prevState.mapOrientation,
+				center: {
+					longitude: map.getCenter().lng,
+					latitude: map.getCenter().lat,
+				},
+				zoom: map.getZoom(),
+			},
+		}));
+	}
+
 	render = () => {
 		const playerLocationMarkers: JSX.Element[] = [];
 		for (let uid in this.state.playerLocations) {
@@ -73,7 +93,13 @@ class MapTabContainer extends React.Component<Props, State> {
 			);
 		}
 
-		return <MapTabView playerLocationMarkers={playerLocationMarkers} />;
+		return (
+			<MapTabView
+				playerLocationMarkers={playerLocationMarkers}
+				mapOrientation={this.state.mapOrientation}
+				onMove={this._onMove}
+			/>
+		);
 	};
 }
 

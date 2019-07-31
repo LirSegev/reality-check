@@ -8,3 +8,11 @@ export interface Player {
 	};
 	uid: string;
 }
+
+export interface MapOrientation {
+	center: {
+		latitude: number;
+		longitude: number;
+	};
+	zoom: number;
+}

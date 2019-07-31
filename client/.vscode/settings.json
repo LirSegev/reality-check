@@ -5,6 +5,7 @@
 		"geolocate",
 		"geopoint",
 		"mapbox",
+		"mapboxgl",
 		"onsen",
 		"onsenui",
 		"tabbar"
