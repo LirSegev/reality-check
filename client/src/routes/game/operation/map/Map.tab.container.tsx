@@ -68,7 +68,7 @@ class MapTabContainer extends React.Component<Props, State> {
 			playerLocationMarkers.push(
 				<Feature
 					key={'playerLocationMarker-' + uid}
-					coordinates={[latitude, longitude]}
+					coordinates={[longitude, latitude]}
 				/>
 			);
 		}
