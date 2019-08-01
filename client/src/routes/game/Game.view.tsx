@@ -4,12 +4,15 @@ import TargetTabView from './target';
 import OperationTabView from './operation';
 import IntelTabView from './intel';
 
-const GameView: React.FC = () => (
+interface Props {
+	gameId: string;
+}
+
+const GameView: React.FC<Props> = props => (
 	<Page>
 		<Tabbar
 			index={2}
 			position="auto"
-			swipeable={true}
 			renderTabs={() => [
 				{
 					content: <TargetTabView key="targetTab-content" />,
@@ -20,7 +23,12 @@ const GameView: React.FC = () => (
 					tab: <Tab label="Intel" key="intelTab-button" />,
 				},
 				{
-					content: <OperationTabView key="operationTab-content" />,
+					content: (
+						<OperationTabView
+							gameId={props.gameId}
+							key="operationTab-content"
+						/>
+					),
 					tab: <Tab label="Operation" key="operationTab-button" />,
 				},
 			]}

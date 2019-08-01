@@ -3,15 +3,18 @@ import { Page, Tab, Tabbar } from 'react-onsenui';
 import MapTab from './map';
 import ChatTab from './chat';
 
-const OperationTabView: React.FC = () => (
+interface Props {
+	gameId: string;
+}
+
+const OperationTabView: React.FC<Props> = props => (
 	<Page>
 		<Tabbar
 			index={0}
 			position="auto"
-			swipeable={true}
 			renderTabs={() => [
 				{
-					content: <MapTab key="mapTab-content" />,
+					content: <MapTab gameId={props.gameId} key="mapTab-content" />,
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{
