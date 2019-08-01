@@ -7,6 +7,7 @@ import Game from './routes/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
 import AdminPage from './routes/admin';
+import * as firebase from 'firebase/app';
 
 interface Props {
 	isLogged: boolean;
@@ -30,7 +31,13 @@ const AppView: React.FC<Props> = props => {
 
 	if (isLogged && gameId)
 		app = <Game stopLoading={stopLoading} gameId={gameId} />;
-	else if (isLogged && isAdmin) app = <AdminPage stopLoading={stopLoading} />;
+	else if (
+		isLogged &&
+		isAdmin &&
+		firebase.auth().currentUser &&
+		!firebase.auth().currentUser!.isAnonymous
+	)
+		app = <AdminPage stopLoading={stopLoading} />;
 	else
 		app = (
 			<Router>
