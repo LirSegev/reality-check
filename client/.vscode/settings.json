@@ -9,5 +9,8 @@
 		"onsen",
 		"onsenui",
 		"tabbar"
+	],
+	"cSpell.ignoreWords": [
+		"nodivider"
 	]
 }

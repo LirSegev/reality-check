@@ -19,7 +19,9 @@ const GameView: React.FC<Props> = props => (
 					tab: <Tab label="Target" key="targetTab-button" />,
 				},
 				{
-					content: <IntelTabView key="intelTab-content" />,
+					content: (
+						<IntelTabView gameId={props.gameId} key="intelTab-content" />
+					),
 					tab: <Tab label="Intel" key="intelTab-button" />,
 				},
 				{
