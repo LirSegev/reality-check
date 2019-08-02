@@ -33,8 +33,9 @@ class AdminLoginPageContainer extends React.Component<Props> {
 			firebase
 				.auth()
 				.signInWithEmailAndPassword(email, password)
-				.catch(reason => {
-					console.error(reason);
+				.catch(err => {
+					if (err.code !== 'auth/wrong-password')
+						console.error(new Error('Error signing user in'), err);
 					this.props.stopLoading();
 				});
 		}

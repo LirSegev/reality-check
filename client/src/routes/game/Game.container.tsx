@@ -56,10 +56,12 @@ class GameContainer extends React.Component<Props> {
 								),
 							},
 						})
-						.catch(err => console.error(err));
+						.catch(err =>
+							console.error(new Error('Error updating user location:'), err)
+						);
 				}
 			})
-			.catch(err => console.error(err));
+			.catch(err => console.error(new Error('Error getting player:'), err));
 	}
 
 	componentWillUnmount() {

@@ -42,7 +42,9 @@ class LoginPageContainer extends React.Component<Props, State> {
 					this.props.stopLoading();
 				}
 			})
-			.catch(reason => console.error(reason));
+			.catch(err =>
+				console.error(new Error('Error checking if game exists:'), err)
+			);
 	}
 
 	componentWillUnmount() {
@@ -55,8 +57,7 @@ class LoginPageContainer extends React.Component<Props, State> {
 			.auth()
 			.signInAnonymously()
 			.catch(err => {
-				// Handle Errors here.
-				console.error(err.message);
+				console.error(new Error('Error signing user in:'), err);
 			});
 	}
 

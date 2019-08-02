@@ -36,7 +36,7 @@ class ChooseGamePageContainer extends React.Component<Props, State> {
 				});
 				this.props.stopLoading();
 			})
-			.catch(err => console.error(err));
+			.catch(err => console.error(new Error('Error getting game list:'), err));
 	}
 
 	render = () => (

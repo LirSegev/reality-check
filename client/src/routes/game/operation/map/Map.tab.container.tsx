@@ -43,7 +43,8 @@ class MapTabContainer extends React.Component<Props, State> {
 		const { gameId } = this.props;
 
 		db.collection(`games/${gameId}/players`).onSnapshot(
-			this._updatePlayerLocations
+			this._updatePlayerLocations,
+			err => console.error(err)
 		);
 	}
 

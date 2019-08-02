@@ -73,11 +73,14 @@ class AppContainer extends React.Component<{}, State> {
 		if (isNew) {
 			// New player
 
-			gameDoc.collection('players').add({
-				displayName,
-				location: null,
-				uid: player.uid,
-			});
+			gameDoc
+				.collection('players')
+				.add({
+					displayName,
+					location: null,
+					uid: player.uid,
+				})
+				.catch(err => console.error(new Error('Error adding player'), err));
 			localStorage.setItem('gameId', gameId);
 		} else {
 			// Player resigning in
@@ -91,7 +94,9 @@ class AppContainer extends React.Component<{}, State> {
 						firebase.auth().signOut();
 					}
 				})
-				.catch(reason => console.error(reason));
+				.catch(err =>
+					console.error(new Error('Error checking if game exists:'), err)
+				);
 		}
 	}
 
