@@ -32,7 +32,7 @@ const AppView: React.FC<Props> = props => {
 	let app: JSX.Element;
 
 	if (isLogged && gameId)
-		app = <Game stopLoading={stopLoading} gameId={gameId} />;
+		app = <Game isAdmin={isAdmin} stopLoading={stopLoading} gameId={gameId} />;
 	else if (
 		isLogged &&
 		isAdmin &&

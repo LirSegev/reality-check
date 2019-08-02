@@ -6,6 +6,7 @@ import IntelTabView from './intel';
 
 interface Props {
 	gameId: string;
+	isAdmin: boolean;
 }
 
 const GameView: React.FC<Props> = props => (
@@ -20,7 +21,11 @@ const GameView: React.FC<Props> = props => (
 				},
 				{
 					content: (
-						<IntelTabView gameId={props.gameId} key="intelTab-content" />
+						<IntelTabView
+							isAdmin={props.isAdmin}
+							gameId={props.gameId}
+							key="intelTab-content"
+						/>
 					),
 					tab: <Tab label="Intel" key="intelTab-button" />,
 				},

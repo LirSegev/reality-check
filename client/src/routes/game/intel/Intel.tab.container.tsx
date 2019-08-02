@@ -5,9 +5,11 @@ import * as firebase from 'firebase/app';
 
 interface State {
 	intelItems: IntelItem[];
+	isAddItemOpen: boolean;
 }
 interface Props {
 	gameId: string;
+	isAdmin: boolean;
 }
 
 class IntelTabContainer extends React.Component<Props, State> {
@@ -16,9 +18,12 @@ class IntelTabContainer extends React.Component<Props, State> {
 
 		this.state = {
 			intelItems: [],
+			isAddItemOpen: false,
 		};
 
 		this._updateIntelItems = this._updateIntelItems.bind(this);
+		this._openAddItem = this._openAddItem.bind(this);
+		this._hideAddItem = this._hideAddItem.bind(this);
 	}
 
 	componentWillMount() {
@@ -27,6 +32,16 @@ class IntelTabContainer extends React.Component<Props, State> {
 
 		db.collection(`games/${gameId}/intel`).onSnapshot(this._updateIntelItems);
 	}
+
+	_openAddItem = () =>
+		this.setState({
+			isAddItemOpen: true,
+		});
+
+	_hideAddItem = () =>
+		this.setState({
+			isAddItemOpen: false,
+		});
 
 	_updateIntelItems(intel: firebase.firestore.QuerySnapshot) {
 		intel.docChanges().forEach(changes => {
@@ -41,7 +56,14 @@ class IntelTabContainer extends React.Component<Props, State> {
 		});
 	}
 
-	render = () => <IntelTabView intelItems={this.state.intelItems} />;
+	render = () => (
+		<IntelTabView
+			isAdmin={this.props.isAdmin}
+			openAddItem={this._openAddItem}
+			hideAddItem={this._hideAddItem}
+			{...this.state}
+		/>
+	);
 }
 
 export default IntelTabContainer;

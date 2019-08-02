@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 
 interface Props {
 	gameId: string;
+	isAdmin: boolean;
 	stopLoading: () => void;
 }
 
@@ -66,7 +67,7 @@ class GameContainer extends React.Component<Props> {
 	}
 
 	render() {
-		return <GameView gameId={this.props.gameId} />;
+		return <GameView isAdmin={this.props.isAdmin} gameId={this.props.gameId} />;
 	}
 }
 

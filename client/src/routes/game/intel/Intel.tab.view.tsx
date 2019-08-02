@@ -1,14 +1,32 @@
 import * as React from 'react';
-import { Page, List } from 'react-onsenui';
+import { Page, List, Fab, Icon, Dialog } from 'react-onsenui';
 import renderIntelItem from './renderIntelItem';
 import { IntelItem } from './Intel.d';
 
 interface Props {
 	intelItems: IntelItem[];
+	isAddItemOpen: boolean;
+	isAdmin: boolean;
+	openAddItem: () => void;
+	hideAddItem: () => void;
 }
 
 const IntelTabView: React.FC<Props> = props => (
-	<Page>
+	<Page
+		renderFixed={() => {
+			if (props.isAdmin)
+				return (
+					<Fab position="bottom right" onClick={props.openAddItem}>
+						<Icon icon="md-plus" />
+					</Fab>
+				);
+		}}
+	>
+		<Dialog isOpen={props.isAddItemOpen} onCancel={props.hideAddItem}>
+			<Page>
+				<h1>test</h1>
+			</Page>
+		</Dialog>
 		<section>
 			<List dataSource={props.intelItems} renderRow={renderIntelItem} />
 		</section>
