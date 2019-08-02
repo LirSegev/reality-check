@@ -30,10 +30,9 @@ class IntelTabContainer extends React.Component<Props, State> {
 		const db = firebase.firestore();
 		const { gameId } = this.props;
 
-		db.collection(`games/${gameId}/intel`).onSnapshot(
-			this._updateIntelItems,
-			err => console.error(err)
-		);
+		db.collection(`games/${gameId}/intel`)
+			.orderBy('timestamp')
+			.onSnapshot(this._updateIntelItems, err => console.error(err));
 	}
 
 	_openAddItem = () =>
