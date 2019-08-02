@@ -64,6 +64,7 @@ class IntelTabContainer extends React.Component<Props, State> {
 			isAdmin={this.props.isAdmin}
 			openAddItem={this._openAddItem}
 			hideAddItem={this._hideAddItem}
+			gameId={this.props.gameId}
 			{...this.state}
 		/>
 	);

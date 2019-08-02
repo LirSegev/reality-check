@@ -2,11 +2,13 @@ import * as React from 'react';
 import { Page, List, Fab, Icon, Dialog } from 'react-onsenui';
 import renderIntelItem from './renderIntelItem';
 import { IntelItem } from './Intel.d';
+import NewIntelItemForm from './NewIntelItemForm.component';
 
 interface Props {
 	intelItems: IntelItem[];
 	isAddItemOpen: boolean;
 	isAdmin: boolean;
+	gameId: string;
 	openAddItem: () => void;
 	hideAddItem: () => void;
 }
@@ -23,9 +25,7 @@ const IntelTabView: React.FC<Props> = props => (
 		}}
 	>
 		<Dialog isOpen={props.isAddItemOpen} onCancel={props.hideAddItem}>
-			<Page>
-				<h1>test</h1>
-			</Page>
+			<NewIntelItemForm hideAddItem={props.hideAddItem} gameId={props.gameId} />
 		</Dialog>
 		<section>
 			<List dataSource={props.intelItems} renderRow={renderIntelItem} />
