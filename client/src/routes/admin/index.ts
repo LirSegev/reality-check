@@ -1,3 +1,3 @@
-import AdminPage from './Admin.page.container';
+import Admin from './Admin.component';
 
-export default AdminPage;
+export default Admin;
