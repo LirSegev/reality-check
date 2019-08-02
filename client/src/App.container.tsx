@@ -22,6 +22,7 @@ class AppContainer extends React.Component<{}, State> {
 
 		this.stopLoading = this.stopLoading.bind(this);
 		this.startLoading = this.startLoading.bind(this);
+		this.changeGame = this.changeGame.bind(this);
 
 		firebase.auth().onAuthStateChanged(player => {
 			if (player && player.isAnonymous) this._onPlayerSignin(player);
@@ -102,11 +103,16 @@ class AppContainer extends React.Component<{}, State> {
 		this.setState({ isLoading: true });
 	}
 
+	changeGame(gameId: string | null) {
+		this.setState({ gameId });
+	}
+
 	render() {
 		return (
 			<AppView
 				startLoading={this.startLoading}
 				stopLoading={this.stopLoading}
+				changeGame={this.changeGame}
 				{...this.state}
 			/>
 		);

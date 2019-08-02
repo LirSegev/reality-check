@@ -14,6 +14,7 @@ interface Props {
 	isLoading: boolean;
 	stopLoading: () => void;
 	startLoading: () => void;
+	changeGame: (gameId: string | null) => void;
 	gameId: string | null;
 	isAdmin: boolean;
 }
@@ -26,6 +27,7 @@ const AppView: React.FC<Props> = props => {
 		gameId,
 		startLoading,
 		isAdmin,
+		changeGame,
 	} = props;
 	let app: JSX.Element;
 
@@ -37,7 +39,13 @@ const AppView: React.FC<Props> = props => {
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = <Admin stopLoading={stopLoading} gameId={gameId} />;
+		app = (
+			<Admin
+				changeGame={changeGame}
+				stopLoading={stopLoading}
+				gameId={gameId}
+			/>
+		);
 	else
 		app = (
 			<Router>

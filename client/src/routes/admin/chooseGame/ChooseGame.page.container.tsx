@@ -1,9 +1,11 @@
 import * as React from 'react';
 import ChooseGamePageView from './ChooseGame.page.view';
 import * as firebase from 'firebase/app';
+import renderGameItem from './renderGameItem';
 
 interface Props {
 	stopLoading: () => void;
+	changeGame: (gameId: string | null) => void;
 }
 interface State {
 	gameList: string[];
@@ -16,7 +18,11 @@ class ChooseGamePageContainer extends React.Component<Props, State> {
 		this.state = {
 			gameList: [],
 		};
+
+		this._renderGameItem = this._renderGameItem(props.changeGame);
 	}
+
+	_renderGameItem: any = renderGameItem;
 
 	componentWillMount() {
 		const db = firebase.firestore();
@@ -33,7 +39,12 @@ class ChooseGamePageContainer extends React.Component<Props, State> {
 			.catch(err => console.error(err));
 	}
 
-	render = () => <ChooseGamePageView gameList={this.state.gameList} />;
+	render = () => (
+		<ChooseGamePageView
+			renderGameItem={this._renderGameItem}
+			gameList={this.state.gameList}
+		/>
+	);
 }
 
 export default ChooseGamePageContainer;

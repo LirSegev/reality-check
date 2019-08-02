@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Page, List } from 'react-onsenui';
-import renderGameItem from './renderGameItem';
 
 interface Props {
 	gameList: string[];
+	renderGameItem: (row: string) => JSX.Element;
 }
 
 const ChooseGamePageView: React.FC<Props> = props => (
 	<Page>
-		<List dataSource={props.gameList} renderRow={renderGameItem} />
+		<List dataSource={props.gameList} renderRow={props.renderGameItem} />
 	</Page>
 );
 

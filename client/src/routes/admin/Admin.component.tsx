@@ -4,15 +4,19 @@ import ChooseGamePage from './chooseGame/index';
 
 interface Props {
 	stopLoading: () => void;
+	changeGame: (gameId: string | null) => void;
 	gameId: string | null;
 }
 
 class Admin extends React.Component<Props> {
 	render() {
-		const { gameId, stopLoading } = this.props;
+		const { gameId, stopLoading, changeGame } = this.props;
 		if (gameId)
 			return <Game stopLoading={stopLoading} gameId={gameId as string} />;
-		else return <ChooseGamePage stopLoading={stopLoading} />;
+		else
+			return (
+				<ChooseGamePage stopLoading={stopLoading} changeGame={changeGame} />
+			);
 	}
 }
 

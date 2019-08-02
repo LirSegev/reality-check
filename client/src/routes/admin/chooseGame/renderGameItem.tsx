@@ -1,9 +1,15 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
 
-function enterGame(e: React.MouseEvent<any, MouseEvent>) {}
+const renderGameItem = (changeGame: (gameId: string) => void) => (
+	row: string
+) => {
+	function enterGame(e: React.MouseEvent<any, MouseEvent>) {
+		const gameId = (e.currentTarget as HTMLElement).querySelector('span')!
+			.innerText;
+		changeGame(gameId);
+	}
 
-const renderGameItem = (row: string) => {
 	return (
 		<ListItem key={`game-${row}`} tappable onClick={enterGame}>
 			<span className="list-item_title">{row}</span>
