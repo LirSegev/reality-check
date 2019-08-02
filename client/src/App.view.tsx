@@ -39,13 +39,7 @@ const AppView: React.FC<Props> = props => {
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = (
-			<Admin
-				changeGame={changeGame}
-				stopLoading={stopLoading}
-				gameId={gameId}
-			/>
-		);
+		app = <Admin changeGame={changeGame} stopLoading={stopLoading} />;
 	else
 		app = (
 			<Router>
