@@ -25,6 +25,7 @@ class IntelTabContainer extends React.Component<Props, State> {
 		this._updateIntelItems = this._updateIntelItems.bind(this);
 		this._openAddItem = this._openAddItem.bind(this);
 		this._hideAddItem = this._hideAddItem.bind(this);
+		this._handleClick = this._handleClick.bind(this);
 	}
 
 	componentWillMount() {
@@ -59,12 +60,21 @@ class IntelTabContainer extends React.Component<Props, State> {
 		});
 	}
 
+	_handleClick(e: React.MouseEvent<HTMLElement, MouseEvent>) {
+		const data = e.currentTarget.dataset;
+		if (data.coords) {
+			const coords = data.coords.split(',').map(num => Number(num));
+			this.props.moveToLocationOnMap(coords[0], coords[1], 15);
+		}
+	}
+
 	render = () => (
 		<IntelTabView
 			isAdmin={this.props.isAdmin}
 			openAddItem={this._openAddItem}
 			hideAddItem={this._hideAddItem}
 			gameId={this.props.gameId}
+			handleClick={this._handleClick}
 			{...this.state}
 		/>
 	);

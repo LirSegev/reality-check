@@ -11,13 +11,18 @@ interface Props {
 	mapOrientation: MapOrientation;
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
+	onTabChange: (e: any) => void;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
+	onOpTabChange: (e: any) => void;
+	opTabIndex: number;
 }
 
 const GameView: React.FC<Props> = props => (
 	<Page>
 		<Tabbar
 			index={props.tabIndex}
+			// @ts-ignore
+			onPreChange={props.onTabChange}
 			position="auto"
 			renderTabs={() => [
 				{
@@ -38,6 +43,8 @@ const GameView: React.FC<Props> = props => (
 				{
 					content: (
 						<OperationTabView
+							onTabChange={props.onOpTabChange}
+							tabIndex={props.opTabIndex}
 							gameId={props.gameId}
 							key="operationTab-content"
 							mapOrientation={props.mapOrientation}

@@ -2,13 +2,18 @@ import React from 'react';
 import { ListItem } from 'react-onsenui';
 import { IntelItem, WalkingIntelMore, Icons } from './Intel.d';
 
-const renderIntelItem = (row: IntelItem) => {
+interface Props {
+	handleClick: (e: React.MouseEvent<any, MouseEvent>) => void;
+}
+
+const renderIntelItem = (props: Props) => (row: IntelItem) => {
 	const { action, timestamp } = row;
 	const time = new Date(timestamp.toMillis()).toLocaleTimeString('en-GB', {
 		hour: '2-digit',
 		minute: '2-digit',
 	});
 
+	let dataAtr: any = {};
 	let text: string;
 	switch (action.type) {
 		case 'tram':
@@ -26,6 +31,8 @@ const renderIntelItem = (row: IntelItem) => {
 					? (action.more as WalkingIntelMore).text
 					: action.more
 			}`;
+			const point = (action.more as WalkingIntelMore).coordinates;
+			if (point) dataAtr['data-coords'] = [point.longitude, point.latitude];
 			break;
 		default:
 			text = `Seen on ${action.type} ${action.more}`;
@@ -33,6 +40,9 @@ const renderIntelItem = (row: IntelItem) => {
 
 	return (
 		<ListItem
+			tappable={Object.keys(dataAtr).length ? true : false}
+			onClick={props.handleClick}
+			{...dataAtr}
 			modifier="nodivider"
 			key={`intelItem-${timestamp.seconds}__${Math.random()}`}
 		>

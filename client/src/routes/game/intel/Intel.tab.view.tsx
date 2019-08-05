@@ -12,9 +12,13 @@ interface Props {
 	gameId: string;
 	openAddItem: () => void;
 	hideAddItem: () => void;
+	handleClick: (e: React.MouseEvent<any, MouseEvent>) => void
 }
 
-const IntelTabView: React.FC<Props> = props => (
+const IntelTabView: React.FC<Props> = props => {
+	const renderIntelItemWithProps = renderIntelItem({handleClick: props.handleClick});
+	
+	return (
 	<Page
 		renderFixed={() => {
 			if (props.isAdmin)
@@ -29,12 +33,12 @@ const IntelTabView: React.FC<Props> = props => (
 			<NewIntelItemForm hideAddItem={props.hideAddItem} gameId={props.gameId} />
 		</Dialog>
 		<section className={styles.wrapper}>
-			<List dataSource={props.intelItems} renderRow={renderIntelItem} />
+			<List dataSource={props.intelItems} renderRow={renderIntelItemWithProps} />
 			<a className={styles.footer} href="https://icons8.com">
 				Icons by Icons8
 			</a>
 		</section>
 	</Page>
-);
+)};
 
 export default IntelTabView;

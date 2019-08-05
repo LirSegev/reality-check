@@ -12,6 +12,7 @@ interface Props {
 interface State {
 	mapOrientation: MapOrientation;
 	tabIndex: number;
+	opTabIndex: number;
 }
 
 class GameContainer extends React.Component<Props, State> {
@@ -24,9 +25,11 @@ class GameContainer extends React.Component<Props, State> {
 				zoom: 12,
 			},
 			tabIndex: 2,
+			opTabIndex: 0,
 		};
 
 		this._onMapMove = this._onMapMove.bind(this);
+		this._onTabChange = this._onTabChange.bind(this);
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 	}
 
@@ -53,6 +56,8 @@ class GameContainer extends React.Component<Props, State> {
 				},
 				zoom: zoom ? zoom : prevState.mapOrientation.zoom,
 			},
+			tabIndex: 2,
+			opTabIndex: 0,
 		}));
 	}
 
@@ -115,9 +120,19 @@ class GameContainer extends React.Component<Props, State> {
 		navigator.geolocation.clearWatch(this._watchId!);
 	}
 
+	_onTabChange = (event: any) => this.setState({ tabIndex: event.index });
+
+	_onOpTabChange = (event: any) => {
+		event.stopPropagation();
+		this.setState({ opTabIndex: event.index });
+	};
+
 	render() {
 		return (
 			<GameView
+				opTabIndex={this.state.opTabIndex}
+				onOpTabChange={this._onOpTabChange}
+				onTabChange={this._onTabChange}
 				moveToLocationOnMap={this._moveToLocationOnMap}
 				tabIndex={this.state.tabIndex}
 				mapOrientation={this.state.mapOrientation}
