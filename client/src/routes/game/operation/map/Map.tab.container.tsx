@@ -1,10 +1,10 @@
 import React from 'react';
 import MapTabView from './Map.tab.view';
-// import { Layer, Feature } from 'react-mapbox-gl';
 import * as firebase from 'firebase/app';
 import { Player } from '../../../../index.d';
 import { Feature } from 'react-mapbox-gl';
 import { MapOrientation } from '../../../../index.d';
+import { IntelItem, WalkingIntelMore } from '../../intel/Intel.d';
 
 interface PlayerLocation {
 	playerName: string;
@@ -16,6 +16,7 @@ interface State {
 	playerLocations: {
 		[uid: string]: PlayerLocation;
 	};
+	mrZRoute: number[][];
 	mapOrientation: MapOrientation;
 }
 interface Props {
@@ -28,6 +29,7 @@ class MapTabContainer extends React.Component<Props, State> {
 
 		this.state = {
 			playerLocations: {},
+			mrZRoute: [],
 			mapOrientation: {
 				center: { longitude: 14.42, latitude: 50.08 },
 				zoom: 12,
@@ -35,6 +37,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		};
 
 		this._updatePlayerLocations = this._updatePlayerLocations.bind(this);
+		this._updateMrZRoute = this._updateMrZRoute.bind(this);
 		this._onMove = this._onMove.bind(this);
 	}
 
@@ -46,6 +49,24 @@ class MapTabContainer extends React.Component<Props, State> {
 			this._updatePlayerLocations,
 			err => console.error(err)
 		);
+
+		db.collection(`games/${gameId}/intel`)
+			.orderBy('timestamp')
+			.onSnapshot(this._updateMrZRoute, err => console.error(err));
+	}
+
+	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
+		const mrZRoute = intel.docs
+			.map(doc => doc.data() as IntelItem)
+			.filter(intel => (intel.action.more as WalkingIntelMore).coordinates)
+			.map(intel => {
+				const point = (intel.action.more as WalkingIntelMore).coordinates;
+				return [point.longitude, point.latitude];
+			});
+
+		this.setState({
+			mrZRoute,
+		});
 	}
 
 	_updatePlayerLocations(playerList: firebase.firestore.QuerySnapshot) {
@@ -94,6 +115,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		return (
 			<MapTabView
 				playerLocationMarkers={playerLocationMarkers}
+				mrZRoute={this.state.mrZRoute}
 				mapOrientation={this.state.mapOrientation}
 				onMove={this._onMove}
 			/>

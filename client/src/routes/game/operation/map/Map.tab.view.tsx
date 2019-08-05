@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Page } from 'react-onsenui';
 
-import ReactMapboxFactory, { MapContext, Layer } from 'react-mapbox-gl';
+import ReactMapboxFactory, {
+	MapContext,
+	Layer,
+	Feature,
+} from 'react-mapbox-gl';
 import { GeolocateControl } from 'mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
 import { MapOrientation } from '../../../../index.d';
@@ -14,13 +18,14 @@ let hasControl = false;
 
 interface Props {
 	playerLocationMarkers: JSX.Element[];
+	mrZRoute: number[][];
 	mapOrientation: MapOrientation;
 	onMove: (map: mapboxgl.Map) => void;
 }
 
 const MapTabView: React.FC<Props> = props => (
-		<Page>
-			<Map
+	<Page>
+		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}
 			center={[
@@ -29,12 +34,12 @@ const MapTabView: React.FC<Props> = props => (
 			]}
 			zoom={[props.mapOrientation.zoom]}
 			containerStyle={{
-					height: '100%',
-					width: '100%',
-				}}
-				onMove={props.onMove}
-			>
-				<MapContext.Consumer>
+				height: '100%',
+				width: '100%',
+			}}
+			onMove={props.onMove}
+		>
+			<MapContext.Consumer>
 				{/* Locate the user */
 				map => {
 					if (map && !hasControl)
@@ -52,6 +57,19 @@ const MapTabView: React.FC<Props> = props => (
 			</MapContext.Consumer>
 			<Layer layout={{ 'icon-image': 'point-large' }}>
 				{props.playerLocationMarkers}
+			</Layer>
+			<Layer
+				type="line"
+				layout={{
+					'line-cap': 'round',
+					'line-join': 'round',
+				}}
+				paint={{
+					'line-color': '#4790E5',
+					'line-width': 10,
+				}}
+			>
+				<Feature coordinates={props.mrZRoute} />
 			</Layer>
 		</Map>
 	</Page>
