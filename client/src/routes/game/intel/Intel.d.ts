@@ -3,12 +3,17 @@ import { firestore } from 'firebase';
 export interface IntelItem {
 	action: {
 		type: ActionType;
-		more: number | MetroLine | string;
+		more: number | MetroLine | string | WalkingIntelMore;
 	};
 	timestamp: firestore.Timestamp;
 }
 
 type ActionType = 'tram' | 'metro' | 'bus' | 'walking';
+
+export interface WalkingIntelMore {
+	text: string;
+	coordinates: firestore.GeoPoint;
+}
 
 export enum MetroLine {
 	A = 'green line',

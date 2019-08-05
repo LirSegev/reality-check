@@ -1,8 +1,7 @@
 import React from 'react';
 import { Select, Input, Button, Icon } from 'react-onsenui';
-import { ActionType, MetroLine } from './Intel.d';
+import { ActionType, MetroLine, WalkingIntelMore, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
-import { IntelItem } from './Intel';
 import styles from './NewIntelItemForm.module.css';
 import mapboxConfig from '../../../config/Mapbox';
 
@@ -59,14 +58,17 @@ class NewIntelItemForm extends React.Component<Props, State> {
 	}
 
 	_submit() {
-		const { type, more } = this.state;
+		const { type, more, location } = this.state;
 		const time = this.state.time.split(':').map(num => Number(num));
+
 		const db = firebase.firestore();
 		db.collection(`games/${this.props.gameId}/intel`)
 			.add({
 				action: {
 					type,
-					more,
+					more: location
+						? ({ text: more, coordinates: location } as WalkingIntelMore)
+						: more,
 				},
 				timestamp: new firebase.firestore.Timestamp(
 					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),

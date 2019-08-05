@@ -1,7 +1,6 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
-import { IntelItem } from './Intel.d';
-import { Icons } from './Intel.d';
+import { IntelItem, WalkingIntelMore, Icons } from './Intel.d';
 
 const renderIntelItem = (row: IntelItem) => {
 	const { action, timestamp } = row;
@@ -22,12 +21,15 @@ const renderIntelItem = (row: IntelItem) => {
 			text = `Seen on bus ${action.more}`;
 			break;
 		case 'walking':
-			text = `Seen near ${action.more}`;
+			text = `Seen near ${
+				(action.more as WalkingIntelMore).text
+					? (action.more as WalkingIntelMore).text
+					: action.more
+			}`;
 			break;
 		default:
 			text = `Seen on ${action.type} ${action.more}`;
 	}
-	// Seen on {action.type} {action.more}
 
 	return (
 		<ListItem
