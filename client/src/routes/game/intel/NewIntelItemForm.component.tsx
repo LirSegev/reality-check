@@ -4,12 +4,14 @@ import { ActionType, MetroLine, WalkingIntelMore, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import styles from './NewIntelItemForm.module.css';
 import mapboxConfig from '../../../config/Mapbox';
+import LoadingIndicator from '../../../components/LoadingIndicator.component';
 
 interface State {
 	type: ActionType;
 	more: number | MetroLine | string;
 	location: firebase.firestore.GeoPoint | null;
 	time: string;
+	isLoading: boolean;
 }
 interface Props {
 	gameId: string;
@@ -28,6 +30,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 				hour: '2-digit',
 				minute: '2-digit',
 			}),
+			isLoading: false,
 		};
 
 		this._handleTypeChange = this._handleTypeChange.bind(this);
@@ -84,6 +87,9 @@ class NewIntelItemForm extends React.Component<Props, State> {
 	_onMyLocation() {
 		if (!navigator.geolocation) alert('Geolocation is not available');
 		else {
+			this.setState({
+				isLoading: true,
+			});
 			navigator.geolocation.getCurrentPosition(
 				pos => {
 					console.log(pos);
@@ -107,11 +113,13 @@ class NewIntelItemForm extends React.Component<Props, State> {
 								this.setState({
 									more: `${main.text}, ${main.properties.address}`,
 									location,
+									isLoading: false,
 								});
 							} else {
 								this.setState({
 									more: 'Unknown',
 									location,
+									isLoading: false,
 								});
 							}
 						})
@@ -124,6 +132,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 						console.error(err);
 						alert('There was an error trying to get your location');
 					}
+					this.setState({ isLoading: false });
 				}
 			);
 		}
@@ -169,6 +178,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 					padding: '10px',
 				}}
 			>
+				<LoadingIndicator isLoading={this.state.isLoading} />
 				<div className={[styles.input, styles.inline].join(' ')}>
 					<label>Type</label>
 					<Select value={this.state.type} onChange={this._handleTypeChange}>
