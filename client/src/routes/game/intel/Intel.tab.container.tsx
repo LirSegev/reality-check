@@ -10,6 +10,7 @@ interface State {
 interface Props {
 	gameId: string;
 	isAdmin: boolean;
+	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 }
 
 class IntelTabContainer extends React.Component<Props, State> {

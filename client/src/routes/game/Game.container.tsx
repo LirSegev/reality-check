@@ -11,7 +11,7 @@ interface Props {
 
 interface State {
 	mapOrientation: MapOrientation;
-
+	tabIndex: number;
 }
 
 class GameContainer extends React.Component<Props, State> {
@@ -22,10 +22,12 @@ class GameContainer extends React.Component<Props, State> {
 			mapOrientation: {
 				center: { longitude: 14.42, latitude: 50.08 },
 				zoom: 12,
-			}
-		}
+			},
+			tabIndex: 2,
+		};
 
 		this._onMapMove = this._onMapMove.bind(this);
+		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 	}
 
 	_onMapMove(map: mapboxgl.Map) {
@@ -40,7 +42,20 @@ class GameContainer extends React.Component<Props, State> {
 			},
 		}));
 	}
-	
+
+	_moveToLocationOnMap(long: number, lat: number, zoom?: number) {
+		this.setState(prevState => ({
+			mapOrientation: {
+				...prevState.mapOrientation,
+				center: {
+					longitude: long,
+					latitude: lat,
+				},
+				zoom: zoom ? zoom : prevState.mapOrientation.zoom,
+			},
+		}));
+	}
+
 	_watchId: number | undefined = undefined;
 
 	componentDidMount() {
@@ -101,7 +116,16 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	render() {
-		return <GameView mapOrientation={this.state.mapOrientation} onMapMove={this._onMapMove} isAdmin={this.props.isAdmin} gameId={this.props.gameId} />;
+		return (
+			<GameView
+				moveToLocationOnMap={this._moveToLocationOnMap}
+				tabIndex={this.state.tabIndex}
+				mapOrientation={this.state.mapOrientation}
+				onMapMove={this._onMapMove}
+				isAdmin={this.props.isAdmin}
+				gameId={this.props.gameId}
+			/>
+		);
 	}
 }
 

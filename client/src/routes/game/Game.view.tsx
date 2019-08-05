@@ -9,13 +9,15 @@ interface Props {
 	gameId: string;
 	isAdmin: boolean;
 	mapOrientation: MapOrientation;
+	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
+	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 }
 
 const GameView: React.FC<Props> = props => (
 	<Page>
 		<Tabbar
-			index={2}
+			index={props.tabIndex}
 			position="auto"
 			renderTabs={() => [
 				{
@@ -25,6 +27,7 @@ const GameView: React.FC<Props> = props => (
 				{
 					content: (
 						<IntelTabView
+							moveToLocationOnMap={props.moveToLocationOnMap}
 							isAdmin={props.isAdmin}
 							gameId={props.gameId}
 							key="intelTab-content"
