@@ -3,6 +3,7 @@ import { Page, List, Fab, Icon, Dialog } from 'react-onsenui';
 import renderIntelItem from './renderIntelItem';
 import { IntelItem } from './Intel.d';
 import NewIntelItemForm from './NewIntelItemForm.component';
+import styles from './Intel.module.css';
 
 interface Props {
 	intelItems: IntelItem[];
@@ -27,20 +28,12 @@ const IntelTabView: React.FC<Props> = props => (
 		<Dialog isOpen={props.isAddItemOpen} onCancel={props.hideAddItem}>
 			<NewIntelItemForm hideAddItem={props.hideAddItem} gameId={props.gameId} />
 		</Dialog>
-		<section>
+		<section className={styles.wrapper}>
 			<List dataSource={props.intelItems} renderRow={renderIntelItem} />
+			<a className={styles.footer} href="https://icons8.com">
+				Icons by Icons8
+			</a>
 		</section>
-		<a
-			style={{
-				position: 'absolute',
-				bottom: '10px',
-				color: '#999999',
-				textDecoration: 'none',
-			}}
-			href="https://icons8.com"
-		>
-			Icons by Icons8
-		</a>
 	</Page>
 );
 
