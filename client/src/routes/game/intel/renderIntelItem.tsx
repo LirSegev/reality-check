@@ -30,7 +30,10 @@ const renderIntelItem = (row: IntelItem) => {
 	// Seen on {action.type} {action.more}
 
 	return (
-		<ListItem modifier="nodivider" key={`intelItem-${timestamp}`}>
+		<ListItem
+			modifier="nodivider"
+			key={`intelItem-${timestamp.seconds}__${Math.random()}`}
+		>
 			<div className="left">
 				<img
 					src={Icons[(action.type as unknown) as any]}
