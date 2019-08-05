@@ -22,7 +22,7 @@ const renderIntelItem = (row: IntelItem) => {
 			text = `Seen on bus ${action.more}`;
 			break;
 		case 'walking':
-			text = `Seen walking towards ${action.more}`;
+			text = `Seen near ${action.more}`;
 			break;
 		default:
 			text = `Seen on ${action.type} ${action.more}`;

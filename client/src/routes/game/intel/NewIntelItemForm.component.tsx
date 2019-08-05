@@ -1,13 +1,15 @@
 import React from 'react';
-import { Select, Input, Button } from 'react-onsenui';
+import { Select, Input, Button, Icon } from 'react-onsenui';
 import { ActionType, MetroLine } from './Intel.d';
 import * as firebase from 'firebase/app';
 import { IntelItem } from './Intel';
 import styles from './NewIntelItemForm.module.css';
+import mapboxConfig from '../../../config/Mapbox';
 
 interface State {
 	type: ActionType;
 	more: number | MetroLine | string;
+	location: firebase.firestore.GeoPoint | null;
 	time: string;
 }
 interface Props {
@@ -22,6 +24,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		this.state = {
 			type: 'tram',
 			more: '',
+			location: null,
 			time: new Date().toLocaleTimeString('en-GB', {
 				hour: '2-digit',
 				minute: '2-digit',
@@ -31,6 +34,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		this._handleTypeChange = this._handleTypeChange.bind(this);
 		this._handleMoreChange = this._handleMoreChange.bind(this);
 		this._handleTimeChange = this._handleTimeChange.bind(this);
+		this._onMyLocation = this._onMyLocation.bind(this);
 		this._submit = this._submit.bind(this);
 	}
 
@@ -78,6 +82,54 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			.catch(err => console.error(new Error('Error adding intel item:'), err));
 	}
 
+	_onMyLocation() {
+		if (!navigator.geolocation) alert('Geolocation is not available');
+		else {
+			navigator.geolocation.getCurrentPosition(
+				pos => {
+					console.log(pos);
+					fetch(
+						`https://api.mapbox.com/geocoding/v5/mapbox.places/${
+							pos.coords.longitude
+						}%2C${pos.coords.latitude}.json?access_token=${
+							mapboxConfig.accessToken
+						}`
+					)
+						.then(res => res.json())
+						.then(res => {
+							console.log(res);
+							const location = new firebase.firestore.GeoPoint(
+								pos.coords.latitude,
+								pos.coords.longitude
+							);
+
+							if (res.features.length) {
+								const main = res.features[0];
+								this.setState({
+									more: `${main.text}, ${main.properties.address}`,
+									location,
+								});
+							} else {
+								this.setState({
+									more: 'Unknown',
+									location,
+								});
+							}
+						})
+						.catch(err => console.error(err));
+				},
+				err => {
+					if (err.code === err.PERMISSION_DENIED)
+						alert("Access to your device's location is required");
+					else {
+						console.error(err);
+						alert('There was an error trying to get your location');
+					}
+				}
+			);
+		}
+	}
+
 	render = () => {
 		const { type } = this.state;
 
@@ -90,7 +142,21 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			type === 'tram' || type === 'bus' ? (
 				<Input {...moreInputProps} modifier="underbar" type="number" />
 			) : type === 'walking' ? (
-				<Input {...moreInputProps} modifier="underbar" type="text" />
+				<div style={{ display: 'flex' }}>
+					<Button
+						modifier="quiet"
+						style={{
+							display: 'inline-block',
+							marginRight: '5px',
+							color: this.state.location ? '#33b5e5' : '',
+							flex: '0 0 auto',
+						}}
+						onClick={this._onMyLocation}
+					>
+						<Icon style={{ height: '32px' }} icon="md-gps-dot" />{' '}
+					</Button>
+					<Input {...moreInputProps} modifier="underbar" type="text" />
+				</div>
 			) : (
 				<Select {...moreInputProps}>
 					<option value={MetroLine.A}>Green line</option>
@@ -119,10 +185,6 @@ class NewIntelItemForm extends React.Component<Props, State> {
 					</Select>
 				</div>
 				<div className={[styles.input, styles.inline].join(' ')}>
-					<label>More</label>
-					{moreInput}
-				</div>
-				<div className={styles.input}>
 					<label>Time</label>
 					<Input
 						type="time"
@@ -130,6 +192,10 @@ class NewIntelItemForm extends React.Component<Props, State> {
 						value={this.state.time}
 						onChange={this._handleTimeChange}
 					/>
+				</div>
+				<div className={styles.input}>
+					<label>More</label>
+					{moreInput}
 				</div>
 				<Button style={{ float: 'right' }} onClick={this._submit}>
 					Add

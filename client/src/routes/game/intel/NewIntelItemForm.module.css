@@ -8,6 +8,12 @@ div.input {
 	margin-bottom: 10px;
 }
 
+div.input ons-input input,
+div.input ons-select select {
+	height: 32px;
+	vertical-align: text-bottom;
+}
+
 div.inline {
 	display: inline-block;
 	width: 40%;
