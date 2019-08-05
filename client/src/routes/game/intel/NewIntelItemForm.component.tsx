@@ -3,6 +3,7 @@ import { Select, Input, Button } from 'react-onsenui';
 import { ActionType, MetroLine } from './Intel.d';
 import * as firebase from 'firebase/app';
 import { IntelItem } from './Intel';
+import styles from './NewIntelItemForm.module.css';
 
 interface State {
 	type: ActionType;
@@ -99,29 +100,42 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			);
 
 		return (
-			<div>
-				<p>Type</p>
-				<Select
-					ref="type"
-					value={this.state.type}
-					onChange={this._handleTypeChange}
-				>
-					<option value="tram">Tram</option>
-					<option value="metro">Metro</option>
-					<option value="bus">Bus</option>
-					<option value="walking">Walking</option>
-				</Select>
-				<p>More</p>
-				{moreInput}
-				<p>Time</p>
-				<Input
-					type="time"
-					ref="time"
-					value={this.state.time}
-					onChange={this._handleTimeChange}
-				/>
-				<Button onClick={this._submit}>Add</Button>
-			</div>
+			<section
+				style={{
+					padding: '10px',
+				}}
+			>
+				<div className={[styles.input, styles.inline].join(' ')}>
+					<label>Type</label>
+					<Select
+						ref="type"
+						value={this.state.type}
+						onChange={this._handleTypeChange}
+					>
+						<option value="tram">Tram</option>
+						<option value="metro">Metro</option>
+						<option value="bus">Bus</option>
+						<option value="walking">Walking</option>
+					</Select>
+				</div>
+				<div className={[styles.input, styles.inline].join(' ')}>
+					<label>More</label>
+					{moreInput}
+				</div>
+				<div className={styles.input}>
+					<label>Time</label>
+					<Input
+						type="time"
+						ref="time"
+						value={this.state.time}
+						onChange={this._handleTimeChange}
+					/>
+				</div>
+				<Button style={{ float: 'right' }} onClick={this._submit}>
+					Add
+				</Button>
+				<div style={{ clear: 'right' }} />
+			</section>
 		);
 	};
 }
