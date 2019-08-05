@@ -59,11 +59,8 @@ class NewIntelItemForm extends React.Component<Props, State> {
 	}
 
 	_submit() {
-		const type = (this.refs.type as Select).props.value;
-		const more = (this.refs.more as Select | Input).props.value;
-		const time = (this.refs.time as Input).props
-			.value!.split(':')
-			.map(num => Number(num));
+		const { type, more } = this.state;
+		const time = this.state.time.split(':').map(num => Number(num));
 		const db = firebase.firestore();
 		db.collection(`games/${this.props.gameId}/intel`)
 			.add({
@@ -136,7 +133,6 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		const moreInputProps = {
 			onChange: this._handleMoreChange,
 			value: this.state.more as string,
-			ref: 'more',
 		};
 		const moreInput =
 			type === 'tram' || type === 'bus' ? (
@@ -173,11 +169,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			>
 				<div className={[styles.input, styles.inline].join(' ')}>
 					<label>Type</label>
-					<Select
-						ref="type"
-						value={this.state.type}
-						onChange={this._handleTypeChange}
-					>
+					<Select value={this.state.type} onChange={this._handleTypeChange}>
 						<option value="tram">Tram</option>
 						<option value="metro">Metro</option>
 						<option value="bus">Bus</option>
@@ -188,7 +180,6 @@ class NewIntelItemForm extends React.Component<Props, State> {
 					<label>Time</label>
 					<Input
 						type="time"
-						ref="time"
 						value={this.state.time}
 						onChange={this._handleTimeChange}
 					/>
