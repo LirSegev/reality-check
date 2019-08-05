@@ -3,10 +3,13 @@ import { Page, Tabbar, Tab } from 'react-onsenui';
 import TargetTabView from './target';
 import OperationTabView from './operation';
 import IntelTabView from './intel';
+import { MapOrientation } from '../../index.d';
 
 interface Props {
 	gameId: string;
 	isAdmin: boolean;
+	mapOrientation: MapOrientation;
+	onMapMove: (map: mapboxgl.Map) => void;
 }
 
 const GameView: React.FC<Props> = props => (
@@ -34,6 +37,8 @@ const GameView: React.FC<Props> = props => (
 						<OperationTabView
 							gameId={props.gameId}
 							key="operationTab-content"
+							mapOrientation={props.mapOrientation}
+							onMapMove={props.onMapMove}
 						/>
 					),
 					tab: <Tab label="Operation" key="operationTab-button" />,

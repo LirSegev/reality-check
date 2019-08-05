@@ -17,10 +17,11 @@ interface State {
 		[uid: string]: PlayerLocation;
 	};
 	mrZRoute: number[][];
-	mapOrientation: MapOrientation;
 }
 interface Props {
 	gameId: string;
+	mapOrientation: MapOrientation;
+	onMove: (map: mapboxgl.Map) => void;
 }
 
 class MapTabContainer extends React.Component<Props, State> {
@@ -30,15 +31,10 @@ class MapTabContainer extends React.Component<Props, State> {
 		this.state = {
 			playerLocations: {},
 			mrZRoute: [],
-			mapOrientation: {
-				center: { longitude: 14.42, latitude: 50.08 },
-				zoom: 12,
-			},
 		};
 
 		this._updatePlayerLocations = this._updatePlayerLocations.bind(this);
 		this._updateMrZRoute = this._updateMrZRoute.bind(this);
-		this._onMove = this._onMove.bind(this);
 	}
 
 	componentDidMount() {
@@ -87,19 +83,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		this.setState({ playerLocations });
 	}
 
-	_onMove(map: mapboxgl.Map) {
-		this.setState(prevState => ({
-			mapOrientation: {
-				...prevState.mapOrientation,
-				center: {
-					longitude: map.getCenter().lng,
-					latitude: map.getCenter().lat,
-				},
-				zoom: map.getZoom(),
-			},
-		}));
-	}
-
 	render = () => {
 		const playerLocationMarkers: JSX.Element[] = [];
 		for (let uid in this.state.playerLocations) {
@@ -116,8 +99,8 @@ class MapTabContainer extends React.Component<Props, State> {
 			<MapTabView
 				playerLocationMarkers={playerLocationMarkers}
 				mrZRoute={this.state.mrZRoute}
-				mapOrientation={this.state.mapOrientation}
-				onMove={this._onMove}
+				mapOrientation={this.props.mapOrientation}
+				onMove={this.props.onMove}
 			/>
 		);
 	};

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
+import { MapOrientation } from '../../index.d';
 
 interface Props {
 	gameId: string;
@@ -8,7 +9,38 @@ interface Props {
 	stopLoading: () => void;
 }
 
-class GameContainer extends React.Component<Props> {
+interface State {
+	mapOrientation: MapOrientation;
+
+}
+
+class GameContainer extends React.Component<Props, State> {
+	constructor(props: Props) {
+		super(props);
+
+		this.state = {
+			mapOrientation: {
+				center: { longitude: 14.42, latitude: 50.08 },
+				zoom: 12,
+			}
+		}
+
+		this._onMapMove = this._onMapMove.bind(this);
+	}
+
+	_onMapMove(map: mapboxgl.Map) {
+		this.setState(prevState => ({
+			mapOrientation: {
+				...prevState.mapOrientation,
+				center: {
+					longitude: map.getCenter().lng,
+					latitude: map.getCenter().lat,
+				},
+				zoom: map.getZoom(),
+			},
+		}));
+	}
+	
 	_watchId: number | undefined = undefined;
 
 	componentDidMount() {
@@ -69,7 +101,7 @@ class GameContainer extends React.Component<Props> {
 	}
 
 	render() {
-		return <GameView isAdmin={this.props.isAdmin} gameId={this.props.gameId} />;
+		return <GameView mapOrientation={this.state.mapOrientation} onMapMove={this._onMapMove} isAdmin={this.props.isAdmin} gameId={this.props.gameId} />;
 	}
 }
 
