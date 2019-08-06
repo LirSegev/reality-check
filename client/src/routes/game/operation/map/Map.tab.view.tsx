@@ -65,11 +65,14 @@ const MapTabView: React.FC<Props> = props => (
 					'line-join': 'round',
 				}}
 				paint={{
-					'line-color': '#4790E5',
+					'line-color': '#50a882',
 					'line-width': 10,
 				}}
 			>
 				<Feature coordinates={props.mrZRoute} />
+			</Layer>
+			<Layer layout={{ 'icon-image': 'z-green', 'icon-size': 0.25 }}>
+				<Feature coordinates={props.mrZRoute[props.mrZRoute.length - 1]} />
 			</Layer>
 		</Map>
 	</Page>
