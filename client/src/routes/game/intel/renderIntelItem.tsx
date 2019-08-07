@@ -18,9 +18,11 @@ const renderIntelItem = (props: Props) => (row: IntelItem) => {
 	switch (action.type) {
 		case 'tram':
 			text = `Seen on tram ${action.text}`;
+			dataAtr['data-tram'] = action.text;
 			break;
 		case 'metro':
 			text = `Seen on the ${action.text} metro`;
+			dataAtr['data-metro'] = action.text;
 			break;
 		case 'bus':
 			text = `Seen on bus ${action.text}`;

@@ -13,6 +13,7 @@ interface Props {
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (e: any) => void;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
+	moveToMapTab: () => void;
 	onOpTabChange: (e: any) => void;
 	opTabIndex: number;
 }
@@ -33,6 +34,7 @@ const GameView: React.FC<Props> = props => (
 					content: (
 						<IntelTabView
 							moveToLocationOnMap={props.moveToLocationOnMap}
+							moveToMapTab={props.moveToMapTab}
 							isAdmin={props.isAdmin}
 							gameId={props.gameId}
 							key="intelTab-content"

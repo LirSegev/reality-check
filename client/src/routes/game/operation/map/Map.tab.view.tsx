@@ -21,6 +21,7 @@ interface Props {
 	mrZRoute: number[][];
 	mapOrientation: MapOrientation;
 	onMove: (map: mapboxgl.Map) => void;
+	onStyleLoad: (map: mapboxgl.Map) => void;
 }
 
 const MapTabView: React.FC<Props> = props => (
@@ -38,6 +39,7 @@ const MapTabView: React.FC<Props> = props => (
 				width: '100%',
 			}}
 			onMove={props.onMove}
+			onStyleLoad={props.onStyleLoad}
 		>
 			<MapContext.Consumer>
 				{/* Locate the user */

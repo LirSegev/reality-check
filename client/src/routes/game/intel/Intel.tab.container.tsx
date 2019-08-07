@@ -11,6 +11,7 @@ interface Props {
 	gameId: string;
 	isAdmin: boolean;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
+	moveToMapTab: () => void;
 }
 
 class IntelTabContainer extends React.Component<Props, State> {
@@ -65,7 +66,20 @@ class IntelTabContainer extends React.Component<Props, State> {
 		if (data.coords) {
 			const coords = data.coords.split(',').map(num => Number(num));
 			this.props.moveToLocationOnMap(coords[0], coords[1], 15);
-		}
+		} else if (data.tram) this._showTransportOnMap('tram', data.tram);
+		else if (data.metro) this._showTransportOnMap('metro', data.metro);
+	}
+
+	_showTransportOnMap(type: 'tram' | 'metro', line: number | string) {
+		document.dispatchEvent(
+			new CustomEvent('show-transport-on-map', {
+				detail: {
+					type,
+					line,
+				},
+			})
+		);
+		this.props.moveToMapTab();
 	}
 
 	render = () => (

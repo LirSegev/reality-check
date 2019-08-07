@@ -31,6 +31,7 @@ class GameContainer extends React.Component<Props, State> {
 		this._onMapMove = this._onMapMove.bind(this);
 		this._onTabChange = this._onTabChange.bind(this);
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
+		this._moveToMapTab = this._moveToMapTab.bind(this);
 	}
 
 	_onMapMove(map: mapboxgl.Map) {
@@ -59,6 +60,13 @@ class GameContainer extends React.Component<Props, State> {
 			tabIndex: 2,
 			opTabIndex: 0,
 		}));
+	}
+
+	_moveToMapTab() {
+		this.setState({
+			tabIndex: 2,
+			opTabIndex: 0,
+		});
 	}
 
 	_watchId: number | undefined = undefined;
@@ -139,6 +147,7 @@ class GameContainer extends React.Component<Props, State> {
 				onMapMove={this._onMapMove}
 				isAdmin={this.props.isAdmin}
 				gameId={this.props.gameId}
+				moveToMapTab={this._moveToMapTab}
 			/>
 		);
 	}
