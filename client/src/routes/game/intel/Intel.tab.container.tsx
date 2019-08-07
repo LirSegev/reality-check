@@ -35,7 +35,9 @@ class IntelTabContainer extends React.Component<Props, State> {
 
 		db.collection(`games/${gameId}/intel`)
 			.orderBy('timestamp')
-			.onSnapshot(this._updateIntelItems, err => console.error(err));
+			.onSnapshot(this._updateIntelItems, err =>
+				console.error(new Error('Error getting intel snapshot:'), err)
+			);
 	}
 
 	_openAddItem = () =>

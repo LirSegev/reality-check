@@ -52,12 +52,14 @@ class MapTabContainer extends React.Component<Props, State> {
 
 		db.collection(`games/${gameId}/players`).onSnapshot(
 			this._updatePlayerLocations,
-			err => console.error(err)
+			err => console.error(new Error('Error getting player list'), err)
 		);
 
 		db.collection(`games/${gameId}/intel`)
 			.orderBy('timestamp')
-			.onSnapshot(this._updateMrZRoute, err => console.error(err));
+			.onSnapshot(this._updateMrZRoute, err =>
+				console.error(new Error('Error getting intel snapshot:'), err)
+			);
 	}
 
 	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
@@ -117,7 +119,12 @@ class MapTabContainer extends React.Component<Props, State> {
 					type: 'line',
 				});
 			})
-			.catch(err => console.error(err));
+			.catch(err =>
+				console.error(
+					new Error('Error adding transport-routes layer to map:'),
+					err
+				)
+			);
 	}
 
 	_onStyleLoad(map: mapboxgl.Map) {

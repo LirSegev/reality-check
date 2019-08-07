@@ -120,13 +120,18 @@ class NewIntelItemForm extends React.Component<Props, State> {
 								});
 							}
 						})
-						.catch(err => console.error(err));
+						.catch(err =>
+							console.error(
+								new Error('Error fetching address from mapbox.places api'),
+								err
+							)
+						);
 				},
 				err => {
 					if (err.code === err.PERMISSION_DENIED)
 						alert("Access to your device's location is required");
 					else {
-						console.error(err);
+						console.error(new Error('Error getting user location:'), err);
 						alert('There was an error trying to get your location');
 					}
 					this.setState({ isLoading: false });
