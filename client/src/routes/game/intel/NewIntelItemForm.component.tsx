@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select, Input, Button, Icon } from 'react-onsenui';
-import { ActionType, MetroLine, WalkingIntelMore, IntelItem } from './Intel.d';
+import { ActionType, MetroLine, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import styles from './NewIntelItemForm.module.css';
 import mapboxConfig from '../../../config/Mapbox';
@@ -69,9 +69,8 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			.add({
 				action: {
 					type,
-					more: location
-						? ({ text: more, coordinates: location } as WalkingIntelMore)
-						: more,
+					text: more,
+					...(location && { coordinates: location }),
 				},
 				timestamp: new firebase.firestore.Timestamp(
 					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),

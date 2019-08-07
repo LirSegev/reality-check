@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
-import { IntelItem, WalkingIntelMore, Icons } from './Intel.d';
+import { IntelItem, Icons } from './Intel.d';
 
 interface Props {
 	handleClick: (e: React.MouseEvent<any, MouseEvent>) => void;
@@ -17,25 +17,21 @@ const renderIntelItem = (props: Props) => (row: IntelItem) => {
 	let text: string;
 	switch (action.type) {
 		case 'tram':
-			text = `Seen on tram ${action.more}`;
+			text = `Seen on tram ${action.text}`;
 			break;
 		case 'metro':
-			text = `Seen on the ${action.more} metro`;
+			text = `Seen on the ${action.text} metro`;
 			break;
 		case 'bus':
-			text = `Seen on bus ${action.more}`;
+			text = `Seen on bus ${action.text}`;
 			break;
 		case 'walking':
-			text = `Seen near ${
-				(action.more as WalkingIntelMore).text
-					? (action.more as WalkingIntelMore).text
-					: action.more
-			}`;
-			const point = (action.more as WalkingIntelMore).coordinates;
+			text = `Seen near ${action.text}`;
+			const point = action.coordinates;
 			if (point) dataAtr['data-coords'] = [point.longitude, point.latitude];
 			break;
 		default:
-			text = `Seen on ${action.type} ${action.more}`;
+			text = 'Seen';
 	}
 
 	return (

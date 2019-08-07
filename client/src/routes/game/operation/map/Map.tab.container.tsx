@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import { Player } from '../../../../index.d';
 import { Feature } from 'react-mapbox-gl';
 import { MapOrientation } from '../../../../index.d';
-import { IntelItem, WalkingIntelMore } from '../../intel/Intel.d';
+import { IntelItem } from '../../intel/Intel.d';
 
 interface PlayerLocation {
 	playerName: string;
@@ -54,9 +54,12 @@ class MapTabContainer extends React.Component<Props, State> {
 	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
 		const mrZRoute = intel.docs
 			.map(doc => doc.data() as IntelItem)
-			.filter(intel => (intel.action.more as WalkingIntelMore).coordinates)
+			.filter(
+				intel => intel.action.type === 'walking' && intel.action.coordinates
+			)
 			.map(intel => {
-				const point = (intel.action.more as WalkingIntelMore).coordinates;
+				// @ts-ignore
+				const point = intel.action.coordinates;
 				return [point.longitude, point.latitude];
 			});
 

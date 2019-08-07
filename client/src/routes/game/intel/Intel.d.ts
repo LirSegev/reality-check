@@ -1,18 +1,22 @@
 import { firestore } from 'firebase';
 
 export interface IntelItem {
-	action: {
-		type: ActionType;
-		more: number | MetroLine | string | WalkingIntelMore;
-	};
+	action: IntelItemAction_tramBusMetro | IntelItemAction_walking;
 	timestamp: firestore.Timestamp;
 }
 
 type ActionType = 'tram' | 'metro' | 'bus' | 'walking';
 
-export interface WalkingIntelMore {
+interface IntelItemAction {
+	type: ActionType;
 	text: string;
-	coordinates: firestore.GeoPoint;
+}
+interface IntelItemAction_tramBusMetro extends IntelItemAction {
+	type: 'tram' | 'bus' | 'metro';
+}
+interface IntelItemAction_walking extends IntelItemAction {
+	type: 'walking';
+	coordinates?: firestore.GeoPoint;
 }
 
 export enum MetroLine {
