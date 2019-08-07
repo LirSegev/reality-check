@@ -72,7 +72,13 @@ const MapTabView: React.FC<Props> = props => (
 				<Feature coordinates={props.mrZRoute} />
 			</Layer>
 			<Layer layout={{ 'icon-image': 'z-green', 'icon-size': 0.25 }}>
-				<Feature coordinates={props.mrZRoute[props.mrZRoute.length - 1]} />
+				<Feature
+					coordinates={
+						props.mrZRoute.length > 0
+							? props.mrZRoute[props.mrZRoute.length - 1]
+							: []
+					}
+				/>
 			</Layer>
 		</Map>
 	</Page>
