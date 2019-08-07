@@ -91,7 +91,6 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			});
 			navigator.geolocation.getCurrentPosition(
 				pos => {
-					console.log(pos);
 					fetch(
 						`https://api.mapbox.com/geocoding/v5/mapbox.places/${
 							pos.coords.longitude
@@ -101,7 +100,6 @@ class NewIntelItemForm extends React.Component<Props, State> {
 					)
 						.then(res => res.json())
 						.then(res => {
-							console.log(res);
 							const location = new firebase.firestore.GeoPoint(
 								pos.coords.latitude,
 								pos.coords.longitude
