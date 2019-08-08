@@ -12,6 +12,7 @@ import {
 	GeoJsonProperties,
 	Feature as GeoFeature,
 } from 'geojson';
+import { GeolocateControl } from 'mapbox-gl';
 
 interface PlayerLocation {
 	playerName: string;
@@ -129,6 +130,15 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_onStyleLoad(map: mapboxgl.Map) {
 		this._addTransportRoutesLayer(map);
+
+		map.addControl(
+			new GeolocateControl({
+				positionOptions: {
+					enableHighAccuracy: true,
+				},
+				trackUserLocation: true,
+			})
+		);
 
 		document.addEventListener('show-transport-on-map', e => {
 			const { type, line } = (e as CustomEvent<{
