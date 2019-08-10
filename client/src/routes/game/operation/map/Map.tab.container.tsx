@@ -130,6 +130,7 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_onStyleLoad(map: mapboxgl.Map) {
 		this._addTransportRoutesLayer(map);
+		this._markPlayerLocations(map);
 
 		map.addControl(
 			new GeolocateControl({
@@ -176,21 +177,56 @@ class MapTabContainer extends React.Component<Props, State> {
 		});
 	}
 
-	render = () => {
-		const playerLocationMarkers: JSX.Element[] = [];
+	_markPlayerLocations(map: mapboxgl.Map) {
+		const playerLocationMarkers: GeoJSON.Feature<GeoJSON.Geometry>[] = [];
 		for (let uid in this.state.playerLocations) {
-			const { latitude, longitude } = this.state.playerLocations[uid];
-			playerLocationMarkers.push(
-				<Feature
-					key={'playerLocationMarker-' + uid}
-					coordinates={[longitude, latitude]}
-				/>
-			);
+			const { latitude, longitude, playerName } = this.state.playerLocations[
+				uid
+			];
+			playerLocationMarkers.push({
+				type: 'Feature',
+				properties: {
+					name: playerName,
+				},
+				geometry: {
+					type: 'Point',
+					coordinates: [longitude, latitude],
+				},
+			});
 		}
 
+		this._setLayerSource(
+			'player-locations',
+			{ type: 'FeatureCollection', features: playerLocationMarkers },
+			map
+		);
+	}
+
+	_setLayerSource(
+		layerId: string,
+		source:
+			| GeoJSON.Feature<GeoJSON.Geometry>
+			| GeoJSON.FeatureCollection<GeoJSON.Geometry>
+			| string,
+		map: mapboxgl.Map
+	) {
+		const oldLayers = map.getStyle().layers!;
+		const layerIndex = oldLayers.findIndex(l => l.id === layerId);
+		const layerDef = oldLayers[layerIndex];
+		const before = oldLayers[layerIndex + 1] && oldLayers[layerIndex + 1].id;
+		layerDef.source = {
+			type: 'geojson',
+			data: source,
+		};
+		layerDef.layout!.visibility = 'visible';
+		delete layerDef['source-layer'];
+		map.removeLayer(layerId);
+		map.addLayer(layerDef, before);
+	}
+
+	render = () => {
 		return (
 			<MapTabView
-				playerLocationMarkers={playerLocationMarkers}
 				mrZRoute={this.state.mrZRoute}
 				mapOrientation={this.props.mapOrientation}
 				onMove={this.props.onMove}

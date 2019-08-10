@@ -10,7 +10,6 @@ const Map = ReactMapboxFactory({
 });
 
 interface Props {
-	playerLocationMarkers: JSX.Element[];
 	mrZRoute: number[][];
 	mapOrientation: MapOrientation;
 	onMove: (map: mapboxgl.Map) => void;
@@ -34,9 +33,6 @@ const MapTabView: React.FC<Props> = props => (
 			onMove={props.onMove}
 			onStyleLoad={props.onStyleLoad}
 		>
-			<Layer layout={{ 'icon-image': 'point-large' }}>
-				{props.playerLocationMarkers}
-			</Layer>
 			<Layer
 				type="line"
 				layout={{
