@@ -8,7 +8,7 @@ import {
 	GeoJsonProperties,
 	Feature as GeoFeature,
 } from 'geojson';
-import { GeolocateControl } from 'mapbox-gl';
+import { GeolocateControl, EventData } from 'mapbox-gl';
 
 interface PlayerLocation {
 	playerName: string;
@@ -124,18 +124,45 @@ class MapTabContainer extends React.Component<Props, State> {
 			);
 	}
 
+	_onDeviceorientationabsoluteWrapper = (map: mapboxgl.Map) => (
+		e: DeviceOrientationEvent
+	) => {
+		const bearing = e.alpha ? Math.round(360 - e.alpha) : null;
+		if (!map.isEasing() && bearing)
+			map.setBearing(bearing, { geolocateSource: true } as EventData);
+	};
+
 	_onStyleLoad(map: mapboxgl.Map) {
 		this._addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
 
-		map.addControl(
-			new GeolocateControl({
-				positionOptions: {
-					enableHighAccuracy: true,
-				},
-				trackUserLocation: true,
-			})
+		const geolocateControl = new GeolocateControl({
+			positionOptions: {
+				enableHighAccuracy: true,
+			},
+			trackUserLocation: true,
+		});
+
+		const onDeviceorientationabsolute = this._onDeviceorientationabsoluteWrapper(
+			map
 		);
+
+		geolocateControl.on('trackuserlocationstart', () => {
+			window.addEventListener(
+				'deviceorientationabsolute',
+				onDeviceorientationabsolute
+			);
+		});
+		geolocateControl.on('trackuserlocationend', () => {
+			window.removeEventListener(
+				'deviceorientationabsolute',
+				onDeviceorientationabsolute
+			);
+			// Reset bearing
+			map.rotateTo(0, { geolocateSource: true } as EventData);
+		});
+
+		map.addControl(geolocateControl);
 
 		document.addEventListener('show-transport-on-map', e => {
 			const { type, line } = (e as CustomEvent<{
