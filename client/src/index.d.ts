@@ -6,6 +6,7 @@ export interface Player {
 		geopoint: firestore.GeoPoint;
 		timestamp: firestore.Timestamp;
 	};
+	messagingToken?: string;
 	uid: string;
 }
 

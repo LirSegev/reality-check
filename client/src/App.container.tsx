@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as firebase from 'firebase/app';
 import AppView from './App.view';
 import { updateCurrentPlayer } from './util/db';
+import { signOut } from './util/firebase';
 
 interface State {
 	isLogged: boolean;
@@ -98,14 +99,14 @@ class AppContainer extends React.Component<{}, State> {
 				.get()
 				.then(game => {
 					if (!game.exists) {
-						firebase.auth().signOut();
+						signOut();
 					} else {
 						game.ref
 							.collection('players')
 							.where('uid', '==', player.uid)
 							.get()
 							.then(value => {
-								if (value.size < 1) firebase.auth().signOut();
+								if (value.size < 1) signOut();
 							})
 							.catch(err =>
 								console.error(
