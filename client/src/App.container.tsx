@@ -35,6 +35,10 @@ class AppContainer extends React.Component<{}, State> {
 			} else {
 				// Sign out
 				localStorage.removeItem('gameId');
+				this.setState({
+					isLogged: false,
+					gameId: null,
+				});
 			}
 		});
 	}
@@ -92,6 +96,20 @@ class AppContainer extends React.Component<{}, State> {
 				.then(game => {
 					if (!game.exists) {
 						firebase.auth().signOut();
+					} else {
+						game.ref
+							.collection('players')
+							.where('uid', '==', player.uid)
+							.get()
+							.then(value => {
+								if (value.size < 1) firebase.auth().signOut();
+							})
+							.catch(err =>
+								console.error(
+									new Error('Error checking if user exists in game'),
+									err
+								)
+							);
 					}
 				})
 				.catch(err =>
