@@ -11,6 +11,7 @@ import 'onsenui/css/dark-onsen-css-components.css';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/messaging';
 import firebaseConfig from './config/firebase';
 firebase.initializeApp(firebaseConfig);
 
