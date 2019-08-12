@@ -74,7 +74,6 @@ class GameContainer extends React.Component<Props, State> {
 
 	componentDidMount() {
 		this.props.stopLoading();
-		if (!this.props.isAdmin) this._addFirebaseMessaging();
 
 		if (navigator.geolocation)
 			navigator.geolocation.getCurrentPosition(pos => {
@@ -87,44 +86,6 @@ class GameContainer extends React.Component<Props, State> {
 		this._watchId = navigator.geolocation.watchPosition(pos => {
 			this._updateLastPos(pos);
 		});
-	}
-
-	_addFirebaseMessaging() {
-		try {
-			const messaging = firebase.messaging();
-			messaging
-				.requestPermission()
-				.then(() => messaging.getToken())
-				.then(token => {
-					if (token) return token;
-					else throw new Error('Error got no token');
-				})
-				.then(token => {
-					// TODO: Check if user already has messagingToken
-					updateCurrentPlayer({
-						messagingToken: token,
-					}).catch(err =>
-						console.error(new Error('Error updating user token'), err)
-					);
-
-					const addDeviceToDeviceGroup = firebase
-						.functions()
-						.httpsCallable('addDeviceToDeviceGroup');
-					addDeviceToDeviceGroup({
-						token,
-						gameId: this.props.gameId,
-					}).catch(err =>
-						console.error(new Error('Error adding device to device group'), err)
-					);
-				})
-				.catch(err => console.log(err));
-
-			messaging.onMessage(payload => {
-				console.log('onMessage payload: ', payload);
-			});
-		} catch (err) {
-			console.error(new Error('Error with Firebase messaging:'), err);
-		}
 	}
 
 	_lastPos: Position | null = null;

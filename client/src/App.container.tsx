@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as firebase from 'firebase/app';
 import AppView from './App.view';
+import { updateCurrentPlayer } from './util/db';
 
 interface State {
 	isLogged: boolean;
@@ -86,6 +87,7 @@ class AppContainer extends React.Component<{}, State> {
 				})
 				.catch(err => console.error(new Error('Error adding player'), err));
 			localStorage.setItem('gameId', gameId);
+			this._addPushNotifications(gameId);
 		} else {
 			// Player resigning in
 
@@ -115,6 +117,47 @@ class AppContainer extends React.Component<{}, State> {
 				.catch(err =>
 					console.error(new Error('Error checking if game exists:'), err)
 				);
+		}
+	}
+
+	_addPushNotifications(gameId: string) {
+		try {
+			const messaging = firebase.messaging();
+			messaging
+				.requestPermission()
+				.then(() => messaging.getToken())
+				.then(token => {
+					if (token) return token;
+					else throw new Error('Error got no token');
+				})
+				.then(token => {
+					// TODO: Check if user already has messagingToken
+					updateCurrentPlayer({
+						messagingToken: token,
+					}).catch(err =>
+						console.error(
+							new Error("Error updating user's messagingToken"),
+							err
+						)
+					);
+
+					const addDeviceToDeviceGroup = firebase
+						.functions()
+						.httpsCallable('addDeviceToDeviceGroup');
+					addDeviceToDeviceGroup({
+						token,
+						gameId,
+					}).catch(err =>
+						console.error(new Error('Error adding device to device group'), err)
+					);
+				})
+				.catch(err => console.log(err));
+
+			messaging.onMessage(payload => {
+				console.log('onMessage payload: ', payload);
+			});
+		} catch (err) {
+			console.error(new Error('Error with Firebase messaging:'), err);
 		}
 	}
 
