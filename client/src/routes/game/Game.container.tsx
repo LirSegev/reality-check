@@ -2,6 +2,7 @@ import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { MapOrientation } from '../../index.d';
+import { updateCurrentPlayer } from '../../util/db';
 
 interface Props {
 	gameId: string;
@@ -94,34 +95,21 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	_updatePlayerLocation(pos: Position) {
-		const db = firebase.firestore();
 		const { latitude, longitude } = pos.coords;
 
-		db.collection(`games/${this.props.gameId}/players`)
-			.where('uid', '==', firebase.auth().currentUser!.uid)
-			.get()
-			.then(playerList => {
-				if (playerList.size > 1) throw new Error('More than one user found');
-				else if (playerList.size === 1) {
-					const player = db.doc(
-						`games/${this.props.gameId}/players/${playerList.docs[0].id}`
-					);
-					player
-						.update({
-							location: {
-								geopoint: new firebase.firestore.GeoPoint(latitude, longitude),
-								timestamp: new firebase.firestore.Timestamp(
-									Math.round(pos.timestamp / 1000),
-									0
-								),
-							},
-						})
-						.catch(err =>
-							console.error(new Error('Error updating user location:'), err)
-						);
-				}
-			})
-			.catch(err => console.error(new Error('Error getting player:'), err));
+		const data = {
+			location: {
+				geopoint: new firebase.firestore.GeoPoint(latitude, longitude),
+				timestamp: new firebase.firestore.Timestamp(
+					Math.round(pos.timestamp / 1000),
+					0
+				),
+			},
+		};
+
+		updateCurrentPlayer(data).catch(err =>
+			console.error(new Error('Error updating player location:'), err)
+		);
 	}
 
 	componentWillUnmount() {
