@@ -39,6 +39,7 @@ class AppContainer extends React.Component<{}, State> {
 				this.setState({
 					isLogged: false,
 					gameId: null,
+					isAdmin: false,
 				});
 			}
 		});
