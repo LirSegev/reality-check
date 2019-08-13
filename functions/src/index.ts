@@ -1,7 +1,9 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import fetch from 'node-fetch';
 import { HttpsError } from 'firebase-functions/lib/providers/https';
 import { manageDeviceGroup } from './util';
+import cloudMessagingConfig from './config/messaging';
 
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
@@ -96,6 +98,38 @@ export const removeDeviceFromDeviceGroup = functions.https.onCall(
 			.catch(err => {
 				console.error(err);
 				throw new HttpsError('internal', 'INTERNAL');
+			});
+	}
+);
+
+export const sendNotificationToGroup = functions.https.onCall(
+	(data: {
+		notificationKey: string;
+		notification: admin.messaging.NotificationMessagePayload;
+	}) => {
+		const { notificationKey, notification } = data;
+		const url = 'https://fcm.googleapis.com/fcm/send';
+
+		return fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `key=${cloudMessagingConfig.serverKey}`,
+				project_id: cloudMessagingConfig.senderId,
+			},
+			body: JSON.stringify({
+				to: notificationKey,
+				notification,
+			}),
+		})
+			.then(res => res.json())
+			.then(res => {
+				if (
+					Object.keys(res).includes('success') &&
+					Object.keys(res).includes('failure')
+				)
+					return res;
+				else throw new HttpsError('unknown', 'Unexpected response type', res);
 			});
 	}
 );
