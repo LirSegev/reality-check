@@ -11,6 +11,11 @@ const db = admin.firestore();
 export const addDeviceToDeviceGroup = functions.https.onCall(
 	(data: { token: string; gameId: string; groupName?: string }) => {
 		const { token, gameId } = data;
+
+		if (!token) return new HttpsError('invalid-argument', 'token is required');
+		if (!gameId)
+			return new HttpsError('invalid-argument', 'gameId is required');
+
 		// If no groupName is supplied use gameId
 		const groupName = data.groupName || gameId;
 		return db
@@ -61,6 +66,11 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 export const removeDeviceFromDeviceGroup = functions.https.onCall(
 	(data: { token: string; gameId: string; groupName?: string }) => {
 		const { token, gameId } = data;
+
+		if (!token) return new HttpsError('invalid-argument', 'token is required');
+		if (!gameId)
+			return new HttpsError('invalid-argument', 'gameId is required');
+
 		// If no groupName is supplied use gameId
 		const groupName = data.groupName || gameId;
 		return db
@@ -108,6 +118,13 @@ export const sendNotificationToGroup = functions.https.onCall(
 		notification: admin.messaging.NotificationMessagePayload;
 	}) => {
 		const { notificationKey, notification } = data;
+
+		if (!notificationKey)
+			return new HttpsError('invalid-argument', 'notificationKey is required');
+		if (!notification)
+			// prettier-ignore
+			return new HttpsError('invalid-argument', 'notification object is required')
+
 		const url = 'https://fcm.googleapis.com/fcm/send';
 
 		return fetch(url, {
