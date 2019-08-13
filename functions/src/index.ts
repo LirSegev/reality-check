@@ -10,6 +10,7 @@ const db = admin.firestore();
 
 export const addDeviceToDeviceGroup = functions.https.onCall(
 	(data: { token: string; gameId: string; groupName?: string }) => {
+		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { token, gameId } = data;
 
 		if (!token) return new HttpsError('invalid-argument', 'token is required');
@@ -65,6 +66,7 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 
 export const removeDeviceFromDeviceGroup = functions.https.onCall(
 	(data: { token: string; gameId: string; groupName?: string }) => {
+		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { token, gameId } = data;
 
 		if (!token) return new HttpsError('invalid-argument', 'token is required');
@@ -117,6 +119,7 @@ export const sendNotificationToGroup = functions.https.onCall(
 		notificationKey: string;
 		notification: admin.messaging.NotificationMessagePayload;
 	}) => {
+		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { notificationKey, notification } = data;
 
 		if (!notificationKey)
