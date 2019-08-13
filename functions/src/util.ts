@@ -38,7 +38,8 @@ export function manageDeviceGroup(
 		notification_key_name: groupName,
 		registration_ids: ids,
 	};
-	if (notificationKey) body.notification_key = notificationKey;
+	if (operation === 'add' || operation === 'remove')
+		body.notification_key = notificationKey;
 
 	return fetch(url, {
 		method: 'POST',
