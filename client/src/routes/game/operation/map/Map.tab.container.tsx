@@ -2,10 +2,8 @@ import React from 'react';
 import MapTabView from './Map.tab.view';
 import * as firebase from 'firebase/app';
 import { Player } from '../../../../index.d';
-import { Feature } from 'react-mapbox-gl';
 import { MapOrientation } from '../../../../index.d';
-import { IntelItem } from '../../intel/Intel.d';
-import { MetroLine } from '../../intel/Intel.d';
+import { IntelItem, MetroLine } from '../../intel/Intel.d';
 import {
 	FeatureCollection,
 	Geometry,
