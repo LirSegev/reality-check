@@ -1,19 +1,30 @@
 {
-	// "functions": {
-	// 	"predeploy": [
-	// 		"npm --prefix \"$RESOURCE_DIR\" run lint",
-	// 		"npm --prefix \"$RESOURCE_DIR\" run build",
-	// 	]
-	// },
-	"hosting": {
-		"public": "client/build",
-		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-		"rewrites": [
-			{
-				"source": "**",
-				"destination": "/index.html"
-			}
-		],
-		"predeploy": ["npm --prefix ./client run build"]
-	}
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ],
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "client/build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "predeploy": [
+      "npm --prefix ./client run build"
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
 }

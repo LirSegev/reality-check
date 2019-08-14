@@ -1,4 +1,5 @@
 import * as firebase from 'firebase/app';
+import { Player } from '../index.d';
 
 /**
  * Updates the data of the current player in the database.
@@ -28,6 +29,42 @@ export function updateCurrentPlayer(
 						})
 						.catch(err => {
 							const error = new Error('Error updating user data:');
+							console.error(error, err);
+							reject(error);
+						});
+				}
+			})
+			.catch(err => {
+				const error = new Error('Error getting player:');
+				console.error(error, err);
+				reject(error);
+			});
+	});
+}
+
+/**
+ * Gets the data of the current player from the database.
+ */
+export function getCurrentPlayer(): Promise<Player | undefined> {
+	return new Promise((resolve, reject) => {
+		const db = firebase.firestore();
+		const gameId = localStorage.getItem('gameId');
+
+		db.collection(`games/${gameId}/players`)
+			.where('uid', '==', firebase.auth().currentUser!.uid)
+			.get()
+			.then(playerList => {
+				if (playerList.size > 1) throw new Error('More than one user found');
+				else if (playerList.size === 1) {
+					const player = db.doc(
+						`games/${gameId}/players/${playerList.docs[0].id}`
+					);
+					player
+						.get()
+						.then(doc => doc.data() as Player | undefined)
+						.then(resolve)
+						.catch(err => {
+							const error = new Error('Error getting user:');
 							console.error(error, err);
 							reject(error);
 						});

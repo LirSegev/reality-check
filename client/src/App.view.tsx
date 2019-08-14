@@ -8,6 +8,7 @@ import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
 import Admin from './routes/admin';
 import * as firebase from 'firebase/app';
+import { signOut } from './util/firebase';
 
 interface Props {
 	isLogged: boolean;
@@ -32,7 +33,23 @@ const AppView: React.FC<Props> = props => {
 	let app: JSX.Element;
 
 	if (isLogged && gameId)
-		app = <Game isAdmin={isAdmin} stopLoading={stopLoading} gameId={gameId} />;
+		app = (
+			<Router>
+				<Route
+					path="/logout"
+					render={() => {
+						signOut();
+						return undefined;
+					}}
+				/>
+				<Route
+					path="/"
+					render={() => (
+						<Game isAdmin={isAdmin} stopLoading={stopLoading} gameId={gameId} />
+					)}
+				/>
+			</Router>
+		);
 	else if (
 		isLogged &&
 		isAdmin &&
