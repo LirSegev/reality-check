@@ -38,6 +38,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		this._handleTimeChange = this._handleTimeChange.bind(this);
 		this._onMyLocation = this._onMyLocation.bind(this);
 		this._submit = this._submit.bind(this);
+		this._sendNotification = this._sendNotification.bind(this);
 	}
 
 	_handleTypeChange(e: React.ChangeEvent<any>) {
@@ -79,8 +80,54 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			} as IntelItem)
 			.then(() => {
 				this.props.hideAddItem();
+				this._sendNotification();
 			})
 			.catch(err => console.error(new Error('Error adding intel item:'), err));
+	}
+
+	_sendNotification() {
+		const db = firebase.firestore();
+
+		db.doc(`games/${this.props.gameId}`)
+			.get()
+			.then(doc => {
+				if (doc.exists) return doc.data();
+				else throw new Error("Game with gameId doesn't exist");
+			})
+			.then(game => {
+				const notificationKey = game
+					? (game.notificationKey as string | undefined)
+					: undefined;
+				if (notificationKey) {
+					firebase
+						.functions()
+						.httpsCallable('sendNotificationToGroup')({
+							notificationKey,
+							notification: {
+								title: 'New intel on Mr. Z',
+							},
+						})
+						.then((res: any) => {
+							if (res.failure) {
+								// prettier-ignore
+								alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
+								throw new Error(res);
+							}
+						})
+						.catch(err =>
+							console.error(
+								new Error('Error sending notification to device group:'),
+								err
+							)
+						);
+				} else throw new Error("Game doesn't have a device group");
+			})
+			.catch(err =>
+				console.error(
+					new Error('Error sending notification to device group:'),
+					err
+				)
+			);
 	}
 
 	_onMyLocation() {
