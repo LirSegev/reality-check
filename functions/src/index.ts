@@ -116,44 +116,75 @@ export const removeDeviceFromDeviceGroup = functions.https.onCall(
 
 export const sendNotificationToGroup = functions.https.onCall(
 	(data: {
-		notificationKey: string;
+		gameId: string;
 		notification: admin.messaging.NotificationMessagePayload;
-	}) => {
+	}):
+		| Promise<{ success: number; failure: number; [key: string]: any }>
+		| HttpsError => {
 		if (!data) return new HttpsError('invalid-argument', 'no data received');
-		const { notificationKey, notification } = data;
+		const { gameId, notification } = data;
 
-		if (!notificationKey)
-			return new HttpsError('invalid-argument', 'notificationKey is required');
 		if (!notification)
-			// prettier-ignore
-			return new HttpsError('invalid-argument', 'notification object is required')
+			return new HttpsError(
+				'invalid-argument',
+				'notification object is required'
+			);
+		if (!gameId)
+			return new HttpsError('invalid-argument', 'gameId is required');
 
-		const url = 'https://fcm.googleapis.com/fcm/send';
-
-		return fetch(url, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `key=${cloudMessagingConfig.serverKey}`,
-				project_id: cloudMessagingConfig.senderId,
-			},
-			body: JSON.stringify({
-				to: notificationKey,
-				notification,
-			}),
-		})
-			.then(res => {
-				if (res.status >= 200 && res.status < 300) return res;
-				else throw res;
+		return db
+			.doc(`games/${gameId}`)
+			.get()
+			.then(doc => {
+				if (doc.exists) return doc.data();
+				else
+					throw new HttpsError('not-found', 'A game with gameId was not found');
 			})
-			.then(res => res.json())
-			.then(res => {
-				if (
-					Object.keys(res).includes('success') &&
-					Object.keys(res).includes('failure')
-				)
-					return res;
-				else throw new HttpsError('unknown', 'Unexpected response type', res);
+			.then(game => {
+				const notificationKey = game
+					? (game.notificationKey as string | undefined)
+					: undefined;
+				if (notificationKey) {
+					const url = 'https://fcm.googleapis.com/fcm/send';
+
+					return fetch(url, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: `key=${cloudMessagingConfig.serverKey}`,
+							project_id: cloudMessagingConfig.senderId,
+						},
+						body: JSON.stringify({
+							to: notificationKey,
+							notification,
+						}),
+					})
+						.then(res => {
+							if (res.status >= 200 && res.status < 300) return res;
+							else throw res;
+						})
+						.then(res => res.json())
+						.then(res => {
+							if (
+								Object.keys(res).includes('success') &&
+								Object.keys(res).includes('failure')
+							)
+								return res;
+							else
+								throw new HttpsError(
+									'unknown',
+									'Unexpected response type',
+									res
+								);
+						});
+				} else {
+					// No device group exists for the game
+					throw new HttpsError('not-found', "Game doesn't have a device group");
+				}
+			})
+			.catch(err => {
+				console.error(err);
+				throw new HttpsError('internal', 'INTERNAL');
 			});
 	}
 );
