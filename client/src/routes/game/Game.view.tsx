@@ -3,7 +3,6 @@ import { Page, Tabbar, Tab } from 'react-onsenui';
 import TargetTabView from './target';
 import OperationTabView from './operation';
 import IntelTabView from './intel';
-import { MapOrientation } from '../../index.d';
 
 interface Props {
 	gameId: string;

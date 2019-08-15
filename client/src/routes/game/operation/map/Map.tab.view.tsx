@@ -3,7 +3,6 @@ import { Page } from 'react-onsenui';
 
 import ReactMapboxFactory, { Layer, Feature } from 'react-mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
-import { MapOrientation } from '../../../../index.d';
 
 const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
