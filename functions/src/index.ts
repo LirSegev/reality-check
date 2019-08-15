@@ -9,7 +9,11 @@ admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
 export const addDeviceToDeviceGroup = functions.https.onCall(
-	(data: { token: string; gameId: string; groupName?: string }) => {
+	(data: {
+		token: string;
+		gameId: string;
+		groupName?: string;
+	}): Promise<string> | HttpsError => {
 		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { token, gameId } = data;
 
@@ -65,7 +69,11 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 );
 
 export const removeDeviceFromDeviceGroup = functions.https.onCall(
-	(data: { token: string; gameId: string; groupName?: string }) => {
+	(data: {
+		token: string;
+		gameId: string;
+		groupName?: string;
+	}): Promise<string> | HttpsError => {
 		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { token, gameId } = data;
 
