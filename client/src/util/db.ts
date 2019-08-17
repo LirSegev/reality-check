@@ -1,5 +1,4 @@
 import * as firebase from 'firebase/app';
-import { Player } from '../index.d';
 
 /**
  * Updates the data of the current player in the database.

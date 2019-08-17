@@ -86,41 +86,20 @@ class NewIntelItemForm extends React.Component<Props, State> {
 	}
 
 	_sendNotification() {
-		const db = firebase.firestore();
-
-		db.doc(`games/${this.props.gameId}`)
-			.get()
-			.then(doc => {
-				if (doc.exists) return doc.data();
-				else throw new Error("Game with gameId doesn't exist");
+		firebase
+			.functions()
+			.httpsCallable('sendNotificationToGroup')({
+				gameId: this.props.gameId,
+				notification: {
+					title: 'New intel on Mr. Z',
+				},
 			})
-			.then(game => {
-				const notificationKey = game
-					? (game.notificationKey as string | undefined)
-					: undefined;
-				if (notificationKey) {
-					firebase
-						.functions()
-						.httpsCallable('sendNotificationToGroup')({
-							notificationKey,
-							notification: {
-								title: 'New intel on Mr. Z',
-							},
-						})
-						.then((res: any) => {
-							if (res.failure) {
-								// prettier-ignore
-								alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
-								throw new Error(res);
-							}
-						})
-						.catch(err =>
-							console.error(
-								new Error('Error sending notification to device group:'),
-								err
-							)
-						);
-				} else throw new Error("Game doesn't have a device group");
+			.then((res: any) => {
+				if (res.failure) {
+					// prettier-ignore
+					alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
+					throw new Error(res);
+				}
 			})
 			.catch(err =>
 				console.error(

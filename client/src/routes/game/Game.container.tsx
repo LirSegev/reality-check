@@ -1,7 +1,6 @@
 import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
-import { MapOrientation } from '../../index.d';
 import { updateCurrentPlayer } from '../../util/db';
 
 interface Props {
