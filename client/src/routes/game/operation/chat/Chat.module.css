@@ -10,6 +10,10 @@
 	border-radius: 12px;
 }
 
+:global(.card).chatItem:last-child {
+	margin-bottom: 60px;
+}
+
 :global(.card).chatItem.left {
 	float: left;
 	border-top-left-radius: 0;
