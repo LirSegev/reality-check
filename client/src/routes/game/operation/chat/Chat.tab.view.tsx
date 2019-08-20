@@ -50,6 +50,7 @@ const ChatTabView: React.FC = () => {
 	));
 	return (
 		<Page
+			id="chat-page"
 			renderFixed={() => (
 				<div className={styles.chatInputWrapper}>
 					<div

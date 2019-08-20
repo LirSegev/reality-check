@@ -1,3 +1,3 @@
-import ChatTab from './Chat.tab.view';
+import ChatTab from './Chat.tab.container';
 
 export default ChatTab;
