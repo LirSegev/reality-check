@@ -1,0 +1,42 @@
+:global(.card.card--material).chatItem {
+	border-radius: 8px;
+	box-shadow: none;
+}
+
+:global(.card).chatItem {
+	clear: both;
+	padding: 2px 7px 3px 7px;
+	max-width: 75%;
+	border-radius: 12px;
+}
+
+:global(.card).chatItem.left {
+	float: left;
+	border-top-left-radius: 0;
+}
+
+:global(.card).chatItem.right {
+	float: right;
+	border-top-right-radius: 0;
+}
+
+.content {
+	font-size: 19px;
+}
+
+.author,
+.time {
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.time {
+	float: right;
+	line-height: 23px;
+}
+
+.content::after {
+	content: '';
+	display: block;
+	clear: both;
+}
