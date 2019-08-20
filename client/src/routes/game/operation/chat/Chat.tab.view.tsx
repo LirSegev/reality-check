@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Page } from 'react-onsenui';
 import ChatItem from './ChatItem.component';
+import styles from './Chat.module.css';
 
 const ChatTabView: React.FC = () => {
 	const messages = [
@@ -47,7 +48,23 @@ const ChatTabView: React.FC = () => {
 			timestamp={message.timestamp}
 		/>
 	));
-	return <Page>{chatItems}</Page>;
+	return (
+		<Page
+			renderFixed={() => (
+				<div className={styles.chatInputWrapper}>
+					<div
+						contentEditable
+						className={`textarea textarea--transparent ${styles.underbar} ${
+							styles.chatInput
+						}`}
+						placeholder="Type a message"
+					/>
+				</div>
+			)}
+		>
+			{chatItems}
+		</Page>
+	);
 };
 
 export default ChatTabView;
