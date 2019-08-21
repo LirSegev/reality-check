@@ -53,23 +53,36 @@ div.underbar {
 	border-bottom-right-radius: 0px;
 }
 
-div.chatInput {
+#sendButton {
+	line-height: normal;
+}
+
+#chatInput {
+	min-height: 1em;
+	max-height: 5em;
+	overflow: scroll;
+
+	flex-grow: 1;
+	margin-right: 1em;
+}
+
+#chatInput[placeholder]:empty::before {
+	content: attr(placeholder);
+	color: #999;
+}
+
+#chatInputWrapper {
 	width: 90%;
 	display: block;
 	margin: auto;
 	position: relative;
 	bottom: 0.5em;
-	min-height: 1em;
-	max-height: 5em;
-	overflow: scroll;
+
+	display: flex;
+	align-items: flex-end;
 }
 
-div.chatInput[placeholder]:empty::before {
-	content: attr(placeholder);
-	color: #999;
-}
-
-div.chatInputWrapper {
+#chatInputGradient {
 	width: 100%;
 	position: absolute;
 	bottom: 0;
@@ -82,7 +95,7 @@ div.chatInputWrapper {
 	);
 }
 
-:global(.page--material) div.chatInputWrapper {
+:global(.page--material) #chatInputGradient {
 	background-image: linear-gradient(
 		-180deg,
 		rgba(48, 48, 48, 0) 33%,
@@ -91,7 +104,7 @@ div.chatInputWrapper {
 	);
 }
 
-div.chatInputWrapper::before {
+#chatInputGradient::before {
 	content: '';
 	display: block;
 	height: 5em;
