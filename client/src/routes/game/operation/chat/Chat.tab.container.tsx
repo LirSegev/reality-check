@@ -51,7 +51,9 @@ class ChatTabContainer extends React.Component<Props, State> {
 			chatPageContent.scrollTo(0, chatPageContent.scrollHeight);
 	}
 
-	render = () => <ChatTabView messages={this.state.messages} />;
+	render = () => (
+		<ChatTabView gameId={this.props.gameId} messages={this.state.messages} />
+	);
 }
 
 export default ChatTabContainer;
