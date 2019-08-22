@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'react-onsenui';
 import styles from './Chat.module.css';
+import * as firebase from 'firebase/app';
 
 interface Props {
 	author: {
@@ -8,15 +9,15 @@ interface Props {
 		displayName: string;
 	};
 	message: string;
-	timestamp: number;
+	timestamp: firebase.firestore.Timestamp;
 }
 
 const ChatItem: React.FC<Props> = props => {
-	const time = new Date(props.timestamp).toLocaleTimeString('en-GB', {
+	const time = props.timestamp.toDate().toLocaleTimeString('en-GB', {
 		hour: '2-digit',
 		minute: '2-digit',
 	});
-	const isOwn = props.author.displayName === 'lir';
+	const isOwn = props.author.uid === firebase.auth().currentUser!.uid;
 
 	const side = isOwn ? styles.right : styles.left;
 

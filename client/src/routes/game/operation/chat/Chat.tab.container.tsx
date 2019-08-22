@@ -1,11 +1,48 @@
 import React from 'react';
 import ChatTabView from './Chat.tab.view';
+import firebase from 'firebase/app';
 
-class ChatTabContainer extends React.Component {
+interface State {
+	messages: [ChatDoc, string][];
+}
+interface Props {
+	gameId: string;
+}
+
+class ChatTabContainer extends React.Component<Props, State> {
+	constructor(props: Props) {
+		super(props);
+		this.state = {
+			messages: [],
+		};
+
+		this.updateMessages = this.updateMessages.bind(this);
+	}
+
 	componentDidMount() {
 		setTimeout(() => {
 			this.scrollChatTabToBottom();
 		}, 0);
+
+		const db = firebase.firestore();
+		const { gameId } = this.props;
+
+		db.collection(`games/${gameId}/chat`).onSnapshot(this.updateMessages, err =>
+			console.error(new Error('Error getting chat docs'), err)
+		);
+	}
+
+	updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
+		chatDocs.docChanges().forEach(changes => {
+			if (changes.type === 'added') {
+				this.setState(prevState => ({
+					messages: [
+						...prevState.messages,
+						[changes.doc.data() as ChatDoc, changes.doc.id],
+					],
+				}));
+			}
+		});
 	}
 
 	scrollChatTabToBottom() {
@@ -14,7 +51,7 @@ class ChatTabContainer extends React.Component {
 			chatPageContent.scrollTo(0, chatPageContent.scrollHeight);
 	}
 
-	render = () => <ChatTabView />;
+	render = () => <ChatTabView messages={this.state.messages} />;
 }
 
 export default ChatTabContainer;
