@@ -56,9 +56,6 @@ class AppContainer extends React.Component<{}, State> {
 			? displayNameEl.value || player.uid
 			: player.uid;
 		const isNew = localStorage.getItem('gameId') ? false : true;
-		player.updateProfile({
-			displayName,
-		});
 
 		this.setState({ gameId, isLogged: true });
 
@@ -88,6 +85,10 @@ class AppContainer extends React.Component<{}, State> {
 					uid: player.uid,
 				})
 				.catch(err => console.error(new Error('Error adding player'), err));
+				
+			player.updateProfile({
+				displayName,
+			});
 			localStorage.setItem('gameId', gameId);
 			this._addPushNotifications(gameId);
 		} else {
