@@ -27,9 +27,11 @@ class ChatTabContainer extends React.Component<Props, State> {
 		const db = firebase.firestore();
 		const { gameId } = this.props;
 
-		db.collection(`games/${gameId}/chat`).onSnapshot(this.updateMessages, err =>
-			console.error(new Error('Error getting chat docs'), err)
-		);
+		db.collection(`games/${gameId}/chat`)
+			.orderBy('timestamp')
+			.onSnapshot(this.updateMessages, err =>
+				console.error(new Error('Error getting chat docs'), err)
+			);
 	}
 
 	updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
