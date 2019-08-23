@@ -44,7 +44,7 @@ class ChatTabContainer extends React.Component<Props, State> {
 			isLoading: false,
 		}));
 
-		setTimeout(this._scrollChatTabToBottom, 0);
+		requestAnimationFrame(this._scrollChatTabToBottom);
 	}
 
 	_scrollChatTabToBottom() {
