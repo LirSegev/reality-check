@@ -47,7 +47,11 @@ class ChatTabContainer extends React.Component<Props, State> {
 	_scrollChatTabToBottom() {
 		const chatPageContent = document.querySelector('#chat-page .page__content');
 		if (chatPageContent)
-			chatPageContent.scrollTo(0, chatPageContent.scrollHeight);
+			chatPageContent.scrollTo({
+				left: 0,
+				top: chatPageContent.scrollHeight,
+				behavior: 'smooth',
+			});
 	}
 
 	render = () => (
