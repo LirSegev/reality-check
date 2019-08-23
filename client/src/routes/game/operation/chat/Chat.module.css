@@ -36,7 +36,10 @@
 
 .time {
 	float: right;
-	line-height: 23px;
+	height: 21px;
+	align-items: flex-end;
+	display: inline-flex;
+	margin: 0 0.2em 0.2em 0.4em;
 }
 
 .content::after {
@@ -55,6 +58,12 @@ div.underbar {
 
 #sendButton {
 	line-height: normal;
+}
+
+#sendButton:global(.button--material) {
+	min-height: unset;
+	padding-top: 6px;
+	padding-bottom: 6px;
 }
 
 #chatInput {
