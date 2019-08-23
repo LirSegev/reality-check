@@ -16,7 +16,7 @@ class ChatTabContainer extends React.Component<Props, State> {
 			messages: [],
 		};
 
-		this.updateMessages = this.updateMessages.bind(this);
+		this._updateMessages = this._updateMessages.bind(this);
 	}
 
 	componentDidMount() {
@@ -25,12 +25,12 @@ class ChatTabContainer extends React.Component<Props, State> {
 
 		db.collection(`games/${gameId}/chat`)
 			.orderBy('timestamp')
-			.onSnapshot(this.updateMessages, err =>
+			.onSnapshot(this._updateMessages, err =>
 				console.error(new Error('Error getting chat docs'), err)
 			);
 	}
 
-	updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
+	_updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
 		const newMessages: [ChatDoc, string][] = [];
 		chatDocs.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
@@ -41,10 +41,10 @@ class ChatTabContainer extends React.Component<Props, State> {
 			messages: [...prevState.messages, ...newMessages],
 		}));
 
-		setTimeout(this.scrollChatTabToBottom, 0);
+		setTimeout(this._scrollChatTabToBottom, 0);
 	}
 
-	scrollChatTabToBottom() {
+	_scrollChatTabToBottom() {
 		const chatPageContent = document.querySelector('#chat-page .page__content');
 		if (chatPageContent)
 			chatPageContent.scrollTo(0, chatPageContent.scrollHeight);
