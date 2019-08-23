@@ -20,10 +20,6 @@ class ChatTabContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		setTimeout(() => {
-			this.scrollChatTabToBottom();
-		}, 0);
-
 		const db = firebase.firestore();
 		const { gameId } = this.props;
 
@@ -44,6 +40,8 @@ class ChatTabContainer extends React.Component<Props, State> {
 		this.setState(prevState => ({
 			messages: [...prevState.messages, ...newMessages],
 		}));
+
+		setTimeout(this.scrollChatTabToBottom, 0);
 	}
 
 	scrollChatTabToBottom() {
