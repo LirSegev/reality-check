@@ -35,16 +35,15 @@ class ChatTabContainer extends React.Component<Props, State> {
 	}
 
 	updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
+		const newMessages: [ChatDoc, string][] = [];
 		chatDocs.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
-				this.setState(prevState => ({
-					messages: [
-						...prevState.messages,
-						[changes.doc.data() as ChatDoc, changes.doc.id],
-					],
-				}));
+				newMessages.push([changes.doc.data() as ChatDoc, changes.doc.id]);
 			}
 		});
+		this.setState(prevState => ({
+			messages: [...prevState.messages, ...newMessages],
+		}));
 	}
 
 	scrollChatTabToBottom() {
