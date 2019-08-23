@@ -1,0 +1,120 @@
+:global(.card.card--material).chatItem {
+	border-radius: 8px;
+	box-shadow: none;
+}
+
+:global(.card).chatItem {
+	clear: both;
+	padding: 2px 7px 3px 7px;
+	max-width: 75%;
+	border-radius: 12px;
+}
+
+:global(.card).chatItem:last-child {
+	margin-bottom: 60px;
+}
+
+:global(.card).chatItem.left {
+	float: left;
+	border-top-left-radius: 0;
+}
+
+:global(.card).chatItem.right {
+	float: right;
+	border-top-right-radius: 0;
+}
+
+.content {
+	font-size: 19px;
+}
+
+.author,
+.time {
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.time {
+	float: right;
+	height: 21px;
+	align-items: flex-end;
+	display: inline-flex;
+	margin: 0 0.2em 0.2em 0.4em;
+}
+
+.content::after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+div.underbar {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: aqua;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+#sendButton {
+	line-height: normal;
+}
+
+#sendButton:global(.button--material) {
+	min-height: unset;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+#chatInput {
+	min-height: 1em;
+	max-height: 5em;
+	overflow: scroll;
+
+	flex-grow: 1;
+	margin-right: 1em;
+}
+
+#chatInput[placeholder]:empty::before {
+	content: attr(placeholder);
+	color: #999;
+}
+
+#chatInputWrapper {
+	width: 90%;
+	display: block;
+	margin: auto;
+	position: relative;
+	bottom: 0.5em;
+
+	display: flex;
+	align-items: flex-end;
+}
+
+#chatInputGradient {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	min-height: 5em;
+	background-image: linear-gradient(
+		-180deg,
+		rgba(13, 13, 13, 0) 33%,
+		rgba(13, 13, 13, 0.9) 67%,
+		#0d0d0d 98%
+	);
+}
+
+:global(.page--material) #chatInputGradient {
+	background-image: linear-gradient(
+		-180deg,
+		rgba(48, 48, 48, 0) 33%,
+		rgba(48, 48, 48, 0.9) 67%,
+		#303030 98%
+	);
+}
+
+#chatInputGradient::before {
+	content: '';
+	display: block;
+	height: 5em;
+}

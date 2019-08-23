@@ -1,3 +1,3 @@
-import MapTab from './Chat.tab.view';
+import ChatTab from './Chat.tab.container';
 
-export default MapTab;
+export default ChatTab;

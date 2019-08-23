@@ -76,3 +76,11 @@ export function getCurrentPlayer(): Promise<Player | undefined> {
 			});
 	});
 }
+
+export function dateToTimestamp(date: Date): firebase.firestore.Timestamp {
+	const domTimestamp = date.getTime() / 1000 + '';
+	const arr = domTimestamp.split('.').map(num => Number(num));
+	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1]);
+
+	return timestamp;
+}

@@ -31,7 +31,7 @@ const OperationTabView: React.FC<Props> = props => (
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{
-					content: <ChatTab key="chatTab-content" />,
+					content: <ChatTab key="chatTab-content" gameId={props.gameId} />,
 					tab: <Tab label="Chat" key="chatTab-button" />,
 				},
 			]}
