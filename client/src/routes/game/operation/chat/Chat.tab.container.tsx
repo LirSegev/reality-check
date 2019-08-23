@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 
 interface State {
 	messages: [ChatDoc, string][];
+	isLoading: boolean;
 }
 interface Props {
 	gameId: string;
@@ -14,6 +15,7 @@ class ChatTabContainer extends React.Component<Props, State> {
 		super(props);
 		this.state = {
 			messages: [],
+			isLoading: true,
 		};
 
 		this._updateMessages = this._updateMessages.bind(this);
@@ -39,6 +41,7 @@ class ChatTabContainer extends React.Component<Props, State> {
 		});
 		this.setState(prevState => ({
 			messages: [...prevState.messages, ...newMessages],
+			isLoading: false,
 		}));
 
 		setTimeout(this._scrollChatTabToBottom, 0);
@@ -55,7 +58,11 @@ class ChatTabContainer extends React.Component<Props, State> {
 	}
 
 	render = () => (
-		<ChatTabView gameId={this.props.gameId} messages={this.state.messages} />
+		<ChatTabView
+			gameId={this.props.gameId}
+			messages={this.state.messages}
+			isLoading={this.state.isLoading}
+		/>
 	);
 }
 
