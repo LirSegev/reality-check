@@ -167,10 +167,6 @@ export const sendNotificationToGroup = functions.https.onCall(
 							notification,
 						}),
 					})
-						.then(res => {
-							if (res.status >= 200 && res.status < 300) return res;
-							else throw res;
-						})
 						.then(res => res.json())
 						.then(res => {
 							if (

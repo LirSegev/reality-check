@@ -50,10 +50,6 @@ export function manageDeviceGroup(
 		},
 		body: JSON.stringify(body),
 	})
-		.then(res => {
-			if (res.status >= 200 && res.status < 300) return res;
-			else throw res;
-		})
 		.then(res => res.json())
 		.then(res => {
 			if (res.notification_key) return res.notification_key as string;
