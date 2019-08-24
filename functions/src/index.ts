@@ -23,6 +23,20 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 
 		// If no groupName is supplied use gameId
 		const groupName = /* data.groupName || */ gameId;
+
+		const createNewDeviceGroup = () =>
+			manageDeviceGroup('create', [token], groupName)
+				.then(key => {
+					return db.doc(`games/${gameId}`).update({
+						notificationKey: key,
+					});
+				})
+				.then(() => 'Successfully added device to device group')
+				.catch(err => {
+					console.error(new Error('Error creating device group'), err);
+					throw err;
+				});
+
 		return db
 			.doc(`games/${gameId}`)
 			.get()
@@ -40,25 +54,19 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 					return manageDeviceGroup('add', [token], groupName, notificationKey)
 						.then(() => 'Successfully added device to device group')
 						.catch(err => {
-							console.error(
-								new Error('Error adding device to device group'),
-								err
-							);
-							throw err;
+							if ((err as Error).message === 'notification_key not found')
+								return createNewDeviceGroup();
+							else {
+								console.error(
+									new Error('Error adding device to device group'),
+									err
+								);
+								throw err;
+							}
 						});
 				} else {
 					// No device group exists for the game, create one
-					return manageDeviceGroup('create', [token], groupName)
-						.then(key => {
-							return db.doc(`games/${gameId}`).update({
-								notificationKey: key,
-							});
-						})
-						.then(() => 'Successfully added device to device group')
-						.catch(err => {
-							console.error(new Error('Error creating device group'), err);
-							throw err;
-						});
+					return createNewDeviceGroup();
 				}
 			})
 			.catch(err => {
