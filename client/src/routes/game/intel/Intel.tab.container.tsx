@@ -40,10 +40,12 @@ class IntelTabContainer extends React.Component<Props, State> {
 			);
 	}
 
-	_openAddItem = () =>
+	_openAddItem = () => {
 		this.setState({
 			isAddItemOpen: true,
 		});
+		document.dispatchEvent(new CustomEvent('onadditemopen'));
+	};
 
 	_hideAddItem = () =>
 		this.setState({

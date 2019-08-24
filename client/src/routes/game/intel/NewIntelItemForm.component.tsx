@@ -33,12 +33,23 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			isLoading: false,
 		};
 
+		document.addEventListener('onadditemopen', this._updateTime.bind(this));
+
 		this._handleTypeChange = this._handleTypeChange.bind(this);
 		this._handleMoreChange = this._handleMoreChange.bind(this);
 		this._handleTimeChange = this._handleTimeChange.bind(this);
 		this._onMyLocation = this._onMyLocation.bind(this);
 		this._submit = this._submit.bind(this);
 		this._sendNotification = this._sendNotification.bind(this);
+	}
+
+	_updateTime() {
+		this.setState({
+			time: new Date().toLocaleTimeString('en-GB', {
+				hour: '2-digit',
+				minute: '2-digit',
+			}),
+		});
 	}
 
 	_handleTypeChange(e: React.ChangeEvent<any>) {
@@ -118,11 +129,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			navigator.geolocation.getCurrentPosition(
 				pos => {
 					fetch(
-						`https://api.mapbox.com/geocoding/v5/mapbox.places/${
-							pos.coords.longitude
-						}%2C${pos.coords.latitude}.json?access_token=${
-							mapboxConfig.accessToken
-						}`
+						`https://api.mapbox.com/geocoding/v5/mapbox.places/${pos.coords.longitude}%2C${pos.coords.latitude}.json?access_token=${mapboxConfig.accessToken}`
 					)
 						.then(res => res.json())
 						.then(res => {
