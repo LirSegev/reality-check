@@ -38,7 +38,7 @@ const AppView: React.FC<Props> = props => {
 				<Route
 					path="/logout"
 					render={() => {
-						signOut();
+						signOut(props.isAdmin);
 						return undefined;
 					}}
 				/>
