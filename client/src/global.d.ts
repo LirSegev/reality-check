@@ -7,6 +7,7 @@ declare interface Player {
 		timestamp: firebase.firestore.Timestamp;
 	};
 	messagingToken?: string;
+	isDeleted?: boolean;
 	uid: string;
 }
 
