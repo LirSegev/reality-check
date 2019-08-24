@@ -17,7 +17,7 @@ declare namespace firebase.functions {
 		): (data: {
 			token: string;
 			gameId: string;
-			groupName?: string;
+			// groupName?: string;
 		}) => Promise<string>;
 		httpsCallable(
 			name: 'addDeviceToDeviceGroup',
@@ -25,7 +25,7 @@ declare namespace firebase.functions {
 		): (data: {
 			token: string;
 			gameId: string;
-			groupName?: string;
+			// groupName?: string;
 		}) => Promise<string>;
 	}
 }

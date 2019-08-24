@@ -12,7 +12,7 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 	(data: {
 		token: string;
 		gameId: string;
-		groupName?: string;
+		// groupName?: string;
 	}): Promise<string> | HttpsError => {
 		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { token, gameId } = data;
@@ -22,7 +22,7 @@ export const addDeviceToDeviceGroup = functions.https.onCall(
 			return new HttpsError('invalid-argument', 'gameId is required');
 
 		// If no groupName is supplied use gameId
-		const groupName = data.groupName || gameId;
+		const groupName = /* data.groupName || */ gameId;
 		return db
 			.doc(`games/${gameId}`)
 			.get()
@@ -72,7 +72,7 @@ export const removeDeviceFromDeviceGroup = functions.https.onCall(
 	(data: {
 		token: string;
 		gameId: string;
-		groupName?: string;
+		// groupName?: string;
 	}): Promise<string> | HttpsError => {
 		if (!data) return new HttpsError('invalid-argument', 'no data received');
 		const { token, gameId } = data;
@@ -82,7 +82,7 @@ export const removeDeviceFromDeviceGroup = functions.https.onCall(
 			return new HttpsError('invalid-argument', 'gameId is required');
 
 		// If no groupName is supplied use gameId
-		const groupName = data.groupName || gameId;
+		const groupName = /* data.groupName || */ gameId;
 		return db
 			.doc(`games/${gameId}`)
 			.get()
