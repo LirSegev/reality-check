@@ -33,6 +33,8 @@ const MapTabView: React.FC<Props> = props => (
 			onStyleLoad={props.onStyleLoad}
 		>
 			<Layer
+				id="mr-z-route-line"
+				before="mr-z-route"
 				type="line"
 				layout={{
 					'line-cap': 'round',
@@ -45,7 +47,15 @@ const MapTabView: React.FC<Props> = props => (
 			>
 				<Feature coordinates={props.mrZRoute} />
 			</Layer>
-			<Layer layout={{ 'icon-image': 'z-green', 'icon-size': 0.25 }}>
+			<Layer
+				id="mr-z-route-end"
+				before="player-locations"
+				layout={{
+					'icon-image': 'z-green',
+					'icon-size': 0.25,
+					'icon-allow-overlap': true,
+				}}
+			>
 				<Feature
 					coordinates={
 						props.mrZRoute.length > 0
