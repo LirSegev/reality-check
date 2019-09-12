@@ -128,9 +128,13 @@ class MapTabContainer extends React.Component<Props, State> {
 		e: DeviceOrientationEvent
 	) => {
 		const bearing = e.alpha ? Math.round(360 - e.alpha) : null;
-		if (!map.isEasing() && bearing)
-			map.setBearing(bearing, { geolocateSource: true } as EventData);
+		if (bearing) this._updateBearing(map, bearing);
 	};
+
+	_updateBearing(map: mapboxgl.Map, bearing: number) {
+		if (!map.isEasing())
+			map.setBearing(bearing, { geolocateSource: true } as EventData);
+	}
 
 	_onStyleLoad(map: mapboxgl.Map) {
 		// this._addTransportRoutesLayer(map);
