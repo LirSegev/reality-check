@@ -133,7 +133,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	};
 
 	_onStyleLoad(map: mapboxgl.Map) {
-		this._addTransportRoutesLayer(map);
+		// this._addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
 
 		const geolocateControl = new GeolocateControl({
