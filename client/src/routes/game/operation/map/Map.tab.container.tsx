@@ -158,6 +158,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		const onDeviceorientation = this._onDeviceorientationWrapper(map);
 
 		geolocateControl.on('trackuserlocationstart', () => {
+			// Add event listeners for device bearing
 			if (isIOS())
 				window.addEventListener('deviceorientation', onDeviceorientation);
 			else
@@ -167,6 +168,7 @@ class MapTabContainer extends React.Component<Props, State> {
 				);
 		});
 		geolocateControl.on('trackuserlocationend', () => {
+			// Remove event listeners for device bearing
 			if (isIOS())
 				window.removeEventListener('deviceorientation', onDeviceorientation);
 			else
@@ -174,6 +176,7 @@ class MapTabContainer extends React.Component<Props, State> {
 					'deviceorientationabsolute',
 					onDeviceorientation
 				);
+
 			// Reset bearing
 			map.rotateTo(0, { geolocateSource: true } as EventData);
 		});
