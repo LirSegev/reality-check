@@ -131,6 +131,14 @@ class MapTabContainer extends React.Component<Props, State> {
 		if (bearing) this._updateBearing(map, bearing);
 	};
 
+	_onDeviceorientationWrapper = (map: mapboxgl.Map) => (
+		e: DeviceOrientationEvent
+	) => {
+		// @ts-ignore
+		const bearing = Math.round(e.webkitCompassHeading as number);
+		if (bearing) this._updateBearing(map, bearing);
+	};
+
 	_updateBearing(map: mapboxgl.Map, bearing: number) {
 		if (!map.isEasing())
 			map.setBearing(bearing, { geolocateSource: true } as EventData);
@@ -150,18 +158,27 @@ class MapTabContainer extends React.Component<Props, State> {
 		const onDeviceorientationabsolute = this._onDeviceorientationabsoluteWrapper(
 			map
 		);
+		const onDeviceorientation = this._onDeviceorientationWrapper(map);
 
+		const isIOS =
+			!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 		geolocateControl.on('trackuserlocationstart', () => {
-			window.addEventListener(
-				'deviceorientationabsolute',
-				onDeviceorientationabsolute
-			);
+			if (isIOS)
+				window.addEventListener('deviceorientation', onDeviceorientation);
+			else
+				window.addEventListener(
+					'deviceorientationabsolute',
+					onDeviceorientationabsolute
+				);
 		});
 		geolocateControl.on('trackuserlocationend', () => {
-			window.removeEventListener(
-				'deviceorientationabsolute',
-				onDeviceorientationabsolute
-			);
+			if (isIOS)
+				window.removeEventListener('deviceorientation', onDeviceorientation);
+			else
+				window.removeEventListener(
+					'deviceorientationabsolute',
+					onDeviceorientationabsolute
+				);
 			// Reset bearing
 			map.rotateTo(0, { geolocateSource: true } as EventData);
 		});
