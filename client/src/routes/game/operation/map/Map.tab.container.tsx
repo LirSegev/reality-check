@@ -9,6 +9,7 @@ import {
 	Feature as GeoFeature,
 } from 'geojson';
 import { GeolocateControl, EventData } from 'mapbox-gl';
+import { isIOS } from '../../../../util/general';
 
 interface PlayerLocation {
 	playerName: string;
@@ -124,18 +125,17 @@ class MapTabContainer extends React.Component<Props, State> {
 			);
 	}
 
-	_onDeviceorientationabsoluteWrapper = (map: mapboxgl.Map) => (
-		e: DeviceOrientationEvent
-	) => {
-		const bearing = e.alpha ? Math.round(360 - e.alpha) : null;
-		if (bearing) this._updateBearing(map, bearing);
-	};
-
 	_onDeviceorientationWrapper = (map: mapboxgl.Map) => (
 		e: DeviceOrientationEvent
 	) => {
+		// prettier-ignore
+		const bearing = isIOS()
 		// @ts-ignore
-		const bearing = Math.round(e.webkitCompassHeading as number);
+			?  Math.round(e.webkitCompassHeading as number)
+			: e.alpha
+				? Math.round(360 - e.alpha)
+				: null;
+
 		if (bearing) this._updateBearing(map, bearing);
 	};
 
@@ -155,29 +155,24 @@ class MapTabContainer extends React.Component<Props, State> {
 			trackUserLocation: true,
 		});
 
-		const onDeviceorientationabsolute = this._onDeviceorientationabsoluteWrapper(
-			map
-		);
 		const onDeviceorientation = this._onDeviceorientationWrapper(map);
 
-		const isIOS =
-			!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 		geolocateControl.on('trackuserlocationstart', () => {
-			if (isIOS)
+			if (isIOS())
 				window.addEventListener('deviceorientation', onDeviceorientation);
 			else
 				window.addEventListener(
 					'deviceorientationabsolute',
-					onDeviceorientationabsolute
+					onDeviceorientation
 				);
 		});
 		geolocateControl.on('trackuserlocationend', () => {
-			if (isIOS)
+			if (isIOS())
 				window.removeEventListener('deviceorientation', onDeviceorientation);
 			else
 				window.removeEventListener(
 					'deviceorientationabsolute',
-					onDeviceorientationabsolute
+					onDeviceorientation
 				);
 			// Reset bearing
 			map.rotateTo(0, { geolocateSource: true } as EventData);
