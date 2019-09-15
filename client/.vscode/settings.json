@@ -8,7 +8,9 @@
 		"mapboxgl",
 		"onsen",
 		"onsenui",
-		"tabbar"
+		"tabbar",
+		"trackuserlocationend",
+		"trackuserlocationstart"
 	],
 	"cSpell.ignoreWords": [
 		"eruda",
