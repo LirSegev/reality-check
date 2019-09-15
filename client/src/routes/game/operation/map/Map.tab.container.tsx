@@ -2,12 +2,11 @@ import React from 'react';
 import MapTabView from './Map.tab.view';
 import * as firebase from 'firebase/app';
 import { IntelItem } from '../../intel/Intel.d';
-import { GeolocateControl, EventData } from 'mapbox-gl';
-import { isIOS } from '../../../../util/general';
 import {
 	onShowTransportOnMapWrapper,
 	addTransportRoutesLayer,
 } from './transport.module';
+import { addGeolocateControl } from './geolocateControl.module';
 
 interface PlayerLocation {
 	playerName: string;
@@ -92,63 +91,10 @@ class MapTabContainer extends React.Component<Props, State> {
 		this.setState({ playerLocations });
 	}
 
-	_onDeviceorientationWrapper = (map: mapboxgl.Map) => (
-		e: DeviceOrientationEvent
-	) => {
-		// prettier-ignore
-		const bearing = isIOS()
-		// @ts-ignore
-			?  Math.round(e.webkitCompassHeading as number)
-			: e.alpha
-				? Math.round(360 - e.alpha)
-				: null;
-
-		if (bearing) this._updateBearing(map, bearing);
-	};
-
-	_updateBearing(map: mapboxgl.Map, bearing: number) {
-		if (!map.isEasing())
-			map.setBearing(bearing, { geolocateSource: true } as EventData);
-	}
-
 	_onStyleLoad(map: mapboxgl.Map) {
 		// addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
-
-		const geolocateControl = new GeolocateControl({
-			positionOptions: {
-				enableHighAccuracy: true,
-			},
-			trackUserLocation: true,
-		});
-
-		const onDeviceorientation = this._onDeviceorientationWrapper(map);
-
-		geolocateControl.on('trackuserlocationstart', () => {
-			// Add event listeners for device bearing
-			if (isIOS())
-				window.addEventListener('deviceorientation', onDeviceorientation);
-			else
-				window.addEventListener(
-					'deviceorientationabsolute',
-					onDeviceorientation
-				);
-		});
-		geolocateControl.on('trackuserlocationend', () => {
-			// Remove event listeners for device bearing
-			if (isIOS())
-				window.removeEventListener('deviceorientation', onDeviceorientation);
-			else
-				window.removeEventListener(
-					'deviceorientationabsolute',
-					onDeviceorientation
-				);
-
-			// Reset bearing
-			map.rotateTo(0, { geolocateSource: true } as EventData);
-		});
-
-		map.addControl(geolocateControl);
+		addGeolocateControl(map);
 
 		document.addEventListener(
 			'show-transport-on-map',
