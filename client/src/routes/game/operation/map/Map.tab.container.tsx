@@ -64,7 +64,7 @@ class MapTabContainer extends React.Component<Props, State> {
 			)
 			.map(intel => {
 				// @ts-ignore
-				const point = intel.action.coordinates;
+				const point = intel.action.coordinates as firebase.firestore.GeoPoint;
 				return [point.longitude, point.latitude];
 			});
 
