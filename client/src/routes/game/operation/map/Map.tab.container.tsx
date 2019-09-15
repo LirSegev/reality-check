@@ -1,15 +1,13 @@
 import React from 'react';
 import MapTabView from './Map.tab.view';
 import * as firebase from 'firebase/app';
-import { IntelItem, MetroLine } from '../../intel/Intel.d';
-import {
-	FeatureCollection,
-	Geometry,
-	GeoJsonProperties,
-	Feature as GeoFeature,
-} from 'geojson';
+import { IntelItem } from '../../intel/Intel.d';
 import { GeolocateControl, EventData } from 'mapbox-gl';
 import { isIOS } from '../../../../util/general';
+import {
+	onShowTransportOnMapWrapper,
+	addTransportRoutesLayer,
+} from './transport.module';
 
 interface PlayerLocation {
 	playerName: string;
@@ -41,7 +39,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._updatePlayerLocations = this._updatePlayerLocations.bind(this);
 		this._updateMrZRoute = this._updateMrZRoute.bind(this);
 		this._onStyleLoad = this._onStyleLoad.bind(this);
-		this._addTransportRoutesLayer = this._addTransportRoutesLayer.bind(this);
 	}
 
 	componentDidMount() {
@@ -95,36 +92,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		this.setState({ playerLocations });
 	}
 
-	_addTransportRoutesLayer(map: mapboxgl.Map) {
-		const geoJsonUrl =
-			'http://opendata.iprpraha.cz/CUR/DOP/DOP_PID_TRASY_L/WGS_84/DOP_PID_TRASY_L.json';
-		fetch(geoJsonUrl)
-			.then(res => res.json())
-			.then(this._tramListStringToArray)
-			.then(data => {
-				map.addLayer({
-					id: 'transport-routes',
-					source: {
-						type: 'geojson',
-						data,
-					},
-					paint: {
-						'line-color': '#50a882',
-						'line-width': 10,
-					},
-					// Filter out all features
-					filter: ['==', '1', '2'],
-					type: 'line',
-				});
-			})
-			.catch(err =>
-				console.error(
-					new Error('Error adding transport-routes layer to map:'),
-					err
-				)
-			);
-	}
-
 	_onDeviceorientationWrapper = (map: mapboxgl.Map) => (
 		e: DeviceOrientationEvent
 	) => {
@@ -145,7 +112,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_onStyleLoad(map: mapboxgl.Map) {
-		// this._addTransportRoutesLayer(map);
+		// addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
 
 		const geolocateControl = new GeolocateControl({
@@ -183,40 +150,10 @@ class MapTabContainer extends React.Component<Props, State> {
 
 		map.addControl(geolocateControl);
 
-		document.addEventListener('show-transport-on-map', e => {
-			const { type, line } = (e as CustomEvent<{
-				type: 'tram' | 'metro';
-				line: number | string;
-			}>).detail;
-
-			switch (type) {
-				case 'tram':
-					map.setFilter('transport-routes', [
-						'has',
-						String(line),
-						['get', 'L_TRAM'],
-					]);
-					break;
-
-				case 'metro':
-					let mLine: string;
-					switch (line) {
-						case MetroLine.A:
-							mLine = 'METRO A';
-							break;
-						case MetroLine.B:
-							mLine = 'METRO B';
-							break;
-						case MetroLine.C:
-							mLine = 'METRO C';
-							break;
-						default:
-							mLine = '*';
-					}
-					map.setFilter('transport-routes', ['==', ['get', 'L_METRO'], mLine]);
-					break;
-			}
-		});
+		document.addEventListener(
+			'show-transport-on-map',
+			onShowTransportOnMapWrapper(map)
+		);
 	}
 
 	_markPlayerLocations(map: mapboxgl.Map) {
@@ -276,31 +213,6 @@ class MapTabContainer extends React.Component<Props, State> {
 			/>
 		);
 	};
-
-	_tramListStringToArray(res: any) {
-		if (res.features)
-			return {
-				...res,
-				features: (res as FeatureCollection).features.map(feature => {
-					let result: GeoFeature<Geometry, GeoJsonProperties> = {
-						...feature,
-					};
-					const tramList = feature.properties!['L_TRAM'] as string | null;
-					if (tramList) {
-						result.properties!['L_TRAM'] = {};
-						tramList
-							.split(', ')
-							.forEach(
-								tramNum =>
-									(result.properties!['L_TRAM'][tramNum] = Number(tramNum))
-							);
-					} else if (tramList == null) {
-						result.properties!['L_TRAM'] = {};
-					}
-					return result;
-				}),
-			} as FeatureCollection<Geometry, GeoJsonProperties>;
-	}
 }
 
 export default MapTabContainer;
