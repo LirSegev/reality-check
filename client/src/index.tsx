@@ -8,6 +8,8 @@ import ons from 'onsenui';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/dark-onsen-css-components.css';
 
+import './global.css';
+
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
