@@ -107,7 +107,7 @@ class AppContainer extends React.Component<{}, State> {
 							.where('uid', '==', player.uid)
 							.get()
 							.then(value => {
-								if (value.size < 1) signOut();
+								if (value.size < 1) signOut(false, true);
 							})
 							.catch(err =>
 								console.error(

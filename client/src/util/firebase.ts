@@ -18,13 +18,13 @@ const removePlayerFromDeviceGroup = (gameId: string) => (
 	}
 };
 
-export function signOut(isAdmin?: boolean) {
+export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 	/**
 	 * Array of promises to complete before signing user out.
 	 */
 	const doBeforeSignOut: Promise<any>[] = [];
 
-	if (!isAdmin) {
+	if (!isAdmin && !notInGame) {
 		const gameId = localStorage.getItem('gameId');
 		if (gameId) {
 			doBeforeSignOut.push(
