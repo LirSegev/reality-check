@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import { IntelItem } from '../../intel/Intel.d';
 import {
 	onShowTransportOnMapWrapper,
-	addTransportRoutesLayer,
+	// addTransportRoutesLayer,
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
 
