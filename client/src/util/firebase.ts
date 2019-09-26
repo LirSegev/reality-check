@@ -37,9 +37,11 @@ export function signOut(isAdmin?: boolean) {
 			);
 		} else console.error(new Error('Error no gameID'));
 	}
-	Promise.all(doBeforeSignOut).then(() => {
-		const auth = firebase.auth();
-		if (isAdmin) auth.signOut();
-		else auth.currentUser!.delete();
-	});
+	Promise.all(doBeforeSignOut)
+		.then(() => {
+			const auth = firebase.auth();
+			if (isAdmin) auth.signOut();
+			else auth.currentUser!.delete();
+		})
+		.catch(err => console.error(new Error('Signing out'), err));
 }

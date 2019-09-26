@@ -27,14 +27,16 @@ export function updateCurrentPlayer(
 							resolve();
 						})
 						.catch(err => {
-							const error = new Error('Error updating user data:');
+							const error = new Error('Updating user data');
 							console.error(error, err);
 							reject(error);
 						});
+				} else {
+					throw new Error('No users found');
 				}
 			})
 			.catch(err => {
-				const error = new Error('Error getting player:');
+				const error = new Error('Getting user');
 				console.error(error, err);
 				reject(error);
 			});
@@ -63,14 +65,16 @@ export function getCurrentPlayer(): Promise<Player | undefined> {
 						.then(doc => doc.data() as Player | undefined)
 						.then(resolve)
 						.catch(err => {
-							const error = new Error('Error getting user:');
+							const error = new Error('Getting user');
 							console.error(error, err);
 							reject(error);
 						});
+				} else {
+					throw new Error('No users found');
 				}
 			})
 			.catch(err => {
-				const error = new Error('Error getting player:');
+				const error = new Error('Getting user');
 				console.error(error, err);
 				reject(error);
 			});
