@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
-import { getCurrentPlayer, updateCurrentPlayer } from './db';
+import { updateCurrentPlayer } from './db';
 
-const removePlayerFromDeviceGroup = (gameId: string) => (
+/* const removePlayerFromDeviceGroup = (gameId: string) => (
 	player: Player | undefined
 ) => {
 	if (player && player.messagingToken) {
@@ -16,7 +16,7 @@ const removePlayerFromDeviceGroup = (gameId: string) => (
 	} else {
 		console.error(new Error("Player doesn't have messagingToken"));
 	}
-};
+}; */
 
 export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 	/**
@@ -27,9 +27,9 @@ export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 	if (!isAdmin && !notInGame) {
 		const gameId = localStorage.getItem('gameId');
 		if (gameId) {
-			doBeforeSignOut.push(
+			/* doBeforeSignOut.push(
 				getCurrentPlayer().then(removePlayerFromDeviceGroup(gameId))
-			);
+			); */
 			doBeforeSignOut.push(
 				updateCurrentPlayer({
 					isDeleted: true,

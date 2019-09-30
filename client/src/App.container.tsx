@@ -85,12 +85,12 @@ class AppContainer extends React.Component<{}, State> {
 					uid: player.uid,
 				})
 				.catch(err => console.error(new Error('Error adding player'), err));
-				
+
 			player.updateProfile({
 				displayName,
 			});
 			localStorage.setItem('gameId', gameId);
-			this._addPushNotifications(gameId);
+			// this._addPushNotifications(gameId);
 		} else {
 			// Player resigning in
 

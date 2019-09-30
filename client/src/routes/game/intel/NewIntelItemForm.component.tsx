@@ -91,7 +91,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			} as IntelItem)
 			.then(() => {
 				this.props.hideAddItem();
-				this._sendNotification();
+				// this._sendNotification();
 			})
 			.catch(err => console.error(new Error('Error adding intel item:'), err));
 	}
