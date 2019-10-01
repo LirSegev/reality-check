@@ -2,14 +2,17 @@
 
 declare interface Player {
 	displayName: string;
+	role: PlayerRole;
+	uid: string;
 	location: {
 		geopoint: firebase.firestore.GeoPoint;
 		timestamp: firebase.firestore.Timestamp;
-	};
+	} | null;
 	messagingToken?: string;
 	isDeleted?: boolean;
-	uid: string;
 }
+
+declare type PlayerRole = 'detective' | 'intelligence' | 'chaser';
 
 declare interface ChatDoc {
 	author: {
