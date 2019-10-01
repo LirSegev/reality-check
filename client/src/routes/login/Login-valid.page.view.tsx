@@ -1,5 +1,7 @@
 import React from 'react';
 import { Page, Input, Button } from 'react-onsenui';
+import styles from './Login.module.css';
+import SelectRole from './SelectRole.component';
 
 interface Props {
 	onLogin: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
@@ -7,15 +9,19 @@ interface Props {
 
 const LoginPageValidView: React.FC<Props> = props => (
 	<Page>
-		<section style={{ textAlign: 'center' }}>
+		<section id={styles.login} style={{ textAlign: 'center' }}>
 			<p>
 				<Input
+					style={{ width: '100%' }}
 					name="displayName"
 					type="text"
 					placeholder="Username"
 					modifier="underbar"
 					float
 				/>
+			</p>
+			<p>
+				<SelectRole />
 			</p>
 			<p>
 				<Button onClick={props.onLogin}>Login</Button>

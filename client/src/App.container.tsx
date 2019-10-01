@@ -52,14 +52,23 @@ class AppContainer extends React.Component<{}, State> {
 		const displayNameEl: HTMLInputElement | null = document.querySelector(
 			'input[name=displayName]'
 		);
+		const roleEl: HTMLSelectElement | null = document.querySelector(
+			'Select[name="role"]'
+		);
+
 		const displayName = displayNameEl
 			? displayNameEl.value || player.uid
 			: player.uid;
+		const role = roleEl
+			? roleEl.value
+				? (roleEl.value as PlayerRole)
+				: ('chaser' as PlayerRole)
+			: ('chaser' as PlayerRole);
 		const isNew = localStorage.getItem('gameId') ? false : true;
 
 		this.setState({ gameId, isLogged: true });
 
-		this._addPlayerToGame(player, gameId, displayName, isNew);
+		this._addPlayerToGame(player, gameId, displayName, role, isNew);
 	}
 
 	/**
@@ -69,6 +78,7 @@ class AppContainer extends React.Component<{}, State> {
 		player: firebase.User,
 		gameId: string,
 		displayName: string,
+		role: PlayerRole,
 		isNew: boolean
 	) {
 		// prettier-ignore
@@ -83,6 +93,7 @@ class AppContainer extends React.Component<{}, State> {
 					displayName,
 					location: null,
 					uid: player.uid,
+					role,
 				})
 				.catch(err => console.error(new Error('Error adding player'), err));
 
