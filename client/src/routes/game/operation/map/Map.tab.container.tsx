@@ -39,6 +39,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._updatePlayerLocations = this._updatePlayerLocations.bind(this);
 		this._updateMrZRoute = this._updateMrZRoute.bind(this);
 		this._onStyleLoad = this._onStyleLoad.bind(this);
+		this._hideCollectedPoints = this._hideCollectedPoints.bind(this);
 	}
 
 	componentDidMount() {
@@ -112,24 +113,55 @@ class MapTabContainer extends React.Component<Props, State> {
 		getCurrentPlayer()
 			.then(player => {
 				if (player) {
-					let layerName = '';
-
+					let layerId = '';
 					switch (player.role) {
 						case 'detective':
-							layerName = 'identity-points';
+							layerId = 'identity-points';
 							break;
 						case 'intelligence':
-							layerName = 'intelligence-points';
+							layerId = 'intelligence-points';
 							break;
 					}
 
-					if (layerName)
-						map.setLayoutProperty(layerName, 'visibility', 'visible');
+					if (layerId) {
+						this._hideCollectedPoints(map, layerId, player.role);
+						map.setLayoutProperty(layerId, 'visibility', 'visible');
+					}
 				}
 			})
 			.catch(err =>
 				console.error(new Error('Getting current player data from db'), err)
 			);
+	}
+
+	_hideCollectedPoints(
+		map: mapboxgl.Map,
+		layerId: string,
+		playerRole: PlayerRole
+	) {
+		const db = firebase.firestore();
+		db.doc(`games/${this.props.gameId}`)
+			.get()
+			.then(doc => doc.data())
+			.then(game => {
+				let pointType = '';
+				switch (playerRole) {
+					case 'detective':
+						pointType = 'identity';
+						break;
+					case 'intelligence':
+						pointType = 'intelligence';
+						break;
+				}
+
+				if (game)
+					return game[`collected_${pointType}_points`] as [] | undefined;
+			})
+			.then(collectedPoints => {
+				if (collectedPoints)
+					map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+			})
+			.catch(err => console.log(new Error('Getting game doc'), err));
 	}
 
 	_markPlayerLocations(map: mapboxgl.Map) {
