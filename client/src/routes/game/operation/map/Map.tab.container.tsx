@@ -140,10 +140,9 @@ class MapTabContainer extends React.Component<Props, State> {
 		playerRole: PlayerRole
 	) {
 		const db = firebase.firestore();
-		db.doc(`games/${this.props.gameId}`)
-			.get()
-			.then(doc => doc.data())
-			.then(game => {
+		db.doc(`games/${this.props.gameId}`).onSnapshot(
+			snapshot => {
+				const game = snapshot.data();
 				let pointType = '';
 				switch (playerRole) {
 					case 'detective':
@@ -154,14 +153,15 @@ class MapTabContainer extends React.Component<Props, State> {
 						break;
 				}
 
-				if (game)
-					return game[`collected_${pointType}_points`] as [] | undefined;
-			})
-			.then(collectedPoints => {
-				if (collectedPoints)
-					map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
-			})
-			.catch(err => console.log(new Error('Getting game doc'), err));
+				if (game) {
+					// prettier-ignore
+					const collectedPoints = game[`collected_${pointType}_points`] as [] | undefined;
+					if (collectedPoints)
+						map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+				}
+			},
+			err => console.log(new Error('Getting game doc'), err)
+		);
 	}
 
 	_markPlayerLocations(map: mapboxgl.Map) {
