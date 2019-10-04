@@ -7,6 +7,7 @@ import {
 	// addTransportRoutesLayer,
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
+import { getCurrentPlayer } from '../../../../util/db';
 
 interface PlayerLocation {
 	playerName: string;
@@ -94,12 +95,41 @@ class MapTabContainer extends React.Component<Props, State> {
 	_onStyleLoad(map: mapboxgl.Map) {
 		// addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
+		this._showRolePoints(map);
 		addGeolocateControl(map);
 
 		document.addEventListener(
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
 		);
+	}
+
+	/**
+	 * Show role specific layers on map.
+	 * Show intelligence points to intelligence collector and so on.
+	 */
+	_showRolePoints(map: mapboxgl.Map) {
+		getCurrentPlayer()
+			.then(player => {
+				if (player) {
+					let layerName = '';
+
+					switch (player.role) {
+						case 'detective':
+							layerName = 'identity-points';
+							break;
+						case 'intelligence':
+							layerName = 'intelligence-points';
+							break;
+					}
+
+					if (layerName)
+						map.setLayoutProperty(layerName, 'visibility', 'visible');
+				}
+			})
+			.catch(err =>
+				console.error(new Error('Getting current player data from db'), err)
+			);
 	}
 
 	_markPlayerLocations(map: mapboxgl.Map) {
