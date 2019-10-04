@@ -7,6 +7,7 @@ import {
 	// addTransportRoutesLayer,
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
+import { getCurrentPlayer } from '../../../../util/db';
 
 interface PlayerLocation {
 	playerName: string;
@@ -38,6 +39,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._updatePlayerLocations = this._updatePlayerLocations.bind(this);
 		this._updateMrZRoute = this._updateMrZRoute.bind(this);
 		this._onStyleLoad = this._onStyleLoad.bind(this);
+		this._hideCollectedPoints = this._hideCollectedPoints.bind(this);
 	}
 
 	componentDidMount() {
@@ -94,11 +96,71 @@ class MapTabContainer extends React.Component<Props, State> {
 	_onStyleLoad(map: mapboxgl.Map) {
 		// addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
+		this._showRolePoints(map);
 		addGeolocateControl(map);
 
 		document.addEventListener(
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
+		);
+	}
+
+	/**
+	 * Show role specific layers on map.
+	 * Show intelligence points to intelligence collector and so on.
+	 */
+	_showRolePoints(map: mapboxgl.Map) {
+		getCurrentPlayer()
+			.then(player => {
+				if (player) {
+					let layerId = '';
+					switch (player.role) {
+						case 'detective':
+							layerId = 'identity-points';
+							break;
+						case 'intelligence':
+							layerId = 'intelligence-points';
+							break;
+					}
+
+					if (layerId) {
+						this._hideCollectedPoints(map, layerId, player.role);
+						map.setLayoutProperty(layerId, 'visibility', 'visible');
+					}
+				}
+			})
+			.catch(err =>
+				console.error(new Error('Getting current player data from db'), err)
+			);
+	}
+
+	_hideCollectedPoints(
+		map: mapboxgl.Map,
+		layerId: string,
+		playerRole: PlayerRole
+	) {
+		const db = firebase.firestore();
+		db.doc(`games/${this.props.gameId}`).onSnapshot(
+			snapshot => {
+				const game = snapshot.data();
+				let pointType = '';
+				switch (playerRole) {
+					case 'detective':
+						pointType = 'identity';
+						break;
+					case 'intelligence':
+						pointType = 'intelligence';
+						break;
+				}
+
+				if (game) {
+					// prettier-ignore
+					const collectedPoints = game[`collected_${pointType}_points`] as [] | undefined;
+					if (collectedPoints)
+						map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+				}
+			},
+			err => console.log(new Error('Getting game doc'), err)
 		);
 	}
 
