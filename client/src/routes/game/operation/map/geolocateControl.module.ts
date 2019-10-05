@@ -48,7 +48,7 @@ export function addGeolocateControl(map: mapboxgl.Map) {
 			);
 
 		// Reset bearing
-		map.rotateTo(0, { geolocateSource: true } as EventData);
+		// map.rotateTo(0, { geolocateSource: true } as EventData);
 	});
 
 	map.addControl(geolocateControl);
