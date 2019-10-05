@@ -1,6 +1,7 @@
 .input label {
 	display: block;
-	color: white;
+	/* color: white; */
+	color: black;
 	font-size: small;
 }
 
