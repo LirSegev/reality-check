@@ -53,16 +53,22 @@ class IntelTabContainer extends React.Component<Props, State> {
 		});
 
 	_updateIntelItems(intel: firebase.firestore.QuerySnapshot) {
+		const newItems = [] as IntelItem[];
 		intel.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
-				this.setState(prevState => ({
+				/* this.setState(prevState => ({
 					intelItems: [
 						...prevState.intelItems,
 						changes.doc.data() as IntelItem,
 					],
-				}));
+				})); */
+				newItems.push(changes.doc.data() as IntelItem);
 			}
 		});
+
+		this.setState(prevState => ({
+			intelItems: [...newItems, ...prevState.intelItems],
+		}));
 	}
 
 	_handleClick(e: React.MouseEvent<HTMLElement, MouseEvent>) {
