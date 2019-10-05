@@ -3,3 +3,7 @@
 	margin-right: auto;
 	width: 180px;
 }
+
+#login p > *:not(ons-button) {
+	width: 100%;
+}

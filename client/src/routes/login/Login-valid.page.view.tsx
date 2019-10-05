@@ -12,7 +12,6 @@ const LoginPageValidView: React.FC<Props> = props => (
 		<section id={styles.login} style={{ textAlign: 'center' }}>
 			<p>
 				<Input
-					style={{ width: '100%' }}
 					name="displayName"
 					type="text"
 					placeholder="Username"
