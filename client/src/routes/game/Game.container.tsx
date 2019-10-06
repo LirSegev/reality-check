@@ -31,6 +31,7 @@ class GameContainer extends React.Component<Props, State> {
 		this._onMapMove = this._onMapMove.bind(this);
 		this._onTabChange = this._onTabChange.bind(this);
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
+		this._onGPSMove = this._onGPSMove.bind(this);
 		this._moveToMapTab = this._moveToMapTab.bind(this);
 	}
 
