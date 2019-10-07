@@ -101,7 +101,7 @@ class GameContainer extends React.Component<Props, State> {
 
 	_onGPSMove(pos: Position) {
 		this._updateLastPos(pos);
-		this._collectClosePoints(pos);
+		this._collectClosePoints(pos); // TODO: call only every 10 seconds or so
 	}
 
 	_updateLastPos(pos: Position) {
