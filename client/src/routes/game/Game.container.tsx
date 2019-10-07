@@ -1,7 +1,7 @@
 import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
-import { updateCurrentPlayer } from '../../util/db';
+import { updateCurrentPlayer, getCurrentPlayer } from '../../util/db';
 import { distanceBetweenPoints } from '../../util/general';
 
 interface Props {
@@ -34,6 +34,7 @@ class GameContainer extends React.Component<Props, State> {
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 		this._onGPSMove = this._onGPSMove.bind(this);
 		this._moveToMapTab = this._moveToMapTab.bind(this);
+		this._collectPoint = this._collectPoint.bind(this);
 	}
 
 	_onMapMove(map: mapboxgl.Map) {
@@ -150,7 +151,7 @@ class GameContainer extends React.Component<Props, State> {
 				}
 			}
 
-			// this._collectPoint(pointToCollect);
+			if (pointToCollect) this._collectPoint(pointToCollect);
 		}
 	}
 
@@ -162,6 +163,38 @@ class GameContainer extends React.Component<Props, State> {
 			// @ts-ignore
 			longitude: feature.geometry.coordinates[0],
 		} as Coordinates;
+	}
+
+	_collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
+		getCurrentPlayer()
+			.then(player => {
+				if (player) {
+					switch (player.role) {
+						case 'detective':
+							return 'identity';
+						case 'intelligence':
+							return 'intelligence';
+					}
+				}
+			})
+			.then(pointType => {
+				const docRef = firebase
+					.firestore()
+					.doc(`games/${this.props.gameId}/collected_${pointType}_points`);
+
+				docRef
+					.get()
+					.then(doc => doc.data() as string[] | undefined)
+					.then(prevPoints => {
+						if (prevPoints) return [...prevPoints, newPoint.properties!.name];
+						else return [newPoint.properties!.name];
+					})
+					.then(docRef.set)
+					.catch(err =>
+						console.error(new Error('Getting collected points'), err)
+					);
+			})
+			.catch(err => console.error(new Error('Getting current player'), err));
 	}
 
 	_updatePlayerLocation(pos: Position) {
