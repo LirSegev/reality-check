@@ -129,7 +129,7 @@ class GameContainer extends React.Component<Props, State> {
 				/**
 				 * The min distance in meters the player needs to be from a point in order to collect it.
 				 */
-				const MIN_DISTANCE = 20;
+				const MIN_DISTANCE = 30;
 
 				const feature = points[key];
 				const distance = distanceBetweenPoints(
