@@ -167,7 +167,7 @@ class MapTabContainer extends React.Component<Props, State> {
 
 				if (game) {
 					// prettier-ignore
-					const collectedPoints = game[`collected_${pointType}_points`] as [] | undefined;
+					const collectedPoints = game[`collected_${pointType}_points`] as string[] | undefined;
 					if (collectedPoints) {
 						// Filter out collected points
 						map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);

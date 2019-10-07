@@ -2,6 +2,7 @@ import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from '../../util/db';
+import { distanceBetweenPoints } from '../../util/general';
 
 interface Props {
 	gameId: string;
@@ -86,14 +87,81 @@ class GameContainer extends React.Component<Props, State> {
 		this._watchId = navigator.geolocation.watchPosition(this._onGPSMove);
 	}
 
+	componentWillUnmount() {
+		navigator.geolocation.clearWatch(this._watchId!);
+	}
+
 	_lastPos: Position | null = null;
 
 	_onGPSMove(pos: Position) {
 		this._updateLastPos(pos);
+		this._collectClosePoints(pos);
 	}
 
 	_updateLastPos(pos: Position) {
 		this._lastPos = pos;
+	}
+
+	_collectClosePoints(pos: Position) {
+		const pointsStringified = sessionStorage.getItem('role_points');
+		if (pointsStringified) {
+			// prettier-ignore
+			let points = JSON.parse(pointsStringified) as mapboxgl.MapboxGeoJSONFeature[];
+
+			points = points.sort((p1, p2) => {
+				const p1Dist = distanceBetweenPoints(
+					pos.coords,
+					this._featureToCoord(p1)
+				);
+				const p2Dist = distanceBetweenPoints(
+					pos.coords,
+					this._featureToCoord(p2)
+				);
+
+				return p1Dist - p2Dist;
+			});
+
+			let pointToCollect: mapboxgl.MapboxGeoJSONFeature | undefined;
+			let tooFar = false;
+			// prettier-ignore
+			for (let key = 0; key < points.length && !pointToCollect && !tooFar; key++) {
+				/**
+				 * The min distance in meters the player needs to be from a point in order to collect it.
+				 */
+				const MIN_DISTANCE = 20;
+
+				const feature = points[key];
+				const distance = distanceBetweenPoints(
+					pos.coords,
+					this._featureToCoord(feature)
+				);
+
+				if (distance > MIN_DISTANCE) tooFar = true;
+				else {
+					const collectedPointsStringified = sessionStorage.getItem(
+						'collected_points'
+					);
+					if (collectedPointsStringified && feature.properties && feature.properties.name) {
+						const collectedPoints = JSON.parse(
+							collectedPointsStringified
+						) as string[];
+						if (!collectedPoints.includes(feature.properties.name)) pointToCollect = feature;
+					}
+				}
+			}
+
+			// this._collectPoint(pointToCollect);
+		}
+	}
+
+	_featureToCoord(feature: mapboxgl.MapboxGeoJSONFeature) {
+		return {
+			accuracy: 5,
+			// @ts-ignore
+			latitude: feature.geometry.coordinates[1],
+			// @ts-ignore
+			longitude: feature.geometry.coordinates[0],
+		} as Coordinates;
 	}
 
 	_updatePlayerLocation(pos: Position) {
@@ -112,10 +180,6 @@ class GameContainer extends React.Component<Props, State> {
 		updateCurrentPlayer(data).catch(err =>
 			console.error(new Error('Error updating player location:'), err)
 		);
-	}
-
-	componentWillUnmount() {
-		navigator.geolocation.clearWatch(this._watchId!);
 	}
 
 	_onTabChange = (event: any) => this.setState({ tabIndex: event.index });
