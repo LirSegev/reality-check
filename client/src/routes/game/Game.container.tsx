@@ -4,6 +4,11 @@ import * as firebase from 'firebase/app';
 import { updateCurrentPlayer, getCurrentPlayer } from '../../util/db';
 import { distanceBetweenPoints } from '../../util/general';
 
+/**
+ * The min distance in meters the player needs to be from a point in order to collect it.
+ */
+const MIN_DISTANCE = 30;
+
 interface Props {
 	gameId: string;
 	isAdmin: boolean;
@@ -126,11 +131,6 @@ class GameContainer extends React.Component<Props, State> {
 			let tooFar = false;
 			// prettier-ignore
 			for (let key = 0; key < points.length && !pointToCollect && !tooFar; key++) {
-				/**
-				 * The min distance in meters the player needs to be from a point in order to collect it.
-				 */
-				const MIN_DISTANCE = 30;
-
 				const feature = points[key];
 				const distance = distanceBetweenPoints(
 					pos.coords,
