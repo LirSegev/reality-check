@@ -178,18 +178,34 @@ class GameContainer extends React.Component<Props, State> {
 				}
 			})
 			.then(pointType => {
-				const docRef = firebase
-					.firestore()
-					.doc(`games/${this.props.gameId}/collected_${pointType}_points`);
+				const docRef = firebase.firestore().doc(`games/${this.props.gameId}`);
+				let gameDoc: {} | undefined;
 
 				docRef
 					.get()
-					.then(doc => doc.data() as string[] | undefined)
-					.then(prevPoints => {
-						if (prevPoints) return [...prevPoints, newPoint.properties!.name];
-						else return [newPoint.properties!.name];
+					.then(doc => doc.data())
+					.then(game => {
+						gameDoc = game;
+						if (game)
+							return game[`collected_${pointType}_points`] as
+								| string[]
+								| undefined;
 					})
-					.then(docRef.set)
+					.then(prevPoints => {
+						if (prevPoints)
+							return [...prevPoints, newPoint.properties!.name as string];
+						else return [newPoint.properties!.name as string];
+					})
+					.then(newPoints => {
+						docRef
+							.set({
+								...gameDoc,
+								[`collected_${pointType}_points`]: newPoints,
+							})
+							.catch(err =>
+								console.error(new Error('Updating collected points list'), err)
+							);
+					})
 					.catch(err =>
 						console.error(new Error('Getting collected points'), err)
 					);
