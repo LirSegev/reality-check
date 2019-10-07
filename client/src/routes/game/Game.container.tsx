@@ -3,6 +3,11 @@ import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from '../../util/db';
 
+/**
+ * Time interval in seconds for updating player's geolocation in db.
+ */
+const TIME_BETWEEN_LOCATION_UPDATES = 30;
+
 interface Props {
 	gameId: string;
 	isAdmin: boolean;
@@ -79,7 +84,7 @@ class GameContainer extends React.Component<Props, State> {
 				this._updateLastPos(pos);
 				setInterval(() => {
 					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
-				}, 30 * 1000);
+				}, TIME_BETWEEN_LOCATION_UPDATES * 1000);
 			});
 
 		this._watchId = navigator.geolocation.watchPosition(pos => {
