@@ -41,8 +41,9 @@ const MapTabView: React.FC<Props> = props => (
 					'line-join': 'round',
 				}}
 				paint={{
-					'line-color': '#50a882',
-					'line-width': 10,
+					'line-color': '#2e6eb2',
+					'line-width': ['interpolate', ['linear'], ['zoom'], 14, 4, 17, 8],
+					'line-opacity': 0.5,
 				}}
 			>
 				<Feature coordinates={props.mrZRoute} />
@@ -51,8 +52,8 @@ const MapTabView: React.FC<Props> = props => (
 				id="mr-z-route-end"
 				before="player-locations"
 				layout={{
-					'icon-image': 'z-green',
-					'icon-size': 0.25,
+					'icon-image': 'z-30',
+					'icon-size': 0.75,
 					'icon-allow-overlap': true,
 				}}
 			>
