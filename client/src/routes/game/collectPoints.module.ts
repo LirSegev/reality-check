@@ -7,6 +7,9 @@ import { getCurrentPlayer } from '../../util/db';
  */
 const MIN_DISTANCE = 30;
 
+/**
+ * Collect the closest point to a given Position if it is close enough to be collected.
+ */
 export default function collectClosePoints(myPos: Position) {
 	const pointsStringified = sessionStorage.getItem('role_points');
 	if (pointsStringified) {
@@ -35,15 +38,22 @@ export default function collectClosePoints(myPos: Position) {
 	}
 }
 
-function sortPoints(myPos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
+/**
+ * Sort a list of GeoJson features based on their distance from a Position.
+ */
+function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
 	return points.sort((p1, p2) => {
-		const p1Dist = distanceBetweenPoints(myPos.coords, featureToCoord(p1));
-		const p2Dist = distanceBetweenPoints(myPos.coords, featureToCoord(p2));
+		const p1Dist = distanceBetweenPoints(pos.coords, featureToCoord(p1));
+		const p2Dist = distanceBetweenPoints(pos.coords, featureToCoord(p2));
 
 		return p1Dist - p2Dist;
 	});
 }
 
+/**
+ * Add the name of a Geo\Json point to the collected points list in db.
+ * @param newPoint GeoJson of the point to be collected
+ */
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 	getCurrentPlayer()
 		.then(player => {
@@ -92,6 +102,9 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 		.catch(err => console.error(new Error('Getting current player'), err));
 }
 
+/**
+ * Get point type based on player's role.
+ */
 function getPointType(player: Player) {
 	let pointType = '';
 	switch (player.role) {
@@ -105,6 +118,9 @@ function getPointType(player: Player) {
 	return pointType;
 }
 
+/**
+ * Takes GeoJsonFeature and returns Coordinates.
+ */
 function featureToCoord(feature: mapboxgl.MapboxGeoJSONFeature) {
 	return {
 		accuracy: 5,
