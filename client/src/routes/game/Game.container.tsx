@@ -2,6 +2,13 @@ import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from '../../util/db';
+import collectClosePoints from './collectPoints.module';
+
+/**
+ * The time interval in seconds to check if the player is close enough to a
+ * identity/intelligence point in order to collect it.
+ */
+const CHECK_FOR_POINTS_INTERVAL = 5;
 
 /**
  * Time interval in seconds for updating player's geolocation in db.
@@ -36,6 +43,7 @@ class GameContainer extends React.Component<Props, State> {
 		this._onMapMove = this._onMapMove.bind(this);
 		this._onTabChange = this._onTabChange.bind(this);
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
+		this._onGPSMove = this._onGPSMove.bind(this);
 		this._moveToMapTab = this._moveToMapTab.bind(this);
 	}
 
@@ -74,7 +82,7 @@ class GameContainer extends React.Component<Props, State> {
 		});
 	}
 
-	_watchId: number | undefined = undefined;
+	_GPSWatchId: number | undefined = undefined;
 
 	componentDidMount() {
 		this.props.stopLoading();
@@ -82,17 +90,29 @@ class GameContainer extends React.Component<Props, State> {
 		if (navigator.geolocation)
 			navigator.geolocation.getCurrentPosition(pos => {
 				this._updateLastPos(pos);
+				// Update player location in db
 				setInterval(() => {
 					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
 				}, TIME_BETWEEN_LOCATION_UPDATES * 1000);
+
+				// Collect identity/intelligence points
+				setInterval(() => {
+					if (this._lastPos) collectClosePoints(this._lastPos);
+				}, CHECK_FOR_POINTS_INTERVAL * 1000);
 			});
 
-		this._watchId = navigator.geolocation.watchPosition(pos => {
-			this._updateLastPos(pos);
-		});
+		this._GPSWatchId = navigator.geolocation.watchPosition(this._onGPSMove);
+	}
+
+	componentWillUnmount() {
+		navigator.geolocation.clearWatch(this._GPSWatchId!);
 	}
 
 	_lastPos: Position | null = null;
+
+	_onGPSMove(pos: Position) {
+		this._updateLastPos(pos);
+	}
 
 	_updateLastPos(pos: Position) {
 		this._lastPos = pos;
@@ -114,10 +134,6 @@ class GameContainer extends React.Component<Props, State> {
 		updateCurrentPlayer(data).catch(err =>
 			console.error(new Error('Error updating player location:'), err)
 		);
-	}
-
-	componentWillUnmount() {
-		navigator.geolocation.clearWatch(this._watchId!);
 	}
 
 	_onTabChange = (event: any) => this.setState({ tabIndex: event.index });

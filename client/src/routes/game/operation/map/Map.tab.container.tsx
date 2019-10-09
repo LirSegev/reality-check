@@ -125,6 +125,7 @@ class MapTabContainer extends React.Component<Props, State> {
 
 					if (layerId) {
 						this._hideCollectedPoints(map, layerId, player.role);
+						this._savePointsToSession(map, layerId);
 						map.setLayoutProperty(layerId, 'visibility', 'visible');
 					}
 				}
@@ -132,6 +133,17 @@ class MapTabContainer extends React.Component<Props, State> {
 			.catch(err =>
 				console.error(new Error('Getting current player data from db'), err)
 			);
+	}
+
+	_savePointsToSession(map: mapboxgl.Map, layerId: string) {
+		// @ts-ignore
+		const { source, sourceLayer } = map.getLayer(layerId);
+		if (typeof source === 'string' && sourceLayer) {
+			const geoJson = map.querySourceFeatures(source, {
+				sourceLayer,
+			});
+			sessionStorage.setItem('role_points', JSON.stringify(geoJson));
+		} else console.error(new Error('Getting rolePoints GeoJson features'));
 	}
 
 	_hideCollectedPoints(
@@ -154,13 +166,18 @@ class MapTabContainer extends React.Component<Props, State> {
 				}
 
 				if (game) {
-					// prettier-ignore
-					const collectedPoints = game[`collected_${pointType}_points`] as [] | undefined;
-					if (collectedPoints)
-						map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+					const collectedPoints = (game[`collected_${pointType}_points`] as string[] | undefined) || [];
+					// Filter out collected points
+					map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+
+					// Save collected points list to sessionStorage
+					sessionStorage.setItem(
+						'collected_points',
+						JSON.stringify(collectedPoints)
+					);
 				}
 			},
-			err => console.log(new Error('Getting game doc'), err)
+			err => console.error(new Error('Getting game doc'), err)
 		);
 	}
 
