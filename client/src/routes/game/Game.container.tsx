@@ -1,13 +1,8 @@
 import * as React from 'react';
 import GameView from './Game.view';
 import * as firebase from 'firebase/app';
-import { updateCurrentPlayer, getCurrentPlayer } from '../../util/db';
-import { distanceBetweenPoints } from '../../util/general';
-
-/**
- * The min distance in meters the player needs to be from a point in order to collect it.
- */
-const MIN_DISTANCE = 30;
+import { updateCurrentPlayer } from '../../util/db';
+import collectClosePoints from './collectPoints.module';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -45,7 +40,6 @@ class GameContainer extends React.Component<Props, State> {
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 		this._onGPSMove = this._onGPSMove.bind(this);
 		this._moveToMapTab = this._moveToMapTab.bind(this);
-		this._collectPoint = this._collectPoint.bind(this);
 	}
 
 	_onMapMove(map: mapboxgl.Map) {
@@ -83,7 +77,7 @@ class GameContainer extends React.Component<Props, State> {
 		});
 	}
 
-	_watchId: number | undefined = undefined;
+	_GPSWatchId: number | undefined = undefined;
 
 	componentDidMount() {
 		this.props.stopLoading();
@@ -98,15 +92,15 @@ class GameContainer extends React.Component<Props, State> {
 
 				// Collect identity/intelligence points
 				setInterval(() => {
-					if (this._lastPos) this._collectClosePoints(this._lastPos);
+					if (this._lastPos) collectClosePoints(this._lastPos);
 				}, CHECK_FOR_POINTS_INTERVAL * 1000);
 			});
 
-		this._watchId = navigator.geolocation.watchPosition(this._onGPSMove);
+		this._GPSWatchId = navigator.geolocation.watchPosition(this._onGPSMove);
 	}
 
 	componentWillUnmount() {
-		navigator.geolocation.clearWatch(this._watchId!);
+		navigator.geolocation.clearWatch(this._GPSWatchId!);
 	}
 
 	_lastPos: Position | null = null;
@@ -117,112 +111,6 @@ class GameContainer extends React.Component<Props, State> {
 
 	_updateLastPos(pos: Position) {
 		this._lastPos = pos;
-	}
-
-	_collectClosePoints(pos: Position) {
-		console.log('check for points');
-		const pointsStringified = sessionStorage.getItem('role_points');
-		if (pointsStringified) {
-			// prettier-ignore
-			let points = JSON.parse(pointsStringified) as mapboxgl.MapboxGeoJSONFeature[];
-
-			points = points.sort((p1, p2) => {
-				const p1Dist = distanceBetweenPoints(
-					pos.coords,
-					this._featureToCoord(p1)
-				);
-				const p2Dist = distanceBetweenPoints(
-					pos.coords,
-					this._featureToCoord(p2)
-				);
-
-				return p1Dist - p2Dist;
-			});
-
-			let pointToCollect: mapboxgl.MapboxGeoJSONFeature | undefined;
-			let tooFar = false;
-			// prettier-ignore
-			for (let key = 0; key < points.length && !pointToCollect && !tooFar; key++) {
-				const feature = points[key];
-				const distance = distanceBetweenPoints(
-					pos.coords,
-					this._featureToCoord(feature)
-				);
-
-				if (distance > MIN_DISTANCE) tooFar = true;
-				else {
-					const collectedPointsStringified = sessionStorage.getItem(
-						'collected_points'
-					);
-					if (collectedPointsStringified && feature.properties && feature.properties.name) {
-						const collectedPoints = JSON.parse(
-							collectedPointsStringified
-						) as string[];
-						if (!collectedPoints.includes(feature.properties.name)) pointToCollect = feature;
-					}
-				}
-			}
-
-			if (pointToCollect) this._collectPoint(pointToCollect);
-		}
-	}
-
-	_featureToCoord(feature: mapboxgl.MapboxGeoJSONFeature) {
-		return {
-			accuracy: 5,
-			// @ts-ignore
-			latitude: feature.geometry.coordinates[1],
-			// @ts-ignore
-			longitude: feature.geometry.coordinates[0],
-		} as Coordinates;
-	}
-
-	_collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
-		getCurrentPlayer()
-			.then(player => {
-				if (player) {
-					switch (player.role) {
-						case 'detective':
-							return 'identity';
-						case 'intelligence':
-							return 'intelligence';
-					}
-				}
-			})
-			.then(pointType => {
-				const docRef = firebase.firestore().doc(`games/${this.props.gameId}`);
-				let gameDoc: {} | undefined;
-
-				docRef
-					.get()
-					.then(doc => doc.data())
-					.then(game => {
-						gameDoc = game;
-						if (game)
-							return game[`collected_${pointType}_points`] as
-								| string[]
-								| undefined;
-					})
-					.then(prevPoints => {
-						if (prevPoints)
-							return [...prevPoints, newPoint.properties!.name as string];
-						else return [newPoint.properties!.name as string];
-					})
-					.then(newPoints => {
-						docRef
-							.set({
-								...gameDoc,
-								[`collected_${pointType}_points`]: newPoints,
-							})
-							.catch(err =>
-								console.error(new Error('Updating collected points list'), err)
-							);
-					})
-					.catch(err =>
-						console.error(new Error('Getting collected points'), err)
-					);
-			})
-			.catch(err => console.error(new Error('Getting current player'), err));
 	}
 
 	_updatePlayerLocation(pos: Position) {
