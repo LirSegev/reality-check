@@ -9,6 +9,12 @@ import { distanceBetweenPoints } from '../../util/general';
  */
 const MIN_DISTANCE = 30;
 
+/**
+ * The time interval in seconds to check if the player is close enough to a
+ * identity/intelligence point in order to collect it.
+ */
+const CHECK_FOR_POINTS_INTERVAL = 5;
+
 interface Props {
 	gameId: string;
 	isAdmin: boolean;
@@ -85,9 +91,15 @@ class GameContainer extends React.Component<Props, State> {
 		if (navigator.geolocation)
 			navigator.geolocation.getCurrentPosition(pos => {
 				this._updateLastPos(pos);
+				// Update player location in db
 				setInterval(() => {
 					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
 				}, 30 * 1000);
+
+				// Collect identity/intelligence points
+				setInterval(() => {
+					if (this._lastPos) this._collectClosePoints(this._lastPos);
+				}, CHECK_FOR_POINTS_INTERVAL * 1000);
 			});
 
 		this._watchId = navigator.geolocation.watchPosition(this._onGPSMove);
@@ -101,7 +113,6 @@ class GameContainer extends React.Component<Props, State> {
 
 	_onGPSMove(pos: Position) {
 		this._updateLastPos(pos);
-		this._collectClosePoints(pos); // TODO: call only every 10 seconds or so
 	}
 
 	_updateLastPos(pos: Position) {
@@ -109,6 +120,7 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	_collectClosePoints(pos: Position) {
+		console.log('check for points');
 		const pointsStringified = sessionStorage.getItem('role_points');
 		if (pointsStringified) {
 			// prettier-ignore
