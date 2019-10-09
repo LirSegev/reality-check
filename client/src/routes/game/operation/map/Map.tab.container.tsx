@@ -8,6 +8,7 @@ import {
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
 import { getCurrentPlayer } from '../../../../util/db';
+import { NavigationControl } from 'mapbox-gl';
 
 interface PlayerLocation {
 	playerName: string;
@@ -98,6 +99,9 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._markPlayerLocations(map);
 		this._showRolePoints(map);
 		addGeolocateControl(map);
+
+		const navigationControl = new NavigationControl({ showZoom: false });
+		map.addControl(navigationControl, 'top-right');
 
 		document.addEventListener(
 			'show-transport-on-map',
