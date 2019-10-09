@@ -7,45 +7,41 @@ import { getCurrentPlayer } from '../../util/db';
  */
 const MIN_DISTANCE = 30;
 
-export default function collectClosePoints(pos: Position) {
+export default function collectClosePoints(myPos: Position) {
 	const pointsStringified = sessionStorage.getItem('role_points');
 	if (pointsStringified) {
 		// prettier-ignore
 		let points = JSON.parse(pointsStringified) as mapboxgl.MapboxGeoJSONFeature[];
+		points = sortPoints(myPos, points);
 
-		points = points.sort((p1, p2) => {
-			const p1Dist = distanceBetweenPoints(pos.coords, featureToCoord(p1));
-			const p2Dist = distanceBetweenPoints(pos.coords, featureToCoord(p2));
-
-			return p1Dist - p2Dist;
-		});
-
-		let pointToCollect: mapboxgl.MapboxGeoJSONFeature | undefined;
-		let tooFar = false;
-		// prettier-ignore
-		for (let key = 0; key < points.length && !pointToCollect && !tooFar; key++) {
+		for (let key = 0; key < points.length; key++) {
 			const feature = points[key];
-			const distance = distanceBetweenPoints(
-				pos.coords,
-				featureToCoord(feature)
-			);
+			// prettier-ignore
+			const distance = distanceBetweenPoints(myPos.coords, featureToCoord(feature));
+			if (distance > MIN_DISTANCE) break;
 
-			if (distance > MIN_DISTANCE) tooFar = true;
-			else {
-				const collectedPointsStringified = sessionStorage.getItem(
-					'collected_points'
-				);
-				if (collectedPointsStringified && feature.properties && feature.properties.name) {
-					const collectedPoints = JSON.parse(
-						collectedPointsStringified
-					) as string[];
-					if (!collectedPoints.includes(feature.properties.name)) pointToCollect = feature;
+			// prettier-ignore
+			const collectedPointsStringified = sessionStorage.getItem('collected_points');
+			if (collectedPointsStringified) {
+				// prettier-ignore
+				const collectedPoints = JSON.parse(collectedPointsStringified) as string[];
+				// Check if point has already been collected
+				if (!collectedPoints.includes(feature!.properties!.name)) {
+					collectPoint(feature);
+					break;
 				}
 			}
 		}
-
-		if (pointToCollect) collectPoint(pointToCollect);
 	}
+}
+
+function sortPoints(myPos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
+	return points.sort((p1, p2) => {
+		const p1Dist = distanceBetweenPoints(myPos.coords, featureToCoord(p1));
+		const p2Dist = distanceBetweenPoints(myPos.coords, featureToCoord(p2));
+
+		return p1Dist - p2Dist;
+	});
 }
 
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
