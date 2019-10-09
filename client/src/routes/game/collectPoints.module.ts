@@ -47,14 +47,7 @@ function sortPoints(myPos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 	getCurrentPlayer()
 		.then(player => {
-			if (player) {
-				switch (player.role) {
-					case 'detective':
-						return 'identity';
-					case 'intelligence':
-						return 'intelligence';
-				}
-			}
+			if (player) getPointType(player);
 		})
 		.then(pointType => {
 			const gameId = localStorage.getItem('gameId');
@@ -73,9 +66,13 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 								| undefined;
 					})
 					.then(prevPoints => {
+						let points;
+
 						if (prevPoints)
-							return [...prevPoints, newPoint.properties!.name as string];
-						else return [newPoint.properties!.name as string];
+							points = [...prevPoints, newPoint.properties!.name as string];
+						else points = [newPoint.properties!.name as string];
+
+						return points;
 					})
 					.then(newPoints => {
 						docRef
@@ -93,6 +90,19 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 			} else console.error(new Error('No gameId in localStorage'));
 		})
 		.catch(err => console.error(new Error('Getting current player'), err));
+}
+
+function getPointType(player: Player) {
+	let pointType = '';
+	switch (player.role) {
+		case 'detective':
+			pointType = 'identity';
+			break;
+		case 'intelligence':
+			pointType = 'intelligence';
+	}
+
+	return pointType;
 }
 
 function featureToCoord(feature: mapboxgl.MapboxGeoJSONFeature) {
