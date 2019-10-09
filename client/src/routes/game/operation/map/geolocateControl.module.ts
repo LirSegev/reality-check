@@ -27,6 +27,9 @@ export function addGeolocateControl(map: mapboxgl.Map) {
 			enableHighAccuracy: true,
 		},
 		trackUserLocation: true,
+		fitBoundsOptions: {
+			maxZoom: 16,
+		},
 	});
 
 	// Add event listeners for device bearing
