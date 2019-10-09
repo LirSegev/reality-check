@@ -166,21 +166,18 @@ class MapTabContainer extends React.Component<Props, State> {
 				}
 
 				if (game) {
-					// prettier-ignore
-					const collectedPoints = game[`collected_${pointType}_points`] as string[] | undefined;
-					if (collectedPoints) {
-						// Filter out collected points
-						map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+					const collectedPoints = (game[`collected_${pointType}_points`] as string[] | undefined) || [];
+					// Filter out collected points
+					map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
 
-						// Save collected points list to sessionStorage
-						sessionStorage.setItem(
-							'collected_points',
-							JSON.stringify(collectedPoints)
-						);
-					}
+					// Save collected points list to sessionStorage
+					sessionStorage.setItem(
+						'collected_points',
+						JSON.stringify(collectedPoints)
+					);
 				}
 			},
-			err => console.log(new Error('Getting game doc'), err)
+			err => console.error(new Error('Getting game doc'), err)
 		);
 	}
 

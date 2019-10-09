@@ -56,9 +56,7 @@ function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
  */
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 	getCurrentPlayer()
-		.then(player => {
-			if (player) getPointType(player);
-		})
+		.then(player => getPointType(player!))
 		.then(pointType => {
 			const gameId = localStorage.getItem('gameId');
 			if (gameId) {
