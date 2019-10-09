@@ -1,0 +1,68 @@
+/* 
+	Semantic UI table
+*/
+#clues table {
+	border: none;
+	background: 0 0;
+	width: auto;
+	margin: 0;
+	border-radius: 0.28571429rem;
+	text-align: left;
+	/* color: rgba(0,0,0,.87); */
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+#clues td {
+	border-left: 1px solid rgba(34, 36, 38, 0.1);
+	border-top: 1px solid rgba(34, 36, 38, 0.1);
+	padding: 0.78571429em 0.78571429em;
+	text-align: inherit;
+}
+
+#clues tr td:first-child {
+	padding-left: 0;
+	border-left: none;
+}
+
+#clues tr td:last-child {
+	padding-right: 0;
+	border-right: none;
+}
+
+#clues tr:first-child td {
+	border-top: 0;
+}
+
+/* 
+	Custom styles	
+ */
+#wrapper {
+	height: 100%;
+}
+
+#suspects {
+	height: 50%;
+}
+
+#images {
+	height: 100%;
+}
+
+#images img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+#clues {
+	height: 50%;
+	padding-top: 0.75em;
+	padding-bottom: 1em;
+	overflow: scroll;
+	box-sizing: border-box;
+}
+
+#clues table {
+	margin: auto;
+}
