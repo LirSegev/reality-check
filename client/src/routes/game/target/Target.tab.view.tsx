@@ -7,7 +7,7 @@ const TargetTabView: React.FC = () => (
 	<Page>
 		<div style={{ height: '100%' }}>
 			<Suspects />
-			<Clues />
+			<Clues clues={{ Haircut: 'short', 'Skin Tone': 'dark brown' }} />
 		</div>
 	</Page>
 );
