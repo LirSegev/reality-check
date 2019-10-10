@@ -3,11 +3,21 @@ import { Page } from 'react-onsenui';
 import styles from './Target.module.css';
 
 interface Props {
-	imgSrc: string[];
+	imgSrc: { url: string; name: string }[];
 }
 
 const TargetTabView: React.FC<Props> = props => {
-	const imgEls = props.imgSrc.map(src => <img src={src} alt="" />);
+	const imgEls = props.imgSrc.map(img => {
+		const classList = img.name === 'default' ? styles.show : '';
+		return (
+			<img
+				src={img.url}
+				className={classList}
+				key={`suspect-image_${img.name}`}
+				alt=""
+			/>
+		);
+	});
 
 	return (
 		<Page>

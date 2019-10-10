@@ -1,15 +1,37 @@
 import React from 'react';
+import * as firebase from 'firebase/app';
 import TargetTabView from './Target.tab.view';
 
 class TargetTabContainer extends React.Component<{}> {
+	constructor(props: {}) {
+		super(props);
+
+		const storage = firebase.storage();
+		storage
+			.ref()
+			.listAll()
+			.then(res => {
+				res.items.forEach(imgRef => {
+					imgRef
+						.getDownloadURL()
+						.then(url => {
+							this._imgSrc.push({
+								url,
+								name: imgRef.name.split('.')[0],
+							});
+						})
+						.catch(err =>
+							console.error(new Error('Getting download url of image'), err)
+						);
+				});
+			})
+			.catch(err => console.error(new Error('Getting list of files'), err));
+	}
+
+	_imgSrc: { url: string; name: string }[] = [];
+
 	render() {
-		return (
-			<TargetTabView
-				imgSrc={[
-					'https://bloximages.chicago2.vip.townnews.com/apg-wi.com/content/tncms/assets/v3/editorial/b/57/b57bcd7c-15c0-11e9-aba0-079136c9cda6/5c38c8e7824ab.image.jpg?resize=400%2C362',
-				]}
-			/>
-		);
+		return <TargetTabView imgSrc={this._imgSrc} />;
 	}
 }
 
