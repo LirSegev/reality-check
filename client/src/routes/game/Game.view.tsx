@@ -26,7 +26,9 @@ const GameView: React.FC<Props> = props => (
 			position="auto"
 			renderTabs={() => [
 				{
-					content: <TargetTabView key="targetTab-content" />,
+					content: (
+						<TargetTabView gameId={props.gameId} key="targetTab-content" />
+					),
 					tab: <Tab label="Target" key="targetTab-button" />,
 				},
 				{

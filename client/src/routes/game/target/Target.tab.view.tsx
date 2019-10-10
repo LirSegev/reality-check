@@ -3,11 +3,15 @@ import { Page } from 'react-onsenui';
 import Suspects from './suspects';
 import Clues from './clues';
 
-const TargetTabView: React.FC = () => (
+interface Props {
+	gameId: string;
+}
+
+const TargetTabView: React.FC<Props> = props => (
 	<Page>
 		<div style={{ height: '100%' }}>
 			<Suspects />
-			<Clues clues={{ Haircut: 'short', 'Skin Tone': 'dark brown' }} />
+			<Clues gameId={props.gameId} />
 		</div>
 	</Page>
 );
