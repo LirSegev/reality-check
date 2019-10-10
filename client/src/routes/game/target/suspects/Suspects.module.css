@@ -1,0 +1,23 @@
+#suspects {
+	height: 50%;
+}
+
+#images {
+	height: 100%;
+	position: relative;
+}
+
+#images img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+#images img.show {
+	display: initial;
+}

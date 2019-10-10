@@ -1,3 +1,3 @@
-import TargetTab from './Target.tab.container';
+import TargetTab from './Target.tab.view';
 
 export default TargetTab;

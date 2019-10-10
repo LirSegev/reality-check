@@ -1,8 +1,8 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
-import TargetTabView from './Target.tab.view';
+import SuspectsView from './Suspects.component.view';
 
-class TargetTabContainer extends React.Component<{}> {
+class SuspectsContainer extends React.Component<{}> {
 	constructor(props: {}) {
 		super(props);
 
@@ -31,8 +31,8 @@ class TargetTabContainer extends React.Component<{}> {
 	_imgSrc: { url: string; name: string }[] = [];
 
 	render() {
-		return <TargetTabView imgSrc={this._imgSrc} />;
+		return <SuspectsView imgSrc={this._imgSrc} />;
 	}
 }
 
-export default TargetTabContainer;
+export default SuspectsContainer;
