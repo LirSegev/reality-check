@@ -2,25 +2,34 @@ import * as React from 'react';
 import styles from './Suspects.module.css';
 
 interface Props {
-	imgSrc: { url: string; name: string }[];
+	showId: string | undefined;
 }
 
+const NUMBER_OF_SUSPECT_IMAGES = 17;
+
 const SuspectsView: React.FC<Props> = props => {
-	const imgEls = props.imgSrc.map(img => {
-		const classList = img.name === 'default' ? styles.show : '';
-		return (
+	let imgEls: JSX.Element[] = [];
+	for (let i = 1; i <= NUMBER_OF_SUSPECT_IMAGES; i++) {
+		imgEls.push(
 			<img
-				src={img.url}
-				className={classList}
-				key={`suspect-image_${img.name}`}
+				src={`pictures/${i}.jpg`}
+				className={props.showId === String(i) ? styles.show : undefined}
+				key={`suspect-image_${i}`}
 				alt=""
 			/>
 		);
-	});
+	}
 
 	return (
 		<div id={styles.suspects}>
-			<div id={styles.images}>{imgEls}</div>
+			<div id={styles.images}>
+				<img
+					src="pictures/default.jpg"
+					className={props.showId === undefined ? styles.show : undefined}
+					alt=""
+				/>
+				{imgEls}
+			</div>
 		</div>
 	);
 };
