@@ -20,22 +20,26 @@ class SuspectsContainer extends React.Component<Props, State> {
 		super(props);
 
 		this.state = { showId: undefined, suspectList: [] };
+
+		this._updateSuspectList = this._updateSuspectList.bind(this);
 	}
 
 	componentDidMount() {
 		const db = firebase.firestore();
 		db.doc(`games/${this.props.gameId}`).onSnapshot(
-			snapshot => {
-				const game = snapshot.data();
-				if (game && game['suspect_list'])
-					this.setState(prevState => ({
-						...prevState,
-						// TODO: Remove .map() when sure suspect_list is number[]
-						suspectList: game['suspect_list'].map((val: any) => Number(val)),
-					}));
-			},
+			this._updateSuspectList,
 			err => console.error(new Error('Getting game snapshot'), err)
 		);
+	}
+
+	_updateSuspectList(snapshot: firebase.firestore.DocumentSnapshot) {
+		const game = snapshot.data();
+		if (game && game['suspect_list'])
+			this.setState(prevState => ({
+				...prevState,
+				// TODO: Remove .map() when sure suspect_list is number[]
+				suspectList: game['suspect_list'].map((val: any) => Number(val)),
+			}));
 	}
 
 	componentDidUpdate(prevProps: Props, prevState: State) {
