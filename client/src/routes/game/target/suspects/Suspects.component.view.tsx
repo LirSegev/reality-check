@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './Suspects.module.css';
 
 interface Props {
-	showId: string | undefined;
+	showId: number | undefined;
 }
 
 const NUMBER_OF_SUSPECT_IMAGES = 17;
@@ -13,7 +13,7 @@ const SuspectsView: React.FC<Props> = props => {
 		imgEls.push(
 			<img
 				src={`pictures/${i}.jpg`}
-				className={props.showId === String(i) ? styles.show : undefined}
+				className={props.showId === i ? styles.show : undefined}
 				key={`suspect-image_${i}`}
 				alt=""
 			/>
