@@ -93,7 +93,7 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 								...gameDoc,
 								[`collected_${pointType}_points`]: newPoints,
 							})
-							.then(() => getClues(pointType))
+							.then(() => getClues(pointType, newPoint))
 							.catch(err =>
 								console.error(new Error('Updating collected points list'), err)
 							);
@@ -106,7 +106,7 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 		.catch(err => console.error(new Error('Getting current player'), err));
 }
 
-function getClues(pointType: string) {
+function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
 	const gameId = localStorage.getItem('gameId');
 	const gameDocRef = firebase.firestore().doc(`games/${gameId}`);
 	if (gameId) {
@@ -114,8 +114,37 @@ function getClues(pointType: string) {
 			case 'intelligence':
 				onIntelligencePointCollected(gameDocRef);
 				break;
+			case 'identity':
+				onIdentityPointCollected(gameDocRef, point);
 		}
 	} else console.error(new Error('No gameId in localStorage'));
+}
+
+function onIdentityPointCollected(
+	gameDocRef: firebase.firestore.DocumentReference,
+	point: mapboxgl.MapboxGeoJSONFeature
+) {
+	gameDocRef
+		.get()
+		.then(doc => doc.data())
+		.then(game => {
+			let identityClues = {};
+			if (point.properties && point.properties.clue)
+				identityClues =
+					game && game['identity_clues']
+						? {
+								...game['identity_clues'],
+								...point.properties.clue,
+						  }
+						: point.properties.clue;
+			else console.error(new Error("Point doesn't have 'clue' property"));
+
+			gameDocRef.set({
+				...game,
+				identity_clues: identityClues,
+			});
+		})
+		.catch(err => console.error(new Error('Getting game doc'), err));
 }
 
 // prettier-ignore
