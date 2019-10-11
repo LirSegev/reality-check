@@ -63,7 +63,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 	 */
 	_switch2NextPic() {
 		this.setState(prev => {
-			if (prev.showId) {
+			if (prev.showId !== undefined) {
 				const indexOfPrev = this.state.suspectList.indexOf(prev.showId);
 				const suspectList = this.state.suspectList;
 				return {
