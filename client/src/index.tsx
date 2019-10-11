@@ -15,6 +15,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/messaging';
 import 'firebase/functions';
+import 'firebase/storage';
 import firebaseConfig from './config/firebase';
 firebase.initializeApp(firebaseConfig);
 
