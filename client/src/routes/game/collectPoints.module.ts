@@ -134,9 +134,9 @@ function onIdentityPointCollected(
 					game && game['identity_clues']
 						? {
 								...game['identity_clues'],
-								...point.properties.clue,
+								...JSON.parse(point.properties.clue),
 						  }
-						: point.properties.clue;
+						: JSON.parse(point.properties.clue);
 			else console.error(new Error("Point doesn't have 'clue' property"));
 
 			gameDocRef.set({
