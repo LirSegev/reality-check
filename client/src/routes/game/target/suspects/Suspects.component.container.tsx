@@ -22,6 +22,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 		this.state = { showId: undefined, suspectList: [] };
 
 		this._updateSuspectList = this._updateSuspectList.bind(this);
+		this._switch2NextPic = this._switch2NextPic.bind(this);
 	}
 
 	componentDidMount() {
@@ -53,20 +54,24 @@ class SuspectsContainer extends React.Component<Props, State> {
 				showId: this.state.suspectList[0],
 			}));
 
-			this._interval = setInterval(() => {
-				// Set showId to next suspect
-				this.setState(prev => {
-					if (prev.showId) {
-						const indexOfPrev = this.state.suspectList.indexOf(prev.showId);
-						const suspectList = this.state.suspectList;
-						return {
-							...prev,
-							showId: suspectList[(indexOfPrev + 1) % suspectList.length],
-						};
-					} else return prev;
-				});
-			}, CHANGE_PHOTO_INTERVAL * 1000);
+			this._interval = setInterval(this._switch2NextPic, CHANGE_PHOTO_INTERVAL * 1000);
 		}
+	}
+
+	/**
+	 * Set showId to next suspect
+	 */
+	_switch2NextPic() {
+		this.setState(prev => {
+			if (prev.showId) {
+				const indexOfPrev = this.state.suspectList.indexOf(prev.showId);
+				const suspectList = this.state.suspectList;
+				return {
+					...prev,
+					showId: suspectList[(indexOfPrev + 1) % suspectList.length],
+				};
+			} else return prev; // Do not change state
+		});
 	}
 
 	componentWillUpdate(prevProps: Props, prevState: State) {
