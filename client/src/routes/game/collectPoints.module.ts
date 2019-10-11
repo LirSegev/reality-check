@@ -32,8 +32,9 @@ export default function collectClosePoints(myPos: Position) {
 				const collectedPoints = JSON.parse(collectedPointsStringified) as string[];
 				// Check if point has already been collected
 				if (
-					feature!.properties!.phase <= Number(phase) &&
-					!collectedPoints.includes(feature!.properties!.id)
+					(!feature!.properties!.phase || // For intelligence points
+						feature!.properties!.phase <= Number(phase)) && // For identity points
+					!collectedPoints.includes(feature!.properties!.id) // Check point is not already collected
 				) {
 					collectPoint(feature);
 					break;
