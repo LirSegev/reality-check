@@ -171,15 +171,15 @@ class MapTabContainer extends React.Component<Props, State> {
 
 				if (game) {
 					// prettier-ignore
-					const collectedPoints = (game[`collected_${pointType}_points`] as string[] | undefined) || [];
+					const collectedPoints = (game[`collected_${pointType}_points`] as number[] | undefined) || [];
 					if (playerRole === 'intelligence')
 						// Filter out collected points
-						map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+						map.setFilter(layerId, ['!in', 'id', ...collectedPoints]);
 					else if (playerRole === 'detective')
 						// Filter out collected points and points for higher phases
 						map.setFilter(layerId, [
 							'all',
-							['!in', 'name', ...collectedPoints],
+							['!in', 'id', ...collectedPoints],
 							['<=', 'phase', game.phase || 0],
 						]);
 

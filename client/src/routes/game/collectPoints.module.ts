@@ -33,7 +33,7 @@ export default function collectClosePoints(myPos: Position) {
 				// Check if point has already been collected
 				if (
 					feature!.properties!.phase <= Number(phase) &&
-					!collectedPoints.includes(feature!.properties!.name)
+					!collectedPoints.includes(feature!.properties!.id)
 				) {
 					collectPoint(feature);
 					break;
@@ -56,7 +56,7 @@ function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
 }
 
 /**
- * Add the name of a Geo\Json point to the collected points list in db.
+ * Add the id of a Geo\Json point to the collected points list in db.
  * @param newPoint GeoJson of the point to be collected
  */
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
@@ -75,15 +75,15 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 						gameDoc = game;
 						if (game)
 							return game[`collected_${pointType}_points`] as
-								| string[]
+								| number[]
 								| undefined;
 					})
 					.then(prevPoints => {
 						let points;
 
 						if (prevPoints)
-							points = [...prevPoints, newPoint.properties!.name as string];
-						else points = [newPoint.properties!.name as string];
+							points = [...prevPoints, newPoint.properties!.id as number];
+						else points = [newPoint.properties!.id as number];
 
 						return points;
 					})
