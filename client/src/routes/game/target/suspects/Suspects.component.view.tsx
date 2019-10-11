@@ -8,13 +8,14 @@ interface Props {
 const NUMBER_OF_SUSPECT_IMAGES = 17;
 
 const SuspectsView: React.FC<Props> = props => {
+	// Build suspect img elements and push to imgEls
 	let imgEls: JSX.Element[] = [];
-	for (let i = 1; i <= NUMBER_OF_SUSPECT_IMAGES; i++) {
+	for (let suspectId = 1; suspectId <= NUMBER_OF_SUSPECT_IMAGES; suspectId++) {
 		imgEls.push(
 			<img
-				src={`pictures/${i}.jpg`}
-				className={props.showId === i ? styles.show : undefined}
-				key={`suspect-image_${i}`}
+				src={`pictures/${suspectId}.jpg`}
+				className={props.showId === suspectId ? styles.show : undefined}
+				key={`suspect-image_${suspectId}`}
 				alt=""
 			/>
 		);
