@@ -10,7 +10,7 @@ const NUMBER_OF_SUSPECT_IMAGES = 17;
 const SuspectsView: React.FC<Props> = props => {
 	// Build suspect img elements and push to imgEls
 	let imgEls: JSX.Element[] = [];
-	for (let suspectId = 1; suspectId <= NUMBER_OF_SUSPECT_IMAGES; suspectId++) {
+	for (let suspectId = 0; suspectId <= NUMBER_OF_SUSPECT_IMAGES; suspectId++) {
 		imgEls.push(
 			<img
 				src={`pictures/${suspectId}.jpg`}
