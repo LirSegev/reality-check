@@ -10,7 +10,7 @@ interface Props {
 const TargetTabView: React.FC<Props> = props => (
 	<Page>
 		<div style={{ height: '100%' }}>
-			<Suspects />
+			<Suspects gameId={props.gameId} />
 			<Clues gameId={props.gameId} />
 		</div>
 	</Page>

@@ -1,9 +1,13 @@
 import React from 'react';
+import * as firebase from 'firebase/app';
 import SuspectsView from './Suspects.component.view';
 
 interface State {
 	showId: number | undefined;
 	suspectList: number[];
+}
+interface Props {
+	gameId: string;
 }
 
 /**
@@ -11,14 +15,30 @@ interface State {
  */
 const CHANGE_PHOTO_INTERVAL = 1;
 
-class SuspectsContainer extends React.Component<{}, State> {
-	constructor(props: {}) {
+class SuspectsContainer extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = { showId: undefined, suspectList: [] };
 	}
 
-	componentDidUpdate(prevProps: {}, prevState: State) {
+	componentDidMount() {
+		const db = firebase.firestore();
+		db.doc(`games/${this.props.gameId}`).onSnapshot(
+			snapshot => {
+				const game = snapshot.data();
+				if (game && game['suspect_list'])
+					this.setState(prevState => ({
+						...prevState,
+						// TODO: Remove .map() when sure suspect_list is number[]
+						suspectList: game['suspect_list'].map((val: any) => Number(val)),
+					}));
+			},
+			err => console.error(new Error('Getting game snapshot'), err)
+		);
+	}
+
+	componentDidUpdate(prevProps: Props, prevState: State) {
 		// prettier-ignore
 		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
 			// state.suspectList as changed
@@ -45,7 +65,7 @@ class SuspectsContainer extends React.Component<{}, State> {
 		}
 	}
 
-	componentWillUpdate(prevProps: {}, prevState: State) {
+	componentWillUpdate(prevProps: Props, prevState: State) {
 		// prettier-ignore
 		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
 			// state.suspectList as changed
