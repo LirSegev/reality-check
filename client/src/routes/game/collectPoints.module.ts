@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import { distanceBetweenPoints } from '../../util/general';
 import { getCurrentPlayer } from '../../util/db';
+import { ActionType } from './intel/Intel';
 
 /**
  * The min distance in meters the player needs to be from a point in order to collect it.
@@ -23,11 +24,17 @@ export default function collectClosePoints(myPos: Position) {
 			const distance = distanceBetweenPoints(myPos.coords, featureToCoord(feature));
 			if (distance > MIN_DISTANCE) break;
 
+			// prettier-ignore
 			const collectedPointsStringified = sessionStorage.getItem('collected_points');
-			if (collectedPointsStringified) {
+			const phase = sessionStorage.getItem('phase');
+			if (collectedPointsStringified && typeof phase === 'string') {
+				// prettier-ignore
 				const collectedPoints = JSON.parse(collectedPointsStringified) as string[];
 				// Check if point has already been collected
-				if (!collectedPoints.includes(feature!.properties!.name)) {
+				if (
+					feature!.properties!.phase <= Number(phase) &&
+					!collectedPoints.includes(feature!.properties!.id)
+				) {
 					collectPoint(feature);
 					break;
 				}
@@ -49,7 +56,7 @@ function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
 }
 
 /**
- * Add the name of a Geo\Json point to the collected points list in db.
+ * Add the id of a Geo\Json point to the collected points list in db.
  * @param newPoint GeoJson of the point to be collected
  */
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
@@ -68,15 +75,15 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 						gameDoc = game;
 						if (game)
 							return game[`collected_${pointType}_points`] as
-								| string[]
+								| number[]
 								| undefined;
 					})
 					.then(prevPoints => {
 						let points;
 
 						if (prevPoints)
-							points = [...prevPoints, newPoint.properties!.name as string];
-						else points = [newPoint.properties!.name as string];
+							points = [...prevPoints, newPoint.properties!.id as number];
+						else points = [newPoint.properties!.id as number];
 
 						return points;
 					})
@@ -86,6 +93,7 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 								...gameDoc,
 								[`collected_${pointType}_points`]: newPoints,
 							})
+							.then(() => getClues(pointType, newPoint))
 							.catch(err =>
 								console.error(new Error('Updating collected points list'), err)
 							);
@@ -96,6 +104,75 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 			} else console.error(new Error('No gameId in localStorage'));
 		})
 		.catch(err => console.error(new Error('Getting current player'), err));
+}
+
+function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
+	const gameId = localStorage.getItem('gameId');
+	const gameDocRef = firebase.firestore().doc(`games/${gameId}`);
+	if (gameId) {
+		switch (pointType) {
+			case 'intelligence':
+				onIntelligencePointCollected(gameDocRef);
+				break;
+			case 'identity':
+				onIdentityPointCollected(gameDocRef, point);
+		}
+	} else console.error(new Error('No gameId in localStorage'));
+}
+
+function onIdentityPointCollected(
+	gameDocRef: firebase.firestore.DocumentReference,
+	point: mapboxgl.MapboxGeoJSONFeature
+) {
+	gameDocRef
+		.get()
+		.then(doc => doc.data())
+		.then(game => {
+			let identityClues = {};
+			if (point.properties && point.properties.clue)
+				identityClues =
+					game && game['identity_clues']
+						? {
+								...game['identity_clues'],
+								...JSON.parse(point.properties.clue),
+						  }
+						: JSON.parse(point.properties.clue);
+			else console.error(new Error("Point doesn't have 'clue' property"));
+
+			gameDocRef.set({
+				...game,
+				identity_clues: identityClues,
+			});
+		})
+		.catch(err => console.error(new Error('Getting game doc'), err));
+}
+
+// prettier-ignore
+function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference) {
+	gameDocRef
+		.collection('intel')
+		.where('action.type', '==', 'walking' as ActionType)
+		.get()
+		.then(snap => {
+			const numOfLocationReveals = snap.size;
+
+			gameDocRef
+				.get()
+				.then(doc => doc.data())
+				.then(game => {
+					gameDocRef.set({
+						...game,
+						chaser_sequence_num: numOfLocationReveals,
+					});
+				})
+				.catch(err => console.error(new Error('Getting game doc'), err));
+		})
+		.catch(err =>
+			console.error(
+				new Error("Getting intel items with action.type == 'walking'"),
+				err
+			)
+		);
 }
 
 /**

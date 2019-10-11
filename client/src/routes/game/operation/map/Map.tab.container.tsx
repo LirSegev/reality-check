@@ -170,15 +170,26 @@ class MapTabContainer extends React.Component<Props, State> {
 				}
 
 				if (game) {
-					const collectedPoints = (game[`collected_${pointType}_points`] as string[] | undefined) || [];
-					// Filter out collected points
-					map.setFilter(layerId, ['!in', 'name', ...collectedPoints]);
+					// prettier-ignore
+					const collectedPoints = (game[`collected_${pointType}_points`] as number[] | undefined) || [];
+					if (playerRole === 'intelligence')
+						// Filter out collected points
+						map.setFilter(layerId, ['!in', 'id', ...collectedPoints]);
+					else if (playerRole === 'detective')
+						// Filter out collected points and points for higher phases
+						map.setFilter(layerId, [
+							'all',
+							['!in', 'id', ...collectedPoints],
+							['<=', 'phase', game.phase || 0],
+						]);
 
 					// Save collected points list to sessionStorage
 					sessionStorage.setItem(
 						'collected_points',
 						JSON.stringify(collectedPoints)
 					);
+					// Save phase to sessionStorage
+					sessionStorage.setItem('phase', game.phase || 0);
 				}
 			},
 			err => console.error(new Error('Getting game doc'), err)
