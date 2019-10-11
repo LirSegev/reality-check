@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import { distanceBetweenPoints } from '../../util/general';
 import { getCurrentPlayer } from '../../util/db';
+import { ActionType } from './intel/Intel';
 
 /**
  * The min distance in meters the player needs to be from a point in order to collect it.
@@ -27,9 +28,8 @@ export default function collectClosePoints(myPos: Position) {
 			const collectedPointsStringified = sessionStorage.getItem('collected_points');
 			const phase = sessionStorage.getItem('phase');
 			if (collectedPointsStringified && typeof phase === 'string') {
-				const collectedPoints = JSON.parse(
-					collectedPointsStringified
-				) as string[];
+				// prettier-ignore
+				const collectedPoints = JSON.parse(collectedPointsStringified) as string[];
 				// Check if point has already been collected
 				if (
 					feature!.properties!.phase <= Number(phase) &&
@@ -93,6 +93,7 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 								...gameDoc,
 								[`collected_${pointType}_points`]: newPoints,
 							})
+							.then(() => getClues(pointType))
 							.catch(err =>
 								console.error(new Error('Updating collected points list'), err)
 							);
@@ -103,6 +104,46 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 			} else console.error(new Error('No gameId in localStorage'));
 		})
 		.catch(err => console.error(new Error('Getting current player'), err));
+}
+
+function getClues(pointType: string) {
+	const gameId = localStorage.getItem('gameId');
+	const gameDocRef = firebase.firestore().doc(`games/${gameId}`);
+	if (gameId) {
+		switch (pointType) {
+			case 'intelligence':
+				onIntelligencePointCollected(gameDocRef);
+				break;
+		}
+	} else console.error(new Error('No gameId in localStorage'));
+}
+
+// prettier-ignore
+function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference) {
+	gameDocRef
+		.collection('intel')
+		.where('action.type', '==', 'walking' as ActionType)
+		.get()
+		.then(snap => {
+			const numOfLocationReveals = snap.size;
+
+			gameDocRef
+				.get()
+				.then(doc => doc.data())
+				.then(game => {
+					gameDocRef.set({
+						...game,
+						chaser_sequence_num: numOfLocationReveals,
+					});
+				})
+				.catch(err => console.error(new Error('Getting game doc'), err));
+		})
+		.catch(err =>
+			console.error(
+				new Error("Getting intel items with action.type == 'walking'"),
+				err
+			)
+		);
 }
 
 /**
