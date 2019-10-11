@@ -23,11 +23,18 @@ export default function collectClosePoints(myPos: Position) {
 			const distance = distanceBetweenPoints(myPos.coords, featureToCoord(feature));
 			if (distance > MIN_DISTANCE) break;
 
+			// prettier-ignore
 			const collectedPointsStringified = sessionStorage.getItem('collected_points');
-			if (collectedPointsStringified) {
-				const collectedPoints = JSON.parse(collectedPointsStringified) as string[];
+			const phase = sessionStorage.getItem('phase');
+			if (collectedPointsStringified && typeof phase === 'string') {
+				const collectedPoints = JSON.parse(
+					collectedPointsStringified
+				) as string[];
 				// Check if point has already been collected
-				if (!collectedPoints.includes(feature!.properties!.name)) {
+				if (
+					feature!.properties!.phase <= Number(phase) &&
+					!collectedPoints.includes(feature!.properties!.name)
+				) {
 					collectPoint(feature);
 					break;
 				}
