@@ -41,6 +41,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._updateMrZRoute = this._updateMrZRoute.bind(this);
 		this._onStyleLoad = this._onStyleLoad.bind(this);
 		this._hideCollectedPoints = this._hideCollectedPoints.bind(this);
+		this._showChaserPoints = this._showChaserPoints.bind(this);
 	}
 
 	componentDidMount() {
@@ -98,6 +99,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		// addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
 		this._showRolePoints(map);
+		this._showChaserPoints(map);
 		addGeolocateControl(map);
 
 		const navigationControl = new NavigationControl({ showZoom: false });
@@ -107,6 +109,52 @@ class MapTabContainer extends React.Component<Props, State> {
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
 		);
+	}
+
+	_showChaserPoints(map: mapboxgl.Map) {
+		const gameDoc = firebase.firestore().doc(`games/${this.props.gameId}`);
+		gameDoc.onSnapshot(
+			snap => {
+				const game = snap.data();
+				if (game) {
+					const chaserSeq: string = String(game['chaser_sequence_num']) || '0';
+
+					// prettier-ignore
+					map.setFilter('chaser-points', ['has', chaserSeq, ['get', 'sequence']]);
+					this._chasePointsSequenceToObj(map);
+				}
+			},
+			err => console.error(new Error('Getting game doc'), err)
+		);
+	}
+
+	_chasePointsSequenceToObj(map: mapboxgl.Map) {
+		// @ts-ignore
+		const { source, sourceLayer } = map.getLayer('chaser-points');
+		if (typeof source === 'string' && sourceLayer) {
+			const geoJson = map.querySourceFeatures(source, {
+				sourceLayer,
+			});
+
+			const newGeoJson = geoJson.map(feature => {
+				if (feature.properties && feature.properties.sequence) {
+					const sequence: { [key: string]: number } = {};
+					(JSON.parse(feature.properties.sequence) as number[]).forEach(
+						num => (sequence[String(num)] = num)
+					);
+					feature.properties.sequence = sequence;
+				}
+
+				return feature;
+			});
+
+			const chasePoints = {
+				type: 'FeatureCollection',
+				features: newGeoJson,
+			} as GeoJSON.FeatureCollection<GeoJSON.Geometry>;
+
+			this._setLayerSource('chaser-points', chasePoints, map);
+		} else console.error(new Error('Getting rolePoints GeoJson features'));
 	}
 
 	/**
