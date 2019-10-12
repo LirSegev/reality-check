@@ -3,6 +3,7 @@ import styles from './Suspects.module.css';
 
 interface Props {
 	showId: number | undefined;
+	handleClick: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
 }
 
 const NUMBER_OF_SUSPECT_IMAGES = 17;
@@ -15,7 +16,9 @@ const SuspectsView: React.FC<Props> = props => {
 			<img
 				src={`pictures/${suspectId}.jpg`}
 				className={props.showId === suspectId ? styles.show : undefined}
+				data-suspect_id={suspectId}
 				key={`suspect-image_${suspectId}`}
+				onClick={props.handleClick}
 				alt=""
 			/>
 		);

@@ -74,6 +74,10 @@ class SuspectsContainer extends React.Component<Props, State> {
 		});
 	}
 
+	_handleClick(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
+		window.open(`suspects_stories/${e.currentTarget.dataset.suspect_id}.pdf`);
+	}
+
 	componentWillUpdate(prevProps: Props, prevState: State) {
 		// prettier-ignore
 		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
@@ -87,7 +91,12 @@ class SuspectsContainer extends React.Component<Props, State> {
 	_interval: any = undefined;
 
 	render() {
-		return <SuspectsView showId={this.state.showId} />;
+		return (
+			<SuspectsView
+				showId={this.state.showId}
+				handleClick={this._handleClick}
+			/>
+		);
 	}
 }
 
