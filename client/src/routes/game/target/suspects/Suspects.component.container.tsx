@@ -13,7 +13,7 @@ interface Props {
 /**
  * The time interval in seconds between switching to next suspect pic.
  */
-const CHANGE_PHOTO_INTERVAL = 1;
+const CHANGE_PHOTO_INTERVAL = 2;
 
 class SuspectsContainer extends React.Component<Props, State> {
 	constructor(props: Props) {

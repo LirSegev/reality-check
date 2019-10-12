@@ -13,7 +13,7 @@ const CHECK_FOR_POINTS_INTERVAL = 5;
 /**
  * Time interval in seconds for updating player's geolocation in db.
  */
-const TIME_BETWEEN_LOCATION_UPDATES = 30;
+const LOCATION_UPDATES_INTERVAL = 10;
 
 interface Props {
 	gameId: string;
@@ -93,7 +93,7 @@ class GameContainer extends React.Component<Props, State> {
 				// Update player location in db
 				setInterval(() => {
 					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
-				}, TIME_BETWEEN_LOCATION_UPDATES * 1000);
+				}, LOCATION_UPDATES_INTERVAL * 1000);
 
 				// Collect identity/intelligence points
 				setInterval(() => {
