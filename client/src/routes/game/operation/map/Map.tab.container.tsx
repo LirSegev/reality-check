@@ -112,10 +112,20 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_showChaserPoints(map: mapboxgl.Map) {
-		this._chasePointsSequenceToObj(map);
+		const gameDoc = firebase.firestore().doc(`games/${this.props.gameId}`);
+		gameDoc.onSnapshot(
+			snap => {
+				const game = snap.data();
+				if (game) {
+					const chaserSeq: string = String(game['chaser_sequence_num']) || '0';
 
-		map.setFilter('chaser-points', ['has', '1', ['get', 'sequence']]);
-		map.setLayoutProperty('chaser-points', 'visibility', 'visible');
+					// prettier-ignore
+					map.setFilter('chaser-points', ['has', chaserSeq, ['get', 'sequence']]);
+					this._chasePointsSequenceToObj(map);
+				}
+			},
+			err => console.error(new Error('Getting game doc'), err)
+		);
 	}
 
 	_chasePointsSequenceToObj(map: mapboxgl.Map) {
@@ -135,7 +145,6 @@ class MapTabContainer extends React.Component<Props, State> {
 					feature.properties.sequence = sequence;
 				}
 
-				console.log('feature: ', feature);
 				return feature;
 			});
 
