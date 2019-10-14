@@ -117,44 +117,15 @@ class MapTabContainer extends React.Component<Props, State> {
 			snap => {
 				const game = snap.data();
 				if (game) {
-					const chaserSeq: string = String(game['chaser_sequence_num']) || '0';
+					const chaserSeq = game['chaser_sequence_num'] || 0;
 
 					// prettier-ignore
-					map.setFilter('chaser-points', ['has', chaserSeq, ['get', 'sequence']]);
-					this._chasePointsSequenceToObj(map);
+					map.setFilter('chaser-points', ['has', `sequence_${chaserSeq}`]);
+					map.setLayoutProperty('chaser-points', 'visibility', 'visible');
 				}
 			},
 			err => console.error(new Error('Getting game doc'), err)
 		);
-	}
-
-	_chasePointsSequenceToObj(map: mapboxgl.Map) {
-		// @ts-ignore
-		const { source, sourceLayer } = map.getLayer('chaser-points');
-		if (typeof source === 'string' && sourceLayer) {
-			const geoJson = map.querySourceFeatures(source, {
-				sourceLayer,
-			});
-
-			const newGeoJson = geoJson.map(feature => {
-				if (feature.properties && feature.properties.sequence) {
-					const sequence: { [key: string]: number } = {};
-					(JSON.parse(feature.properties.sequence) as number[]).forEach(
-						num => (sequence[String(num)] = num)
-					);
-					feature.properties.sequence = sequence;
-				}
-
-				return feature;
-			});
-
-			const chasePoints = {
-				type: 'FeatureCollection',
-				features: newGeoJson,
-			} as GeoJSON.FeatureCollection<GeoJSON.Geometry>;
-
-			this._setLayerSource('chaser-points', chasePoints, map);
-		} else console.error(new Error('Getting rolePoints GeoJson features'));
 	}
 
 	/**
