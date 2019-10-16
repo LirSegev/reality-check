@@ -51,6 +51,7 @@ const GameView: React.FC<Props> = props => (
 				{
 					content: (
 						<IntelTabView
+							incrementUnreadNum={props.incrementUnreadNum}
 							moveToLocationOnMap={props.moveToLocationOnMap}
 							moveToMapTab={props.moveToMapTab}
 							isAdmin={props.isAdmin}
