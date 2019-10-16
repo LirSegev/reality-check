@@ -6,5 +6,5 @@
 }
 
 :global(.ui.circular.label).label:empty {
-	display: none;
+	visibility: hidden;
 }
