@@ -7,6 +7,7 @@ interface State {
 }
 interface Props {
 	gameId: string;
+	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
 class CluesContainer extends React.Component<Props, State> {
@@ -31,6 +32,7 @@ class CluesContainer extends React.Component<Props, State> {
 		const data = snapshot.data();
 		if (data && data['identity_clues']) {
 			this.setState({ clues: data['identity_clues'] });
+			this.props.incrementUnreadNum('target');
 		}
 	}
 

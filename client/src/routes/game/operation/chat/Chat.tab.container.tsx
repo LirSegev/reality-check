@@ -8,7 +8,7 @@ interface State {
 }
 interface Props {
 	gameId: string;
-	incrementUnreadNum: (type: UnreadType) => void;
+	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
 class ChatTabContainer extends React.Component<Props, State> {

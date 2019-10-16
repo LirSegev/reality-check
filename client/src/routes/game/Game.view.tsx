@@ -16,7 +16,7 @@ interface Props {
 	moveToMapTab: () => void;
 	onOpTabChange: (e: any) => void;
 	opTabIndex: number;
-	incrementUnreadNum: (type: UnreadType) => void;
+	incrementUnreadNum: (type: UnreadType) => boolean;
 	unreadNums: {
 		chat: number;
 		target: number;
@@ -34,7 +34,11 @@ const GameView: React.FC<Props> = props => (
 			renderTabs={() => [
 				{
 					content: (
-						<TargetTabView gameId={props.gameId} key="targetTab-content" />
+						<TargetTabView
+							incrementUnreadNum={props.incrementUnreadNum}
+							gameId={props.gameId}
+							key="targetTab-content"
+						/>
 					),
 					tab: (
 						<Tab

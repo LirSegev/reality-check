@@ -183,6 +183,11 @@ class GameContainer extends React.Component<Props, State> {
 			case 2:
 				if (this.state.opTabIndex === 1) this._resetUnreadNum('chat');
 				break;
+			case 1:
+				this._resetUnreadNum('intel');
+				break;
+			case 0:
+				this._resetUnreadNum('target');
 		}
 	};
 

@@ -10,7 +10,7 @@ interface Props {
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (event: any) => void;
 	tabIndex: number;
-	incrementUnreadNum: (type: UnreadType) => void;
+	incrementUnreadNum: (type: UnreadType) => boolean;
 	unreadNumChat: number;
 }
 
