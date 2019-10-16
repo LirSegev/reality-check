@@ -8,6 +8,7 @@ interface State {
 }
 interface Props {
 	gameId: string;
+	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
 class ChatTabContainer extends React.Component<Props, State> {
@@ -37,6 +38,7 @@ class ChatTabContainer extends React.Component<Props, State> {
 		chatDocs.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
 				newMessages.push([changes.doc.data() as ChatDoc, changes.doc.id]);
+				this.props.incrementUnreadNum('chat');
 			}
 		});
 		this.setState(prevState => ({

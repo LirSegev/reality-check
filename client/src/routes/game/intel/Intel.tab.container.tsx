@@ -12,6 +12,7 @@ interface Props {
 	isAdmin: boolean;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 	moveToMapTab: () => void;
+	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
 class IntelTabContainer extends React.Component<Props, State> {
@@ -56,13 +57,8 @@ class IntelTabContainer extends React.Component<Props, State> {
 		const newItems = [] as IntelItem[];
 		intel.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
-				/* this.setState(prevState => ({
-					intelItems: [
-						...prevState.intelItems,
-						changes.doc.data() as IntelItem,
-					],
-				})); */
 				newItems.push(changes.doc.data() as IntelItem);
+				this.props.incrementUnreadNum('intel');
 			}
 		});
 

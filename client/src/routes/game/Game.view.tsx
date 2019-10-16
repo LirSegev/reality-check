@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Page, Tabbar, Tab } from 'react-onsenui';
+import { Page, Tabbar } from 'react-onsenui';
+import Tab from '../../components/Tab.component';
 import TargetTabView from './target';
 import OperationTabView from './operation';
 import IntelTabView from './intel';
@@ -15,6 +16,12 @@ interface Props {
 	moveToMapTab: () => void;
 	onOpTabChange: (e: any) => void;
 	opTabIndex: number;
+	incrementUnreadNum: (type: UnreadType) => boolean;
+	unreadNums: {
+		chat: number;
+		target: number;
+		intel: number;
+	};
 }
 
 const GameView: React.FC<Props> = props => (
@@ -27,13 +34,24 @@ const GameView: React.FC<Props> = props => (
 			renderTabs={() => [
 				{
 					content: (
-						<TargetTabView gameId={props.gameId} key="targetTab-content" />
+						<TargetTabView
+							incrementUnreadNum={props.incrementUnreadNum}
+							gameId={props.gameId}
+							key="targetTab-content"
+						/>
 					),
-					tab: <Tab label="Target" key="targetTab-button" />,
+					tab: (
+						<Tab
+							unreadNum={props.unreadNums.target}
+							label="Target"
+							key="targetTab-button"
+						/>
+					),
 				},
 				{
 					content: (
 						<IntelTabView
+							incrementUnreadNum={props.incrementUnreadNum}
 							moveToLocationOnMap={props.moveToLocationOnMap}
 							moveToMapTab={props.moveToMapTab}
 							isAdmin={props.isAdmin}
@@ -41,20 +59,36 @@ const GameView: React.FC<Props> = props => (
 							key="intelTab-content"
 						/>
 					),
-					tab: <Tab label="Intel" key="intelTab-button" />,
+					tab: (
+						<Tab
+							unreadNum={props.unreadNums.intel}
+							label="Intel"
+							key="intelTab-button"
+						/>
+					),
 				},
 				{
 					content: (
 						<OperationTabView
+							incrementUnreadNum={props.incrementUnreadNum}
 							onTabChange={props.onOpTabChange}
 							tabIndex={props.opTabIndex}
 							gameId={props.gameId}
 							key="operationTab-content"
 							mapOrientation={props.mapOrientation}
 							onMapMove={props.onMapMove}
+							unreadNumChat={props.unreadNums.chat}
 						/>
 					),
-					tab: <Tab label="Operation" key="operationTab-button" />,
+					tab: (
+						<Tab
+							unreadNum={
+								props.tabIndex === 2 ? undefined : props.unreadNums.chat
+							}
+							label="Operation"
+							key="operationTab-button"
+						/>
+					),
 				},
 			]}
 		/>

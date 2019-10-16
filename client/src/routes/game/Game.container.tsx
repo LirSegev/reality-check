@@ -23,6 +23,11 @@ interface Props {
 
 interface State {
 	mapOrientation: MapOrientation;
+	unreadNums: {
+		chat: number;
+		intel: number;
+		target: number;
+	};
 	tabIndex: number;
 	opTabIndex: number;
 }
@@ -36,6 +41,11 @@ class GameContainer extends React.Component<Props, State> {
 				center: { longitude: 14.42, latitude: 50.08 },
 				zoom: 12,
 			},
+			unreadNums: {
+				chat: 0,
+				intel: 0,
+				target: 0,
+			},
 			tabIndex: 2,
 			opTabIndex: 0,
 		};
@@ -45,6 +55,37 @@ class GameContainer extends React.Component<Props, State> {
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 		this._onGPSMove = this._onGPSMove.bind(this);
 		this._moveToMapTab = this._moveToMapTab.bind(this);
+		this._incrementUnreadNum = this._incrementUnreadNum.bind(this);
+		this._resetUnreadNum = this._resetUnreadNum.bind(this);
+	}
+
+	/**
+	 * Increments unreadNum depending on `type`
+	 * @return true if incremented or false if canceled because of the current tab index
+	 */
+	_incrementUnreadNum(type: 'chat' | 'intel' | 'target'): boolean {
+		const { tabIndex, opTabIndex } = this.state;
+		if (
+			(type === 'chat' && tabIndex === 2 && opTabIndex === 1) ||
+			(type === 'intel' && tabIndex === 1) ||
+			(type === 'target' && tabIndex === 0)
+		)
+			return false;
+
+		this.setState((prevState: State) => {
+			const newState = prevState;
+			newState.unreadNums[type] = prevState.unreadNums[type] + 1;
+			return newState;
+		});
+		return true;
+	}
+
+	_resetUnreadNum(type: UnreadType) {
+		this.setState((prevState: State) => {
+			const newState = prevState;
+			newState.unreadNums[type] = 0;
+			return newState;
+		});
 	}
 
 	_onMapMove(map: mapboxgl.Map) {
@@ -136,16 +177,31 @@ class GameContainer extends React.Component<Props, State> {
 		);
 	}
 
-	_onTabChange = (event: any) => this.setState({ tabIndex: event.index });
+	_onTabChange = (event: any) => {
+		this.setState({ tabIndex: event.index });
+		switch (event.index) {
+			case 2:
+				if (this.state.opTabIndex === 1) this._resetUnreadNum('chat');
+				break;
+			case 1:
+				this._resetUnreadNum('intel');
+				break;
+			case 0:
+				this._resetUnreadNum('target');
+		}
+	};
 
 	_onOpTabChange = (event: any) => {
 		event.stopPropagation();
 		this.setState({ opTabIndex: event.index });
+		if (event.index === 1) this._resetUnreadNum('chat');
 	};
 
 	render() {
 		return (
 			<GameView
+				unreadNums={this.state.unreadNums}
+				incrementUnreadNum={this._incrementUnreadNum}
 				opTabIndex={this.state.opTabIndex}
 				onOpTabChange={this._onOpTabChange}
 				onTabChange={this._onTabChange}

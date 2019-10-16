@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Page, Tab, Tabbar } from 'react-onsenui';
+import { Page, Tabbar } from 'react-onsenui';
+import Tab from '../../../components/Tab.component';
 import MapTab from './map';
 import ChatTab from './chat';
 
@@ -9,6 +10,8 @@ interface Props {
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (event: any) => void;
 	tabIndex: number;
+	incrementUnreadNum: (type: UnreadType) => boolean;
+	unreadNumChat: number;
 }
 
 const OperationTabView: React.FC<Props> = props => (
@@ -31,8 +34,20 @@ const OperationTabView: React.FC<Props> = props => (
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{
-					content: <ChatTab key="chatTab-content" gameId={props.gameId} />,
-					tab: <Tab label="Chat" key="chatTab-button" />,
+					content: (
+						<ChatTab
+							key="chatTab-content"
+							gameId={props.gameId}
+							incrementUnreadNum={props.incrementUnreadNum}
+						/>
+					),
+					tab: (
+						<Tab
+							unreadNum={props.unreadNumChat}
+							label="Chat"
+							key="chatTab-button"
+						/>
+					),
 				},
 			]}
 		/>
