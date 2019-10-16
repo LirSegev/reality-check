@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Page, Tabbar, Tab } from 'react-onsenui';
+import { Page, Tabbar } from 'react-onsenui';
+import Tab from '../../components/Tab.component';
 import TargetTabView from './target';
 import OperationTabView from './operation';
 import IntelTabView from './intel';

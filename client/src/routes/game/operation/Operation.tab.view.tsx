@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Page, Tab, Tabbar } from 'react-onsenui';
+import { Page, Tabbar } from 'react-onsenui';
+import Tab from '../../../components/Tab.component';
 import MapTab from './map';
 import ChatTab from './chat';
 

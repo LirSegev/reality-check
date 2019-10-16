@@ -1,0 +1,10 @@
+:global(.ui.circular.label).label {
+	min-width: 1em;
+	min-height: 1em;
+	padding: 0.33em !important;
+	font-size: 0.66em;
+}
+
+:global(.ui.circular.label).label:empty {
+	display: none;
+}
