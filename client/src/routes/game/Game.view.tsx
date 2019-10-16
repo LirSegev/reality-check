@@ -16,6 +16,12 @@ interface Props {
 	moveToMapTab: () => void;
 	onOpTabChange: (e: any) => void;
 	opTabIndex: number;
+	incrementUnreadNum: (type: UnreadType) => void;
+	unreadNums: {
+		chat: number;
+		target: number;
+		intel: number;
+	};
 }
 
 const GameView: React.FC<Props> = props => (
@@ -30,7 +36,13 @@ const GameView: React.FC<Props> = props => (
 					content: (
 						<TargetTabView gameId={props.gameId} key="targetTab-content" />
 					),
-					tab: <Tab label="Target" key="targetTab-button" />,
+					tab: (
+						<Tab
+							unreadNum={props.unreadNums.target}
+							label="Target"
+							key="targetTab-button"
+						/>
+					),
 				},
 				{
 					content: (
@@ -42,17 +54,25 @@ const GameView: React.FC<Props> = props => (
 							key="intelTab-content"
 						/>
 					),
-					tab: <Tab label="Intel" key="intelTab-button" />,
+					tab: (
+						<Tab
+							unreadNum={props.unreadNums.intel}
+							label="Intel"
+							key="intelTab-button"
+						/>
+					),
 				},
 				{
 					content: (
 						<OperationTabView
+							incrementUnreadNum={props.incrementUnreadNum}
 							onTabChange={props.onOpTabChange}
 							tabIndex={props.opTabIndex}
 							gameId={props.gameId}
 							key="operationTab-content"
 							mapOrientation={props.mapOrientation}
 							onMapMove={props.onMapMove}
+							unreadNumChat={props.unreadNums.chat}
 						/>
 					),
 					tab: <Tab label="Operation" key="operationTab-button" />,

@@ -30,3 +30,5 @@ declare interface MapOrientation {
 	};
 	zoom: number;
 }
+
+declare type UnreadType = 'chat' | 'intel' | 'target';

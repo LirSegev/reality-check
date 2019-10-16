@@ -10,6 +10,8 @@ interface Props {
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (event: any) => void;
 	tabIndex: number;
+	incrementUnreadNum: (type: UnreadType) => void;
+	unreadNumChat: number;
 }
 
 const OperationTabView: React.FC<Props> = props => (
@@ -32,8 +34,20 @@ const OperationTabView: React.FC<Props> = props => (
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{
-					content: <ChatTab key="chatTab-content" gameId={props.gameId} />,
-					tab: <Tab label="Chat" key="chatTab-button" />,
+					content: (
+						<ChatTab
+							key="chatTab-content"
+							gameId={props.gameId}
+							incrementUnreadNum={props.incrementUnreadNum}
+						/>
+					),
+					tab: (
+						<Tab
+							unreadNum={props.unreadNumChat}
+							label="Chat"
+							key="chatTab-button"
+						/>
+					),
 				},
 			]}
 		/>
