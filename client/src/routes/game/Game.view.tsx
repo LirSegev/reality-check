@@ -80,7 +80,15 @@ const GameView: React.FC<Props> = props => (
 							unreadNumChat={props.unreadNums.chat}
 						/>
 					),
-					tab: <Tab label="Operation" key="operationTab-button" />,
+					tab: (
+						<Tab
+							unreadNum={
+								props.tabIndex === 2 ? undefined : props.unreadNums.chat
+							}
+							label="Operation"
+							key="operationTab-button"
+						/>
+					),
 				},
 			]}
 		/>
