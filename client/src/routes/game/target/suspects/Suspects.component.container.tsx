@@ -89,6 +89,10 @@ class SuspectsContainer extends React.Component<Props, State> {
 		}
 	}
 
+	componentWillUnmount() {
+		if (this._interval) clearInterval(this._interval);
+	}
+
 	_interval: any = undefined;
 
 	render() {
