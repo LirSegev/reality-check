@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app';
 import CluesView from './Clues.component.view';
 import { connect } from 'react-redux';
 import { ReduxState } from '../../../../reducers/initialState';
+import { getGameDocRef } from '../../../../util/db';
 
 interface State {
 	clues: { [key: string]: string };
@@ -24,12 +25,9 @@ class CluesContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		if (this.props.gameId) {
-			const db = firebase.firestore();
-			db.doc(`games/${this.props.gameId}`).onSnapshot(this._updateClues, err =>
-				console.error(new Error('Getting game doc snapshot'), err)
-			);
-		} else console.error(new Error('gameId is null'));
+		getGameDocRef().onSnapshot(this._updateClues, err =>
+			console.error(new Error('Getting game doc snapshot'), err)
+		);
 	}
 
 	_updateClues(snapshot: firebase.firestore.DocumentSnapshot) {

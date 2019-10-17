@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import styles from './NewIntelItemForm.module.css';
 import mapboxConfig from '../../../config/Mapbox';
 import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../components/LoadingIndicator.component';
+import { getGameDocRef } from '../../../util/db';
 
 interface State {
 	type: ActionType;
@@ -76,29 +77,24 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		const { type, more, location } = this.state;
 		const time = this.state.time.split(':').map(num => Number(num));
 
-		if (this.props.gameId) {
-			const db = firebase.firestore();
-			db.collection(`games/${this.props.gameId}/intel`)
-				.add({
-					action: {
-						type,
-						text: more,
-						...(location && { coordinates: location }),
-					},
-					timestamp: new firebase.firestore.Timestamp(
-						Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
-						0
-					),
-				} as IntelItem)
-				.then(() => {
-					this.props.hideAddItem();
-					// this._sendNotification();
-				})
-				.catch(err =>
-					console.error(new Error('Error adding intel item:'), err)
-				);
-		}
-		console.error(new Error('gameId is null'));
+		getGameDocRef()
+			.collection('intel')
+			.add({
+				action: {
+					type,
+					text: more,
+					...(location && { coordinates: location }),
+				},
+				timestamp: new firebase.firestore.Timestamp(
+					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
+					0
+				),
+			} as IntelItem)
+			.then(() => {
+				this.props.hideAddItem();
+				// this._sendNotification();
+			})
+			.catch(err => console.error(new Error('Error adding intel item:'), err));
 	}
 
 	_sendNotification() {

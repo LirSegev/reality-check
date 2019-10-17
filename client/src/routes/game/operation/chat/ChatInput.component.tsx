@@ -2,26 +2,21 @@ import React from 'react';
 import styles from './Chat.module.css';
 import { Button } from 'react-onsenui';
 import firebase from 'firebase/app';
-import { dateToTimestamp } from '../../../../util/db';
-import { ReduxState } from '../../../../reducers/initialState';
-import { connect } from 'react-redux';
+import { dateToTimestamp, getGameDocRef } from '../../../../util/db';
 
-interface Props {
-	gameId: string | null;
-}
-
-class ChatInput extends React.Component<Props> {
-	constructor(props: Props) {
+class ChatInput extends React.Component {
+	constructor(props: {}) {
 		super(props);
+
 		this.handleSend = this.handleSend.bind(this);
 	}
 
 	handleSend(e?: React.MouseEvent<HTMLElement, MouseEvent>) {
-		if (this.props.gameId) {
-			const inputEl = this.refs.input as HTMLDivElement;
-			const db = firebase.firestore();
-			const { displayName, uid } = firebase.auth().currentUser!;
-			db.collection(`games/${this.props.gameId}/chat`).add({
+		const inputEl = this.refs.input as HTMLDivElement;
+		const { displayName, uid } = firebase.auth().currentUser!;
+		getGameDocRef()
+			.collection('chat')
+			.add({
 				author: {
 					displayName,
 					uid,
@@ -30,8 +25,7 @@ class ChatInput extends React.Component<Props> {
 				timestamp: dateToTimestamp(new Date()),
 			} as ChatDoc);
 
-			inputEl.innerHTML = '';
-		} else console.error(new Error('gameId is null'));
+		inputEl.innerHTML = '';
 	}
 
 	render() {
@@ -54,7 +48,4 @@ class ChatInput extends React.Component<Props> {
 	}
 }
 
-const mapState = (state: ReduxState) => ({
-	gameId: state.main.gameId,
-});
-export default connect(mapState)(ChatInput);
+export default ChatInput;

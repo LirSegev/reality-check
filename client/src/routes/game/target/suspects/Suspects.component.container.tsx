@@ -3,6 +3,7 @@ import * as firebase from 'firebase/app';
 import SuspectsView from './Suspects.component.view';
 import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
+import { getGameDocRef } from '../../../../util/db';
 
 interface State {
 	showId: number | undefined;
@@ -28,13 +29,9 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		if (this.props.gameId) {
-			const db = firebase.firestore();
-			db.doc(`games/${this.props.gameId}`).onSnapshot(
-				this._updateSuspectList,
-				err => console.error(new Error('Getting game snapshot'), err)
-			);
-		} else console.error(new Error('gameId is null'));
+		getGameDocRef().onSnapshot(this._updateSuspectList, err =>
+			console.error(new Error('Getting game snapshot'), err)
+		);
 	}
 
 	_updateSuspectList(snapshot: firebase.firestore.DocumentSnapshot) {

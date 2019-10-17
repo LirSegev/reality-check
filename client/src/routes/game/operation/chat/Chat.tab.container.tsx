@@ -1,15 +1,13 @@
 import React from 'react';
 import ChatTabView from './Chat.tab.view';
 import firebase from 'firebase/app';
-import { ReduxState } from '../../../../reducers/initialState';
-import { connect } from 'react-redux';
+import { getGameDocRef } from '../../../../util/db';
 
 interface State {
 	messages: [ChatDoc, string][];
 	isLoading: boolean;
 }
 interface Props {
-	gameId: string | null;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
@@ -25,16 +23,12 @@ class ChatTabContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		const db = firebase.firestore();
-		const { gameId } = this.props;
-
-		if (gameId)
-			db.collection(`games/${gameId}/chat`)
-				.orderBy('timestamp')
-				.onSnapshot(this._updateMessages, err =>
-					console.error(new Error('Error getting chat docs'), err)
-				);
-		else console.error(new Error('gameId is null'));
+		getGameDocRef()
+			.collection('chat')
+			.orderBy('timestamp')
+			.onSnapshot(this._updateMessages, err =>
+				console.error(new Error('Error getting chat docs'), err)
+			);
 	}
 
 	_updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
@@ -71,7 +65,4 @@ class ChatTabContainer extends React.Component<Props, State> {
 	);
 }
 
-const mapState = (state: ReduxState) => ({
-	gameId: state.main.gameId,
-});
-export default connect(mapState)(ChatTabContainer);
+export default ChatTabContainer;

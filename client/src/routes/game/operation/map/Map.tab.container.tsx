@@ -7,10 +7,8 @@ import {
 	// addTransportRoutesLayer,
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
-import { getCurrentPlayer } from '../../../../util/db';
+import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { NavigationControl } from 'mapbox-gl';
-import { ReduxState } from '../../../../reducers/initialState';
-import { connect } from 'react-redux';
 
 interface PlayerLocation {
 	playerName: string;
@@ -25,7 +23,6 @@ interface State {
 	mrZRoute: number[][];
 }
 interface Props {
-	gameId: string | null;
 	mapOrientation: MapOrientation;
 	onMove: (map: mapboxgl.Map) => void;
 }
@@ -47,21 +44,18 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		const db = firebase.firestore();
-		const { gameId } = this.props;
-
-		if (gameId) {
-			db.collection(`games/${gameId}/players`).onSnapshot(
-				this._updatePlayerLocations,
-				err => console.error(new Error('Error getting player list'), err)
+		getGameDocRef()
+			.collection('players')
+			.onSnapshot(this._updatePlayerLocations, err =>
+				console.error(new Error('Error getting player list'), err)
 			);
 
-			db.collection(`games/${gameId}/intel`)
-				.orderBy('timestamp')
-				.onSnapshot(this._updateMrZRoute, err =>
-					console.error(new Error('Error getting intel snapshot:'), err)
-				);
-		} else console.error(new Error('gameId is null'));
+		getGameDocRef()
+			.collection('intel')
+			.orderBy('timestamp')
+			.onSnapshot(this._updateMrZRoute, err =>
+				console.error(new Error('Error getting intel snapshot:'), err)
+			);
 	}
 
 	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
@@ -116,22 +110,20 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_showChaserPoints(map: mapboxgl.Map) {
-		if (this.props.gameId) {
-			const gameDoc = firebase.firestore().doc(`games/${this.props.gameId}`);
-			gameDoc.onSnapshot(
-				snap => {
-					const game = snap.data();
-					if (game) {
-						const chaserSeq = game['chaser_sequence_num'] || 0;
+		const gameDoc = getGameDocRef();
+		gameDoc.onSnapshot(
+			snap => {
+				const game = snap.data();
+				if (game) {
+					const chaserSeq = game['chaser_sequence_num'] || 0;
 
-						// prettier-ignore
-						map.setFilter('chaser-points', ['has', `sequence_${chaserSeq}`]);
-						map.setLayoutProperty('chaser-points', 'visibility', 'visible');
-					}
-				},
-				err => console.error(new Error('Getting game doc'), err)
-			);
-		} else console.error(new Error('gameId is null'));
+					// prettier-ignore
+					map.setFilter('chaser-points', ['has', `sequence_${chaserSeq}`]);
+					map.setLayoutProperty('chaser-points', 'visibility', 'visible');
+				}
+			},
+			err => console.error(new Error('Getting game doc'), err)
+		);
 	}
 
 	/**
@@ -180,47 +172,44 @@ class MapTabContainer extends React.Component<Props, State> {
 		layerId: string,
 		playerRole: PlayerRole
 	) {
-		if (this.props.gameId) {
-			const db = firebase.firestore();
-			db.doc(`games/${this.props.gameId}`).onSnapshot(
-				snapshot => {
-					const game = snapshot.data();
-					let pointType = '';
-					switch (playerRole) {
-						case 'detective':
-							pointType = 'identity';
-							break;
-						case 'intelligence':
-							pointType = 'intelligence';
-							break;
-					}
+		getGameDocRef().onSnapshot(
+			snapshot => {
+				const game = snapshot.data();
+				let pointType = '';
+				switch (playerRole) {
+					case 'detective':
+						pointType = 'identity';
+						break;
+					case 'intelligence':
+						pointType = 'intelligence';
+						break;
+				}
 
-					if (game) {
-						// prettier-ignore
-						const collectedPoints = (game[`collected_${pointType}_points`] as number[] | undefined) || [];
-						if (playerRole === 'intelligence')
-							// Filter out collected points
-							map.setFilter(layerId, ['!in', 'id', ...collectedPoints]);
-						else if (playerRole === 'detective')
-							// Filter out collected points and points for higher phases
-							map.setFilter(layerId, [
-								'all',
-								['!in', 'id', ...collectedPoints],
-								['<=', 'phase', game.phase || 0],
-							]);
+				if (game) {
+					// prettier-ignore
+					const collectedPoints = (game[`collected_${pointType}_points`] as number[] | undefined) || [];
+					if (playerRole === 'intelligence')
+						// Filter out collected points
+						map.setFilter(layerId, ['!in', 'id', ...collectedPoints]);
+					else if (playerRole === 'detective')
+						// Filter out collected points and points for higher phases
+						map.setFilter(layerId, [
+							'all',
+							['!in', 'id', ...collectedPoints],
+							['<=', 'phase', game.phase || 0],
+						]);
 
-						// Save collected points list to sessionStorage
-						sessionStorage.setItem(
-							'collected_points',
-							JSON.stringify(collectedPoints)
-						);
-						// Save phase to sessionStorage
-						sessionStorage.setItem('phase', game.phase || 0);
-					}
-				},
-				err => console.error(new Error('Getting game doc'), err)
-			);
-		} else console.error(new Error('gameId is null'));
+					// Save collected points list to sessionStorage
+					sessionStorage.setItem(
+						'collected_points',
+						JSON.stringify(collectedPoints)
+					);
+					// Save phase to sessionStorage
+					sessionStorage.setItem('phase', game.phase || 0);
+				}
+			},
+			err => console.error(new Error('Getting game doc'), err)
+		);
 	}
 
 	_markPlayerLocations(map: mapboxgl.Map) {
@@ -282,7 +271,4 @@ class MapTabContainer extends React.Component<Props, State> {
 	};
 }
 
-const mapState = (state: ReduxState) => ({
-	gameId: state.main.gameId,
-});
-export default connect(mapState)(MapTabContainer);
+export default MapTabContainer;

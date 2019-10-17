@@ -36,7 +36,7 @@ firebase.initializeApp(firebaseConfig);
 })();
 
 // Redux
-const store = configureStore({
+export const store = configureStore({
 	reducer: reducers,
 });
 
