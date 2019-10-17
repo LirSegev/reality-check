@@ -1,13 +1,16 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import SuspectsView from './Suspects.component.view';
+import { ReduxState } from '../../../../reducers/initialState';
+import { connect } from 'react-redux';
+import { getGameDocRef } from '../../../../util/db';
 
 interface State {
 	showId: number | undefined;
 	suspectList: number[];
 }
 interface Props {
-	gameId: string;
+	gameId: string | null;
 }
 
 /**
@@ -26,10 +29,8 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		const db = firebase.firestore();
-		db.doc(`games/${this.props.gameId}`).onSnapshot(
-			this._updateSuspectList,
-			err => console.error(new Error('Getting game snapshot'), err)
+		getGameDocRef().onSnapshot(this._updateSuspectList, err =>
+			console.error(new Error('Getting game snapshot'), err)
 		);
 	}
 
@@ -88,6 +89,10 @@ class SuspectsContainer extends React.Component<Props, State> {
 		}
 	}
 
+	componentWillUnmount() {
+		if (this._interval) clearInterval(this._interval);
+	}
+
 	_interval: any = undefined;
 
 	render() {
@@ -100,4 +105,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 }
 
-export default SuspectsContainer;
+const mapState = (state: ReduxState) => ({
+	gameId: state.main.gameId,
+});
+export default connect(mapState)(SuspectsContainer);

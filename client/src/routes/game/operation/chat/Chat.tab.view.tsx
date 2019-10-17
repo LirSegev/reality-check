@@ -5,7 +5,6 @@ import ChatInput from './ChatInput.component';
 
 interface Props {
 	messages: [ChatDoc, string][];
-	gameId: string;
 	isLoading: boolean;
 }
 
@@ -19,10 +18,7 @@ const ChatTabView: React.FC<Props> = props => {
 		/>
 	));
 	return (
-		<Page
-			id="chat-page"
-			renderFixed={() => <ChatInput gameId={props.gameId} />}
-		>
+		<Page id="chat-page" renderFixed={() => <ChatInput />}>
 			{props.isLoading ? (
 				<div
 					style={{

@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import { distanceBetweenPoints } from '../../util/general';
-import { getCurrentPlayer } from '../../util/db';
+import { getCurrentPlayer, getGameDocRef } from '../../util/db';
 import { ActionType } from './intel/Intel';
 
 /**
@@ -64,9 +64,8 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 	getCurrentPlayer()
 		.then(player => getPointType(player!))
 		.then(pointType => {
-			const gameId = localStorage.getItem('gameId');
-			if (gameId) {
-				const docRef = firebase.firestore().doc(`games/${gameId}`);
+			try {
+				const docRef = getGameDocRef();
 				let gameDoc: {} | undefined;
 
 				docRef
@@ -102,15 +101,16 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 					.catch(err =>
 						console.error(new Error('Getting collected points'), err)
 					);
-			} else console.error(new Error('No gameId in localStorage'));
+			} catch (err) {
+				console.error(new Error('Collecting point'), err);
+			}
 		})
 		.catch(err => console.error(new Error('Getting current player'), err));
 }
 
 function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
-	const gameId = localStorage.getItem('gameId');
-	const gameDocRef = firebase.firestore().doc(`games/${gameId}`);
-	if (gameId) {
+	try {
+		const gameDocRef = getGameDocRef();
 		switch (pointType) {
 			case 'intelligence':
 				onIntelligencePointCollected(gameDocRef);
@@ -118,7 +118,9 @@ function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
 			case 'identity':
 				onIdentityPointCollected(gameDocRef, point);
 		}
-	} else console.error(new Error('No gameId in localStorage'));
+	} catch (err) {
+		console.error(new Error('Getting clues'), err);
+	}
 }
 
 function onIdentityPointCollected(

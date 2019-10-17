@@ -1,13 +1,13 @@
 import React from 'react';
 import ChatTabView from './Chat.tab.view';
 import firebase from 'firebase/app';
+import { getGameDocRef } from '../../../../util/db';
 
 interface State {
 	messages: [ChatDoc, string][];
 	isLoading: boolean;
 }
 interface Props {
-	gameId: string;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
@@ -23,10 +23,8 @@ class ChatTabContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		const db = firebase.firestore();
-		const { gameId } = this.props;
-
-		db.collection(`games/${gameId}/chat`)
+		getGameDocRef()
+			.collection('chat')
 			.orderBy('timestamp')
 			.onSnapshot(this._updateMessages, err =>
 				console.error(new Error('Error getting chat docs'), err)
@@ -61,7 +59,6 @@ class ChatTabContainer extends React.Component<Props, State> {
 
 	render = () => (
 		<ChatTabView
-			gameId={this.props.gameId}
 			messages={this.state.messages}
 			isLoading={this.state.isLoading}
 		/>

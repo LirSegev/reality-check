@@ -3,44 +3,45 @@ import * as firebase from 'firebase/app';
 import AppView from './App.view';
 import { updateCurrentPlayer } from './util/db';
 import { signOut } from './util/firebase';
+import {
+	changeGame,
+	changeGameActionPayload,
+	adminSignin,
+	signOut as signOutAction,
+} from './reducers/main.reducer';
+import { connect } from 'react-redux';
 
 interface State {
 	isLogged: boolean;
-	gameId: string | null;
-	isLoading: boolean;
-	isAdmin: boolean;
+}
+interface Props {
+	changeGame: (payload: changeGameActionPayload) => void;
+	adminSignin: () => void;
+	signOutAction: () => void;
 }
 
-class AppContainer extends React.Component<{}, State> {
-	constructor(props: {}) {
+class AppContainer extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
 			isLogged: false,
-			gameId: null,
-			isLoading: true,
-			isAdmin: false,
 		};
-
-		this.stopLoading = this.stopLoading.bind(this);
-		this.startLoading = this.startLoading.bind(this);
-		this.changeGame = this.changeGame.bind(this);
 
 		firebase.auth().onAuthStateChanged(player => {
 			if (player && player.isAnonymous) this._onPlayerSignin(player);
 			else if (player) {
 				// Admin sign in
 				this.setState({
-					isAdmin: true,
 					isLogged: true,
 				});
+				this.props.adminSignin();
 			} else {
 				// Sign out
 				localStorage.removeItem('gameId');
+				this.props.signOutAction();
 				this.setState({
 					isLogged: false,
-					gameId: null,
-					isAdmin: false,
 				});
 			}
 		});
@@ -66,7 +67,8 @@ class AppContainer extends React.Component<{}, State> {
 			: ('chaser' as PlayerRole);
 		const isNew = localStorage.getItem('gameId') ? false : true;
 
-		this.setState({ gameId, isLogged: true });
+		this.setState({ isLogged: true });
+		this.props.changeGame({ gameId });
 
 		this._addPlayerToGame(player, gameId, displayName, role, isNew);
 	}
@@ -175,28 +177,17 @@ class AppContainer extends React.Component<{}, State> {
 		}
 	}
 
-	stopLoading() {
-		this.setState({ isLoading: false });
-	}
-
-	startLoading() {
-		this.setState({ isLoading: true });
-	}
-
-	changeGame(gameId: string | null) {
-		this.setState({ gameId });
-	}
-
 	render() {
-		return (
-			<AppView
-				startLoading={this.startLoading}
-				stopLoading={this.stopLoading}
-				changeGame={this.changeGame}
-				{...this.state}
-			/>
-		);
+		return <AppView {...this.state} />;
 	}
 }
 
-export default AppContainer;
+const mapDispatchToProps = {
+	changeGame,
+	signOutAction,
+	adminSignin,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(AppContainer);

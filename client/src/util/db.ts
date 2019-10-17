@@ -1,4 +1,5 @@
 import * as firebase from 'firebase/app';
+import { store } from '../index';
 
 /**
  * Updates the data of the current player in the database.
@@ -9,18 +10,16 @@ export function updateCurrentPlayer(
 	data: firebase.firestore.UpdateData
 ): Promise<void> {
 	return new Promise((resolve, reject) => {
-		const db = firebase.firestore();
-		const gameId = localStorage.getItem('gameId');
-
-		db.collection(`games/${gameId}/players`)
+		getGameDocRef()
+			.collection('players')
 			.where('uid', '==', firebase.auth().currentUser!.uid)
 			.get()
 			.then(playerList => {
 				if (playerList.size > 1) throw new Error('More than one user found');
 				else if (playerList.size === 1) {
-					const player = db.doc(
-						`games/${gameId}/players/${playerList.docs[0].id}`
-					);
+					const player = getGameDocRef()
+						.collection('players')
+						.doc(playerList.docs[0].id);
 					player
 						.update(data)
 						.then(() => {
@@ -48,18 +47,16 @@ export function updateCurrentPlayer(
  */
 export function getCurrentPlayer(): Promise<Player | undefined> {
 	return new Promise((resolve, reject) => {
-		const db = firebase.firestore();
-		const gameId = localStorage.getItem('gameId');
-
-		db.collection(`games/${gameId}/players`)
+		getGameDocRef()
+			.collection('players')
 			.where('uid', '==', firebase.auth().currentUser!.uid)
 			.get()
 			.then(playerList => {
 				if (playerList.size > 1) throw new Error('More than one user found');
 				else if (playerList.size === 1) {
-					const player = db.doc(
-						`games/${gameId}/players/${playerList.docs[0].id}`
-					);
+					const player = getGameDocRef()
+						.collection('players')
+						.doc(playerList.docs[0].id);
 					player
 						.get()
 						.then(doc => doc.data() as Player | undefined)
@@ -87,4 +84,13 @@ export function dateToTimestamp(date: Date): firebase.firestore.Timestamp {
 	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1]);
 
 	return timestamp;
+}
+
+export function getGameDocRef(): firebase.firestore.DocumentReference {
+	const db = firebase.firestore();
+	const gameId = store.getState().main.gameId;
+	if (!gameId)
+		throw new Error('Could not get gameDocRef because gameId is not set');
+
+	return db.doc(`games/${gameId}`);
 }

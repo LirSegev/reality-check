@@ -1,6 +1,8 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import { match } from 'react-router-dom';
+import { stopLoading, startLoading } from '../../reducers/main.reducer';
+import { connect } from 'react-redux';
 
 // Components
 import LoginPageValidView from './Login-valid.page.view';
@@ -69,4 +71,11 @@ class LoginPageContainer extends React.Component<Props, State> {
 	}
 }
 
-export default LoginPageContainer;
+const mapDispatchToProps = {
+	stopLoading,
+	startLoading,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(LoginPageContainer);

@@ -7,7 +7,7 @@ import {
 	// addTransportRoutesLayer,
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
-import { getCurrentPlayer } from '../../../../util/db';
+import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { NavigationControl } from 'mapbox-gl';
 
 interface PlayerLocation {
@@ -23,7 +23,6 @@ interface State {
 	mrZRoute: number[][];
 }
 interface Props {
-	gameId: string;
 	mapOrientation: MapOrientation;
 	onMove: (map: mapboxgl.Map) => void;
 }
@@ -45,15 +44,14 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		const db = firebase.firestore();
-		const { gameId } = this.props;
+		getGameDocRef()
+			.collection('players')
+			.onSnapshot(this._updatePlayerLocations, err =>
+				console.error(new Error('Error getting player list'), err)
+			);
 
-		db.collection(`games/${gameId}/players`).onSnapshot(
-			this._updatePlayerLocations,
-			err => console.error(new Error('Error getting player list'), err)
-		);
-
-		db.collection(`games/${gameId}/intel`)
+		getGameDocRef()
+			.collection('intel')
 			.orderBy('timestamp')
 			.onSnapshot(this._updateMrZRoute, err =>
 				console.error(new Error('Error getting intel snapshot:'), err)
@@ -112,7 +110,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_showChaserPoints(map: mapboxgl.Map) {
-		const gameDoc = firebase.firestore().doc(`games/${this.props.gameId}`);
+		const gameDoc = getGameDocRef();
 		gameDoc.onSnapshot(
 			snap => {
 				const game = snap.data();
@@ -174,8 +172,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		layerId: string,
 		playerRole: PlayerRole
 	) {
-		const db = firebase.firestore();
-		db.doc(`games/${this.props.gameId}`).onSnapshot(
+		getGameDocRef().onSnapshot(
 			snapshot => {
 				const game = snapshot.data();
 				let pointType = '';

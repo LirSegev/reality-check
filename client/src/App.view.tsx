@@ -1,35 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as firebase from 'firebase/app';
+import { signOut } from './util/firebase';
+import { ReduxState } from './reducers/initialState';
+import { connect } from 'react-redux';
 
 // Components
 import LoginPage from './routes/login';
 import Game from './routes/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
-import Admin from './routes/admin';
-import * as firebase from 'firebase/app';
-import { signOut } from './util/firebase';
+import ChooseGame from './routes/chooseGame';
 
 interface Props {
 	isLogged: boolean;
-	isLoading: boolean;
-	stopLoading: () => void;
-	startLoading: () => void;
-	changeGame: (gameId: string | null) => void;
 	gameId: string | null;
 	isAdmin: boolean;
 }
 
 const AppView: React.FC<Props> = props => {
-	const {
-		isLoading,
-		isLogged,
-		stopLoading,
-		gameId,
-		startLoading,
-		isAdmin,
-		changeGame,
-	} = props;
+	const { isLogged, gameId, isAdmin } = props;
 	let app: JSX.Element;
 
 	if (isLogged && gameId)
@@ -42,12 +32,7 @@ const AppView: React.FC<Props> = props => {
 						return undefined;
 					}}
 				/>
-				<Route
-					path="/"
-					render={() => (
-						<Game isAdmin={isAdmin} stopLoading={stopLoading} gameId={gameId} />
-					)}
-				/>
+				<Route path="/" render={() => <Game />} />
 			</Router>
 		);
 	else if (
@@ -56,7 +41,7 @@ const AppView: React.FC<Props> = props => {
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = <Admin changeGame={changeGame} stopLoading={stopLoading} />;
+		app = <ChooseGame />;
 	else
 		app = (
 			<Router>
@@ -64,23 +49,11 @@ const AppView: React.FC<Props> = props => {
 					<Route exact path="/" render={() => <div>Home</div>} />
 					<Route
 						path="/admin"
-						render={routeProps => (
-							<AdminLoginPage
-								startLoading={startLoading}
-								stopLoading={stopLoading}
-								{...routeProps}
-							/>
-						)}
+						render={routeProps => <AdminLoginPage {...routeProps} />}
 					/>
 					<Route
 						path="/:gameId"
-						render={routeProps => (
-							<LoginPage
-								startLoading={startLoading}
-								stopLoading={stopLoading}
-								{...routeProps}
-							/>
-						)}
+						render={routeProps => <LoginPage {...routeProps} />}
 					/>
 				</Switch>
 			</Router>
@@ -88,10 +61,14 @@ const AppView: React.FC<Props> = props => {
 
 	return (
 		<React.Fragment>
-			<LoadingIndicator isLoading={isLoading} />
+			<LoadingIndicator />
 			{app}
 		</React.Fragment>
 	);
 };
 
-export default AppView;
+const mapStateToProps = (state: ReduxState) => ({
+	gameId: state.main.gameId,
+	isAdmin: state.main.isAdmin,
+});
+export default connect(mapStateToProps)(AppView);

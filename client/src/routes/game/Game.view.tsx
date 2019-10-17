@@ -6,8 +6,6 @@ import OperationTabView from './operation';
 import IntelTabView from './intel';
 
 interface Props {
-	gameId: string;
-	isAdmin: boolean;
 	mapOrientation: MapOrientation;
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
@@ -36,7 +34,6 @@ const GameView: React.FC<Props> = props => (
 					content: (
 						<TargetTabView
 							incrementUnreadNum={props.incrementUnreadNum}
-							gameId={props.gameId}
 							key="targetTab-content"
 						/>
 					),
@@ -54,8 +51,6 @@ const GameView: React.FC<Props> = props => (
 							incrementUnreadNum={props.incrementUnreadNum}
 							moveToLocationOnMap={props.moveToLocationOnMap}
 							moveToMapTab={props.moveToMapTab}
-							isAdmin={props.isAdmin}
-							gameId={props.gameId}
 							key="intelTab-content"
 						/>
 					),
@@ -73,7 +68,6 @@ const GameView: React.FC<Props> = props => (
 							incrementUnreadNum={props.incrementUnreadNum}
 							onTabChange={props.onOpTabChange}
 							tabIndex={props.opTabIndex}
-							gameId={props.gameId}
 							key="operationTab-content"
 							mapOrientation={props.mapOrientation}
 							onMapMove={props.onMapMove}

@@ -3,6 +3,8 @@ import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
+import { stopLoading } from '../../reducers/main.reducer';
+import { connect } from 'react-redux';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -16,8 +18,6 @@ const CHECK_FOR_POINTS_INTERVAL = 5;
 const LOCATION_UPDATES_INTERVAL = 10;
 
 interface Props {
-	gameId: string;
-	isAdmin: boolean;
 	stopLoading: () => void;
 }
 
@@ -209,12 +209,16 @@ class GameContainer extends React.Component<Props, State> {
 				tabIndex={this.state.tabIndex}
 				mapOrientation={this.state.mapOrientation}
 				onMapMove={this._onMapMove}
-				isAdmin={this.props.isAdmin}
-				gameId={this.props.gameId}
 				moveToMapTab={this._moveToMapTab}
 			/>
 		);
 	}
 }
 
-export default GameContainer;
+const mapDispatchToProps = {
+	stopLoading,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(GameContainer);

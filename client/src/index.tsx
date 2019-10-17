@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContainer from './App.container';
 import * as serviceWorker from './serviceWorker';
+import { configureStore } from 'redux-starter-kit';
+import { Provider } from 'react-redux';
+import reducers from './reducers';
 import ons from 'onsenui';
 
 // OnsenUI CSS
@@ -10,6 +13,7 @@ import 'onsenui/css/onsen-css-components.css';
 
 import './global.css';
 
+// Firebase
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
@@ -19,6 +23,7 @@ import 'firebase/storage';
 import firebaseConfig from './config/firebase';
 firebase.initializeApp(firebaseConfig);
 
+// Eruda
 (function() {
 	var src = '//cdn.jsdelivr.net/npm/eruda';
 	if (
@@ -30,8 +35,18 @@ firebase.initializeApp(firebaseConfig);
 	document.write('<script>eruda.init();</script>');
 })();
 
+// Redux
+export const store = configureStore({
+	reducer: reducers,
+});
+
 ons.ready(() =>
-	ReactDOM.render(<AppContainer />, document.getElementById('root'))
+	ReactDOM.render(
+		<Provider store={store}>
+			<AppContainer />
+		</Provider>,
+		document.getElementById('root')
+	)
 );
 
 // If you want your app to work offline and load faster, you can change

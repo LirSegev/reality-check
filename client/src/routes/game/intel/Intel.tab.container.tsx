@@ -2,14 +2,13 @@ import React from 'react';
 import IntelTabView from './Intel.tab.view';
 import { IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
+import { getGameDocRef } from '../../../util/db';
 
 interface State {
 	intelItems: IntelItem[];
 	isAddItemOpen: boolean;
 }
 interface Props {
-	gameId: string;
-	isAdmin: boolean;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 	moveToMapTab: () => void;
 	incrementUnreadNum: (type: UnreadType) => boolean;
@@ -31,10 +30,8 @@ class IntelTabContainer extends React.Component<Props, State> {
 	}
 
 	componentWillMount() {
-		const db = firebase.firestore();
-		const { gameId } = this.props;
-
-		db.collection(`games/${gameId}/intel`)
+		getGameDocRef()
+			.collection('intel')
 			.orderBy('timestamp', 'desc')
 			.onSnapshot(this._updateIntelItems, err =>
 				console.error(new Error('Error getting intel snapshot:'), err)
@@ -90,10 +87,8 @@ class IntelTabContainer extends React.Component<Props, State> {
 
 	render = () => (
 		<IntelTabView
-			isAdmin={this.props.isAdmin}
 			openAddItem={this._openAddItem}
 			hideAddItem={this._hideAddItem}
-			gameId={this.props.gameId}
 			handleClick={this._handleClick}
 			{...this.state}
 		/>

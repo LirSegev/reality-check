@@ -17,6 +17,7 @@
 		"eruda",
 		"jsdelivr",
 		"millis",
-		"nodivider"
+		"nodivider",
+		"onadditemopen"
 	]
 }

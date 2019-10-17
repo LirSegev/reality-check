@@ -2,30 +2,28 @@ import React from 'react';
 import styles from './Chat.module.css';
 import { Button } from 'react-onsenui';
 import firebase from 'firebase/app';
-import { dateToTimestamp } from '../../../../util/db';
+import { dateToTimestamp, getGameDocRef } from '../../../../util/db';
 
-interface Props {
-	gameId: string;
-}
-
-class ChatInput extends React.Component<Props> {
-	constructor(props: Props) {
+class ChatInput extends React.Component {
+	constructor(props: {}) {
 		super(props);
+
 		this.handleSend = this.handleSend.bind(this);
 	}
 
 	handleSend(e?: React.MouseEvent<HTMLElement, MouseEvent>) {
 		const inputEl = this.refs.input as HTMLDivElement;
-		const db = firebase.firestore();
 		const { displayName, uid } = firebase.auth().currentUser!;
-		db.collection(`games/${this.props.gameId}/chat`).add({
-			author: {
-				displayName,
-				uid,
-			},
-			message: inputEl.innerText,
-			timestamp: dateToTimestamp(new Date()),
-		} as ChatDoc);
+		getGameDocRef()
+			.collection('chat')
+			.add({
+				author: {
+					displayName,
+					uid,
+				},
+				message: inputEl.innerText,
+				timestamp: dateToTimestamp(new Date()),
+			} as ChatDoc);
 
 		inputEl.innerHTML = '';
 	}

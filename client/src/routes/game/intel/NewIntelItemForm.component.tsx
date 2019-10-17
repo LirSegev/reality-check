@@ -4,7 +4,8 @@ import { ActionType, MetroLine, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import styles from './NewIntelItemForm.module.css';
 import mapboxConfig from '../../../config/Mapbox';
-import LoadingIndicator from '../../../components/LoadingIndicator.component';
+import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../components/LoadingIndicator.component';
+import { getGameDocRef } from '../../../util/db';
 
 interface State {
 	type: ActionType;
@@ -14,7 +15,7 @@ interface State {
 	isLoading: boolean;
 }
 interface Props {
-	gameId: string;
+	gameId: string | null;
 	hideAddItem: () => void;
 }
 
@@ -76,8 +77,8 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		const { type, more, location } = this.state;
 		const time = this.state.time.split(':').map(num => Number(num));
 
-		const db = firebase.firestore();
-		db.collection(`games/${this.props.gameId}/intel`)
+		getGameDocRef()
+			.collection('intel')
 			.add({
 				action: {
 					type,
@@ -97,27 +98,29 @@ class NewIntelItemForm extends React.Component<Props, State> {
 	}
 
 	_sendNotification() {
-		firebase
-			.functions()
-			.httpsCallable('sendNotificationToGroup')({
-				gameId: this.props.gameId,
-				notification: {
-					title: 'New intel on Mr. Z',
-				},
-			})
-			.then((res: any) => {
-				if (res.failure) {
-					// prettier-ignore
-					alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
-					throw new Error(res);
-				}
-			})
-			.catch(err =>
-				console.error(
-					new Error('Error sending notification to device group:'),
-					err
-				)
-			);
+		if (this.props.gameId)
+			firebase
+				.functions()
+				.httpsCallable('sendNotificationToGroup')({
+					gameId: this.props.gameId,
+					notification: {
+						title: 'New intel on Mr. Z',
+					},
+				})
+				.then((res: any) => {
+					if (res.failure) {
+						// prettier-ignore
+						alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
+						throw new Error(res);
+					}
+				})
+				.catch(err =>
+					console.error(
+						new Error('Error sending notification to device group:'),
+						err
+					)
+				);
+		else console.error(new Error('gameId is null'));
 	}
 
 	_onMyLocation() {
