@@ -10,7 +10,7 @@ import LoginPage from './routes/login';
 import Game from './routes/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
-import Admin from './routes/admin';
+import ChooseGame from './routes/chooseGame';
 
 interface Props {
 	isLogged: boolean;
@@ -41,7 +41,7 @@ const AppView: React.FC<Props> = props => {
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = <Admin />;
+		app = <ChooseGame />;
 	else
 		app = (
 			<Router>
