@@ -9,7 +9,6 @@ interface State {
 	isAddItemOpen: boolean;
 }
 interface Props {
-	isAdmin: boolean;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 	moveToMapTab: () => void;
 	incrementUnreadNum: (type: UnreadType) => boolean;
@@ -88,7 +87,6 @@ class IntelTabContainer extends React.Component<Props, State> {
 
 	render = () => (
 		<IntelTabView
-			isAdmin={this.props.isAdmin}
 			openAddItem={this._openAddItem}
 			hideAddItem={this._hideAddItem}
 			handleClick={this._handleClick}

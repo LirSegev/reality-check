@@ -18,8 +18,21 @@ const main = createSlice({
 		changeGame(state, action: PayloadAction<changeGameActionPayload>) {
 			state.gameId = action.payload.gameId;
 		},
+		adminSignin(state) {
+			state.isAdmin = true;
+		},
+		signOut(state) {
+			state.isAdmin = initialState.main.isAdmin;
+			state.gameId = initialState.main.gameId;
+		},
 	},
 });
 
-export const { startLoading, stopLoading, changeGame } = main.actions;
+export const {
+	startLoading,
+	stopLoading,
+	changeGame,
+	adminSignin,
+	signOut,
+} = main.actions;
 export default main.reducer;

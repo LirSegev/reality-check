@@ -18,7 +18,6 @@ const CHECK_FOR_POINTS_INTERVAL = 5;
 const LOCATION_UPDATES_INTERVAL = 10;
 
 interface Props {
-	isAdmin: boolean;
 	stopLoading: () => void;
 }
 
@@ -210,7 +209,6 @@ class GameContainer extends React.Component<Props, State> {
 				tabIndex={this.state.tabIndex}
 				mapOrientation={this.state.mapOrientation}
 				onMapMove={this._onMapMove}
-				isAdmin={this.props.isAdmin}
 				moveToMapTab={this._moveToMapTab}
 			/>
 		);

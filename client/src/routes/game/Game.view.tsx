@@ -6,7 +6,6 @@ import OperationTabView from './operation';
 import IntelTabView from './intel';
 
 interface Props {
-	isAdmin: boolean;
 	mapOrientation: MapOrientation;
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
@@ -52,7 +51,6 @@ const GameView: React.FC<Props> = props => (
 							incrementUnreadNum={props.incrementUnreadNum}
 							moveToLocationOnMap={props.moveToLocationOnMap}
 							moveToMapTab={props.moveToMapTab}
-							isAdmin={props.isAdmin}
 							key="intelTab-content"
 						/>
 					),

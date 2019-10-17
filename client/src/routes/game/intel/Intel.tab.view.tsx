@@ -54,5 +54,6 @@ const IntelTabView: React.FC<Props> = props => {
 
 const mapState = (state: ReduxState) => ({
 	gameId: state.main.gameId,
+	isAdmin: state.main.isAdmin,
 });
 export default connect(mapState)(IntelTabView);

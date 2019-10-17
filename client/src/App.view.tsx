@@ -32,7 +32,7 @@ const AppView: React.FC<Props> = props => {
 						return undefined;
 					}}
 				/>
-				<Route path="/" render={() => <Game isAdmin={isAdmin} />} />
+				<Route path="/" render={() => <Game />} />
 			</Router>
 		);
 	else if (
@@ -69,5 +69,6 @@ const AppView: React.FC<Props> = props => {
 
 const mapStateToProps = (state: ReduxState) => ({
 	gameId: state.main.gameId,
+	isAdmin: state.main.isAdmin,
 });
 export default connect(mapStateToProps)(AppView);

@@ -1,6 +1,5 @@
 export default {
 	main: {
-		isLogged: false,
 		gameId: null,
 		isLoading: true,
 		isAdmin: false,
@@ -9,7 +8,6 @@ export default {
 
 export interface ReduxState {
 	main: {
-		isLogged: boolean;
 		gameId: string | null;
 		isLoading: boolean;
 		isAdmin: boolean;
