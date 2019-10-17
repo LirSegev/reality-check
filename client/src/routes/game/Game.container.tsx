@@ -131,6 +131,7 @@ class GameContainer extends React.Component<Props, State> {
 		if (navigator.geolocation)
 			navigator.geolocation.getCurrentPosition(pos => {
 				this._updateLastPos(pos);
+				// TODO: clear all intervals at componentWillUnmount()
 				// Update player location in db
 				setInterval(() => {
 					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
