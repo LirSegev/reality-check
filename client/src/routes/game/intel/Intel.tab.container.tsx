@@ -2,13 +2,15 @@ import React from 'react';
 import IntelTabView from './Intel.tab.view';
 import { IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
+import { connect } from 'react-redux';
+import { ReduxState } from '../../../reducers/initialState';
 
 interface State {
 	intelItems: IntelItem[];
 	isAddItemOpen: boolean;
 }
 interface Props {
-	gameId: string;
+	gameId: string | null;
 	isAdmin: boolean;
 	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 	moveToMapTab: () => void;
@@ -31,14 +33,16 @@ class IntelTabContainer extends React.Component<Props, State> {
 	}
 
 	componentWillMount() {
-		const db = firebase.firestore();
 		const { gameId } = this.props;
 
-		db.collection(`games/${gameId}/intel`)
-			.orderBy('timestamp', 'desc')
-			.onSnapshot(this._updateIntelItems, err =>
-				console.error(new Error('Error getting intel snapshot:'), err)
-			);
+		if (gameId) {
+			const db = firebase.firestore();
+			db.collection(`games/${gameId}/intel`)
+				.orderBy('timestamp', 'desc')
+				.onSnapshot(this._updateIntelItems, err =>
+					console.error(new Error('Error getting intel snapshot:'), err)
+				);
+		} else console.error(new Error('gameId is null'));
 	}
 
 	_openAddItem = () => {
@@ -93,11 +97,13 @@ class IntelTabContainer extends React.Component<Props, State> {
 			isAdmin={this.props.isAdmin}
 			openAddItem={this._openAddItem}
 			hideAddItem={this._hideAddItem}
-			gameId={this.props.gameId}
 			handleClick={this._handleClick}
 			{...this.state}
 		/>
 	);
 }
 
-export default IntelTabContainer;
+const mapState = (state: ReduxState) => ({
+	gameId: state.main.gameId,
+});
+export default connect(mapState)(IntelTabContainer);

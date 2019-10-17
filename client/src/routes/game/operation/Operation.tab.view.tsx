@@ -5,7 +5,6 @@ import MapTab from './map';
 import ChatTab from './chat';
 
 interface Props {
-	gameId: string;
 	mapOrientation: MapOrientation;
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (event: any) => void;
@@ -27,7 +26,6 @@ const OperationTabView: React.FC<Props> = props => (
 						<MapTab
 							mapOrientation={props.mapOrientation}
 							onMove={props.onMapMove}
-							gameId={props.gameId}
 							key="mapTab-content"
 						/>
 					),
@@ -37,7 +35,6 @@ const OperationTabView: React.FC<Props> = props => (
 					content: (
 						<ChatTab
 							key="chatTab-content"
-							gameId={props.gameId}
 							incrementUnreadNum={props.incrementUnreadNum}
 						/>
 					),

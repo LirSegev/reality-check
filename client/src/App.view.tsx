@@ -1,5 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as firebase from 'firebase/app';
+import { signOut } from './util/firebase';
+import { ReduxState } from './reducers/initialState';
+import { connect } from 'react-redux';
 
 // Components
 import LoginPage from './routes/login';
@@ -7,18 +11,15 @@ import Game from './routes/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
 import Admin from './routes/admin';
-import * as firebase from 'firebase/app';
-import { signOut } from './util/firebase';
 
 interface Props {
 	isLogged: boolean;
-	changeGame: (gameId: string | null) => void;
 	gameId: string | null;
 	isAdmin: boolean;
 }
 
 const AppView: React.FC<Props> = props => {
-	const { isLogged, gameId, isAdmin, changeGame } = props;
+	const { isLogged, gameId, isAdmin } = props;
 	let app: JSX.Element;
 
 	if (isLogged && gameId)
@@ -31,10 +32,7 @@ const AppView: React.FC<Props> = props => {
 						return undefined;
 					}}
 				/>
-				<Route
-					path="/"
-					render={() => <Game isAdmin={isAdmin} gameId={gameId} />}
-				/>
+				<Route path="/" render={() => <Game isAdmin={isAdmin} />} />
 			</Router>
 		);
 	else if (
@@ -43,7 +41,7 @@ const AppView: React.FC<Props> = props => {
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = <Admin changeGame={changeGame} />;
+		app = <Admin />;
 	else
 		app = (
 			<Router>
@@ -69,4 +67,7 @@ const AppView: React.FC<Props> = props => {
 	);
 };
 
-export default AppView;
+const mapStateToProps = (state: ReduxState) => ({
+	gameId: state.main.gameId,
+});
+export default connect(mapStateToProps)(AppView);

@@ -3,24 +3,25 @@ import * as firebase from 'firebase/app';
 import AppView from './App.view';
 import { updateCurrentPlayer } from './util/db';
 import { signOut } from './util/firebase';
+import { changeGame, changeGameActionPayload } from './reducers/main.reducer';
+import { connect } from 'react-redux';
 
 interface State {
 	isLogged: boolean;
-	gameId: string | null;
 	isAdmin: boolean;
 }
+interface Props {
+	changeGame: (payload: changeGameActionPayload) => void;
+}
 
-class AppContainer extends React.Component<{}, State> {
-	constructor(props: {}) {
+class AppContainer extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
 			isLogged: false,
-			gameId: null,
 			isAdmin: false,
 		};
-
-		this.changeGame = this.changeGame.bind(this);
 
 		firebase.auth().onAuthStateChanged(player => {
 			if (player && player.isAnonymous) this._onPlayerSignin(player);
@@ -33,9 +34,11 @@ class AppContainer extends React.Component<{}, State> {
 			} else {
 				// Sign out
 				localStorage.removeItem('gameId');
+				this.props.changeGame({
+					gameId: null,
+				});
 				this.setState({
 					isLogged: false,
-					gameId: null,
 					isAdmin: false,
 				});
 			}
@@ -62,7 +65,8 @@ class AppContainer extends React.Component<{}, State> {
 			: ('chaser' as PlayerRole);
 		const isNew = localStorage.getItem('gameId') ? false : true;
 
-		this.setState({ gameId, isLogged: true });
+		this.setState({ isLogged: true });
+		this.props.changeGame({ gameId });
 
 		this._addPlayerToGame(player, gameId, displayName, role, isNew);
 	}
@@ -171,13 +175,15 @@ class AppContainer extends React.Component<{}, State> {
 		}
 	}
 
-	changeGame(gameId: string | null) {
-		this.setState({ gameId });
-	}
-
 	render() {
-		return <AppView changeGame={this.changeGame} {...this.state} />;
+		return <AppView {...this.state} />;
 	}
 }
 
-export default AppContainer;
+const mapDispatchToProps = {
+	changeGame,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(AppContainer);

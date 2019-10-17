@@ -14,7 +14,7 @@ interface State {
 	isLoading: boolean;
 }
 interface Props {
-	gameId: string;
+	gameId: string | null;
 	hideAddItem: () => void;
 }
 
@@ -76,48 +76,55 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		const { type, more, location } = this.state;
 		const time = this.state.time.split(':').map(num => Number(num));
 
-		const db = firebase.firestore();
-		db.collection(`games/${this.props.gameId}/intel`)
-			.add({
-				action: {
-					type,
-					text: more,
-					...(location && { coordinates: location }),
-				},
-				timestamp: new firebase.firestore.Timestamp(
-					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
-					0
-				),
-			} as IntelItem)
-			.then(() => {
-				this.props.hideAddItem();
-				// this._sendNotification();
-			})
-			.catch(err => console.error(new Error('Error adding intel item:'), err));
+		if (this.props.gameId) {
+			const db = firebase.firestore();
+			db.collection(`games/${this.props.gameId}/intel`)
+				.add({
+					action: {
+						type,
+						text: more,
+						...(location && { coordinates: location }),
+					},
+					timestamp: new firebase.firestore.Timestamp(
+						Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
+						0
+					),
+				} as IntelItem)
+				.then(() => {
+					this.props.hideAddItem();
+					// this._sendNotification();
+				})
+				.catch(err =>
+					console.error(new Error('Error adding intel item:'), err)
+				);
+		}
+		console.error(new Error('gameId is null'));
 	}
 
 	_sendNotification() {
-		firebase
-			.functions()
-			.httpsCallable('sendNotificationToGroup')({
-				gameId: this.props.gameId,
-				notification: {
-					title: 'New intel on Mr. Z',
-				},
-			})
-			.then((res: any) => {
-				if (res.failure) {
-					// prettier-ignore
-					alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
-					throw new Error(res);
-				}
-			})
-			.catch(err =>
-				console.error(
-					new Error('Error sending notification to device group:'),
-					err
-				)
-			);
+		if (this.props.gameId)
+			firebase
+				.functions()
+				.httpsCallable('sendNotificationToGroup')({
+					gameId: this.props.gameId,
+					notification: {
+						title: 'New intel on Mr. Z',
+					},
+				})
+				.then((res: any) => {
+					if (res.failure) {
+						// prettier-ignore
+						alert(`Failed to send notification to ${res.failure} devices out of ${res.success + res.failure}`)
+						throw new Error(res);
+					}
+				})
+				.catch(err =>
+					console.error(
+						new Error('Error sending notification to device group:'),
+						err
+					)
+				);
+		else console.error(new Error('gameId is null'));
 	}
 
 	_onMyLocation() {

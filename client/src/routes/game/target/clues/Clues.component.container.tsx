@@ -1,12 +1,14 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import CluesView from './Clues.component.view';
+import { connect } from 'react-redux';
+import { ReduxState } from '../../../../reducers/initialState';
 
 interface State {
 	clues: { [key: string]: string };
 }
 interface Props {
-	gameId: string;
+	gameId: string | null;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
@@ -22,10 +24,12 @@ class CluesContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		const db = firebase.firestore();
-		db.doc(`games/${this.props.gameId}`).onSnapshot(this._updateClues, err =>
-			console.error(new Error('Getting game doc snapshot'), err)
-		);
+		if (this.props.gameId) {
+			const db = firebase.firestore();
+			db.doc(`games/${this.props.gameId}`).onSnapshot(this._updateClues, err =>
+				console.error(new Error('Getting game doc snapshot'), err)
+			);
+		} else console.error(new Error('gameId is null'));
 	}
 
 	_updateClues(snapshot: firebase.firestore.DocumentSnapshot) {
@@ -41,4 +45,7 @@ class CluesContainer extends React.Component<Props, State> {
 	}
 }
 
-export default CluesContainer;
+const mapState = (state: ReduxState) => ({
+	gameId: state.main.gameId,
+});
+export default connect(mapState)(CluesContainer);
