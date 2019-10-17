@@ -12,14 +12,17 @@
 		"@types/react-router-dom": "^4.3.4",
 		"firebase": "^6.3.0",
 		"fsevents": "^2.0.7",
-		"mapbox-gl": "^1.1.1",
+		"immer": "^4.0.1",
+		"mapbox-gl": "^1.4.1",
 		"onsenui": "^2.10.8",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6",
 		"react-mapbox-gl": "^4.5.1",
 		"react-onsenui": "^1.11.2",
+		"react-redux": "^7.1.1",
 		"react-router-dom": "^5.0.1",
 		"react-scripts": "3.0.1",
+		"redux-starter-kit": "^0.8.1",
 		"typescript": "3.5.3"
 	},
 	"scripts": {
