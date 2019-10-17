@@ -1,5 +1,5 @@
 import { createSlice } from 'redux-starter-kit';
-import initialState, { ReduxState } from './initialState';
+import initialState from './initialState';
 
 const main = createSlice({
 	name: 'main',

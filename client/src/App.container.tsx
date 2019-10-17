@@ -7,7 +7,6 @@ import { signOut } from './util/firebase';
 interface State {
 	isLogged: boolean;
 	gameId: string | null;
-	isLoading: boolean;
 	isAdmin: boolean;
 }
 
@@ -18,12 +17,9 @@ class AppContainer extends React.Component<{}, State> {
 		this.state = {
 			isLogged: false,
 			gameId: null,
-			isLoading: true,
 			isAdmin: false,
 		};
 
-		this.stopLoading = this.stopLoading.bind(this);
-		this.startLoading = this.startLoading.bind(this);
 		this.changeGame = this.changeGame.bind(this);
 
 		firebase.auth().onAuthStateChanged(player => {
@@ -175,27 +171,12 @@ class AppContainer extends React.Component<{}, State> {
 		}
 	}
 
-	stopLoading() {
-		this.setState({ isLoading: false });
-	}
-
-	startLoading() {
-		this.setState({ isLoading: true });
-	}
-
 	changeGame(gameId: string | null) {
 		this.setState({ gameId });
 	}
 
 	render() {
-		return (
-			<AppView
-				startLoading={this.startLoading}
-				stopLoading={this.stopLoading}
-				changeGame={this.changeGame}
-				{...this.state}
-			/>
-		);
+		return <AppView changeGame={this.changeGame} {...this.state} />;
 	}
 }
 

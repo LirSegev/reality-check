@@ -1,5 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
+import { startLoading, stopLoading } from '../../reducers/main.reducer';
+import { connect } from 'react-redux';
 
 // Components
 import AdminLoginPageView from './AdminLogin.page.view';
@@ -46,4 +48,11 @@ class AdminLoginPageContainer extends React.Component<Props> {
 	}
 }
 
-export default AdminLoginPageContainer;
+const mapDispatchToProps = {
+	startLoading,
+	stopLoading,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(AdminLoginPageContainer);

@@ -4,7 +4,7 @@ import { ActionType, MetroLine, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import styles from './NewIntelItemForm.module.css';
 import mapboxConfig from '../../../config/Mapbox';
-import LoadingIndicator from '../../../components/LoadingIndicator.component';
+import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../components/LoadingIndicator.component';
 
 interface State {
 	type: ActionType;

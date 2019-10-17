@@ -1,5 +1,7 @@
 import * as React from 'react';
 import ChooseGamePage from './chooseGame/index';
+import { stopLoading } from '../../reducers/main.reducer';
+import { connect } from 'react-redux';
 
 interface Props {
 	stopLoading: () => void;
@@ -13,4 +15,10 @@ class Admin extends React.Component<Props> {
 	}
 }
 
-export default Admin;
+const mapDispatchToProps = {
+	stopLoading,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(Admin);

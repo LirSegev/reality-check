@@ -3,6 +3,8 @@ import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
+import { stopLoading } from '../../reducers/main.reducer';
+import { connect } from 'react-redux';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -217,4 +219,10 @@ class GameContainer extends React.Component<Props, State> {
 	}
 }
 
-export default GameContainer;
+const mapDispatchToProps = {
+	stopLoading,
+};
+export default connect(
+	null,
+	mapDispatchToProps
+)(GameContainer);

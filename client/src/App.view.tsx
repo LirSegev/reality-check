@@ -12,24 +12,13 @@ import { signOut } from './util/firebase';
 
 interface Props {
 	isLogged: boolean;
-	isLoading: boolean;
-	stopLoading: () => void;
-	startLoading: () => void;
 	changeGame: (gameId: string | null) => void;
 	gameId: string | null;
 	isAdmin: boolean;
 }
 
 const AppView: React.FC<Props> = props => {
-	const {
-		isLoading,
-		isLogged,
-		stopLoading,
-		gameId,
-		startLoading,
-		isAdmin,
-		changeGame,
-	} = props;
+	const { isLogged, gameId, isAdmin, changeGame } = props;
 	let app: JSX.Element;
 
 	if (isLogged && gameId)
@@ -44,9 +33,7 @@ const AppView: React.FC<Props> = props => {
 				/>
 				<Route
 					path="/"
-					render={() => (
-						<Game isAdmin={isAdmin} stopLoading={stopLoading} gameId={gameId} />
-					)}
+					render={() => <Game isAdmin={isAdmin} gameId={gameId} />}
 				/>
 			</Router>
 		);
@@ -56,7 +43,7 @@ const AppView: React.FC<Props> = props => {
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = <Admin changeGame={changeGame} stopLoading={stopLoading} />;
+		app = <Admin changeGame={changeGame} />;
 	else
 		app = (
 			<Router>
@@ -64,23 +51,11 @@ const AppView: React.FC<Props> = props => {
 					<Route exact path="/" render={() => <div>Home</div>} />
 					<Route
 						path="/admin"
-						render={routeProps => (
-							<AdminLoginPage
-								startLoading={startLoading}
-								stopLoading={stopLoading}
-								{...routeProps}
-							/>
-						)}
+						render={routeProps => <AdminLoginPage {...routeProps} />}
 					/>
 					<Route
 						path="/:gameId"
-						render={routeProps => (
-							<LoginPage
-								startLoading={startLoading}
-								stopLoading={stopLoading}
-								{...routeProps}
-							/>
-						)}
+						render={routeProps => <LoginPage {...routeProps} />}
 					/>
 				</Switch>
 			</Router>
@@ -88,7 +63,7 @@ const AppView: React.FC<Props> = props => {
 
 	return (
 		<React.Fragment>
-			<LoadingIndicator isLoading={isLoading} />
+			<LoadingIndicator />
 			{app}
 		</React.Fragment>
 	);

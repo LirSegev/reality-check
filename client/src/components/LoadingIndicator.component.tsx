@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal, ProgressCircular } from 'react-onsenui';
+import { connect } from 'react-redux';
+import { ReduxState } from '../reducers/initialState';
 
 const LoadingIndicator: React.FC<{ isLoading: boolean }> = props => (
 	<Modal isOpen={props.isLoading} animation={'fade'}>
@@ -7,4 +9,8 @@ const LoadingIndicator: React.FC<{ isLoading: boolean }> = props => (
 	</Modal>
 );
 
-export default LoadingIndicator;
+const mapStateToProps = (state: ReduxState) => ({
+	isLoading: state.main.isLoading,
+});
+export default connect(mapStateToProps)(LoadingIndicator);
+export const LoadingIndicatorNoStore = LoadingIndicator;
