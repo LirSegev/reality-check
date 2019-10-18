@@ -9,6 +9,8 @@ import {
 import { addGeolocateControl } from './geolocateControl.module';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { NavigationControl } from 'mapbox-gl';
+import { ReduxState } from '../../../../reducers/initialState';
+import { connect } from 'react-redux';
 
 interface PlayerLocation {
 	playerName: string;
@@ -24,6 +26,7 @@ interface State {
 }
 interface Props {
 	mapOrientation: MapOrientation;
+	isAdmin: boolean;
 	onMove: (map: mapboxgl.Map) => void;
 }
 
@@ -131,29 +134,30 @@ class MapTabContainer extends React.Component<Props, State> {
 	 * Show intelligence points to intelligence collector and so on.
 	 */
 	_showRolePoints(map: mapboxgl.Map) {
-		getCurrentPlayer()
-			.then(player => {
-				if (player) {
-					let layerId = '';
-					switch (player.role) {
-						case 'detective':
-							layerId = 'identity-points';
-							break;
-						case 'intelligence':
-							layerId = 'intelligence-points';
-							break;
-					}
+		if (!this.props.isAdmin)
+			getCurrentPlayer()
+				.then(player => {
+					if (player) {
+						let layerId = '';
+						switch (player.role) {
+							case 'detective':
+								layerId = 'identity-points';
+								break;
+							case 'intelligence':
+								layerId = 'intelligence-points';
+								break;
+						}
 
-					if (layerId) {
-						this._hideCollectedPoints(map, layerId, player.role);
-						this._savePointsToSession(map, layerId);
-						map.setLayoutProperty(layerId, 'visibility', 'visible');
+						if (layerId) {
+							this._hideCollectedPoints(map, layerId, player.role);
+							this._savePointsToSession(map, layerId);
+							map.setLayoutProperty(layerId, 'visibility', 'visible');
+						}
 					}
-				}
-			})
-			.catch(err =>
-				console.error(new Error('Getting current player data from db'), err)
-			);
+				})
+				.catch(err =>
+					console.error(new Error('Getting current player data from db'), err)
+				);
 	}
 
 	_savePointsToSession(map: mapboxgl.Map, layerId: string) {
@@ -271,4 +275,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	};
 }
 
-export default MapTabContainer;
+const mapState = (state: ReduxState) => ({
+	isAdmin: state.main.isAdmin,
+});
+export default connect(mapState)(MapTabContainer);

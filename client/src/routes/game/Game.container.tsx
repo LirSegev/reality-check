@@ -5,6 +5,7 @@ import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
 import { stopLoading } from '../../reducers/main.reducer';
 import { connect } from 'react-redux';
+import { ReduxState } from '../../reducers/initialState';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -19,6 +20,7 @@ const LOCATION_UPDATES_INTERVAL = 10;
 
 interface Props {
 	stopLoading: () => void;
+	isAdmin: boolean;
 }
 
 interface State {
@@ -128,7 +130,7 @@ class GameContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		this.props.stopLoading();
 
-		if (navigator.geolocation)
+		if (navigator.geolocation && !this.props.isAdmin)
 			navigator.geolocation.getCurrentPosition(pos => {
 				this._updateLastPos(pos);
 				// TODO: clear all intervals at componentWillUnmount()
@@ -147,7 +149,7 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	componentWillUnmount() {
-		navigator.geolocation.clearWatch(this._GPSWatchId!);
+		if (this._GPSWatchId) navigator.geolocation.clearWatch(this._GPSWatchId);
 	}
 
 	_lastPos: Position | null = null;
@@ -219,7 +221,10 @@ class GameContainer extends React.Component<Props, State> {
 const mapDispatchToProps = {
 	stopLoading,
 };
+const mapState = (state: ReduxState) => ({
+	isAdmin: state.main.isAdmin,
+});
 export default connect(
-	null,
+	mapState,
 	mapDispatchToProps
 )(GameContainer);
