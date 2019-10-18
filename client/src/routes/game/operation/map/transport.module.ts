@@ -18,8 +18,7 @@ export const onShowTransportOnMapWrapper = (map: mapboxgl.Map) => (
 		case 'tram':
 			map.setFilter('transport-routes', [
 				'has',
-				String(line),
-				['get', 'L_TRAM'],
+				`L_TRAM[${line}]`
 			]);
 			break;
 
