@@ -4,6 +4,7 @@ export default {
 		isLoading: true,
 		isAdmin: false,
 	},
+	map: {},
 } as ReduxState;
 
 export interface ReduxState {
@@ -11,5 +12,8 @@ export interface ReduxState {
 		gameId: string | null;
 		isLoading: boolean;
 		isAdmin: boolean;
+	};
+	map: {
+		destination?: { longitude: number; latitude: number };
 	};
 }

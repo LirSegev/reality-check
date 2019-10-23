@@ -4,6 +4,8 @@ import { Page } from 'react-onsenui';
 import ReactMapboxFactory, { Layer, Feature } from 'react-mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
 import DistantPoint from './distantPoint.component';
+import { ReduxState } from '../../../../reducers/initialState';
+import { connect } from 'react-redux';
 
 const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
@@ -14,16 +16,19 @@ interface Props {
 	mapOrientation: MapOrientation;
 	onMove: (map: mapboxgl.Map) => void;
 	onStyleLoad: (map: mapboxgl.Map) => void;
+	destination?: { latitude: number; longitude: number };
 }
 
 const MapTabView: React.FC<Props> = props => (
 	<Page>
-		<DistantPoint
-			mapOrientation={props.mapOrientation}
-			coordinate={{ latitude: 50.0843591, longitude: 14.4182915 }}
-		>
-			<div style={{ background: 'white' }}>Point</div>
-		</DistantPoint>
+		{props.destination && (
+			<DistantPoint
+				mapOrientation={props.mapOrientation}
+				coordinate={props.destination}
+			>
+				<div style={{ background: 'white' }}>Point</div>
+			</DistantPoint>
+		)}
 		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}
@@ -76,4 +81,7 @@ const MapTabView: React.FC<Props> = props => (
 	</Page>
 );
 
-export default MapTabView;
+const mapState = (state: ReduxState) => ({
+	destination: state.map.destination,
+});
+export default connect(mapState)(MapTabView);
