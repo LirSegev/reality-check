@@ -29,6 +29,10 @@ class DistantPoint extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
+		if (this.props !== prevProps) this._setPosition(this._getBearing());
+	}
+
+	_getBearing() {
 		const start = {
 			latitude: this.props.mapOrientation.center.latitude,
 			longitude: this.props.mapOrientation.center.longitude,
@@ -40,12 +44,10 @@ class DistantPoint extends React.Component<Props, State> {
 			accuracy: 0,
 		} as Coordinates;
 
-		if (this.props !== prevProps)
-			this._setPosition(
-				(bearingBetweenPoints(start, end) +
-					(360 - this.props.mapOrientation.bearing)) %
-					360
-			);
+		const unadjustedBearing = bearingBetweenPoints(start, end);
+		const adjustedBearing =
+			(unadjustedBearing + (360 - this.props.mapOrientation.bearing)) % 360;
+		return adjustedBearing;
 	}
 
 	_setPosition(bearing: number) {
@@ -123,6 +125,7 @@ class DistantPoint extends React.Component<Props, State> {
 			position: 'absolute',
 			zIndex: 1,
 		};
+
 		const bounds = this.props.mapOrientation.bounds;
 		if (
 			bounds &&
