@@ -117,8 +117,6 @@ class DistantPoint extends React.Component<Props, State> {
 	render() {
 		const style: React.CSSProperties = {
 			position: 'absolute',
-			margin: 'auto',
-			background: 'white',
 			zIndex: 1,
 		};
 		const bounds = this.props.mapOrientation.bounds;
@@ -138,7 +136,7 @@ class DistantPoint extends React.Component<Props, State> {
 					...this.state.position,
 				}}
 			>
-				point
+				{this.props.children}
 			</div>
 		);
 	}

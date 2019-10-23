@@ -21,7 +21,9 @@ const MapTabView: React.FC<Props> = props => (
 		<DistantPoint
 			mapOrientation={props.mapOrientation}
 			coordinate={{ latitude: 50.0843591, longitude: 14.4182915 }}
-		/>
+		>
+			<div style={{ background: 'white' }}>Point</div>
+		</DistantPoint>
 		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}
