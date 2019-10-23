@@ -75,6 +75,22 @@ const MapTabView: React.FC<Props> = props => (
 					}
 				/>
 			</Layer>
+			<Layer
+				id="destination"
+				layout={{
+					'icon-image': 'placeholder-red-30',
+					'icon-offset': [0, -15],
+				}}
+			>
+				{props.destination && (
+					<Feature
+						coordinates={[
+							props.destination.longitude,
+							props.destination.latitude,
+						]}
+					/>
+				)}
+			</Layer>
 		</Map>
 	</Page>
 );
