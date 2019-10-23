@@ -101,6 +101,7 @@ class GameContainer extends React.Component<Props, State> {
 				},
 				bearing: map.getBearing(),
 				zoom: map.getZoom(),
+				bounds: map.getBounds(),
 			},
 		}));
 	}

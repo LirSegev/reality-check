@@ -39,7 +39,8 @@ class DistantPoint extends React.Component<Props, State> {
 			longitude: this.props.coordinate.longitude,
 			accuracy: 0,
 		} as Coordinates;
-		if (this.props != prevProps)
+
+		if (this.props !== prevProps)
 			this._setPosition(bearingBetweenPoints(start, end));
 	}
 
@@ -114,13 +115,26 @@ class DistantPoint extends React.Component<Props, State> {
 	}
 
 	render() {
+		const style: React.CSSProperties = {
+			position: 'absolute',
+			margin: 'auto',
+			background: 'white',
+			zIndex: 1,
+		};
+		const bounds = this.props.mapOrientation.bounds;
+		if (
+			bounds &&
+			bounds.getNorth() > this.props.coordinate.latitude &&
+			bounds.getSouth() < this.props.coordinate.latitude &&
+			bounds.getEast() > this.props.coordinate.longitude &&
+			bounds.getWest() < this.props.coordinate.longitude
+		)
+			style.display = 'none';
+
 		return (
 			<div
 				style={{
-					position: 'absolute',
-					margin: 'auto',
-					background: 'white',
-					zIndex: 1,
+					...style,
 					...this.state.position,
 				}}
 			>

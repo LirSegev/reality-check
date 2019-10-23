@@ -30,6 +30,7 @@ declare interface MapOrientation {
 	};
 	bearing: number;
 	zoom: number;
+	bounds?: mapboxgl.LngLatBounds;
 }
 
 declare type UnreadType = 'chat' | 'intel' | 'target';
