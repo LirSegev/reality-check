@@ -5,6 +5,8 @@ import * as serviceWorker from './serviceWorker';
 import { configureStore } from 'redux-starter-kit';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
+import * as mainActions from './reducers/main.reducer';
+import * as mapActions from './reducers/map.reducer';
 import ons from 'onsenui';
 
 // OnsenUI CSS
@@ -38,6 +40,12 @@ firebase.initializeApp(firebaseConfig);
 // Redux
 export const store = configureStore({
 	reducer: reducers,
+	devTools: {
+		actionCreators: {
+			...mainActions,
+			...mapActions,
+		},
+	},
 });
 
 ons.ready(() =>
