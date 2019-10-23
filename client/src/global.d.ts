@@ -28,6 +28,7 @@ declare interface MapOrientation {
 		latitude: number;
 		longitude: number;
 	};
+	bearing: number;
 	zoom: number;
 }
 

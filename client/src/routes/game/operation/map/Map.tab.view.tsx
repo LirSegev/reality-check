@@ -3,6 +3,7 @@ import { Page } from 'react-onsenui';
 
 import ReactMapboxFactory, { Layer, Feature } from 'react-mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
+import DistantPoint from './distantPoint.component';
 
 const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
@@ -17,6 +18,10 @@ interface Props {
 
 const MapTabView: React.FC<Props> = props => (
 	<Page>
+		<DistantPoint
+			mapOrientation={props.mapOrientation}
+			coordinate={{ latitude: 50.0843591, longitude: 14.4182915 }}
+		/>
 		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}

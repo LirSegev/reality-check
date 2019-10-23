@@ -41,6 +41,7 @@ class GameContainer extends React.Component<Props, State> {
 		this.state = {
 			mapOrientation: {
 				center: { longitude: 14.42, latitude: 50.08 },
+				bearing: 0,
 				zoom: 12,
 			},
 			unreadNums: {
@@ -98,6 +99,7 @@ class GameContainer extends React.Component<Props, State> {
 					longitude: map.getCenter().lng,
 					latitude: map.getCenter().lat,
 				},
+				bearing: map.getBearing(),
 				zoom: map.getZoom(),
 			},
 		}));
