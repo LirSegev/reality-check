@@ -27,7 +27,7 @@ class TabComponent extends React.Component<Props> {
 					.append(node);
 				observer.disconnect();
 				this._updateUnreadNum(this.props.unreadNum);
-			} catch {}
+			} catch (err) {}
 		}).observe((ReactDOM.findDOMNode(this.refs.tab) as Element) as Node, {
 			childList: true,
 		});
@@ -39,7 +39,7 @@ class TabComponent extends React.Component<Props> {
 		// this throws an error at the initial render
 		try {
 			this._updateUnreadNum(this.props.unreadNum);
-		} catch {}
+		} catch (err) {}
 	}
 
 	_updateUnreadNum(unreadNum?: number) {
