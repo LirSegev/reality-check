@@ -28,6 +28,10 @@ class DistantPoint extends React.Component<Props, State> {
 		};
 	}
 
+	componentDidMount() {
+		this._setPosition(this._getBearing());
+	}
+
 	componentDidUpdate(prevProps: Props) {
 		if (this.props !== prevProps) this._setPosition(this._getBearing());
 	}
