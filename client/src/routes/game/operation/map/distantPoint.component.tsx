@@ -41,7 +41,11 @@ class DistantPoint extends React.Component<Props, State> {
 		} as Coordinates;
 
 		if (this.props !== prevProps)
-			this._setPosition(bearingBetweenPoints(start, end));
+			this._setPosition(
+				(bearingBetweenPoints(start, end) +
+					(360 - this.props.mapOrientation.bearing)) %
+					360
+			);
 	}
 
 	_setPosition(bearing: number) {
