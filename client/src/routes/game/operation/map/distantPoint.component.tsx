@@ -55,8 +55,11 @@ class DistantPoint extends React.Component<Props, State> {
 	}
 
 	_setPosition(bearing: number) {
-		const parentEl = ReactDOM.findDOMNode(this)!.parentElement!;
-		const { clientHeight: height, clientWidth: width } = parentEl;
+		const thisEl = ReactDOM.findDOMNode(this)! as Element;
+		const parentEl = thisEl.parentElement!;
+
+		const height = parentEl.clientHeight - thisEl.clientHeight;
+		const width = parentEl.clientWidth - thisEl.clientWidth;
 
 		if (bearing > 360 || bearing < 0)
 			console.error(new Error('Bearing is out of bounds (should be 0-360)'));
