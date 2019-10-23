@@ -25,9 +25,7 @@ const MapTabView: React.FC<Props> = props => (
 			<DistantPoint
 				mapOrientation={props.mapOrientation}
 				coordinate={props.destination}
-			>
-				<div style={{ background: 'white' }}>Point</div>
-			</DistantPoint>
+			/>
 		)}
 		<Map
 			// eslint-disable-next-line
