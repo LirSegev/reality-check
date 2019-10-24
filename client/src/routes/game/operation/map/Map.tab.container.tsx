@@ -11,6 +11,11 @@ import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { NavigationControl } from 'mapbox-gl';
 import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
+import { isIOS } from '../../../../util/general';
+import {
+	changeDestination,
+	changeDestinationActionPayload,
+} from '../../../../reducers/map.reducer';
 
 interface PlayerLocation {
 	playerName: string;
@@ -27,6 +32,7 @@ interface State {
 interface Props {
 	isAdmin: boolean;
 	onMove: (map: mapboxgl.Map) => void;
+	changeDestination: (payload: changeDestinationActionPayload) => void;
 }
 
 class MapTabContainer extends React.Component<Props, State> {
@@ -43,6 +49,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._onStyleLoad = this._onStyleLoad.bind(this);
 		this._hideCollectedPoints = this._hideCollectedPoints.bind(this);
 		this._showChaserPoints = this._showChaserPoints.bind(this);
+		this._chooseDestination = this._chooseDestination.bind(this);
 	}
 
 	componentDidMount() {
@@ -100,6 +107,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._markPlayerLocations(map);
 		this._showRolePoints(map);
 		this._showChaserPoints(map);
+		this._listenToLongPress(map);
 		addGeolocateControl(map);
 
 		const navigationControl = new NavigationControl({ showZoom: false });
@@ -109,6 +117,16 @@ class MapTabContainer extends React.Component<Props, State> {
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
 		);
+	}
+
+	_listenToLongPress(map: mapboxgl.Map) {
+		if (isIOS()) init_ios_context_menu(map);
+		map.on('contextmenu', this._chooseDestination);
+	}
+
+	_chooseDestination(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
+		const { lat, lng } = e.lngLat;
+		this.props.changeDestination({ latitude: lat, longitude: lng });
 	}
 
 	_showChaserPoints(map: mapboxgl.Map) {
@@ -276,4 +294,41 @@ class MapTabContainer extends React.Component<Props, State> {
 const mapState = (state: ReduxState) => ({
 	isAdmin: state.main.isAdmin,
 });
-export default connect(mapState)(MapTabContainer);
+const mapActions = {
+	changeDestination,
+};
+export default connect(
+	mapState,
+	mapActions
+)(MapTabContainer);
+
+/**
+ * @author Petr Nagy
+ * @link https://stackoverflow.com/a/54746189
+ */
+function init_ios_context_menu(map: mapboxgl.Map) {
+	let iosTimeout: any = null;
+	let clearIosTimeout = () => {
+		clearTimeout(iosTimeout);
+	};
+
+	map.on('touchstart', e => {
+		if (e.originalEvent.touches.length > 1) {
+			return;
+		} else {
+			iosTimeout = setTimeout(() => {
+				// show_context_menu_or_whatever(e);
+				map.fire('contextmenu', e);
+			}, 500);
+		} // end if-else
+	});
+	map.on('touchend', clearIosTimeout);
+	map.on('touchcancel', clearIosTimeout);
+	map.on('touchmove', clearIosTimeout);
+	map.on('pointerdrag', clearIosTimeout);
+	map.on('pointermove', clearIosTimeout);
+	map.on('moveend', clearIosTimeout);
+	map.on('gesturestart', clearIosTimeout);
+	map.on('gesturechange', clearIosTimeout);
+	map.on('gestureend', clearIosTimeout);
+}
