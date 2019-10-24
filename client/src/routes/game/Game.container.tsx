@@ -16,6 +16,7 @@ import {
 } from '../../reducers/main.reducer';
 import { connect } from 'react-redux';
 import { ReduxState } from '../../reducers/initialState';
+import produce from 'immer';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -86,18 +87,18 @@ class GameContainer extends React.Component<Props, State> {
 			return false;
 
 		this.setState((prevState: State) => {
-			const newState = prevState;
-			newState.unreadNums[type] = prevState.unreadNums[type] + 1;
-			return newState;
+			return produce(prevState, draft => {
+				draft.unreadNums[type] = prevState.unreadNums[type] + 1;
+			});
 		});
 		return true;
 	}
 
 	_resetUnreadNum(type: UnreadType) {
 		this.setState((prevState: State) => {
-			const newState = prevState;
-			newState.unreadNums[type] = 0;
-			return newState;
+			return produce(prevState, draft => {
+				draft.unreadNums[type] = 0;
+			});
 		});
 	}
 
