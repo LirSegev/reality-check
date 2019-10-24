@@ -5,6 +5,8 @@ import {
 	rad2deg,
 	bearingBetweenPoints,
 } from '../../../../util/general';
+import { ReduxState } from '../../../../reducers/initialState';
+import { connect } from 'react-redux';
 
 interface Props {
 	mapOrientation: MapOrientation;
@@ -136,10 +138,10 @@ class DistantPoint extends React.Component<Props, State> {
 		const bounds = this.props.mapOrientation.bounds;
 		if (
 			bounds &&
-			bounds.getNorth() > this.props.coordinate.latitude &&
-			bounds.getSouth() < this.props.coordinate.latitude &&
-			bounds.getEast() > this.props.coordinate.longitude &&
-			bounds.getWest() < this.props.coordinate.longitude
+			bounds.north > this.props.coordinate.latitude &&
+			bounds.south < this.props.coordinate.latitude &&
+			bounds.east > this.props.coordinate.longitude &&
+			bounds.west < this.props.coordinate.longitude
 		)
 			style.display = 'none';
 
@@ -166,4 +168,7 @@ class DistantPoint extends React.Component<Props, State> {
 	}
 }
 
-export default DistantPoint;
+const mapState = (state: ReduxState) => ({
+	mapOrientation: state.map.mapOrientation,
+});
+export default connect(mapState)(DistantPoint);

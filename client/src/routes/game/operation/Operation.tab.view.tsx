@@ -3,9 +3,10 @@ import { Page, Tabbar } from 'react-onsenui';
 import Tab from '../../../components/Tab.component';
 import MapTab from './map';
 import ChatTab from './chat';
+import { ReduxState } from '../../../reducers/initialState';
+import { connect } from 'react-redux';
 
 interface Props {
-	mapOrientation: MapOrientation;
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (event: any) => void;
 	tabIndex: number;
@@ -22,13 +23,7 @@ const OperationTabView: React.FC<Props> = props => (
 			onPreChange={props.onTabChange}
 			renderTabs={() => [
 				{
-					content: (
-						<MapTab
-							mapOrientation={props.mapOrientation}
-							onMove={props.onMapMove}
-							key="mapTab-content"
-						/>
-					),
+					content: <MapTab onMove={props.onMapMove} key="mapTab-content" />,
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{
@@ -51,4 +46,7 @@ const OperationTabView: React.FC<Props> = props => (
 	</Page>
 );
 
-export default OperationTabView;
+const mapState = (state: ReduxState) => ({
+	tabIndex: state.main.opTabIndex,
+});
+export default connect(mapState)(OperationTabView);

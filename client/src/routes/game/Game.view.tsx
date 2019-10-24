@@ -4,16 +4,14 @@ import Tab from '../../components/Tab.component';
 import TargetTabView from './target';
 import OperationTabView from './operation';
 import IntelTabView from './intel';
+import { ReduxState } from '../../reducers/initialState';
+import { connect } from 'react-redux';
 
 interface Props {
-	mapOrientation: MapOrientation;
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (e: any) => void;
-	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
-	moveToMapTab: () => void;
 	onOpTabChange: (e: any) => void;
-	opTabIndex: number;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 	unreadNums: {
 		chat: number;
@@ -49,8 +47,6 @@ const GameView: React.FC<Props> = props => (
 					content: (
 						<IntelTabView
 							incrementUnreadNum={props.incrementUnreadNum}
-							moveToLocationOnMap={props.moveToLocationOnMap}
-							moveToMapTab={props.moveToMapTab}
 							key="intelTab-content"
 						/>
 					),
@@ -67,9 +63,7 @@ const GameView: React.FC<Props> = props => (
 						<OperationTabView
 							incrementUnreadNum={props.incrementUnreadNum}
 							onTabChange={props.onOpTabChange}
-							tabIndex={props.opTabIndex}
 							key="operationTab-content"
-							mapOrientation={props.mapOrientation}
 							onMapMove={props.onMapMove}
 							unreadNumChat={props.unreadNums.chat}
 						/>
@@ -89,4 +83,9 @@ const GameView: React.FC<Props> = props => (
 	</Page>
 );
 
-export default GameView;
+const mapState = (state: ReduxState) => {
+	const { main } = state;
+	const { tabIndex } = main;
+	return { tabIndex };
+};
+export default connect(mapState)(GameView);
