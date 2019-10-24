@@ -7,13 +7,13 @@ import {
 	stopLoading,
 	changeTab,
 	changeOpTab,
-	moveToLocationOnMap,
-} from '../../reducers/main.reducer';
-import {
 	changeTabPayload,
 	changeOpTabPayload,
-	moveToLocationOnMapPayload,
 } from '../../reducers/main.reducer';
+import {
+	changeMapOrientation,
+	changeMapOrientationActionPayload,
+} from '../../reducers/map.reducer';
 import { connect } from 'react-redux';
 import { ReduxState } from '../../reducers/initialState';
 import produce from 'immer';
@@ -33,14 +33,12 @@ interface Props {
 	stopLoading: () => void;
 	changeTab: (payload: changeTabPayload) => void;
 	changeOpTab: (payload: changeOpTabPayload) => void;
-	moveToLocationOnMap: (payload: moveToLocationOnMapPayload) => void;
+	changeMapOrientation: (payload: changeMapOrientationActionPayload) => void;
 	isAdmin: boolean;
 	tabIndex: number;
 	opTabIndex: number;
 }
-
 interface State {
-	mapOrientation: MapOrientation;
 	unreadNums: {
 		chat: number;
 		intel: number;
@@ -53,11 +51,6 @@ class GameContainer extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			mapOrientation: {
-				center: { longitude: 14.42, latitude: 50.08 },
-				bearing: 0,
-				zoom: 12,
-			},
 			unreadNums: {
 				chat: 0,
 				intel: 0,
@@ -67,7 +60,6 @@ class GameContainer extends React.Component<Props, State> {
 
 		this._onMapMove = this._onMapMove.bind(this);
 		this._onTabChange = this._onTabChange.bind(this);
-		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 		this._onGPSMove = this._onGPSMove.bind(this);
 		this._incrementUnreadNum = this._incrementUnreadNum.bind(this);
 		this._resetUnreadNum = this._resetUnreadNum.bind(this);
@@ -103,32 +95,21 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	_onMapMove(map: mapboxgl.Map) {
-		this.setState(prevState => ({
-			mapOrientation: {
-				...prevState.mapOrientation,
-				center: {
-					longitude: map.getCenter().lng,
-					latitude: map.getCenter().lat,
-				},
-				bearing: map.getBearing(),
-				zoom: map.getZoom(),
-				bounds: map.getBounds(),
+		const bounds = map.getBounds();
+		this.props.changeMapOrientation({
+			center: {
+				longitude: map.getCenter().lng,
+				latitude: map.getCenter().lat,
 			},
-		}));
-	}
-
-	_moveToLocationOnMap(long: number, lat: number, zoom?: number) {
-		this.setState(prevState => ({
-			mapOrientation: {
-				...prevState.mapOrientation,
-				center: {
-					longitude: long,
-					latitude: lat,
-				},
-				zoom: zoom ? zoom : prevState.mapOrientation.zoom,
+			bearing: map.getBearing(),
+			zoom: map.getZoom(),
+			bounds: {
+				north: bounds.getNorth(),
+				south: bounds.getSouth(),
+				west: bounds.getWest(),
+				east: bounds.getEast(),
 			},
-		}));
-		this.props.moveToLocationOnMap({ long, lat });
+		});
 	}
 
 	_GPSWatchId: number | undefined = undefined;
@@ -213,8 +194,6 @@ class GameContainer extends React.Component<Props, State> {
 				incrementUnreadNum={this._incrementUnreadNum}
 				onOpTabChange={this._onOpTabChange}
 				onTabChange={this._onTabChange}
-				moveToLocationOnMap={this._moveToLocationOnMap}
-				mapOrientation={this.state.mapOrientation}
 				onMapMove={this._onMapMove}
 			/>
 		);
@@ -225,7 +204,7 @@ const mapDispatchToProps = {
 	stopLoading,
 	changeTab,
 	changeOpTab,
-	moveToLocationOnMap,
+	changeMapOrientation,
 };
 const mapState = (state: ReduxState) => {
 	const { main } = state;

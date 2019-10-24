@@ -7,7 +7,6 @@ import { ReduxState } from '../../../reducers/initialState';
 import { connect } from 'react-redux';
 
 interface Props {
-	mapOrientation: MapOrientation;
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (event: any) => void;
 	tabIndex: number;
@@ -24,13 +23,7 @@ const OperationTabView: React.FC<Props> = props => (
 			onPreChange={props.onTabChange}
 			renderTabs={() => [
 				{
-					content: (
-						<MapTab
-							mapOrientation={props.mapOrientation}
-							onMove={props.onMapMove}
-							key="mapTab-content"
-						/>
-					),
+					content: <MapTab onMove={props.onMapMove} key="mapTab-content" />,
 					tab: <Tab label="Map" key="mapTab-button" />,
 				},
 				{

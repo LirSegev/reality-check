@@ -3,7 +3,11 @@ import IntelTabView from './Intel.tab.view';
 import { IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import { getGameDocRef } from '../../../util/db';
-import { goToMapTab } from '../../../reducers/main.reducer';
+import {
+	goToMapTab,
+	moveToLocationOnMap,
+	moveToLocationOnMapPayload,
+} from '../../../reducers/main.reducer';
 import { connect } from 'react-redux';
 
 interface State {
@@ -11,7 +15,7 @@ interface State {
 	isAddItemOpen: boolean;
 }
 interface Props {
-	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
+	moveToLocationOnMap: (payload: moveToLocationOnMapPayload) => void;
 	moveToMapTab: () => void;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
@@ -70,7 +74,11 @@ class IntelTabContainer extends React.Component<Props, State> {
 		const data = e.currentTarget.dataset;
 		if (data.coords) {
 			const coords = data.coords.split(',').map(num => Number(num));
-			this.props.moveToLocationOnMap(coords[0], coords[1], 15);
+			this.props.moveToLocationOnMap({
+				long: coords[0],
+				lat: coords[1],
+				zoom: 16,
+			});
 		} else if (data.tram) this._showTransportOnMap('tram', data.tram);
 		else if (data.metro) this._showTransportOnMap('metro', data.metro);
 	}
@@ -99,6 +107,7 @@ class IntelTabContainer extends React.Component<Props, State> {
 
 const mapActions = {
 	moveToMapTab: goToMapTab,
+	moveToLocationOnMap,
 };
 export default connect(
 	null,

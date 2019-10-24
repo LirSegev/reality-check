@@ -8,11 +8,9 @@ import { ReduxState } from '../../reducers/initialState';
 import { connect } from 'react-redux';
 
 interface Props {
-	mapOrientation: MapOrientation;
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (e: any) => void;
-	moveToLocationOnMap: (long: number, lat: number, zoom?: number) => void;
 	onOpTabChange: (e: any) => void;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 	unreadNums: {
@@ -49,7 +47,6 @@ const GameView: React.FC<Props> = props => (
 					content: (
 						<IntelTabView
 							incrementUnreadNum={props.incrementUnreadNum}
-							moveToLocationOnMap={props.moveToLocationOnMap}
 							key="intelTab-content"
 						/>
 					),
@@ -67,7 +64,6 @@ const GameView: React.FC<Props> = props => (
 							incrementUnreadNum={props.incrementUnreadNum}
 							onTabChange={props.onOpTabChange}
 							key="operationTab-content"
-							mapOrientation={props.mapOrientation}
 							onMapMove={props.onMapMove}
 							unreadNumChat={props.unreadNums.chat}
 						/>

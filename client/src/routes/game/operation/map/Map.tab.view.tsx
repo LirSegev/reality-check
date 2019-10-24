@@ -21,12 +21,7 @@ interface Props {
 
 const MapTabView: React.FC<Props> = props => (
 	<Page>
-		{props.destination && (
-			<DistantPoint
-				mapOrientation={props.mapOrientation}
-				coordinate={props.destination}
-			/>
-		)}
+		{props.destination && <DistantPoint coordinate={props.destination} />}
 		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}
@@ -35,6 +30,7 @@ const MapTabView: React.FC<Props> = props => (
 				props.mapOrientation.center.latitude,
 			]}
 			zoom={[props.mapOrientation.zoom]}
+			bearing={[props.mapOrientation.bearing]}
 			containerStyle={{
 				height: '100%',
 				width: '100%',
@@ -97,5 +93,6 @@ const MapTabView: React.FC<Props> = props => (
 
 const mapState = (state: ReduxState) => ({
 	destination: state.map.destination,
+	mapOrientation: state.map.mapOrientation,
 });
 export default connect(mapState)(MapTabView);

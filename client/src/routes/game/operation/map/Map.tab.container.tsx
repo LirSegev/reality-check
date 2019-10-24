@@ -25,7 +25,6 @@ interface State {
 	mrZRoute: number[][];
 }
 interface Props {
-	mapOrientation: MapOrientation;
 	isAdmin: boolean;
 	onMove: (map: mapboxgl.Map) => void;
 }
@@ -267,7 +266,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		return (
 			<MapTabView
 				mrZRoute={this.state.mrZRoute}
-				mapOrientation={this.props.mapOrientation}
 				onMove={this.props.onMove}
 				onStyleLoad={this._onStyleLoad}
 			/>

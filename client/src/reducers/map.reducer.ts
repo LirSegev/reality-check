@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import initialState from './initialState';
+import {
+	moveToLocationOnMap,
+	moveToLocationOnMapPayload,
+} from './main.reducer';
 
 export interface changeDestinationActionPayload {
 	longitude: number;
 	latitude: number;
 }
+export type changeMapOrientationActionPayload = Partial<MapOrientation>;
 
 const map = createSlice({
 	name: 'map',
@@ -20,8 +25,33 @@ const map = createSlice({
 		removeDestination(state) {
 			state.destination = undefined;
 		},
+		changeMapOrientation(
+			state,
+			action: PayloadAction<changeMapOrientationActionPayload>
+		) {
+			const payload = action.payload;
+			for (let key in payload) {
+				// @ts-ignore
+				state.mapOrientation[key] = payload[key];
+			}
+		},
+	},
+	extraReducers: {
+		[moveToLocationOnMap as any]: (
+			state,
+			action: PayloadAction<moveToLocationOnMapPayload>
+		) => {
+			const { lat, long, zoom } = action.payload;
+			state.mapOrientation.center.latitude = lat;
+			state.mapOrientation.center.longitude = long;
+			if (zoom) state.mapOrientation.zoom = zoom;
+		},
 	},
 });
 
-export const { changeDestination, removeDestination } = map.actions;
+export const {
+	changeDestination,
+	removeDestination,
+	changeMapOrientation,
+} = map.actions;
 export default map.reducer;
