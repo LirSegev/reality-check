@@ -3,7 +3,17 @@ import GameView from './Game.view';
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
-import { stopLoading } from '../../reducers/main.reducer';
+import {
+	stopLoading,
+	changeTab,
+	changeOpTab,
+	moveToLocationOnMap,
+} from '../../reducers/main.reducer';
+import {
+	changeTabPayload,
+	changeOpTabPayload,
+	moveToLocationOnMapPayload,
+} from '../../reducers/main.reducer';
 import { connect } from 'react-redux';
 import { ReduxState } from '../../reducers/initialState';
 
@@ -20,7 +30,12 @@ const LOCATION_UPDATES_INTERVAL = 10;
 
 interface Props {
 	stopLoading: () => void;
+	changeTab: (payload: changeTabPayload) => void;
+	changeOpTab: (payload: changeOpTabPayload) => void;
+	moveToLocationOnMap: (payload: moveToLocationOnMapPayload) => void;
 	isAdmin: boolean;
+	tabIndex: number;
+	opTabIndex: number;
 }
 
 interface State {
@@ -30,8 +45,6 @@ interface State {
 		intel: number;
 		target: number;
 	};
-	tabIndex: number;
-	opTabIndex: number;
 }
 
 class GameContainer extends React.Component<Props, State> {
@@ -49,15 +62,12 @@ class GameContainer extends React.Component<Props, State> {
 				intel: 0,
 				target: 0,
 			},
-			tabIndex: 2,
-			opTabIndex: 0,
 		};
 
 		this._onMapMove = this._onMapMove.bind(this);
 		this._onTabChange = this._onTabChange.bind(this);
 		this._moveToLocationOnMap = this._moveToLocationOnMap.bind(this);
 		this._onGPSMove = this._onGPSMove.bind(this);
-		this._moveToMapTab = this._moveToMapTab.bind(this);
 		this._incrementUnreadNum = this._incrementUnreadNum.bind(this);
 		this._resetUnreadNum = this._resetUnreadNum.bind(this);
 	}
@@ -67,7 +77,7 @@ class GameContainer extends React.Component<Props, State> {
 	 * @return true if incremented or false if canceled because of the current tab index
 	 */
 	_incrementUnreadNum(type: 'chat' | 'intel' | 'target'): boolean {
-		const { tabIndex, opTabIndex } = this.state;
+		const { tabIndex, opTabIndex } = this.props;
 		if (
 			(type === 'chat' && tabIndex === 2 && opTabIndex === 1) ||
 			(type === 'intel' && tabIndex === 1) ||
@@ -116,16 +126,8 @@ class GameContainer extends React.Component<Props, State> {
 				},
 				zoom: zoom ? zoom : prevState.mapOrientation.zoom,
 			},
-			tabIndex: 2,
-			opTabIndex: 0,
 		}));
-	}
-
-	_moveToMapTab() {
-		this.setState({
-			tabIndex: 2,
-			opTabIndex: 0,
-		});
+		this.props.moveToLocationOnMap({ long, lat });
 	}
 
 	_GPSWatchId: number | undefined = undefined;
@@ -184,10 +186,10 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	_onTabChange = (event: any) => {
-		this.setState({ tabIndex: event.index });
+		this.props.changeTab(event.index);
 		switch (event.index) {
 			case 2:
-				if (this.state.opTabIndex === 1) this._resetUnreadNum('chat');
+				if (this.props.opTabIndex === 1) this._resetUnreadNum('chat');
 				break;
 			case 1:
 				this._resetUnreadNum('intel');
@@ -199,7 +201,7 @@ class GameContainer extends React.Component<Props, State> {
 
 	_onOpTabChange = (event: any) => {
 		event.stopPropagation();
-		this.setState({ opTabIndex: event.index });
+		this.props.changeOpTab(event.index);
 		if (event.index === 1) this._resetUnreadNum('chat');
 	};
 
@@ -208,14 +210,11 @@ class GameContainer extends React.Component<Props, State> {
 			<GameView
 				unreadNums={this.state.unreadNums}
 				incrementUnreadNum={this._incrementUnreadNum}
-				opTabIndex={this.state.opTabIndex}
 				onOpTabChange={this._onOpTabChange}
 				onTabChange={this._onTabChange}
 				moveToLocationOnMap={this._moveToLocationOnMap}
-				tabIndex={this.state.tabIndex}
 				mapOrientation={this.state.mapOrientation}
 				onMapMove={this._onMapMove}
-				moveToMapTab={this._moveToMapTab}
 			/>
 		);
 	}
@@ -223,10 +222,15 @@ class GameContainer extends React.Component<Props, State> {
 
 const mapDispatchToProps = {
 	stopLoading,
+	changeTab,
+	changeOpTab,
+	moveToLocationOnMap,
 };
-const mapState = (state: ReduxState) => ({
-	isAdmin: state.main.isAdmin,
-});
+const mapState = (state: ReduxState) => {
+	const { main } = state;
+	const { isAdmin, tabIndex, opTabIndex } = main;
+	return { isAdmin, tabIndex, opTabIndex };
+};
 export default connect(
 	mapState,
 	mapDispatchToProps

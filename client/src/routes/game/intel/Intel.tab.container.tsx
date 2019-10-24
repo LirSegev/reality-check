@@ -3,6 +3,8 @@ import IntelTabView from './Intel.tab.view';
 import { IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import { getGameDocRef } from '../../../util/db';
+import { goToMapTab } from '../../../reducers/main.reducer';
+import { connect } from 'react-redux';
 
 interface State {
 	intelItems: IntelItem[];
@@ -95,4 +97,10 @@ class IntelTabContainer extends React.Component<Props, State> {
 	);
 }
 
-export default IntelTabContainer;
+const mapActions = {
+	moveToMapTab: goToMapTab,
+};
+export default connect(
+	null,
+	mapActions
+)(IntelTabContainer);

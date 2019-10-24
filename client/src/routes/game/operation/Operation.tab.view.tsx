@@ -3,6 +3,8 @@ import { Page, Tabbar } from 'react-onsenui';
 import Tab from '../../../components/Tab.component';
 import MapTab from './map';
 import ChatTab from './chat';
+import { ReduxState } from '../../../reducers/initialState';
+import { connect } from 'react-redux';
 
 interface Props {
 	mapOrientation: MapOrientation;
@@ -51,4 +53,7 @@ const OperationTabView: React.FC<Props> = props => (
 	</Page>
 );
 
-export default OperationTabView;
+const mapState = (state: ReduxState) => ({
+	tabIndex: state.main.opTabIndex,
+});
+export default connect(mapState)(OperationTabView);
