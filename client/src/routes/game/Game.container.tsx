@@ -168,7 +168,7 @@ class GameContainer extends React.Component<Props, State> {
 	}
 
 	_onTabChange = (event: any) => {
-		this.props.changeTab(event.index);
+		if (event.index !== this.props.tabIndex) this.props.changeTab(event.index);
 		switch (event.index) {
 			case 2:
 				if (this.props.opTabIndex === 1) this._resetUnreadNum('chat');
@@ -183,7 +183,8 @@ class GameContainer extends React.Component<Props, State> {
 
 	_onOpTabChange = (event: any) => {
 		event.stopPropagation();
-		this.props.changeOpTab(event.index);
+		if (event.index !== this.props.opTabIndex)
+			this.props.changeOpTab(event.index);
 		if (event.index === 1) this._resetUnreadNum('chat');
 	};
 
