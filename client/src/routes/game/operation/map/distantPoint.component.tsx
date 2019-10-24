@@ -137,11 +137,12 @@ class DistantPoint extends React.Component<Props, State> {
 
 		const bounds = this.props.mapOrientation.bounds;
 		if (
-			bounds &&
-			bounds.north > this.props.coordinate.latitude &&
-			bounds.south < this.props.coordinate.latitude &&
-			bounds.east > this.props.coordinate.longitude &&
-			bounds.west < this.props.coordinate.longitude
+			bounds === undefined ||
+			(bounds &&
+				bounds.north > this.props.coordinate.latitude &&
+				bounds.south < this.props.coordinate.latitude &&
+				bounds.east > this.props.coordinate.longitude &&
+				bounds.west < this.props.coordinate.longitude)
 		)
 			style.display = 'none';
 
