@@ -21,6 +21,7 @@ interface Props {
 
 const MapTabView: React.FC<Props> = props => (
 	<Page>
+		<div id="ripple" />
 		{props.destination && <DistantPoint coordinate={props.destination} />}
 		<Map
 			// eslint-disable-next-line

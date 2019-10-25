@@ -12,10 +12,12 @@ import { NavigationControl } from 'mapbox-gl';
 import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
 import { isIOS } from '../../../../util/general';
+import ReactDOM from 'react-dom';
 import {
 	changeDestination,
 	changeDestinationActionPayload,
 } from '../../../../reducers/map.reducer';
+import styles from './Map.module.css';
 
 interface PlayerLocation {
 	playerName: string;
@@ -126,7 +128,19 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_chooseDestination(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
 		const { lat, lng } = e.lngLat;
+		this._drawRipple(e);
 		this.props.changeDestination({ latitude: lat, longitude: lng });
+	}
+
+	_drawRipple(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
+		const { x, y } = e.point;
+		// prettier-ignore
+		const node = (ReactDOM.findDOMNode(this)! as Element).querySelector('#ripple')!;
+		const newNode = node.cloneNode(true) as HTMLElement;
+		newNode.classList.add(styles.animate);
+		newNode.style.left = x - 5 + 'px';
+		newNode.style.top = y - 5 + 'px';
+		node.parentNode!.replaceChild(newNode, node);
 	}
 
 	_showChaserPoints(map: mapboxgl.Map) {
