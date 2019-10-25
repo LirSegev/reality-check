@@ -77,6 +77,7 @@ const MapTabView: React.FC<Props> = props => (
 				layout={{
 					'icon-image': 'placeholder-red-30',
 					'icon-offset': [0, -15],
+					'icon-ignore-placement': true,
 				}}
 			>
 				{props.destination && (
