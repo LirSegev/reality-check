@@ -4,6 +4,7 @@
 		"fsevents",
 		"geolocate",
 		"geopoint",
+		"immer",
 		"mapbox",
 		"mapboxgl",
 		"onsen",

@@ -16,6 +16,10 @@ export function distanceBetweenPoints(p1: Coordinates, p2: Coordinates) {
 	);
 }
 
+export function bearingBetweenPoints(start: Coordinates, end: Coordinates) {
+	return bearing(start.latitude, start.longitude, end.latitude, end.longitude);
+}
+
 /**
  * @author Chuck
  * @link https://stackoverflow.com/a/27943
@@ -44,6 +48,38 @@ function getDistanceFromLatLonInKm(
  * @author Chuck
  * @link https://stackoverflow.com/a/27943
  */
-function deg2rad(deg: number) {
+export function deg2rad(deg: number) {
 	return deg * (Math.PI / 180);
+}
+
+/**
+ * @author Andrey Bulgakov
+ * @link https://stackoverflow.com/a/52079217
+ */
+export function rad2deg(rad: number) {
+	return (rad * 180) / Math.PI;
+}
+
+/**
+ * @author Andrey Bulgakov
+ * @link https://stackoverflow.com/a/52079217
+ */
+function bearing(
+	startLat: number,
+	startLng: number,
+	destLat: number,
+	destLng: number
+) {
+	startLat = deg2rad(startLat);
+	startLng = deg2rad(startLng);
+	destLat = deg2rad(destLat);
+	destLng = deg2rad(destLng);
+
+	let y = Math.sin(destLng - startLng) * Math.cos(destLat);
+	let x =
+		Math.cos(startLat) * Math.sin(destLat) -
+		Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
+	let brng = Math.atan2(y, x);
+	brng = rad2deg(brng);
+	return (brng + 360) % 360;
 }
