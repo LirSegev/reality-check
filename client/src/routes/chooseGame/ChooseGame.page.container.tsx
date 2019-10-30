@@ -3,11 +3,8 @@ import ChooseGamePageView from './ChooseGame.page.view';
 import * as firebase from 'firebase/app';
 import renderGameItem from './renderGameItem';
 import { ReduxState } from '../../reducers/initialState';
-import {
-	changeGame,
-	changeGameActionPayload,
-	stopLoading,
-} from '../../reducers/main.reducer';
+import { changeGame, stopLoading } from '../../reducers/main.reducer';
+import { changeGameActionPayload } from '../../reducers/main.reducer.d';
 import { connect } from 'react-redux';
 
 interface Props {

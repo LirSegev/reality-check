@@ -1,11 +1,11 @@
 import React from 'react';
 import { Icon } from 'react-onsenui';
 import { connect } from 'react-redux';
+import { removeNotification } from '../reducers/main.reducer';
 import {
 	Notification,
 	removeNotificationPayload,
-	removeNotification,
-} from '../reducers/main.reducer';
+} from '../reducers/main.reducer.d';
 import styles from './Notification.module.css';
 
 /* 

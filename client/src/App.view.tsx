@@ -12,7 +12,7 @@ import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
 import ChooseGame from './routes/chooseGame';
 import NotificationComponent from './components/Notification.component';
-import { Notification } from './reducers/main.reducer';
+import { Notification } from './reducers/main.reducer.d';
 
 interface Props {
 	isLogged: boolean;

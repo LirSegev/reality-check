@@ -1,15 +1,11 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import initialState from './initialState';
+import { moveToLocationOnMap } from './main.reducer';
+import { moveToLocationOnMapPayload } from './main.reducer.d';
 import {
-	moveToLocationOnMap,
-	moveToLocationOnMapPayload,
-} from './main.reducer';
-
-export interface changeDestinationActionPayload {
-	longitude: number;
-	latitude: number;
-}
-export type changeMapOrientationActionPayload = Partial<MapOrientation>;
+	changeDestinationActionPayload,
+	changeMapOrientationActionPayload,
+} from './map.reducer.d';
 
 const map = createSlice({
 	name: 'map',

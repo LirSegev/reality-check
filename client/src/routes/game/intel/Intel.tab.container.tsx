@@ -6,8 +6,8 @@ import { getGameDocRef } from '../../../util/db';
 import {
 	goToMapTab,
 	moveToLocationOnMap,
-	moveToLocationOnMapPayload,
 } from '../../../reducers/main.reducer';
+import { moveToLocationOnMapPayload } from '../../../reducers/main.reducer.d';
 import { connect } from 'react-redux';
 
 interface State {

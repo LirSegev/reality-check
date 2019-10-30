@@ -7,13 +7,13 @@ import {
 	stopLoading,
 	changeTab,
 	changeOpTab,
-	changeTabPayload,
-	changeOpTabPayload,
 } from '../../reducers/main.reducer';
 import {
-	changeMapOrientation,
-	changeMapOrientationActionPayload,
-} from '../../reducers/map.reducer';
+	changeTabPayload,
+	changeOpTabPayload,
+} from '../../reducers/main.reducer.d';
+import { changeMapOrientation } from '../../reducers/map.reducer';
+import { changeMapOrientationActionPayload } from '../../reducers/map.reducer.d';
 import { connect } from 'react-redux';
 import { ReduxState } from '../../reducers/initialState';
 import produce from 'immer';

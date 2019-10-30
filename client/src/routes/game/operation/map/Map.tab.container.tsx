@@ -13,10 +13,8 @@ import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
 import { isIOS } from '../../../../util/general';
 import ReactDOM from 'react-dom';
-import {
-	changeDestination,
-	changeDestinationActionPayload,
-} from '../../../../reducers/map.reducer';
+import { changeDestination } from '../../../../reducers/map.reducer';
+import { changeDestinationActionPayload } from '../../../../reducers/map.reducer.d';
 import styles from './Map.module.css';
 
 interface PlayerLocation {

@@ -1,4 +1,4 @@
-import { Notification } from './main.reducer';
+import { Notification } from './main.reducer.d';
 
 export default {
 	main: {
