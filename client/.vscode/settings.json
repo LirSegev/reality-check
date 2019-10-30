@@ -11,7 +11,8 @@
 		"onsenui",
 		"tabbar",
 		"trackuserlocationend",
-		"trackuserlocationstart"
+		"trackuserlocationstart",
+		"uniqid"
 	],
 	"cSpell.ignoreWords": [
 		"coord",
