@@ -1,9 +1,10 @@
-.notification {
+:global(#notifications) .notification {
 	z-index: 1000;
-	transition: all 0.5s ease;
 	animation-duration: 0.5s;
 	animation-timing-function: ease;
 	animation-fill-mode: both;
+
+	margin: 0 0 1em 0;
 }
 
 .notification.open {
@@ -13,6 +14,11 @@
 @keyframes open {
 	from {
 		transform: translateY(-100%);
+		opacity: 0;
+		padding: 0;
+		min-height: 0;
+		height: 0;
+		margin-bottom: 0;
 	}
 	to {
 		transform: translateY(0%);
@@ -29,5 +35,9 @@
 	}
 	to {
 		opacity: 0;
+		padding: 0;
+		min-height: 0;
+		height: 0;
+		margin-bottom: 0;
 	}
 }
