@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
-import { changeGameActionPayload } from '../../reducers/main.reducer';
+import { changeGameActionPayload } from '../../reducers/main.reducer.d';
 
 const renderGameItem = (
 	changeGame: (payload: changeGameActionPayload) => void

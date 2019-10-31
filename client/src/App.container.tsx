@@ -5,10 +5,10 @@ import { updateCurrentPlayer } from './util/db';
 import { signOut } from './util/firebase';
 import {
 	changeGame,
-	changeGameActionPayload,
 	adminSignin,
 	signOut as signOutAction,
 } from './reducers/main.reducer';
+import { changeGameActionPayload } from './reducers/main.reducer.d';
 import { connect } from 'react-redux';
 
 interface State {

@@ -1,0 +1,45 @@
+:global(#notifications) .notification {
+	z-index: 1000;
+	animation-duration: 0.5s;
+	animation-timing-function: ease;
+	animation-fill-mode: both;
+
+	margin: 0 0 0.33em 0;
+}
+
+.notification.open {
+	animation-name: open;
+}
+
+@keyframes open {
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		min-height: 0;
+		height: 0;
+		margin-bottom: 0;
+	}
+	to {
+		transform: translateY(0%);
+	}
+}
+
+.notification.close {
+	animation-name: close;
+}
+
+@keyframes close {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		min-height: 0;
+		height: 0;
+		margin-bottom: 0;
+	}
+}

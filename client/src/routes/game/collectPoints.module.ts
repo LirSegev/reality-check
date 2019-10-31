@@ -2,6 +2,8 @@ import * as firebase from 'firebase/app';
 import { distanceBetweenPoints } from '../../util/general';
 import { getCurrentPlayer, getGameDocRef } from '../../util/db';
 import { ActionType } from './intel/Intel';
+import { store } from './../../index';
+import { addNotification } from '../../reducers/main.reducer';
 
 /**
  * The min distance in meters the player needs to be from a point in order to collect it.
@@ -93,7 +95,10 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 								...gameDoc,
 								[`collected_${pointType}_points`]: newPoints,
 							})
-							.then(() => getClues(pointType, newPoint))
+							.then(() => {
+								getClues(pointType, newPoint);
+								sendNotification(newPoint);
+							})
 							.catch(err =>
 								console.error(new Error('Updating collected points list'), err)
 							);
@@ -176,6 +181,17 @@ function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentRef
 				err
 			)
 		);
+}
+
+function sendNotification(point: mapboxgl.MapboxGeoJSONFeature) {
+	store.dispatch(
+		addNotification({
+			notification: {
+				type: 'success',
+				header: 'Point collected',
+			},
+		})
+	);
 }
 
 /**

@@ -1,16 +1,14 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
+import uniqid from 'uniqid';
 import initialState from './initialState';
-
-export interface changeGameActionPayload {
-	gameId: string | null;
-}
-export interface moveToLocationOnMapPayload {
-	long: number;
-	lat: number;
-	zoom?: number;
-}
-export type changeTabPayload = number;
-export type changeOpTabPayload = number;
+import {
+	changeGameActionPayload,
+	moveToLocationOnMapPayload,
+	changeTabPayload,
+	changeOpTabPayload,
+	addNotificationPayload,
+	removeNotificationPayload,
+} from './main.reducer.d';
 
 const main = createSlice({
 	name: 'main',
@@ -49,6 +47,22 @@ const main = createSlice({
 		changeOpTab(state, action: PayloadAction<changeOpTabPayload>) {
 			state.opTabIndex = action.payload;
 		},
+		addNotification(state, action: PayloadAction<addNotificationPayload>) {
+			state.notifications.unshift({
+				...action.payload.notification,
+				id: uniqid(),
+			});
+		},
+		removeNotification(
+			state,
+			action: PayloadAction<removeNotificationPayload>
+		) {
+			const key = state.notifications.findIndex(notification => {
+				return notification.id === action.payload.id;
+			});
+
+			if (key >= 0) state.notifications.splice(key, 1);
+		},
 	},
 });
 
@@ -62,5 +76,7 @@ export const {
 	changeTab,
 	goToMapTab,
 	moveToLocationOnMap,
+	addNotification,
+	removeNotification,
 } = main.actions;
 export default main.reducer;

@@ -1,3 +1,5 @@
+import { Notification } from './main.reducer.d';
+
 export default {
 	main: {
 		gameId: null,
@@ -5,6 +7,7 @@ export default {
 		isAdmin: false,
 		tabIndex: 2,
 		opTabIndex: 0,
+		notifications: [],
 	},
 	map: {
 		mapOrientation: {
@@ -22,6 +25,7 @@ export interface ReduxState {
 		isAdmin: boolean;
 		tabIndex: number;
 		opTabIndex: number;
+		notifications: Notification[];
 	};
 	map: {
 		mapOrientation: MapOrientation;
