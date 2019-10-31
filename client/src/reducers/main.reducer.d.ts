@@ -9,19 +9,18 @@ export interface moveToLocationOnMapPayload {
 }
 
 export interface addNotificationPayload {
-	notification: {
-		type: NotificationType;
-		header?: string;
-		content?: string;
-	};
+	notification: NotificationWithoutId;
 }
 
 type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
-export interface Notification {
+export interface Notification extends NotificationWithoutId {
 	id: string;
+}
+
+interface NotificationWithoutId {
 	type?: NotificationType;
-	header?: string;
+	header: string;
 	content?: string;
 }
 
