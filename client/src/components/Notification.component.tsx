@@ -74,7 +74,9 @@ class NotificationComponent extends React.Component<Props, State> {
 	render() {
 		return (
 			<div
-				className={`ui ${this.props.notification.type} message ${styles.notification} ${styles.open}`}
+				className={`ui ${
+					this.props.notification.type ? this.props.notification.type : ''
+				} message ${styles.notification} ${styles.open}`}
 				ref="notificationEl"
 			>
 				<div className="close icon" onClick={this._close}>
