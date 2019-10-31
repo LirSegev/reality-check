@@ -22,6 +22,7 @@ interface NotificationWithoutId {
 	type?: NotificationType;
 	header: string;
 	content?: string;
+	duration?: number | 'none';
 }
 
 export interface removeNotificationPayload {

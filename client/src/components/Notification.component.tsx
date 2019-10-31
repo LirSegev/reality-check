@@ -11,7 +11,7 @@ import styles from './Notification.module.css';
 /* 
 	Amount of time in seconds the notification is visible
 */
-const DURATION = 2;
+const DEFAULT_DURATION = 2;
 
 const ANIMATION_DURATION = 0.5;
 
@@ -42,7 +42,9 @@ class NotificationComponent extends React.Component<Props, State> {
 			this._onAnimationComplete
 		);
 
-		this.timeout.push(setTimeout(this._close, DURATION * 1000));
+		const duration = this.props.notification.duration || DEFAULT_DURATION;
+		if (duration !== 'none')
+			this.timeout.push(setTimeout(this._close, duration * 1000));
 	}
 
 	componentWillUnmount() {

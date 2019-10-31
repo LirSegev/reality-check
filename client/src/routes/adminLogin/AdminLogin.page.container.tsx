@@ -44,8 +44,8 @@ class AdminLoginPageContainer extends React.Component<Props> {
 				.catch(err => {
 					let header = (err.code as string).split('/')[1].replace(/-/g, ' ');
 					header = header[0].toUpperCase() + header.slice(1);
-					this._sendErrorNotification(header, err.message);
 					this.props.stopLoading();
+					this._sendErrorNotification(header, err.message);
 				});
 		}
 	}
@@ -56,6 +56,7 @@ class AdminLoginPageContainer extends React.Component<Props> {
 				type: 'error',
 				header,
 				content,
+				duration: 3,
 			},
 		});
 	}
