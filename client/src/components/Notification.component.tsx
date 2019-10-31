@@ -11,7 +11,9 @@ import styles from './Notification.module.css';
 /* 
 	Amount of time in seconds the notification is visible
 */
-const DURATION = 0.5;
+const DURATION = 1.5;
+
+const ANIMATION_DURATION = 0.5;
 
 interface State {
 	style: React.CSSProperties;
@@ -29,24 +31,22 @@ class NotificationComponent extends React.Component<Props, State> {
 		this._onAnimationComplete = this._onAnimationComplete.bind(this);
 	}
 
-	private timeout: any = undefined;
+	private timeout: any[] = [];
 
 	componentDidMount() {
 		(this.refs.notificationEl as HTMLDivElement).style.animationDuration =
-			DURATION + 's';
-
-		// Fallback incase the animation event doesn't fire
-		const timeoutDuration = DURATION * 1000 + 500;
-		this.timeout = setTimeout(() => this._close, timeoutDuration);
+			ANIMATION_DURATION + 's';
 
 		(this.refs.notificationEl as HTMLDivElement).addEventListener(
 			'animationend',
 			this._onAnimationComplete
 		);
+
+		this.timeout.push(setTimeout(this._close, DURATION * 1000));
 	}
 
 	componentWillUnmount() {
-		clearTimeout(this.timeout);
+		this.timeout.forEach(id => clearTimeout(id));
 
 		(this.refs.notificationEl as HTMLDivElement).removeEventListener(
 			'animationend',
@@ -60,8 +60,15 @@ class NotificationComponent extends React.Component<Props, State> {
 	}
 
 	_close() {
-		// this.props.removeNotification({ id: this.props.notification.id });
 		(this.refs.notificationEl as HTMLDivElement).classList.add(styles.close);
+
+		// Fallback incase the animation event doesn't fire
+		const timeoutDuration = ANIMATION_DURATION * 1000 + 500;
+		this.timeout.push(
+			setTimeout(() => {
+				this.props.removeNotification({ id: this.props.notification.id });
+			}, timeoutDuration)
+		);
 	}
 
 	render() {
