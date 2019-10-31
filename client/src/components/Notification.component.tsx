@@ -11,7 +11,7 @@ import styles from './Notification.module.css';
 /* 
 	Amount of time in seconds the notification is visible
 */
-const DURATION = 1.5;
+const DURATION = 2;
 
 const ANIMATION_DURATION = 0.5;
 
