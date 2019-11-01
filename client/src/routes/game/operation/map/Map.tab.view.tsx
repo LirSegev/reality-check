@@ -59,7 +59,7 @@ const MapTabView: React.FC<Props> = props => (
 				id="mr-z-route-end"
 				before="player-locations"
 				layout={{
-					'icon-image': 'robber-30',
+					'icon-image': 'folder-30',
 					'icon-size': 0.75,
 					'icon-allow-overlap': true,
 				}}
