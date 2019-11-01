@@ -48,6 +48,8 @@ class AppContainer extends React.Component<Props, State> {
 	}
 
 	_onPlayerSignin(player: firebase.User) {
+		const DEFAULT_ROLE = 'chaser' as PlayerRole;
+
 		const gameId =
 			localStorage.getItem('gameId')! || window.location.pathname.slice(1);
 		const displayNameEl: HTMLInputElement | null = document.querySelector(
@@ -60,11 +62,8 @@ class AppContainer extends React.Component<Props, State> {
 		const displayName = displayNameEl
 			? displayNameEl.value || player.uid
 			: player.uid;
-		const role = roleEl
-			? roleEl.value
-				? (roleEl.value as PlayerRole)
-				: ('chaser' as PlayerRole)
-			: ('chaser' as PlayerRole);
+		const role =
+			roleEl && roleEl.value ? (roleEl.value as PlayerRole) : DEFAULT_ROLE;
 		const isNew = localStorage.getItem('gameId') ? false : true;
 
 		this.setState({ isLogged: true });

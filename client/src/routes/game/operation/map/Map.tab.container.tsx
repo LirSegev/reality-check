@@ -166,22 +166,11 @@ class MapTabContainer extends React.Component<Props, State> {
 		if (!this.props.isAdmin)
 			getCurrentPlayer()
 				.then(player => {
-					if (player) {
-						let layerId = '';
-						switch (player.role) {
-							case 'detective':
-								layerId = 'detective-points';
-								break;
-							case 'intelligence':
-								layerId = 'intelligence-points';
-								break;
-						}
-
-						if (layerId) {
-							this._hideCollectedPoints(map, layerId, player.role);
-							this._savePointsToSession(map, layerId);
-							map.setLayoutProperty(layerId, 'visibility', 'visible');
-						}
+					if (player && player.role !== 'chaser') {
+						let layerId = player.role + '-points';
+						this._hideCollectedPoints(map, layerId, player.role);
+						this._savePointsToSession(map, layerId);
+						map.setLayoutProperty(layerId, 'visibility', 'visible');
 					}
 				})
 				.catch(err =>
@@ -203,20 +192,12 @@ class MapTabContainer extends React.Component<Props, State> {
 	_hideCollectedPoints(
 		map: mapboxgl.Map,
 		layerId: string,
-		playerRole: PlayerRole
+		playerRole: Exclude<PlayerRole, 'chaser'>
 	) {
 		getGameDocRef().onSnapshot(
 			snapshot => {
 				const game = snapshot.data();
-				let pointType = '';
-				switch (playerRole) {
-					case 'detective':
-						pointType = 'detective';
-						break;
-					case 'intelligence':
-						pointType = 'intelligence';
-						break;
-				}
+				let pointType = playerRole;
 
 				if (game) {
 					// prettier-ignore

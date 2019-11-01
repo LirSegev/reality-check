@@ -64,7 +64,7 @@ function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
  */
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 	getCurrentPlayer()
-		.then(player => getPointType(player!))
+		.then(player => (player && player.role !== 'chaser' ? player.role : ''))
 		.then(pointType => {
 			try {
 				const docRef = getGameDocRef();
@@ -192,22 +192,6 @@ function sendNotification(point: mapboxgl.MapboxGeoJSONFeature) {
 			},
 		})
 	);
-}
-
-/**
- * Get point type based on player's role.
- */
-function getPointType(player: Player) {
-	let pointType = '';
-	switch (player.role) {
-		case 'detective':
-			pointType = 'detective';
-			break;
-		case 'intelligence':
-			pointType = 'intelligence';
-	}
-
-	return pointType;
 }
 
 /**
