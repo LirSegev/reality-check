@@ -107,7 +107,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._markPlayerLocations(map);
 		this._showRolePoints(map);
 		this._showChaserPoints(map);
-		this._listenToLongPress(map);
+		this._listenToSetDestination(map);
 		addGeolocateControl(map);
 
 		const navigationControl = new NavigationControl({ showZoom: false });
@@ -119,7 +119,10 @@ class MapTabContainer extends React.Component<Props, State> {
 		);
 	}
 
-	_listenToLongPress(map: mapboxgl.Map) {
+	/**
+	 * Listen to contextmenu or long-press for IOS
+	 */
+	_listenToSetDestination(map: mapboxgl.Map) {
 		if (isIOS()) init_ios_context_menu(map);
 		map.on('contextmenu', this._chooseDestination);
 	}
