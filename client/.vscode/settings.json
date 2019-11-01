@@ -17,9 +17,15 @@
 	"cSpell.ignoreWords": [
 		"coord",
 		"eruda",
+		"gesturechange",
+		"gestureend",
+		"gesturestart",
 		"jsdelivr",
 		"millis",
+		"moveend",
 		"nodivider",
-		"onadditemopen"
+		"onadditemopen",
+		"petr",
+		"pointerdrag"
 	]
 }
