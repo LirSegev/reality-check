@@ -16,6 +16,10 @@ import ReactDOM from 'react-dom';
 import { changeDestination } from '../../../../reducers/map.reducer';
 import { changeDestinationActionPayload } from '../../../../reducers/map.reducer.d';
 import styles from './Map.module.css';
+import RoleSelectControl from './roleSelectControl.module';
+
+// @ts-ignore
+const $ = window.$ as JQueryStatic;
 
 interface PlayerLocation {
 	playerName: string;
@@ -108,6 +112,13 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._showRolePoints(map);
 		this._showChaserPoints(map);
 		this._listenToSetDestination(map);
+
+		if (this.props.isAdmin) {
+			const roleSelectControl = new RoleSelectControl();
+			map.addControl(roleSelectControl, 'top-left');
+			$('.ui.dropdown').dropdown();
+		}
+
 		addGeolocateControl(map);
 
 		const navigationControl = new NavigationControl({ showZoom: false });
