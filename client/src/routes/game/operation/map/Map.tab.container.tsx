@@ -109,7 +109,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	_onStyleLoad(map: mapboxgl.Map) {
 		// addTransportRoutesLayer(map);
 		this._markPlayerLocations(map);
-		this._showRolePoints(map);
+		this._showIntelligenceAndDetectivePoints(map);
 		this._showChaserPoints(map);
 		this._listenToSetDestination(map);
 
@@ -173,11 +173,21 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	/**
-	 * Show role specific layers on map.
-	 * Show intelligence points to intelligence collector and so on.
+	 * Set up listeners to hide collected points and show points based on player's role
 	 */
-	_showRolePoints(map: mapboxgl.Map) {
-		if (!this.props.isAdmin)
+	_showIntelligenceAndDetectivePoints(map: mapboxgl.Map, role?: PlayerRole) {
+		if (this.props.isAdmin) {
+			// Hide collected points for all roles
+			const roles = ['detective', 'intelligence'] as Exclude<
+				PlayerRole,
+				'chaser'
+			>[];
+			roles.forEach(role => {
+				let layerId = role + '-points';
+				this._hideCollectedPoints(map, layerId, role);
+			});
+		} else {
+			// Show points related to player's role and hide colleted ones
 			getCurrentPlayer()
 				.then(player => {
 					if (player && player.role !== 'chaser') {
@@ -190,6 +200,7 @@ class MapTabContainer extends React.Component<Props, State> {
 				.catch(err =>
 					console.error(new Error('Getting current player data from db'), err)
 				);
+		}
 	}
 
 	_savePointsToSession(map: mapboxgl.Map, layerId: string) {
