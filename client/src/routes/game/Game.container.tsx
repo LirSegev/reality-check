@@ -20,7 +20,7 @@ import produce from 'immer';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
- * identity/intelligence point in order to collect it.
+ * detective/intelligence point in order to collect it.
  */
 const CHECK_FOR_POINTS_INTERVAL = 5;
 
@@ -126,7 +126,7 @@ class GameContainer extends React.Component<Props, State> {
 					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
 				}, LOCATION_UPDATES_INTERVAL * 1000);
 
-				// Collect identity/intelligence points
+				// Collect detective/intelligence points
 				setInterval(() => {
 					if (this._lastPos) collectClosePoints(this._lastPos);
 				}, CHECK_FOR_POINTS_INTERVAL * 1000);

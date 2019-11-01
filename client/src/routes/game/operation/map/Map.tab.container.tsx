@@ -170,7 +170,7 @@ class MapTabContainer extends React.Component<Props, State> {
 						let layerId = '';
 						switch (player.role) {
 							case 'detective':
-								layerId = 'identity-points';
+								layerId = 'detective-points';
 								break;
 							case 'intelligence':
 								layerId = 'intelligence-points';
@@ -211,7 +211,7 @@ class MapTabContainer extends React.Component<Props, State> {
 				let pointType = '';
 				switch (playerRole) {
 					case 'detective':
-						pointType = 'identity';
+						pointType = 'detective';
 						break;
 					case 'intelligence':
 						pointType = 'intelligence';

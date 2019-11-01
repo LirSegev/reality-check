@@ -32,8 +32,8 @@ class CluesContainer extends React.Component<Props, State> {
 
 	_updateClues(snapshot: firebase.firestore.DocumentSnapshot) {
 		const data = snapshot.data();
-		if (data && data['identity_clues']) {
-			this.setState({ clues: data['identity_clues'] });
+		if (data && data['detective_clues']) {
+			this.setState({ clues: data['detective_clues'] });
 			this.props.incrementUnreadNum('target');
 		}
 	}

@@ -35,7 +35,7 @@ export default function collectClosePoints(myPos: Position) {
 				// Check if point has already been collected
 				if (
 					(!feature!.properties!.phase || // For intelligence points
-						feature!.properties!.phase <= Number(phase)) && // For identity points
+						feature!.properties!.phase <= Number(phase)) && // For detective points
 					!collectedPoints.includes(feature!.properties!.id) // Check point is not already collected
 				) {
 					collectPoint(feature);
@@ -120,15 +120,15 @@ function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
 			case 'intelligence':
 				onIntelligencePointCollected(gameDocRef);
 				break;
-			case 'identity':
-				onIdentityPointCollected(gameDocRef, point);
+			case 'detective':
+				onDetectivePointCollected(gameDocRef, point);
 		}
 	} catch (err) {
 		console.error(new Error('Getting clues'), err);
 	}
 }
 
-function onIdentityPointCollected(
+function onDetectivePointCollected(
 	gameDocRef: firebase.firestore.DocumentReference,
 	point: mapboxgl.MapboxGeoJSONFeature
 ) {
@@ -136,12 +136,12 @@ function onIdentityPointCollected(
 		.get()
 		.then(doc => doc.data())
 		.then(game => {
-			let identityClues = {};
+			let detectiveClues = {};
 			if (point.properties && point.properties.clue)
-				identityClues =
-					game && game['identity_clues']
+				detectiveClues =
+					game && game['detective_clues']
 						? {
-								...game['identity_clues'],
+								...game['detective_clues'],
 								...JSON.parse(point.properties.clue),
 						  }
 						: JSON.parse(point.properties.clue);
@@ -149,7 +149,7 @@ function onIdentityPointCollected(
 
 			gameDocRef.set({
 				...game,
-				identity_clues: identityClues,
+				detective_clues: detectiveClues,
 			});
 		})
 		.catch(err => console.error(new Error('Getting game doc'), err));
@@ -201,7 +201,7 @@ function getPointType(player: Player) {
 	let pointType = '';
 	switch (player.role) {
 		case 'detective':
-			pointType = 'identity';
+			pointType = 'detective';
 			break;
 		case 'intelligence':
 			pointType = 'intelligence';
