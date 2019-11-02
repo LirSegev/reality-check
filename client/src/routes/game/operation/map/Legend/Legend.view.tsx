@@ -5,13 +5,13 @@ const LegendView: React.FC = () => (
 	<table id={styles.legend}>
 		<tbody>
 			<tr>
-				<th>Mr Z. previous locations, last known location</th>
+				<th>Mr. Z route</th>
 				<th>
 					<img src="/map_legend_icons/mr-z-route.png" alt="Mr Z icon" />
 				</th>
 			</tr>
 			<tr>
-				<th>Player</th>
+				<th>Agent</th>
 				<th>
 					<img src="/map_legend_icons/player.png" alt="Player icon" />
 				</th>
