@@ -8,20 +8,30 @@
 	margin: 5px 0;
 }
 
-#legend :global(th):first-child {
+#legend :global(td):first-child {
 	vertical-align: top;
-	width: 120px;
+	min-width: 9em;
 	padding-bottom: 1.5em;
+	font-weight: bold;
 }
 
-#legend :global(th):last-child {
-	width: 60px;
+#legend :global(th) {
+	padding-bottom: 0.5em;
+}
+
+#legend :global(td):nth-child(2) {
+	min-width: 60px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-evenly;
 }
 
-.legendDialog {
-	width: fit-content;
-	margin: auto;
+#legend :global(td).sub {
+	padding-left: 1.5em;
+	padding-bottom: 1em;
+	font-weight: 500;
+}
+
+:global(.dialog).legendDialog {
+	min-width: unset;
 }

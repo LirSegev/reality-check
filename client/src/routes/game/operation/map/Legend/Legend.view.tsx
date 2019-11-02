@@ -5,53 +5,76 @@ const LegendView: React.FC = () => (
 	<table id={styles.legend}>
 		<tbody>
 			<tr>
-				<th>Mr. Z route</th>
-				<th>
+				<td>Mr. Z route</td>
+				<td>
 					<img src="/map_legend_icons/mr-z-route.png" alt="Mr Z icon" />
-				</th>
+				</td>
 			</tr>
 			<tr>
-				<th>Agent</th>
-				<th>
+				<td>Agent</td>
+				<td>
 					<img src="/map_legend_icons/player.png" alt="Player icon" />
-				</th>
+				</td>
 			</tr>
 			<tr>
-				<th>Intelligence point</th>
-				<th>
+				<td>Intelligence point</td>
+				<td>
 					<img
 						src="/map_legend_icons/intelligence-point.png"
 						alt="Intelligence point icon"
 					/>
-				</th>
+				</td>
 			</tr>
 			<tr>
-				<th>Detective point</th>
-				<th>
+				<td>Detective point</td>
+				<td>
 					<img
 						src="/map_legend_icons/detective-point.png"
 						alt="Detective point icon"
 					/>
-				</th>
+				</td>
 			</tr>
 			<tr>
 				<th>Chaser points</th>
-				<th>
+			</tr>
+			<tr>
+				<td className={styles.sub}>Blending zone</td>
+				<td>
 					<img
 						src="/map_legend_icons/blending-zone.png"
 						alt="Blending zone icon"
 					/>
+				</td>
+			</tr>
+			<tr>
+				<td className={styles.sub}>Hiding spot</td>
+				<td>
 					<img src="/map_legend_icons/hiding-spot.png" alt="Hiding spot icon" />
+				</td>
+			</tr>
+			<tr>
+				<td className={styles.sub}>Interest point</td>
+				<td>
 					<img
 						src="/map_legend_icons/interest-point.png"
 						alt="Interest point icon"
 					/>
+				</td>
+			</tr>
+			<tr>
+				<td className={styles.sub}>Special station</td>
+				<td>
 					<img
 						src="/map_legend_icons/special-station.png"
 						alt="Public transport spot icon"
 					/>
+				</td>
+			</tr>
+			<tr>
+				<td className={styles.sub}>Crime scene</td>
+				<td>
 					<img src="/map_legend_icons/start-point.png" alt="Start point icon" />
-				</th>
+				</td>
 			</tr>
 		</tbody>
 	</table>
