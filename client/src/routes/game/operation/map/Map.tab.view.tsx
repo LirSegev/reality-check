@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Page } from 'react-onsenui';
+import { Page, Dialog } from 'react-onsenui';
 
 import ReactMapboxFactory, { Layer, Feature } from 'react-mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';
 import DistantPoint from './distantPoint.component';
 import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
+import Legend from './Legend';
 
 const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
@@ -23,6 +24,7 @@ const MapTabView: React.FC<Props> = props => (
 	<Page>
 		<div id="ripple" />
 		{props.destination && <DistantPoint coordinate={props.destination} />}
+		<Legend />
 		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}

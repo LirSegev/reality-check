@@ -24,3 +24,4 @@ yarn-error.log*
 # src/config
 public/pictures
 public/suspects_stories
+public/map_legend_icons
