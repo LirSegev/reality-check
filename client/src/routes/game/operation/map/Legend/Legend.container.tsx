@@ -5,9 +5,8 @@ import styles from './Legend.module.css';
 
 class LegendContainer extends React.Component {
 	componentDidMount() {
-		ReactDOM.findDOMNode(this)!.parentElement!.classList.add(
-			styles.legendDialog
-		);
+		ReactDOM.findDOMNode(this)!.parentElement!.parentElement!.id =
+			styles.legend;
 	}
 
 	render() {

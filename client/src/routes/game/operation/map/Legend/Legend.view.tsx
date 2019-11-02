@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Legend.module.css';
 
 const LegendView: React.FC = () => (
-	<table id={styles.legend}>
+	<table>
 		<tbody>
 			<tr>
 				<td>Mr. Z route</td>
