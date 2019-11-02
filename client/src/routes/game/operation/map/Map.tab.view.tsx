@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Page, Dialog } from 'react-onsenui';
+import { Page } from 'react-onsenui';
 
 import ReactMapboxFactory, { Layer, Feature } from 'react-mapbox-gl';
 import mapboxConfig from '../../../../config/Mapbox';

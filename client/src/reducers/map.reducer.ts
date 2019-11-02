@@ -31,6 +31,9 @@ const map = createSlice({
 				state.mapOrientation[key] = payload[key];
 			}
 		},
+		toggleLegend(state) {
+			state.isLegendOpen = !state.isLegendOpen;
+		},
 	},
 	extraReducers: {
 		[moveToLocationOnMap as any]: (
@@ -49,5 +52,6 @@ export const {
 	changeDestination,
 	removeDestination,
 	changeMapOrientation,
+	toggleLegend,
 } = map.actions;
 export default map.reducer;

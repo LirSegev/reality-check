@@ -1,11 +1,28 @@
 import React from 'react';
 import { Dialog } from 'react-onsenui';
 import LegendContainer from './Legend.container';
+import { ReduxState } from '../../../../../reducers/initialState';
+import { toggleLegend } from '../../../../../reducers/map.reducer';
+import { connect } from 'react-redux';
 
-const LegendWrapper: React.FC = () => (
-	<Dialog isOpen={true}>
+interface Props {
+	isOpen: boolean;
+	toggleLegend: () => void;
+}
+
+const LegendWrapper: React.FC<Props> = props => (
+	<Dialog isOpen={props.isOpen} onCancel={() => props.toggleLegend()}>
 		<LegendContainer />
 	</Dialog>
 );
 
-export default LegendWrapper;
+const mapState = (state: ReduxState) => ({
+	isOpen: state.map.isLegendOpen,
+});
+const mapActions = {
+	toggleLegend,
+};
+export default connect(
+	mapState,
+	mapActions
+)(LegendWrapper);

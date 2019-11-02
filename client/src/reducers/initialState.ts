@@ -15,6 +15,7 @@ export default {
 			bearing: 0,
 			zoom: 12,
 		},
+		isLegendOpen: false,
 	},
 } as ReduxState;
 
@@ -30,5 +31,6 @@ export interface ReduxState {
 	map: {
 		mapOrientation: MapOrientation;
 		destination?: { longitude: number; latitude: number };
+		isLegendOpen: boolean;
 	};
 }
