@@ -62,7 +62,7 @@ const MapTabView: React.FC<Props> = props => (
 				before="player-locations"
 				layout={{
 					'icon-image': 'folder-30',
-					'icon-size': 0.75,
+					'icon-size': 0.6,
 					'icon-allow-overlap': true,
 				}}
 			>
