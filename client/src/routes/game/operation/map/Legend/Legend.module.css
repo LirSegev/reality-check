@@ -1,5 +1,5 @@
 #legend table {
-	padding: 0.75em;
+	padding: 1.25em;
 	font-size: small;
 }
 
@@ -12,7 +12,7 @@
 	vertical-align: middle;
 	min-width: 9em;
 	/* padding-bottom: 1.5em; */
-	font-weight: bold;
+	font-weight: 500;
 }
 
 #legend :global(th) {
@@ -20,7 +20,7 @@
 }
 
 #legend :global(td):nth-child(2) {
-	min-width: 60px;
+	min-width: 50px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-evenly;
@@ -29,7 +29,7 @@
 #legend :global(td).sub {
 	padding-left: 1.5em;
 	/* padding-bottom: 1em; */
-	font-weight: 500;
+	/* font-weight: 500; */
 }
 
 #legend {
