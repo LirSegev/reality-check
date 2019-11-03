@@ -1,8 +1,12 @@
 import React from 'react';
 import styles from './Legend.module.css';
 
-const LegendView: React.FC = () => (
-	<table>
+interface Props {
+	closeLegend: () => void;
+}
+
+const LegendView: React.FC<Props> = props => (
+	<table onClick={props.closeLegend}>
 		<tbody>
 			<tr>
 				<td>Mr. Z route</td>
