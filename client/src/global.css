@@ -1,3 +1,7 @@
 [contenteditable] {
 	user-select: text;
 }
+
+body ::-webkit-scrollbar {
+	display: none;
+}
