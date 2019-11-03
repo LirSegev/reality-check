@@ -59,6 +59,7 @@ div.underbar {
 
 #sendButton {
 	line-height: normal;
+	flex-shrink: 0;
 }
 
 #sendButton:global(.button--material) {
