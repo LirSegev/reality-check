@@ -47,7 +47,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 	componentDidUpdate(prevProps: Props, prevState: State) {
 		// prettier-ignore
 		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
-			// state.suspectList as changed
+			// state.suspectList has changed
 
 			// Set showId to first suspect
 			this.setState(prev => ({
@@ -55,6 +55,8 @@ class SuspectsContainer extends React.Component<Props, State> {
 				showId: this.state.suspectList[0],
 			}));
 
+			if(this._interval)
+				clearInterval(this._interval);
 			this._interval = setInterval(this._switch2NextPic, CHANGE_PHOTO_INTERVAL * 1000);
 		}
 	}
@@ -77,16 +79,6 @@ class SuspectsContainer extends React.Component<Props, State> {
 
 	_handleClick(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
 		window.open(`suspects_stories/${e.currentTarget.dataset.suspect_id}.pdf`);
-	}
-
-	componentWillUpdate(prevProps: Props, prevState: State) {
-		// prettier-ignore
-		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
-			// state.suspectList as changed
-
-			if(this._interval)
-				clearInterval(this._interval);
-		}
 	}
 
 	componentWillUnmount() {

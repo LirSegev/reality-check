@@ -35,7 +35,7 @@ class IntelTabContainer extends React.Component<Props, State> {
 		this._handleClick = this._handleClick.bind(this);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		getGameDocRef()
 			.collection('intel')
 			.orderBy('timestamp', 'desc')
