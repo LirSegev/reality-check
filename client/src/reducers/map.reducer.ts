@@ -5,6 +5,7 @@ import { moveToLocationOnMapPayload } from './main.reducer.d';
 import {
 	changeDestinationActionPayload,
 	changeMapOrientationActionPayload,
+	setPlayerLocationsPayload,
 } from './map.reducer.d';
 
 const map = createSlice({
@@ -31,6 +32,12 @@ const map = createSlice({
 				state.mapOrientation[key] = payload[key];
 			}
 		},
+		setPlayerLocations(
+			state,
+			action: PayloadAction<setPlayerLocationsPayload>
+		) {
+			state.playerLocations = action.payload.playerLocations;
+		},
 	},
 	extraReducers: {
 		[moveToLocationOnMap as any]: (
@@ -49,5 +56,6 @@ export const {
 	changeDestination,
 	removeDestination,
 	changeMapOrientation,
+	setPlayerLocations,
 } = map.actions;
 export default map.reducer;

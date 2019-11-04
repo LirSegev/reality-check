@@ -1,4 +1,5 @@
 import { Notification } from './main.reducer.d';
+import { PlayerLocations } from './map.reducer.d';
 
 export default {
 	main: {
@@ -15,6 +16,7 @@ export default {
 			bearing: 0,
 			zoom: 12,
 		},
+		playerLocations: {},
 	},
 } as ReduxState;
 
@@ -30,5 +32,6 @@ export interface ReduxState {
 	map: {
 		mapOrientation: MapOrientation;
 		destination?: { longitude: number; latitude: number };
+		playerLocations: PlayerLocations;
 	};
 }

@@ -13,30 +13,31 @@ import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
 import { isIOS } from '../../../../util/general';
 import ReactDOM from 'react-dom';
-import { changeDestination } from '../../../../reducers/map.reducer';
-import { changeDestinationActionPayload } from '../../../../reducers/map.reducer.d';
+import {
+	changeDestination,
+	setPlayerLocations,
+} from '../../../../reducers/map.reducer';
+import {
+	changeDestinationActionPayload,
+	PlayerLocations,
+	setPlayerLocationsPayload,
+} from '../../../../reducers/map.reducer.d';
 import styles from './Map.module.css';
 import RoleSelectControl from './roleSelectControl.module';
+import { PlayerLocation } from '../../../../reducers/map.reducer.d';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
 
-interface PlayerLocation {
-	playerName: string;
-	longitude: number;
-	latitude: number;
-	timestamp: number;
-}
 interface State {
-	playerLocations: {
-		[uid: string]: PlayerLocation;
-	};
 	mrZRoute: number[][];
 }
 interface Props {
 	isAdmin: boolean;
 	onMove: (map: mapboxgl.Map) => void;
 	changeDestination: (payload: changeDestinationActionPayload) => void;
+	playerLocations: PlayerLocations;
+	setPlayerLocations: (payload: setPlayerLocationsPayload) => void;
 }
 
 class MapTabContainer extends React.Component<Props, State> {
@@ -44,7 +45,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			playerLocations: {},
 			mrZRoute: [],
 		};
 
@@ -71,11 +71,11 @@ class MapTabContainer extends React.Component<Props, State> {
 			);
 	}
 
-	componentDidUpdate(prevProps: Props, prevState: State) {
+	componentDidUpdate(prevProps: Props) {
 		if (
 			this._markPlayerLocations &&
-			JSON.stringify(prevState.playerLocations) !==
-				JSON.stringify(this.state.playerLocations)
+			JSON.stringify(prevProps.playerLocations) !==
+				JSON.stringify(this.props.playerLocations)
 		)
 			this._markPlayerLocations();
 	}
@@ -112,7 +112,7 @@ class MapTabContainer extends React.Component<Props, State> {
 				playerLocations[player.uid] = playerLocation;
 			}
 		});
-		this.setState({ playerLocations });
+		this.props.setPlayerLocations({ playerLocations });
 	}
 
 	_onStyleLoad(map: mapboxgl.Map) {
@@ -265,8 +265,8 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_markPlayerLocationsWrapper = (map: mapboxgl.Map) => () => {
 		const playerLocationMarkers: GeoJSON.Feature<GeoJSON.Geometry>[] = [];
-		for (let uid in this.state.playerLocations) {
-			const { latitude, longitude, playerName } = this.state.playerLocations[
+		for (let uid in this.props.playerLocations) {
+			const { latitude, longitude, playerName } = this.props.playerLocations[
 				uid
 			];
 			playerLocationMarkers.push({
@@ -332,9 +332,11 @@ class MapTabContainer extends React.Component<Props, State> {
 
 const mapState = (state: ReduxState) => ({
 	isAdmin: state.main.isAdmin,
+	playerLocations: state.map.playerLocations,
 });
 const mapActions = {
 	changeDestination,
+	setPlayerLocations,
 };
 export default connect(
 	mapState,
