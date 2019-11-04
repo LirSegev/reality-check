@@ -1,0 +1,37 @@
+#legend table {
+	padding: 1.25em;
+	font-size: small;
+}
+
+#legend img {
+	height: 20px;
+	margin: 5px 0;
+}
+
+#legend :global(td):first-child {
+	vertical-align: middle;
+	min-width: 9em;
+	/* padding-bottom: 1.5em; */
+	font-weight: 500;
+}
+
+#legend :global(th) {
+	padding-bottom: 0.5em;
+}
+
+#legend :global(td):nth-child(2) {
+	min-width: 50px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+#legend :global(td).sub {
+	padding-left: 1.5em;
+	/* padding-bottom: 1em; */
+	/* font-weight: 500; */
+}
+
+#legend {
+	min-width: unset;
+}

@@ -25,6 +25,7 @@ import {
 import styles from './Map.module.css';
 import RoleSelectControl from './roleSelectControl.module';
 import { PlayerLocation } from '../../../../reducers/map.reducer.d';
+import LegendControl from './Legend/legendControl';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -130,9 +131,10 @@ class MapTabContainer extends React.Component<Props, State> {
 		}
 
 		addGeolocateControl(map);
-
 		const navigationControl = new NavigationControl({ showZoom: false });
 		map.addControl(navigationControl, 'top-right');
+		const legendControl = new LegendControl();
+		map.addControl(legendControl, 'top-right');
 
 		document.addEventListener(
 			'show-transport-on-map',

@@ -17,6 +17,7 @@ export default {
 			zoom: 12,
 		},
 		playerLocations: {},
+		isLegendOpen: false,
 	},
 } as ReduxState;
 
@@ -33,5 +34,6 @@ export interface ReduxState {
 		mapOrientation: MapOrientation;
 		destination?: { longitude: number; latitude: number };
 		playerLocations: PlayerLocations;
+		isLegendOpen: boolean;
 	};
 }

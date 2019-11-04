@@ -6,6 +6,7 @@ import mapboxConfig from '../../../../config/Mapbox';
 import DistantPoint from './distantPoint.component';
 import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
+import Legend from './Legend';
 
 const Map = ReactMapboxFactory({
 	accessToken: mapboxConfig.accessToken,
@@ -23,6 +24,7 @@ const MapTabView: React.FC<Props> = props => (
 	<Page>
 		<div id="ripple" />
 		{props.destination && <DistantPoint coordinate={props.destination} />}
+		<Legend />
 		<Map
 			// eslint-disable-next-line
 			style={mapboxConfig.styleURL}
@@ -59,8 +61,8 @@ const MapTabView: React.FC<Props> = props => (
 				id="mr-z-route-end"
 				before="player-locations"
 				layout={{
-					'icon-image': 'robber-30',
-					'icon-size': 0.75,
+					'icon-image': 'folder-30',
+					'icon-size': 0.6,
 					'icon-allow-overlap': true,
 				}}
 			>
