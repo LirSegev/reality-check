@@ -42,6 +42,21 @@ const LegendView: React.FC<Props> = props => (
 				<th>Chaser points</th>
 			</tr>
 			<tr>
+				<td className={styles.sub}>Starting point</td>
+				<td>
+					<img src="/map_legend_icons/start-point.png" alt="Start point icon" />
+				</td>
+			</tr>
+			<tr>
+				<td className={styles.sub}>Interest point</td>
+				<td>
+					<img
+						src="/map_legend_icons/interest-point.png"
+						alt="Interest point icon"
+					/>
+				</td>
+			</tr>
+			<tr>
 				<td className={styles.sub}>Blending zone</td>
 				<td>
 					<img
@@ -57,27 +72,12 @@ const LegendView: React.FC<Props> = props => (
 				</td>
 			</tr>
 			<tr>
-				<td className={styles.sub}>Interest point</td>
-				<td>
-					<img
-						src="/map_legend_icons/interest-point.png"
-						alt="Interest point icon"
-					/>
-				</td>
-			</tr>
-			<tr>
-				<td className={styles.sub}>Special station</td>
+				<td className={styles.sub}>Shortcut</td>
 				<td>
 					<img
 						src="/map_legend_icons/special-station.png"
 						alt="Public transport spot icon"
 					/>
-				</td>
-			</tr>
-			<tr>
-				<td className={styles.sub}>Crime scene</td>
-				<td>
-					<img src="/map_legend_icons/start-point.png" alt="Start point icon" />
 				</td>
 			</tr>
 		</tbody>
