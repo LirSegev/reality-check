@@ -8,7 +8,7 @@ import {
 } from './transport.module';
 import { addGeolocateControl } from './geolocateControl.module';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
-import { NavigationControl } from 'mapbox-gl';
+import { NavigationControl, GeoJSONSource } from 'mapbox-gl';
 import { ReduxState } from '../../../../reducers/initialState';
 import { connect } from 'react-redux';
 import { isIOS } from '../../../../util/general';
@@ -71,6 +71,15 @@ class MapTabContainer extends React.Component<Props, State> {
 			);
 	}
 
+	componentDidUpdate(prevProps: Props, prevState: State) {
+		if (
+			this._markPlayerLocations &&
+			JSON.stringify(prevState.playerLocations) !==
+				JSON.stringify(this.state.playerLocations)
+		)
+			this._markPlayerLocations();
+	}
+
 	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
 		const mrZRoute = intel.docs
 			.map(doc => doc.data() as IntelItem)
@@ -108,7 +117,8 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_onStyleLoad(map: mapboxgl.Map) {
 		// addTransportRoutesLayer(map);
-		this._markPlayerLocations(map);
+		this._markPlayerLocations = this._markPlayerLocationsWrapper(map);
+		this._markPlayerLocations();
 		this._showIntelligenceAndDetectivePoints(map);
 		this._showChaserPoints(map);
 		this._listenToSetDestination(map);
@@ -251,7 +261,9 @@ class MapTabContainer extends React.Component<Props, State> {
 		);
 	}
 
-	_markPlayerLocations(map: mapboxgl.Map) {
+	_markPlayerLocations: (() => void) | undefined = undefined;
+
+	_markPlayerLocationsWrapper = (map: mapboxgl.Map) => () => {
 		const playerLocationMarkers: GeoJSON.Feature<GeoJSON.Geometry>[] = [];
 		for (let uid in this.state.playerLocations) {
 			const { latitude, longitude, playerName } = this.state.playerLocations[
@@ -268,13 +280,22 @@ class MapTabContainer extends React.Component<Props, State> {
 				},
 			});
 		}
-
-		this._setLayerSource(
-			'player-locations',
-			{ type: 'FeatureCollection', features: playerLocationMarkers },
-			map
-		);
-	}
+		if (!map.getSource('player-locations'))
+			// First time - set new source
+			this._setLayerSource(
+				'player-locations',
+				{ type: 'FeatureCollection', features: playerLocationMarkers },
+				map
+			);
+		else {
+			// Update source data
+			const source = map.getSource('player-locations') as GeoJSONSource;
+			source.setData({
+				type: 'FeatureCollection',
+				features: playerLocationMarkers,
+			});
+		}
+	};
 
 	_setLayerSource(
 		layerId: string,
