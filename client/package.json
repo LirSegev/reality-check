@@ -5,7 +5,7 @@
 	"dependencies": {
 		"@types/jest": "24.0.15",
 		"@types/jquery": "^3.3.31",
-		"@types/mapbox-gl": "^0.51.12",
+		"@types/mapbox-gl": "^1.1.1",
 		"@types/node": "12.6.3",
 		"@types/react": "16.8.23",
 		"@types/react-dom": "16.8.4",
@@ -17,18 +17,18 @@
 		"firebase": "^6.6.2",
 		"fsevents": "^2.1.1",
 		"immer": "^4.0.2",
-		"mapbox-gl": "^1.1.1",
+		"mapbox-gl": "^1.5.0",
 		"onsenui": "^2.10.10",
 		"react": "^16.11.0",
 		"react-dom": "^16.11.0",
-		"react-mapbox-gl": "^4.7.2",
+		"react-mapbox-gl": "^4.7.3",
 		"react-onsenui": "^1.11.2",
 		"react-redux": "^7.1.1",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.0.1",
 		"redux-starter-kit": "^0.8.1",
 		"typescript": "3.5.3",
-		"uniqid": "^5.0.3"
+		"uniqid": "^5.1.0"
 	},
 	"scripts": {
 		"start": "PORT=5000 react-scripts start",
