@@ -27,5 +27,13 @@
 		"onadditemopen",
 		"petr",
 		"pointerdrag"
-	]
+	],
+	"files.exclude": {
+		"build": true,
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true
+	}
 }
