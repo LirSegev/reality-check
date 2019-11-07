@@ -11,14 +11,12 @@ import Game from './routes/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
 import AdminLoginPage from './routes/adminLogin';
 import ChooseGame from './routes/chooseGame';
-import NotificationComponent from './components/Notification.component';
-import { Notification } from './reducers/main.reducer.d';
+import Notifications from './components/Notifications';
 
 interface Props {
 	isLogged: boolean;
 	gameId: string | null;
 	isAdmin: boolean;
-	notifications: Notification[];
 }
 
 const AppView: React.FC<Props> = props => {
@@ -65,14 +63,7 @@ const AppView: React.FC<Props> = props => {
 	return (
 		<React.Fragment>
 			<LoadingIndicator />
-			<div id="notifications">
-				{props.notifications.map(notification => (
-					<NotificationComponent
-						key={`notification_${notification.id}`}
-						notification={notification}
-					/>
-				))}
-			</div>
+			<Notifications />
 			{app}
 		</React.Fragment>
 	);
@@ -81,6 +72,5 @@ const AppView: React.FC<Props> = props => {
 const mapStateToProps = (state: ReduxState) => ({
 	gameId: state.main.gameId,
 	isAdmin: state.main.isAdmin,
-	notifications: state.main.notifications,
 });
 export default connect(mapStateToProps)(AppView);
