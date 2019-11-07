@@ -27,9 +27,9 @@ firebase.initializeApp(firebaseConfig);
 
 // Eruda
 (function() {
-	var src = '//cdn.jsdelivr.net/npm/eruda';
+	const src = '//cdn.jsdelivr.net/npm/eruda';
 	if (
-		!/eruda=true/.test(window.location.href) &&
+		!/debug/.test(window.location.href) &&
 		localStorage.getItem('active-eruda') !== 'true'
 	)
 		return;
