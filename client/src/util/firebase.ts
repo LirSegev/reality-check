@@ -1,23 +1,6 @@
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from './db';
 
-/* const removePlayerFromDeviceGroup = (gameId: string) => (
-	player: Player | undefined
-) => {
-	if (player && player.messagingToken) {
-		const removeDeviceFromDeviceGroup = firebase
-			.functions()
-			.httpsCallable('removeDeviceFromDeviceGroup');
-
-		removeDeviceFromDeviceGroup({
-			token: player.messagingToken,
-			gameId,
-		});
-	} else {
-		console.error(new Error("Player doesn't have messagingToken"));
-	}
-}; */
-
 export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 	/**
 	 * Array of promises to complete before signing user out.
