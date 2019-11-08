@@ -1,17 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as firebase from 'firebase/app';
-import { signOut } from './util/firebase';
 import { ReduxState } from './reducers/initialState';
 import { connect } from 'react-redux';
 
 // Components
-import LoginPage from './pages/login';
-import Game from './pages/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
-import AdminLoginPage from './pages/adminLogin';
-import ChooseGame from './pages/chooseGame';
+import AdminChooseGame from './pages/chooseGame';
 import Notifications from './components/Notifications';
+import AuthenticatedRouter from './router-authenticated';
+import PublicRouter from './router-public';
 
 interface Props {
 	isLogged: boolean;
@@ -23,42 +20,15 @@ const AppView: React.FC<Props> = props => {
 	const { isLogged, gameId, isAdmin } = props;
 	let app: JSX.Element;
 
-	if (isLogged && gameId)
-		app = (
-			<Router>
-				<Route
-					path="/logout"
-					render={() => {
-						signOut(props.isAdmin);
-						return undefined;
-					}}
-				/>
-				<Route path="/" render={() => <Game />} />
-			</Router>
-		);
+	if (isLogged && gameId) app = <AuthenticatedRouter isAdmin={isAdmin} />;
 	else if (
 		isLogged &&
 		isAdmin &&
 		firebase.auth().currentUser &&
 		!firebase.auth().currentUser!.isAnonymous
 	)
-		app = <ChooseGame />;
-	else
-		app = (
-			<Router>
-				<Switch>
-					<Route exact path="/" render={() => <div>Home</div>} />
-					<Route
-						path="/admin"
-						render={routeProps => <AdminLoginPage {...routeProps} />}
-					/>
-					<Route
-						path="/:gameId"
-						render={routeProps => <LoginPage {...routeProps} />}
-					/>
-				</Switch>
-			</Router>
-		);
+		app = <AdminChooseGame />;
+	else app = <PublicRouter />;
 
 	return (
 		<React.Fragment>
