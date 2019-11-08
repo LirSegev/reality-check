@@ -14,7 +14,7 @@ const SuspectsView: React.FC<Props> = props => {
 	for (let suspectId = 0; suspectId <= NUMBER_OF_SUSPECT_IMAGES; suspectId++) {
 		imgEls.push(
 			<img
-				src={`pictures/${suspectId}.jpg`}
+				src={`images/suspects/${suspectId}.jpg`}
 				className={props.showId === suspectId ? styles.show : undefined}
 				data-suspect_id={suspectId}
 				key={`suspect-image_${suspectId}`}
@@ -28,7 +28,7 @@ const SuspectsView: React.FC<Props> = props => {
 		<div id={styles.suspects}>
 			<div id={styles.images}>
 				<img
-					src="pictures/default.jpg"
+					src="images/suspects/default.jpg"
 					className={props.showId === undefined ? styles.show : undefined}
 					alt=""
 				/>
