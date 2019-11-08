@@ -6,11 +6,11 @@ import { ReduxState } from './reducers/initialState';
 import { connect } from 'react-redux';
 
 // Components
-import LoginPage from './routes/login';
-import Game from './routes/game';
+import LoginPage from './pages/login';
+import Game from './pages/game';
 import LoadingIndicator from './components/LoadingIndicator.component';
-import AdminLoginPage from './routes/adminLogin';
-import ChooseGame from './routes/chooseGame';
+import AdminLoginPage from './pages/adminLogin';
+import ChooseGame from './pages/chooseGame';
 import Notifications from './components/Notifications';
 
 interface Props {
