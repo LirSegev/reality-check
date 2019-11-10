@@ -1,31 +1,26 @@
-import React from 'react';
-import MapTabView from './Map.tab.view';
 import * as firebase from 'firebase/app';
-import { IntelItem } from '../../intel/Intel.d';
-import {
-	onShowTransportOnMapWrapper,
-	// addTransportRoutesLayer,
-} from './transport.module';
-import { addGeolocateControl } from './geolocateControl.module';
-import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
-import { NavigationControl, GeoJSONSource } from 'mapbox-gl';
-import { ReduxState } from '../../../../reducers/initialState';
-import { connect } from 'react-redux';
-import { isIOS } from '../../../../util/general';
+import { GeoJSONSource, NavigationControl } from 'mapbox-gl';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+
+import { ReduxState } from '../../../../reducers/initialState';
+import { changeDestination, setPlayerLocations } from '../../../../reducers/map.reducer';
 import {
-	changeDestination,
-	setPlayerLocations,
-} from '../../../../reducers/map.reducer';
-import {
-	changeDestinationActionPayload,
-	PlayerLocations,
-	setPlayerLocationsPayload,
+  changeDestinationActionPayload,
+  PlayerLocation,
+  PlayerLocations,
+  setPlayerLocationsPayload,
 } from '../../../../reducers/map.reducer.d';
-import styles from './Map.module.css';
-import RoleSelectControl from './roleSelectControl.module';
-import { PlayerLocation } from '../../../../reducers/map.reducer.d';
+import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
+import { isIOS } from '../../../../util/general';
+import { IntelItem } from '../../intel/Intel.d';
+import { addGeolocateControl } from './geolocateControl.module';
 import LegendControl from './Legend/legendControl';
+import styles from './Map.module.css';
+import MapTabView from './Map.tab.view';
+import RoleSelectControl from './roleSelectControl.module';
+import { onShowTransportOnMapWrapper } from './transport.module';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -365,13 +360,18 @@ function init_ios_context_menu(map: mapboxgl.Map) {
 			}, 500);
 		} // end if-else
 	});
-	map.on('touchend', clearIosTimeout);
-	map.on('touchcancel', clearIosTimeout);
-	map.on('touchmove', clearIosTimeout);
-	map.on('pointerdrag', clearIosTimeout);
-	map.on('pointermove', clearIosTimeout);
-	map.on('moveend', clearIosTimeout);
-	map.on('gesturestart', clearIosTimeout);
-	map.on('gesturechange', clearIosTimeout);
-	map.on('gestureend', clearIosTimeout);
+
+	[
+		'touchend',
+		'touchcancel',
+		'touchmove',
+		'pointerdrag',
+		'pointermove',
+		'moveend',
+		'gesturestart',
+		'gesturechange',
+		'gestureend',
+	].forEach(e => {
+		map.on(e, clearIosTimeout);
+	});
 }
