@@ -55,7 +55,7 @@ function getCurrentPlayerRef(): Promise<firebase.firestore.DocumentReference> {
 export function dateToTimestamp(date: Date): firebase.firestore.Timestamp {
 	const domTimestamp = date.getTime() / 1000 + '';
 	const arr = domTimestamp.split('.').map(num => Number(num));
-	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1]);
+	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1] | 0);
 
 	return timestamp;
 }
