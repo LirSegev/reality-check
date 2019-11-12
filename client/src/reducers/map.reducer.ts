@@ -6,6 +6,7 @@ import {
 	changeDestinationActionPayload,
 	changeMapOrientationActionPayload,
 	setPlayerLocationsPayload,
+	setIsWaitingForLocationPayload,
 } from './map.reducer.d';
 
 const map = createSlice({
@@ -41,6 +42,12 @@ const map = createSlice({
 		toggleLegend(state) {
 			state.isLegendOpen = !state.isLegendOpen;
 		},
+		setIsWaitingForLocation(
+			state,
+			action: PayloadAction<setIsWaitingForLocationPayload>
+		) {
+			state.isWaitingForLocation = action.payload;
+		},
 	},
 	extraReducers: {
 		[moveToLocationOnMap as any]: (
@@ -61,5 +68,6 @@ export const {
 	changeMapOrientation,
 	setPlayerLocations,
 	toggleLegend,
+	setIsWaitingForLocation,
 } = map.actions;
 export default map.reducer;

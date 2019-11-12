@@ -18,3 +18,5 @@ export interface PlayerLocations {
 export interface setPlayerLocationsPayload {
 	playerLocations: PlayerLocations;
 }
+
+export type setIsWaitingForLocationPayload = boolean;

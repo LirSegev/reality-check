@@ -18,6 +18,7 @@ export default {
 		},
 		playerLocations: {},
 		isLegendOpen: false,
+		isWaitingForLocation: false,
 	},
 } as ReduxState;
 
@@ -35,5 +36,6 @@ export interface ReduxState {
 		destination?: { longitude: number; latitude: number };
 		playerLocations: PlayerLocations;
 		isLegendOpen: boolean;
+		isWaitingForLocation: boolean;
 	};
 }

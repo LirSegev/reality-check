@@ -1,7 +1,9 @@
 import * as firebase from 'firebase/app';
 import React from 'react';
 
+import { store } from '../../../..';
 import mapboxConfig from '../../../../config/Mapbox';
+import { setIsWaitingForLocation } from '../../../../reducers/map.reducer';
 import { getGameDocRef } from '../../../../util/db';
 import { ActionType, IntelItem, MetroLine } from '../Intel.d';
 import NewIntelItemFormView from './NewIntelItemForm.view';
@@ -39,6 +41,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 		this._handleMoreChange = this._handleMoreChange.bind(this);
 		this._handleTimeChange = this._handleTimeChange.bind(this);
 		this._onMyLocation = this._onMyLocation.bind(this);
+		this._onMapLocation = this._onMapLocation.bind(this);
 		this._setMoreLocation = this._setMoreLocation.bind(this);
 		this._submit = this._submit.bind(this);
 		this._sendNotification = this._sendNotification.bind(this);
@@ -129,20 +132,44 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 			this.setState({
 				isLoading: true,
 			});
-			navigator.geolocation.getCurrentPosition(this._setMoreLocation, err => {
-				if (err.code === err.PERMISSION_DENIED)
-					alert("Access to your device's location is required");
-				else {
-					console.error(new Error('Error getting user location:'), err);
-					alert('There was an error trying to get your location');
+			navigator.geolocation.getCurrentPosition(
+				pos => {
+					const { longitude, latitude } = pos.coords;
+					this._setMoreLocation(latitude, longitude);
+				},
+				err => {
+					if (err.code === err.PERMISSION_DENIED)
+						alert("Access to your device's location is required");
+					else {
+						console.error(new Error('Error getting user location:'), err);
+						alert('There was an error trying to get your location');
+					}
+					this.setState({ isLoading: false });
 				}
-				this.setState({ isLoading: false });
-			});
+			);
 		}
 	}
 
-	_setMoreLocation(pos: Position) {
-		const { longitude, latitude } = pos.coords;
+	_setIsWaitingForLocation(payload: boolean) {
+		store.dispatch(setIsWaitingForLocation(payload));
+	}
+
+	_onMapLocation() {
+		this._setIsWaitingForLocation(true);
+		const onLocationselect: (
+			this: Document,
+			ev: CustomEvent<locationselectDetail>
+		) => any = e => {
+			this._setIsWaitingForLocation(false);
+			const { lat, long } = e.detail.coords;
+			this._setMoreLocation(lat, long);
+			document.removeEventListener('locationselect', onLocationselect);
+		};
+
+		document.addEventListener('locationselect', onLocationselect);
+	}
+
+	_setMoreLocation(latitude: number, longitude: number) {
 		const location = new firebase.firestore.GeoPoint(latitude, longitude);
 
 		this._getAddressFromCoord(latitude, longitude)
@@ -189,6 +216,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 			handleTimeChange={this._handleTimeChange}
 			handleTypeChange={this._handleTypeChange}
 			onMyLocation={this._onMyLocation}
+			onMapLocation={this._onMapLocation}
 			submit={this._submit}
 		/>
 	);

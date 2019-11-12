@@ -13,6 +13,7 @@ interface Props {
 	time: string;
 	isLoading: boolean;
 	onMyLocation: () => void;
+	onMapLocation: () => void;
 	submit: () => void;
 	handleMoreChange: (e: React.ChangeEvent<any>) => void;
 	handleTypeChange: (e: React.ChangeEvent<any>) => void;
@@ -55,6 +56,7 @@ const NewIntelItemFormView: React.FC<Props> = props => {
 					moreInputProps={moreInputProps}
 					location={props.location}
 					onMyLocation={props.onMyLocation}
+					onMapLocation={props.onMapLocation}
 					type={props.type}
 				/>
 			</div>

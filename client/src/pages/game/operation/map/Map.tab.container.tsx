@@ -24,6 +24,7 @@ import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
 import RoleSelectControl from './roleSelectControl.module';
 import { onShowTransportOnMapWrapper } from './transport.module';
+import { createLocationselectEvent } from '../../../../util/customEvents/factories';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -37,6 +38,7 @@ interface Props {
 	changeDestination: (payload: changeDestinationActionPayload) => void;
 	playerLocations: PlayerLocations;
 	setPlayerLocations: (payload: setPlayerLocationsPayload) => void;
+	isWaitingForLocation: boolean;
 }
 
 class MapTabContainer extends React.Component<Props, State> {
@@ -142,8 +144,18 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_onLongPress(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
 		const { point, lngLat } = e;
+		const { lat, lng: long } = lngLat;
 		this._drawRipple(point.x, point.y);
-		this._chooseDestination(lngLat.lat, lngLat.lng);
+		if (this.props.isWaitingForLocation)
+			document.dispatchEvent(
+				createLocationselectEvent({
+					coords: {
+						lat,
+						long,
+					},
+				})
+			);
+		else this._chooseDestination(lat, long);
 	}
 
 	/**
@@ -339,6 +351,7 @@ class MapTabContainer extends React.Component<Props, State> {
 const mapState = (state: ReduxState) => ({
 	isAdmin: state.main.isAdmin,
 	playerLocations: state.map.playerLocations,
+	isWaitingForLocation: state.map.isWaitingForLocation,
 });
 const mapActions = {
 	changeDestination,

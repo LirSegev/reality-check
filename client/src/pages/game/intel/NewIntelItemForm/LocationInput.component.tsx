@@ -6,6 +6,7 @@ interface Props {
 	value: string;
 	location: firebase.firestore.GeoPoint | null;
 	onMyLocation: () => void;
+	onMapLocation: () => void;
 }
 
 const MoreInputLocationInput: React.FC<Props> = props => (
@@ -21,6 +22,18 @@ const MoreInputLocationInput: React.FC<Props> = props => (
 			onClick={props.onMyLocation}
 		>
 			<Icon style={{ height: '32px' }} icon="md-gps-dot" />{' '}
+		</Button>
+		<Button
+			modifier="quiet"
+			style={{
+				display: 'inline-block',
+				marginRight: '5px',
+				color: props.location ? '' : '#000',
+				flex: '0 0 auto',
+			}}
+			onClick={props.onMapLocation}
+		>
+			<Icon style={{ height: '32px' }} icon="md-map" />{' '}
 		</Button>
 		<Input
 			onChange={props.onChange}

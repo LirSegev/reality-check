@@ -13,6 +13,7 @@ interface Props {
 	};
 	location: firebase.firestore.GeoPoint | null;
 	onMyLocation: () => void;
+	onMapLocation: () => void;
 }
 
 const MoreInput: React.FC<Props> = props =>
@@ -23,6 +24,7 @@ const MoreInput: React.FC<Props> = props =>
 			{...props.moreInputProps}
 			location={props.location}
 			onMyLocation={props.onMyLocation}
+			onMapLocation={props.onMapLocation}
 		/>
 	) : (
 		<MetroInput {...props.moreInputProps} />
