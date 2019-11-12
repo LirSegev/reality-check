@@ -88,6 +88,7 @@ div.underbar {
 	margin: auto;
 	position: relative;
 	bottom: 0.5em;
+	pointer-events: auto;
 
 	display: flex;
 	align-items: flex-end;
@@ -104,6 +105,7 @@ div.underbar {
 		rgba(244, 239, 239, 0.9) 67%,
 		#efeff4 98%
 	);
+	pointer-events: none;
 }
 
 :global(.page--material) #chatInputGradient {
