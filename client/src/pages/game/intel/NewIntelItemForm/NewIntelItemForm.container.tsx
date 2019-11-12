@@ -25,7 +25,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			type: 'tram',
+			type: 'walking',
 			more: '',
 			location: null,
 			time: new Date().toLocaleTimeString('en-GB', {
