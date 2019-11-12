@@ -31,9 +31,11 @@ export async function getCurrentPlayer(): Promise<Player | undefined> {
 	}
 }
 
-function getCurrentPlayerRef(): Promise<firebase.firestore.DocumentReference> {
+export function getCurrentPlayerRef(
+	_getGameDocRef: typeof getGameDocRef = getGameDocRef
+): Promise<firebase.firestore.DocumentReference> {
 	return new Promise((resolve, reject) => {
-		getGameDocRef()
+		_getGameDocRef()
 			.collection('players')
 			.where('uid', '==', firebase.auth().currentUser!.uid)
 			.get()

@@ -27,6 +27,7 @@
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.0.1",
 		"redux-starter-kit": "^0.8.1",
+		"ts-mock-firebase": "^2.3.0",
 		"typescript": "3.5.3",
 		"uniqid": "^5.1.0"
 	},
