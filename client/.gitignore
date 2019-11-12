@@ -22,6 +22,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 # src/config
-public/pictures
-public/suspects_stories
-public/map_legend_icons

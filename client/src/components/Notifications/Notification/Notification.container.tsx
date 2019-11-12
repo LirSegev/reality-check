@@ -1,12 +1,12 @@
 import React from 'react';
-import { Icon } from 'react-onsenui';
 import { connect } from 'react-redux';
-import { removeNotification } from '../reducers/main.reducer';
+import { removeNotification } from '../../../reducers/main.reducer';
 import {
 	Notification,
 	removeNotificationPayload,
-} from '../reducers/main.reducer.d';
+} from '../../../reducers/main.reducer.d';
 import styles from './Notification.module.css';
+import NotificationView from './Notification.view';
 
 /* 
 	Amount of time in seconds the notification is visible
@@ -23,7 +23,7 @@ interface Props {
 	removeNotification: (payload: removeNotificationPayload) => void;
 }
 
-class NotificationComponent extends React.Component<Props, State> {
+class NotificationContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
@@ -34,13 +34,15 @@ class NotificationComponent extends React.Component<Props, State> {
 	private timeout: any[] = [];
 
 	componentDidMount() {
-		(this.refs.notificationEl as HTMLDivElement).style.animationDuration =
-			ANIMATION_DURATION + 's';
+		if (this._notificationEl.current) {
+			this._notificationEl.current.style.animationDuration =
+				ANIMATION_DURATION + 's';
 
-		(this.refs.notificationEl as HTMLDivElement).addEventListener(
-			'animationend',
-			this._onAnimationComplete
-		);
+			this._notificationEl.current.addEventListener(
+				'animationend',
+				this._onAnimationComplete
+			);
+		}
 
 		const duration = this.props.notification.duration || DEFAULT_DURATION;
 		if (duration !== 'none')
@@ -50,10 +52,11 @@ class NotificationComponent extends React.Component<Props, State> {
 	componentWillUnmount() {
 		this.timeout.forEach(id => clearTimeout(id));
 
-		(this.refs.notificationEl as HTMLDivElement).removeEventListener(
-			'animationend',
-			this._onAnimationComplete
-		);
+		if (this._notificationEl.current)
+			this._notificationEl.current.removeEventListener(
+				'animationend',
+				this._onAnimationComplete
+			);
 	}
 
 	_onAnimationComplete(e: AnimationEvent) {
@@ -62,7 +65,8 @@ class NotificationComponent extends React.Component<Props, State> {
 	}
 
 	_close() {
-		(this.refs.notificationEl as HTMLDivElement).classList.add(styles.close);
+		if (this._notificationEl.current)
+			this._notificationEl.current.classList.add(styles.close);
 
 		// Fallback incase the animation event doesn't fire
 		const timeoutDuration = ANIMATION_DURATION * 1000 + 500;
@@ -73,22 +77,15 @@ class NotificationComponent extends React.Component<Props, State> {
 		);
 	}
 
+	_notificationEl = React.createRef<HTMLDivElement>();
+
 	render() {
 		return (
-			<div
-				className={`ui ${
-					this.props.notification.type ? this.props.notification.type : ''
-				} message ${styles.notification} ${styles.open}`}
-				ref="notificationEl"
-			>
-				<div className="close icon" onClick={this._close}>
-					<Icon icon="fa-times" />
-				</div>
-				<div className="header">{this.props.notification.header}</div>
-				{this.props.notification.content && (
-					<p>{this.props.notification.content}</p>
-				)}
-			</div>
+			<NotificationView
+				close={this._close}
+				notification={this.props.notification}
+				ref={this._notificationEl}
+			/>
 		);
 	}
 }
@@ -99,4 +96,4 @@ const mapActions = {
 export default connect(
 	null,
 	mapActions
-)(NotificationComponent);
+)(NotificationContainer);

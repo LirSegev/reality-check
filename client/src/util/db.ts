@@ -6,74 +6,50 @@ import { store } from '../index';
  * @param data An object containing the fields and values with which to update the document. Fields can contain dots to reference nested fields within the document.
  * @returns A Promise resolved once the data has been successfully written to the backend (Note that it won't resolve while you're offline).
  */
-export function updateCurrentPlayer(
+export async function updateCurrentPlayer(
 	data: firebase.firestore.UpdateData
 ): Promise<void> {
-	return new Promise((resolve, reject) => {
-		getGameDocRef()
-			.collection('players')
-			.where('uid', '==', firebase.auth().currentUser!.uid)
-			.get()
-			.then(playerList => {
-				if (playerList.size > 1) throw new Error('More than one user found');
-				else if (playerList.size === 1) {
-					const player = getGameDocRef()
-						.collection('players')
-						.doc(playerList.docs[0].id);
-					player
-						.update(data)
-						.then(() => {
-							resolve();
-						})
-						.catch(err => {
-							const error = new Error('Updating user data');
-							console.error(error, err);
-							reject(error);
-						});
-				} else {
-					throw new Error('No users found');
-				}
-			})
-			.catch(err => {
-				const error = new Error('Getting user');
-				console.error(error, err);
-				reject(error);
-			});
-	});
+	try {
+		(await getCurrentPlayerRef()).update(data);
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error updating current user');
+	}
 }
 
 /**
  * Gets the data of the current player from the database.
  */
-export function getCurrentPlayer(): Promise<Player | undefined> {
+export async function getCurrentPlayer(): Promise<Player | undefined> {
+	try {
+		const ref = await getCurrentPlayerRef();
+		const doc = await ref.get();
+		return doc.data() as Player | undefined;
+	} catch (err) {
+		console.error(err);
+		throw new Error('Error getting current user');
+	}
+}
+
+export function getCurrentPlayerRef(
+	_getGameDocRef: typeof getGameDocRef = getGameDocRef
+): Promise<firebase.firestore.DocumentReference> {
 	return new Promise((resolve, reject) => {
-		getGameDocRef()
+		_getGameDocRef()
 			.collection('players')
 			.where('uid', '==', firebase.auth().currentUser!.uid)
 			.get()
 			.then(playerList => {
 				if (playerList.size > 1) throw new Error('More than one user found');
 				else if (playerList.size === 1) {
-					const player = getGameDocRef()
-						.collection('players')
-						.doc(playerList.docs[0].id);
-					player
-						.get()
-						.then(doc => doc.data() as Player | undefined)
-						.then(resolve)
-						.catch(err => {
-							const error = new Error('Getting user');
-							console.error(error, err);
-							reject(error);
-						});
+					resolve(playerList.docs[0].ref);
 				} else {
 					throw new Error('No users found');
 				}
 			})
 			.catch(err => {
-				const error = new Error('Getting user');
-				console.error(error, err);
-				reject(error);
+				console.error(err);
+				reject(new Error('Getting current user DocumentReference'));
 			});
 	});
 }
@@ -81,7 +57,7 @@ export function getCurrentPlayer(): Promise<Player | undefined> {
 export function dateToTimestamp(date: Date): firebase.firestore.Timestamp {
 	const domTimestamp = date.getTime() / 1000 + '';
 	const arr = domTimestamp.split('.').map(num => Number(num));
-	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1]);
+	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1] | 0);
 
 	return timestamp;
 }
