@@ -135,7 +135,9 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 			navigator.geolocation.getCurrentPosition(
 				pos => {
 					const { longitude, latitude } = pos.coords;
-					this._setMoreLocation(latitude, longitude);
+					this._setMoreLocation(latitude, longitude).finally(() => {
+						this.setState({ isLoading: false });
+					});
 				},
 				err => {
 					if (err.code === err.PERMISSION_DENIED)
@@ -155,36 +157,35 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 	}
 
 	_onMapLocation() {
-		this._setIsWaitingForLocation(true);
 		const onLocationselect: (
 			this: Document,
 			ev: CustomEvent<locationselectDetail>
 		) => any = e => {
+			document.removeEventListener('locationselect', onLocationselect);
 			this._setIsWaitingForLocation(false);
+
 			const { lat, long } = e.detail.coords;
 			this._setMoreLocation(lat, long);
-			document.removeEventListener('locationselect', onLocationselect);
 		};
 
+		this._setIsWaitingForLocation(true);
 		document.addEventListener('locationselect', onLocationselect);
 	}
 
 	_setMoreLocation(latitude: number, longitude: number) {
 		const location = new firebase.firestore.GeoPoint(latitude, longitude);
 
-		this._getAddressFromCoord(latitude, longitude)
+		return this._getAddressFromCoord(latitude, longitude)
 			.then(address => {
 				this.setState({
 					more: address,
 					location,
-					isLoading: false,
 				});
 			})
 			.catch(err => {
 				this.setState({
 					more: 'Unknown',
 					location,
-					isLoading: false,
 				});
 			});
 	}
