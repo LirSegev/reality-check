@@ -15,7 +15,7 @@ const MoreInputLocationInput: React.FC<Props> = props => (
 			style={{
 				display: 'inline-block',
 				marginRight: '5px',
-				color: props.location ? '#33b5e5' : '',
+				color: props.location ? '' : '#000',
 				flex: '0 0 auto',
 			}}
 			onClick={props.onMyLocation}
