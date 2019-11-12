@@ -5,12 +5,15 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { ReduxState } from '../../../../reducers/initialState';
-import { changeDestination, setPlayerLocations } from '../../../../reducers/map.reducer';
 import {
-  changeDestinationActionPayload,
-  PlayerLocation,
-  PlayerLocations,
-  setPlayerLocationsPayload,
+	changeDestination,
+	setPlayerLocations,
+} from '../../../../reducers/map.reducer';
+import {
+	changeDestinationActionPayload,
+	PlayerLocation,
+	PlayerLocations,
+	setPlayerLocationsPayload,
 } from '../../../../reducers/map.reducer.d';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { isIOS } from '../../../../util/general';
@@ -49,7 +52,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._onStyleLoad = this._onStyleLoad.bind(this);
 		this._hideCollectedPoints = this._hideCollectedPoints.bind(this);
 		this._showChaserPoints = this._showChaserPoints.bind(this);
-		this._chooseDestination = this._chooseDestination.bind(this);
+		this._onLongPress = this._onLongPress.bind(this);
 	}
 
 	componentDidMount() {
@@ -117,7 +120,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._markPlayerLocations();
 		this._showIntelligenceAndDetectivePoints(map);
 		this._showChaserPoints(map);
-		this._listenToSetDestination(map);
+		this._listenToLongPress(map, this._onLongPress);
 
 		if (this.props.isAdmin) {
 			const roleSelectControl = new RoleSelectControl();
@@ -137,22 +140,28 @@ class MapTabContainer extends React.Component<Props, State> {
 		);
 	}
 
+	_onLongPress(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
+		const { point, lngLat } = e;
+		this._drawRipple(point.x, point.y);
+		this._chooseDestination(lngLat.lat, lngLat.lng);
+	}
+
 	/**
 	 * Listen to contextmenu or long-press for IOS
 	 */
-	_listenToSetDestination(map: mapboxgl.Map) {
+	_listenToLongPress(
+		map: mapboxgl.Map,
+		listener: (ev: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
+	) {
 		if (isIOS()) init_ios_context_menu(map);
-		map.on('contextmenu', this._chooseDestination);
+		map.on('contextmenu', listener);
 	}
 
-	_chooseDestination(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
-		const { lat, lng } = e.lngLat;
-		this._drawRipple(e);
-		this.props.changeDestination({ latitude: lat, longitude: lng });
+	_chooseDestination(lat: number, long: number) {
+		this.props.changeDestination({ latitude: lat, longitude: long });
 	}
 
-	_drawRipple(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
-		const { x, y } = e.point;
+	_drawRipple(x: number, y: number) {
 		// prettier-ignore
 		const node = (ReactDOM.findDOMNode(this)! as Element).querySelector('#ripple')!;
 		const newNode = node.cloneNode(true) as HTMLElement;
@@ -335,10 +344,7 @@ const mapActions = {
 	changeDestination,
 	setPlayerLocations,
 };
-export default connect(
-	mapState,
-	mapActions
-)(MapTabContainer);
+export default connect(mapState, mapActions)(MapTabContainer);
 
 /**
  * @author Petr Nagy
