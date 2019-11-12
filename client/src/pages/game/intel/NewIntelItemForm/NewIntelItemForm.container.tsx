@@ -39,6 +39,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 		this._handleMoreChange = this._handleMoreChange.bind(this);
 		this._handleTimeChange = this._handleTimeChange.bind(this);
 		this._onMyLocation = this._onMyLocation.bind(this);
+		this._setMoreLocation = this._setMoreLocation.bind(this);
 		this._submit = this._submit.bind(this);
 		this._sendNotification = this._sendNotification.bind(this);
 	}
@@ -128,54 +129,69 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 			this.setState({
 				isLoading: true,
 			});
-			navigator.geolocation.getCurrentPosition(
-				pos => {
-					fetch(
-						`https://api.mapbox.com/geocoding/v5/mapbox.places/${pos.coords.longitude}%2C${pos.coords.latitude}.json?access_token=${mapboxConfig.accessToken}`
-					)
-						.then(res => res.json())
-						.then(res => {
-							const location = new firebase.firestore.GeoPoint(
-								pos.coords.latitude,
-								pos.coords.longitude
-							);
-
-							if (res.features.length) {
-								const main = res.features[0];
-								this.setState({
-									more: `${main.text}, ${main.properties.address}`,
-									location,
-									isLoading: false,
-								});
-							} else {
-								this.setState({
-									more: 'Unknown',
-									location,
-									isLoading: false,
-								});
-							}
-						})
-						.catch(err =>
-							console.error(
-								new Error('Error fetching address from mapbox.places api'),
-								err
-							)
-						);
-				},
-				err => {
-					if (err.code === err.PERMISSION_DENIED)
-						alert("Access to your device's location is required");
-					else {
-						console.error(new Error('Error getting user location:'), err);
-						alert('There was an error trying to get your location');
-					}
-					this.setState({ isLoading: false });
+			navigator.geolocation.getCurrentPosition(this._setMoreLocation, err => {
+				if (err.code === err.PERMISSION_DENIED)
+					alert("Access to your device's location is required");
+				else {
+					console.error(new Error('Error getting user location:'), err);
+					alert('There was an error trying to get your location');
 				}
-			);
+				this.setState({ isLoading: false });
+			});
 		}
 	}
 
-	render = () => <NewIntelItemFormView {...this.state} handleMoreChange={this._handleMoreChange} handleTimeChange={this._handleTimeChange} handleTypeChange={this._handleTypeChange} onMyLocation={this._onMyLocation} submit={this._submit} />;
+	_setMoreLocation(pos: Position) {
+		const { longitude, latitude } = pos.coords;
+		const location = new firebase.firestore.GeoPoint(latitude, longitude);
+
+		this._getAddressFromCoord(latitude, longitude)
+			.then(address => {
+				this.setState({
+					more: address,
+					location,
+					isLoading: false,
+				});
+			})
+			.catch(err => {
+				this.setState({
+					more: 'Unknown',
+					location,
+					isLoading: false,
+				});
+			});
+	}
+
+	// TODO: look into getting better results
+	_getAddressFromCoord(lat: number, long: number) {
+		return fetch(
+			`https://api.mapbox.com/geocoding/v5/mapbox.places/${long}%2C${lat}.json?access_token=${mapboxConfig.accessToken}`
+		)
+			.then(res => res.json())
+			.then(res => {
+				if (res.features.length) {
+					const main = res.features[0];
+					return `${main.text}, ${main.properties.address}`;
+				} else {
+					throw new Error('No address found');
+				}
+			})
+			.catch(err => {
+				console.error(err);
+				throw new Error('Fetching address from mapbox.places api');
+			});
+	}
+
+	render = () => (
+		<NewIntelItemFormView
+			{...this.state}
+			handleMoreChange={this._handleMoreChange}
+			handleTimeChange={this._handleTimeChange}
+			handleTypeChange={this._handleTypeChange}
+			onMyLocation={this._onMyLocation}
+			submit={this._submit}
+		/>
+	);
 }
 
 export default NewIntelItemFormContainer;
