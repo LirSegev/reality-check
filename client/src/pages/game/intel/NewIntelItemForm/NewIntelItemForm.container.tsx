@@ -1,11 +1,10 @@
-import React from 'react';
-import { Select, Input, Button, Icon } from 'react-onsenui';
-import { ActionType, MetroLine, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
-import styles from './NewIntelItemForm.module.css';
-import mapboxConfig from '../../../config/Mapbox';
-import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../components/LoadingIndicator.component';
-import { getGameDocRef } from '../../../util/db';
+import React from 'react';
+
+import mapboxConfig from '../../../../config/Mapbox';
+import { getGameDocRef } from '../../../../util/db';
+import { ActionType, IntelItem, MetroLine } from '../Intel.d';
+import NewIntelItemFormView from './NewIntelItemForm.view';
 
 interface State {
 	type: ActionType;
@@ -19,7 +18,7 @@ interface Props {
 	hideAddItem: () => void;
 }
 
-class NewIntelItemForm extends React.Component<Props, State> {
+class NewIntelItemFormContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
@@ -176,75 +175,7 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		}
 	}
 
-	render = () => {
-		const { type } = this.state;
-
-		const moreInputProps = {
-			onChange: this._handleMoreChange,
-			value: this.state.more as string,
-		};
-		const moreInput =
-			type === 'tram' || type === 'bus' ? (
-				<Input {...moreInputProps} modifier="underbar" type="number" />
-			) : type === 'walking' ? (
-				<div style={{ display: 'flex' }}>
-					<Button
-						modifier="quiet"
-						style={{
-							display: 'inline-block',
-							marginRight: '5px',
-							color: this.state.location ? '#33b5e5' : '',
-							flex: '0 0 auto',
-						}}
-						onClick={this._onMyLocation}
-					>
-						<Icon style={{ height: '32px' }} icon="md-gps-dot" />{' '}
-					</Button>
-					<Input {...moreInputProps} modifier="underbar" type="text" />
-				</div>
-			) : (
-				<Select {...moreInputProps}>
-					<option value={MetroLine.A}>Green line</option>
-					<option value={MetroLine.B}>Yellow line</option>
-					<option value={MetroLine.C}>Red line</option>
-				</Select>
-			);
-
-		return (
-			<section
-				style={{
-					padding: '10px',
-				}}
-			>
-				<LoadingIndicator isLoading={this.state.isLoading} />
-				<div className={[styles.input, styles.inline].join(' ')}>
-					<label>Type</label>
-					<Select value={this.state.type} onChange={this._handleTypeChange}>
-						<option value="tram">Tram</option>
-						<option value="metro">Metro</option>
-						<option value="bus">Bus</option>
-						<option value="walking">Walking</option>
-					</Select>
-				</div>
-				<div className={[styles.input, styles.inline].join(' ')}>
-					<label>Time</label>
-					<Input
-						type="time"
-						value={this.state.time}
-						onChange={this._handleTimeChange}
-					/>
-				</div>
-				<div className={styles.input}>
-					<label>More</label>
-					{moreInput}
-				</div>
-				<Button style={{ float: 'right' }} onClick={this._submit}>
-					Add
-				</Button>
-				<div style={{ clear: 'right' }} />
-			</section>
-		);
-	};
+	render = () => <NewIntelItemFormView {...this.state} handleMoreChange={this._handleMoreChange} handleTimeChange={this._handleTimeChange} handleTypeChange={this._handleTypeChange} onMyLocation={this._onMyLocation} submit={this._submit} />;
 }
 
-export default NewIntelItemForm;
+export default NewIntelItemFormContainer;
