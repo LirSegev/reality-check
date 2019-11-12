@@ -37,6 +37,8 @@ const IntelTabView: React.FC<Props> = props => {
 				<NewIntelItemForm
 					hideAddItem={props.hideAddItem}
 					gameId={props.gameId}
+					closeAddItem={props.hideAddItem}
+					openAddItem={props.openAddItem}
 				/>
 			</Dialog>
 			<section className={styles.wrapper}>

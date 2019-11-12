@@ -4,6 +4,7 @@ import React from 'react';
 import { store } from '../../../..';
 import mapboxConfig from '../../../../config/Mapbox';
 import { setIsWaitingForLocation } from '../../../../reducers/map.reducer';
+import { goToMapTab, changeTab } from '../../../../reducers/main.reducer';
 import { getGameDocRef } from '../../../../util/db';
 import { ActionType, IntelItem, MetroLine } from '../Intel.d';
 import NewIntelItemFormView from './NewIntelItemForm.view';
@@ -18,6 +19,8 @@ interface State {
 interface Props {
 	gameId: string | null;
 	hideAddItem: () => void;
+	closeAddItem: () => void;
+	openAddItem: () => void;
 }
 
 class NewIntelItemFormContainer extends React.Component<Props, State> {
@@ -45,6 +48,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 		this._setMoreLocation = this._setMoreLocation.bind(this);
 		this._submit = this._submit.bind(this);
 		this._sendNotification = this._sendNotification.bind(this);
+		this._goToAddItem = this._goToAddItem.bind(this);
 	}
 
 	_updateTime() {
@@ -156,6 +160,22 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 		store.dispatch(setIsWaitingForLocation(payload));
 	}
 
+	/**
+	 * Closes AddItem and switches to map tab
+	 */
+	_goToMap() {
+		this.props.closeAddItem();
+		store.dispatch(goToMapTab());
+	}
+
+	/**
+	 * Opens AddItem and switches to intel tab
+	 */
+	_goToAddItem() {
+		this.props.openAddItem();
+		store.dispatch(changeTab(1));
+	}
+
 	_onMapLocation() {
 		const onLocationselect: (
 			this: Document,
@@ -165,10 +185,11 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 			this._setIsWaitingForLocation(false);
 
 			const { lat, long } = e.detail.coords;
-			this._setMoreLocation(lat, long);
+			this._setMoreLocation(lat, long).finally(this._goToAddItem);
 		};
 
 		this._setIsWaitingForLocation(true);
+		this._goToMap();
 		document.addEventListener('locationselect', onLocationselect);
 	}
 
