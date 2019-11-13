@@ -5,6 +5,7 @@
 		"geolocate",
 		"geopoint",
 		"immer",
+		"locationselect",
 		"mapbox",
 		"mapboxgl",
 		"onsen",

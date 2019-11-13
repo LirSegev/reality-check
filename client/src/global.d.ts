@@ -39,3 +39,7 @@ declare interface MapOrientation {
 }
 
 declare type UnreadType = 'chat' | 'intel' | 'target';
+
+declare type ConnectedAction<T extends (...args: any[]) => any> = (
+	...args: Parameters<T>
+) => void;

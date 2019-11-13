@@ -1,11 +1,13 @@
-import React from 'react';
-import { Select, Input, Button, Icon } from 'react-onsenui';
-import { ActionType, MetroLine, IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
-import styles from './NewIntelItemForm.module.css';
-import mapboxConfig from '../../../config/Mapbox';
-import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../components/LoadingIndicator.component';
-import { getGameDocRef } from '../../../util/db';
+import React from 'react';
+
+import { store } from '../../../..';
+import mapboxConfig from '../../../../config/Mapbox';
+import { setIsWaitingForLocation } from '../../../../reducers/map.reducer';
+import { goToMapTab, changeTab } from '../../../../reducers/main.reducer';
+import { getGameDocRef } from '../../../../util/db';
+import { ActionType, IntelItem, MetroLine } from '../Intel.d';
+import NewIntelItemFormView from './NewIntelItemForm.view';
 
 interface State {
 	type: ActionType;
@@ -17,14 +19,16 @@ interface State {
 interface Props {
 	gameId: string | null;
 	hideAddItem: () => void;
+	closeAddItem: () => void;
+	openAddItem: () => void;
 }
 
-class NewIntelItemForm extends React.Component<Props, State> {
+class NewIntelItemFormContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
 		this.state = {
-			type: 'tram',
+			type: 'walking',
 			more: '',
 			location: null,
 			time: new Date().toLocaleTimeString('en-GB', {
@@ -40,8 +44,11 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		this._handleMoreChange = this._handleMoreChange.bind(this);
 		this._handleTimeChange = this._handleTimeChange.bind(this);
 		this._onMyLocation = this._onMyLocation.bind(this);
+		this._onMapLocation = this._onMapLocation.bind(this);
+		this._setMoreLocation = this._setMoreLocation.bind(this);
 		this._submit = this._submit.bind(this);
 		this._sendNotification = this._sendNotification.bind(this);
+		this._goToAddItem = this._goToAddItem.bind(this);
 	}
 
 	_updateTime() {
@@ -131,37 +138,10 @@ class NewIntelItemForm extends React.Component<Props, State> {
 			});
 			navigator.geolocation.getCurrentPosition(
 				pos => {
-					fetch(
-						`https://api.mapbox.com/geocoding/v5/mapbox.places/${pos.coords.longitude}%2C${pos.coords.latitude}.json?access_token=${mapboxConfig.accessToken}`
-					)
-						.then(res => res.json())
-						.then(res => {
-							const location = new firebase.firestore.GeoPoint(
-								pos.coords.latitude,
-								pos.coords.longitude
-							);
-
-							if (res.features.length) {
-								const main = res.features[0];
-								this.setState({
-									more: `${main.text}, ${main.properties.address}`,
-									location,
-									isLoading: false,
-								});
-							} else {
-								this.setState({
-									more: 'Unknown',
-									location,
-									isLoading: false,
-								});
-							}
-						})
-						.catch(err =>
-							console.error(
-								new Error('Error fetching address from mapbox.places api'),
-								err
-							)
-						);
+					const { longitude, latitude } = pos.coords;
+					this._setMoreLocation(latitude, longitude).finally(() => {
+						this.setState({ isLoading: false });
+					});
 				},
 				err => {
 					if (err.code === err.PERMISSION_DENIED)
@@ -176,75 +156,92 @@ class NewIntelItemForm extends React.Component<Props, State> {
 		}
 	}
 
-	render = () => {
-		const { type } = this.state;
+	_setIsWaitingForLocation(payload: boolean) {
+		store.dispatch(setIsWaitingForLocation(payload));
+	}
 
-		const moreInputProps = {
-			onChange: this._handleMoreChange,
-			value: this.state.more as string,
+	/**
+	 * Closes AddItem and switches to map tab
+	 */
+	_goToMap() {
+		this.props.closeAddItem();
+		store.dispatch(goToMapTab());
+	}
+
+	/**
+	 * Opens AddItem and switches to intel tab
+	 */
+	_goToAddItem() {
+		this.props.openAddItem();
+		store.dispatch(changeTab(1));
+	}
+
+	_onMapLocation() {
+		const onLocationselect: (
+			this: Document,
+			ev: CustomEvent<locationselectDetail>
+		) => any = e => {
+			document.removeEventListener('locationselect', onLocationselect);
+			this._setIsWaitingForLocation(false);
+
+			const { lat, long } = e.detail.coords;
+			this._setMoreLocation(lat, long).finally(this._goToAddItem);
 		};
-		const moreInput =
-			type === 'tram' || type === 'bus' ? (
-				<Input {...moreInputProps} modifier="underbar" type="number" />
-			) : type === 'walking' ? (
-				<div style={{ display: 'flex' }}>
-					<Button
-						modifier="quiet"
-						style={{
-							display: 'inline-block',
-							marginRight: '5px',
-							color: this.state.location ? '#33b5e5' : '',
-							flex: '0 0 auto',
-						}}
-						onClick={this._onMyLocation}
-					>
-						<Icon style={{ height: '32px' }} icon="md-gps-dot" />{' '}
-					</Button>
-					<Input {...moreInputProps} modifier="underbar" type="text" />
-				</div>
-			) : (
-				<Select {...moreInputProps}>
-					<option value={MetroLine.A}>Green line</option>
-					<option value={MetroLine.B}>Yellow line</option>
-					<option value={MetroLine.C}>Red line</option>
-				</Select>
-			);
 
-		return (
-			<section
-				style={{
-					padding: '10px',
-				}}
-			>
-				<LoadingIndicator isLoading={this.state.isLoading} />
-				<div className={[styles.input, styles.inline].join(' ')}>
-					<label>Type</label>
-					<Select value={this.state.type} onChange={this._handleTypeChange}>
-						<option value="tram">Tram</option>
-						<option value="metro">Metro</option>
-						<option value="bus">Bus</option>
-						<option value="walking">Walking</option>
-					</Select>
-				</div>
-				<div className={[styles.input, styles.inline].join(' ')}>
-					<label>Time</label>
-					<Input
-						type="time"
-						value={this.state.time}
-						onChange={this._handleTimeChange}
-					/>
-				</div>
-				<div className={styles.input}>
-					<label>More</label>
-					{moreInput}
-				</div>
-				<Button style={{ float: 'right' }} onClick={this._submit}>
-					Add
-				</Button>
-				<div style={{ clear: 'right' }} />
-			</section>
-		);
-	};
+		this._setIsWaitingForLocation(true);
+		this._goToMap();
+		document.addEventListener('locationselect', onLocationselect);
+	}
+
+	_setMoreLocation(latitude: number, longitude: number) {
+		const location = new firebase.firestore.GeoPoint(latitude, longitude);
+
+		return this._getAddressFromCoord(latitude, longitude)
+			.then(address => {
+				this.setState({
+					more: address,
+					location,
+				});
+			})
+			.catch(err => {
+				this.setState({
+					more: 'Unknown',
+					location,
+				});
+			});
+	}
+
+	// TODO: look into getting better results
+	_getAddressFromCoord(lat: number, long: number) {
+		return fetch(
+			`https://api.mapbox.com/geocoding/v5/mapbox.places/${long}%2C${lat}.json?access_token=${mapboxConfig.accessToken}`
+		)
+			.then(res => res.json())
+			.then(res => {
+				if (res.features.length) {
+					const main = res.features[0];
+					return `${main.text}, ${main.properties.address}`;
+				} else {
+					throw new Error('No address found');
+				}
+			})
+			.catch(err => {
+				console.error(err);
+				throw new Error('Fetching address from mapbox.places api');
+			});
+	}
+
+	render = () => (
+		<NewIntelItemFormView
+			{...this.state}
+			handleMoreChange={this._handleMoreChange}
+			handleTimeChange={this._handleTimeChange}
+			handleTypeChange={this._handleTypeChange}
+			onMyLocation={this._onMyLocation}
+			onMapLocation={this._onMapLocation}
+			submit={this._submit}
+		/>
+	);
 }
 
-export default NewIntelItemForm;
+export default NewIntelItemFormContainer;

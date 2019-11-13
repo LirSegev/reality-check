@@ -5,12 +5,15 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { ReduxState } from '../../../../reducers/initialState';
-import { changeDestination, setPlayerLocations } from '../../../../reducers/map.reducer';
 import {
-  changeDestinationActionPayload,
-  PlayerLocation,
-  PlayerLocations,
-  setPlayerLocationsPayload,
+	changeDestination,
+	setPlayerLocations,
+} from '../../../../reducers/map.reducer';
+import {
+	changeDestinationActionPayload,
+	PlayerLocation,
+	PlayerLocations,
+	setPlayerLocationsPayload,
 } from '../../../../reducers/map.reducer.d';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { isIOS } from '../../../../util/general';
@@ -21,6 +24,7 @@ import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
 import RoleSelectControl from './roleSelectControl.module';
 import { onShowTransportOnMapWrapper } from './transport.module';
+import { createLocationselectEvent } from '../../../../util/customEvents/factories';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -34,6 +38,7 @@ interface Props {
 	changeDestination: (payload: changeDestinationActionPayload) => void;
 	playerLocations: PlayerLocations;
 	setPlayerLocations: (payload: setPlayerLocationsPayload) => void;
+	isWaitingForLocation: boolean;
 }
 
 class MapTabContainer extends React.Component<Props, State> {
@@ -49,7 +54,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._onStyleLoad = this._onStyleLoad.bind(this);
 		this._hideCollectedPoints = this._hideCollectedPoints.bind(this);
 		this._showChaserPoints = this._showChaserPoints.bind(this);
-		this._chooseDestination = this._chooseDestination.bind(this);
+		this._onLongPress = this._onLongPress.bind(this);
 	}
 
 	componentDidMount() {
@@ -117,7 +122,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._markPlayerLocations();
 		this._showIntelligenceAndDetectivePoints(map);
 		this._showChaserPoints(map);
-		this._listenToSetDestination(map);
+		this._listenToLongPress(map, this._onLongPress);
 
 		if (this.props.isAdmin) {
 			const roleSelectControl = new RoleSelectControl();
@@ -137,22 +142,38 @@ class MapTabContainer extends React.Component<Props, State> {
 		);
 	}
 
+	_onLongPress(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
+		const { point, lngLat } = e;
+		const { lat, lng: long } = lngLat;
+		this._drawRipple(point.x, point.y);
+		if (this.props.isWaitingForLocation)
+			document.dispatchEvent(
+				createLocationselectEvent({
+					coords: {
+						lat,
+						long,
+					},
+				})
+			);
+		else this._chooseDestination(lat, long);
+	}
+
 	/**
 	 * Listen to contextmenu or long-press for IOS
 	 */
-	_listenToSetDestination(map: mapboxgl.Map) {
+	_listenToLongPress(
+		map: mapboxgl.Map,
+		listener: (ev: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
+	) {
 		if (isIOS()) init_ios_context_menu(map);
-		map.on('contextmenu', this._chooseDestination);
+		map.on('contextmenu', listener);
 	}
 
-	_chooseDestination(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
-		const { lat, lng } = e.lngLat;
-		this._drawRipple(e);
-		this.props.changeDestination({ latitude: lat, longitude: lng });
+	_chooseDestination(lat: number, long: number) {
+		this.props.changeDestination({ latitude: lat, longitude: long });
 	}
 
-	_drawRipple(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
-		const { x, y } = e.point;
+	_drawRipple(x: number, y: number) {
 		// prettier-ignore
 		const node = (ReactDOM.findDOMNode(this)! as Element).querySelector('#ripple')!;
 		const newNode = node.cloneNode(true) as HTMLElement;
@@ -330,15 +351,13 @@ class MapTabContainer extends React.Component<Props, State> {
 const mapState = (state: ReduxState) => ({
 	isAdmin: state.main.isAdmin,
 	playerLocations: state.map.playerLocations,
+	isWaitingForLocation: state.map.isWaitingForLocation,
 });
 const mapActions = {
 	changeDestination,
 	setPlayerLocations,
 };
-export default connect(
-	mapState,
-	mapActions
-)(MapTabContainer);
+export default connect(mapState, mapActions)(MapTabContainer);
 
 /**
  * @author Petr Nagy

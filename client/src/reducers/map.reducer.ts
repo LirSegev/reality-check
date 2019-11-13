@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import initialState from './initialState';
-import { moveToLocationOnMap } from './main.reducer';
-import { moveToLocationOnMapPayload } from './main.reducer.d';
+import { moveToLocationOnMap, changeTab } from './main.reducer';
+import { moveToLocationOnMapPayload, changeTabPayload } from './main.reducer.d';
 import {
 	changeDestinationActionPayload,
 	changeMapOrientationActionPayload,
 	setPlayerLocationsPayload,
+	setIsWaitingForLocationPayload,
 } from './map.reducer.d';
 
 const map = createSlice({
@@ -41,6 +42,12 @@ const map = createSlice({
 		toggleLegend(state) {
 			state.isLegendOpen = !state.isLegendOpen;
 		},
+		setIsWaitingForLocation(
+			state,
+			action: PayloadAction<setIsWaitingForLocationPayload>
+		) {
+			state.isWaitingForLocation = action.payload;
+		},
 	},
 	extraReducers: {
 		[moveToLocationOnMap as any]: (
@@ -52,6 +59,9 @@ const map = createSlice({
 			state.mapOrientation.center.longitude = long;
 			if (zoom) state.mapOrientation.zoom = zoom;
 		},
+		[changeTab as any]: (state, action: PayloadAction<changeTabPayload>) => {
+			state.isWaitingForLocation = false;
+		},
 	},
 });
 
@@ -61,5 +71,6 @@ export const {
 	changeMapOrientation,
 	setPlayerLocations,
 	toggleLegend,
+	setIsWaitingForLocation,
 } = map.actions;
 export default map.reducer;

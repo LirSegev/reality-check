@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Page, List, Fab, Icon, Dialog } from 'react-onsenui';
 import renderIntelItem from './renderIntelItem';
 import { IntelItem } from './Intel.d';
-import NewIntelItemForm from './NewIntelItemForm.component';
+import NewIntelItemForm from './NewIntelItemForm';
 import styles from './Intel.module.css';
 import { ReduxState } from '../../../reducers/initialState';
 import { connect } from 'react-redux';
@@ -37,6 +37,8 @@ const IntelTabView: React.FC<Props> = props => {
 				<NewIntelItemForm
 					hideAddItem={props.hideAddItem}
 					gameId={props.gameId}
+					closeAddItem={props.hideAddItem}
+					openAddItem={props.openAddItem}
 				/>
 			</Dialog>
 			<section className={styles.wrapper}>
