@@ -18,11 +18,11 @@ import {
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { isIOS } from '../../../../util/general';
 import { IntelItem } from '../../intel/Intel.d';
-import { addGeolocateControl } from './geolocateControl.module';
+import { addGeolocateControl } from './controls/geolocateControl.module';
 import LegendControl from './Legend/legendControl';
 import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
-import RoleSelectControl from './roleSelectControl.module';
+import RoleSelectControl from './controls/roleSelectControl.module';
 import { onShowTransportOnMapWrapper } from './transport.module';
 import { createLocationselectEvent } from '../../../../util/customEvents/factories';
 

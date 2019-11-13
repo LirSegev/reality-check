@@ -1,5 +1,5 @@
 import { GeolocateControl, EventData } from 'mapbox-gl';
-import { isIOS } from '../../../../util/general';
+import { isIOS } from '../../../../../util/general';
 
 const onDeviceorientationWrapper = (map: mapboxgl.Map) => (
 	e: DeviceOrientationEvent
