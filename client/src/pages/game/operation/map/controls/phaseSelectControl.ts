@@ -1,4 +1,5 @@
 import { IControl } from 'mapbox-gl';
+import { getGameDocRef } from '../../../../../util/db';
 
 const MIN_PHASE = 1;
 const MAX_PHASE = 4;
@@ -22,6 +23,17 @@ export default class PhaseSelectControl implements IControl {
 		input.onchange = this._handleChange.bind(this);
 		uiForm.appendChild(input);
 		this._container.appendChild(uiForm);
+		getGameDocRef().onSnapshot(
+			doc => {
+				const game = doc.data();
+				this._container.querySelector('input')!.value = String(
+					game!.phase as number
+				);
+			},
+			err => {
+				console.error('Getting phase from db', err);
+			}
+		);
 
 		return this._container;
 	}
