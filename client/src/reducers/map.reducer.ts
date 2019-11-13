@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import initialState from './initialState';
-import { moveToLocationOnMap } from './main.reducer';
-import { moveToLocationOnMapPayload } from './main.reducer.d';
+import { moveToLocationOnMap, changeTab } from './main.reducer';
+import { moveToLocationOnMapPayload, changeTabPayload } from './main.reducer.d';
 import {
 	changeDestinationActionPayload,
 	changeMapOrientationActionPayload,
@@ -58,6 +58,9 @@ const map = createSlice({
 			state.mapOrientation.center.latitude = lat;
 			state.mapOrientation.center.longitude = long;
 			if (zoom) state.mapOrientation.zoom = zoom;
+		},
+		[changeTab as any]: (state, action: PayloadAction<changeTabPayload>) => {
+			state.isWaitingForLocation = false;
 		},
 	},
 });
