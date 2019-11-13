@@ -25,6 +25,7 @@ import MapTabView from './Map.tab.view';
 import RoleSelectControl from './controls/roleSelectControl.module';
 import { onShowTransportOnMapWrapper } from './transport.module';
 import { createLocationselectEvent } from '../../../../util/customEvents/factories';
+import PhaseSelectControl from './controls/phaseSelectControl';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -123,8 +124,18 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._showIntelligenceAndDetectivePoints(map);
 		this._showChaserPoints(map);
 		this._listenToLongPress(map, this._onLongPress);
+		this._addControls(map);
 
+		document.addEventListener(
+			'show-transport-on-map',
+			onShowTransportOnMapWrapper(map)
+		);
+	}
+
+	_addControls(map: mapboxgl.Map) {
 		if (this.props.isAdmin) {
+			const phaseControl = new PhaseSelectControl();
+			map.addControl(phaseControl, 'top-left');
 			const roleSelectControl = new RoleSelectControl();
 			map.addControl(roleSelectControl, 'top-left');
 			$('.ui.dropdown').dropdown();
@@ -135,11 +146,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		map.addControl(navigationControl, 'top-right');
 		const legendControl = new LegendControl();
 		map.addControl(legendControl, 'top-right');
-
-		document.addEventListener(
-			'show-transport-on-map',
-			onShowTransportOnMapWrapper(map)
-		);
 	}
 
 	_onLongPress(e: mapboxgl.MapMouseEvent & mapboxgl.EventData) {
