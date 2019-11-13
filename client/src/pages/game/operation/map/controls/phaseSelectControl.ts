@@ -1,5 +1,7 @@
 import { IControl } from 'mapbox-gl';
 import { getGameDocRef } from '../../../../../util/db';
+import { store } from '../../../../../index';
+import { addNotification } from '../../../../../reducers/main.reducer';
 
 const MIN_PHASE = 1;
 const MAX_PHASE = 4;
@@ -55,5 +57,43 @@ export default class PhaseSelectControl implements IControl {
 		this._changePhase(phase);
 	}
 
-	_changePhase(phase: number) {}
+	_addNotification: ConnectedAction<typeof addNotification> = payload =>
+		store.dispatch(addNotification(payload));
+
+	_changePhase(phase: number) {
+		if (!window.navigator.onLine) {
+			this._addNotification({
+				notification: {
+					type: 'warning',
+					header: `You're not online`,
+					content: 'Phase will update when you go back online',
+					duration: 4,
+				},
+			});
+		}
+
+		getGameDocRef()
+			.update({
+				phase,
+			})
+			.then(() => {
+				this._addNotification({
+					notification: {
+						type: 'success',
+						header: 'Phase updated',
+					},
+				});
+			})
+			.catch(err => {
+				console.error(err);
+				this._addNotification({
+					notification: {
+						type: 'error',
+						header:
+							'Something went wrong updating phase please try again later',
+						duration: 3,
+					},
+				});
+			});
+	}
 }

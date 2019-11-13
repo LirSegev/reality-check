@@ -22,6 +22,9 @@ interface NotificationWithoutId {
 	type?: NotificationType;
 	header: string;
 	content?: string;
+	/**
+	 * Defaults to 2s
+	 */
 	duration?: number | 'none';
 }
 
