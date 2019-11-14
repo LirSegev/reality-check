@@ -123,12 +123,28 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._markPlayerLocations();
 		this._showIntelligenceAndDetectivePoints(map);
 		this._showChaserPoints(map);
+		this._showZone(map);
 		this._listenToLongPress(map, this._onLongPress);
 		this._addControls(map);
 
 		document.addEventListener(
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
+		);
+	}
+
+	_showZone(map: mapboxgl.Map) {
+		const MAX_ZONE = 3;
+		getGameDocRef().onSnapshot(
+			snap => {
+				const game = snap.data();
+				if (game) {
+					const phase = game.phase || 0;
+					const zoneNum = phase > MAX_ZONE ? MAX_ZONE : phase; // Set zoneNum to phase or MAX_ZONE
+					map.setFilter('zone', ['==', 'zone', zoneNum]);
+				}
+			},
+			err => console.error('At _showZone(): ', err)
 		);
 	}
 
