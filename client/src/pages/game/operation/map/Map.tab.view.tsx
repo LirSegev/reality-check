@@ -40,6 +40,10 @@ const MapTabView: React.FC<Props> = props => (
 			}}
 			onMove={props.onMove}
 			onStyleLoad={props.onStyleLoad}
+			maxBounds={[
+				[14.272508848292025, 50.02449757273946],
+				[14.582707495363378, 50.14666286954549],
+			]}
 		>
 			<Layer
 				id="mr-z-route-line"
