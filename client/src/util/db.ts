@@ -20,11 +20,13 @@ export async function updateCurrentPlayer(
 /**
  * Gets the data of the current player from the database.
  */
-export async function getCurrentPlayer(): Promise<Player | undefined> {
+export async function getCurrentPlayer(): Promise<
+	DB.Game.Players.Player | undefined
+> {
 	try {
 		const ref = await getCurrentPlayerRef();
 		const doc = await ref.get();
-		return doc.data() as Player | undefined;
+		return doc.data() as DB.Game.Players.Player | undefined;
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error getting current user');

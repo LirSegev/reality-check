@@ -101,7 +101,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	_updatePlayerLocations(playerList: firebase.firestore.QuerySnapshot) {
 		let playerLocations: { [key: string]: PlayerLocation } = {};
 		playerList.forEach(doc => {
-			const player = doc.data() as Player;
+			const player = doc.data() as DB.Game.Players.Player;
 
 			if (player.location && player.uid !== firebase.auth().currentUser!.uid) {
 				const playerLocation: PlayerLocation = {
@@ -224,11 +224,14 @@ class MapTabContainer extends React.Component<Props, State> {
 	/**
 	 * Set up listeners to hide collected points and show points based on player's role
 	 */
-	_showIntelligenceAndDetectivePoints(map: mapboxgl.Map, role?: PlayerRole) {
+	_showIntelligenceAndDetectivePoints(
+		map: mapboxgl.Map,
+		role?: DB.Game.Players.PlayerRole
+	) {
 		if (this.props.isAdmin) {
 			// Hide collected points for all roles
 			const roles = ['detective', 'intelligence'] as Exclude<
-				PlayerRole,
+				DB.Game.Players.PlayerRole,
 				'chaser'
 			>[];
 			roles.forEach(role => {
@@ -266,7 +269,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	_hideCollectedPoints(
 		map: mapboxgl.Map,
 		layerId: string,
-		playerRole: Exclude<PlayerRole, 'chaser'>
+		playerRole: Exclude<DB.Game.Players.PlayerRole, 'chaser'>
 	) {
 		getGameDocRef().onSnapshot(
 			snapshot => {

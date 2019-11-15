@@ -16,7 +16,7 @@ export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 			doBeforeSignOut.push(
 				updateCurrentPlayer({
 					isDeleted: true,
-				} as Player)
+				} as DB.Game.Players.Player)
 			);
 		} else console.error(new Error('Error no gameID'));
 	}

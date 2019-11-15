@@ -18,7 +18,7 @@ declare namespace DB {
 				uid: string;
 			};
 			message: string;
-			timeStamp: firebase.firestore.Timestamp;
+			timestamp: firebase.firestore.Timestamp;
 		}
 
 		export namespace Intel {
