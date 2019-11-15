@@ -168,6 +168,7 @@ function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentRef
 				.get()
 				.then(doc => doc.data())
 				.then(game => {
+					// TODO: Use update() not set()
 					gameDocRef.set({
 						...game,
 						chaser_sequence_num: numOfLocationReveals,

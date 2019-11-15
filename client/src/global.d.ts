@@ -1,4 +1,7 @@
 /// <reference types="firebase" />
+/// <reference types="./util/db" />
+
+declare type NonEmptyArray<T> = [T, ...T[]];
 
 declare interface Player {
 	displayName: string;

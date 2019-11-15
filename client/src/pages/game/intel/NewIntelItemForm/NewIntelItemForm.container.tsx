@@ -96,7 +96,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
 					0
 				),
-			} as IntelItem)
+			} as IntelItem) // TODO: Typecheck at runtime instead of casting
 			.then(() => {
 				this.props.hideAddItem();
 				// this._sendNotification();
