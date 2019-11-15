@@ -1,15 +1,15 @@
-import * as React from 'react';
-import ChooseGamePageView from './ChooseGame.page.view';
 import * as firebase from 'firebase/app';
-import renderGameItem from './renderGameItem';
-import { ReduxState } from '../../reducers/initialState';
-import { changeGame, stopLoading } from '../../reducers/main.reducer';
-import { changeGameActionPayload } from '../../reducers/main.reducer.d';
+import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { ReduxState } from '../../reducers/initialState';
+import { changeGame, stopLoading } from '../../reducers/main.reducer';
+import ChooseGamePageView from './ChooseGame.page.view';
+import renderGameItem from './renderGameItem';
+
 interface Props {
-	stopLoading: () => void;
-	changeGame: (payload: changeGameActionPayload) => void;
+	stopLoading: ConnectedAction<typeof stopLoading>;
+	changeGame: ConnectedAction<typeof changeGame>;
 }
 interface State {
 	gameList: string[];
@@ -58,7 +58,4 @@ const mapDispatch = {
 	changeGame,
 	stopLoading,
 };
-export default connect(
-	mapState,
-	mapDispatch
-)(ChooseGamePageContainer);
+export default connect(mapState, mapDispatch)(ChooseGamePageContainer);

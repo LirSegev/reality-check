@@ -1,22 +1,22 @@
-import * as React from 'react';
 import * as firebase from 'firebase/app';
+import * as React from 'react';
+import { connect } from 'react-redux';
+
 import AppView from './App.view';
-import { signOut } from './util/firebase';
 import {
-	changeGame,
 	adminSignin,
+	changeGame,
 	signOut as signOutAction,
 } from './reducers/main.reducer';
-import { changeGameActionPayload } from './reducers/main.reducer.d';
-import { connect } from 'react-redux';
+import { signOut } from './util/firebase';
 
 interface State {
 	isLogged: boolean;
 }
 interface Props {
-	changeGame: (payload: changeGameActionPayload) => void;
-	adminSignin: () => void;
-	signOutAction: () => void;
+	changeGame: ConnectedAction<typeof changeGame>;
+	adminSignin: ConnectedAction<typeof adminSignin>;
+	signOutAction: ConnectedAction<typeof signOutAction>;
 }
 
 class AppContainer extends React.Component<Props, State> {
@@ -62,7 +62,9 @@ class AppContainer extends React.Component<Props, State> {
 			? displayNameEl.value || player.uid
 			: player.uid;
 		const role =
-			roleEl && roleEl.value ? (roleEl.value as DB.Game.Players.PlayerRole) : DEFAULT_ROLE;
+			roleEl && roleEl.value
+				? (roleEl.value as DB.Game.Players.PlayerRole)
+				: DEFAULT_ROLE;
 		const isNew = localStorage.getItem('gameId') ? false : true;
 
 		this.setState({ isLogged: true });
@@ -144,7 +146,4 @@ const mapDispatchToProps = {
 	signOutAction,
 	adminSignin,
 };
-export default connect(
-	null,
-	mapDispatchToProps
-)(AppContainer);
+export default connect(null, mapDispatchToProps)(AppContainer);

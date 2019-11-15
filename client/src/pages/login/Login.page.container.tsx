@@ -11,8 +11,8 @@ import { Page } from 'react-onsenui';
 
 interface Props {
 	match: match<{ gameId: string }>;
-	stopLoading: () => void;
-	startLoading: () => void;
+	stopLoading: ConnectedAction<typeof stopLoading>;
+	startLoading: ConnectedAction<typeof startLoading>;
 }
 interface State {
 	isValidGame: boolean | null;

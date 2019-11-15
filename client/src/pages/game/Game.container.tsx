@@ -1,22 +1,18 @@
-import * as React from 'react';
-import GameView from './Game.view';
 import * as firebase from 'firebase/app';
+import produce from 'immer';
+import * as React from 'react';
+import { connect } from 'react-redux';
+
+import { ReduxState } from '../../reducers/initialState';
+import {
+	changeOpTab,
+	changeTab,
+	stopLoading,
+} from '../../reducers/main.reducer';
+import { changeMapOrientation } from '../../reducers/map.reducer';
 import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
-import {
-	stopLoading,
-	changeTab,
-	changeOpTab,
-} from '../../reducers/main.reducer';
-import {
-	changeTabPayload,
-	changeOpTabPayload,
-} from '../../reducers/main.reducer.d';
-import { changeMapOrientation } from '../../reducers/map.reducer';
-import { changeMapOrientationActionPayload } from '../../reducers/map.reducer.d';
-import { connect } from 'react-redux';
-import { ReduxState } from '../../reducers/initialState';
-import produce from 'immer';
+import GameView from './Game.view';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -30,10 +26,10 @@ const CHECK_FOR_POINTS_INTERVAL = 5;
 const LOCATION_UPDATES_INTERVAL = 10;
 
 interface Props {
-	stopLoading: () => void;
-	changeTab: (payload: changeTabPayload) => void;
-	changeOpTab: (payload: changeOpTabPayload) => void;
-	changeMapOrientation: (payload: changeMapOrientationActionPayload) => void;
+	stopLoading: ConnectedAction<typeof stopLoading>;
+	changeTab: ConnectedAction<typeof changeTab>;
+	changeOpTab: ConnectedAction<typeof changeOpTab>;
+	changeMapOrientation: ConnectedAction<typeof changeMapOrientation>;
 	isAdmin: boolean;
 	tabIndex: number;
 	opTabIndex: number;
@@ -212,7 +208,4 @@ const mapState = (state: ReduxState) => {
 	const { isAdmin, tabIndex, opTabIndex } = main;
 	return { isAdmin, tabIndex, opTabIndex };
 };
-export default connect(
-	mapState,
-	mapDispatchToProps
-)(GameContainer);
+export default connect(mapState, mapDispatchToProps)(GameContainer);

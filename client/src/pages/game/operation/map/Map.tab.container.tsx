@@ -5,26 +5,18 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { ReduxState } from '../../../../reducers/initialState';
-import {
-	changeDestination,
-	setPlayerLocations,
-} from '../../../../reducers/map.reducer';
-import {
-	changeDestinationActionPayload,
-	PlayerLocation,
-	PlayerLocations,
-	setPlayerLocationsPayload,
-} from '../../../../reducers/map.reducer.d';
+import { changeDestination, setPlayerLocations } from '../../../../reducers/map.reducer';
+import { PlayerLocation, PlayerLocations } from '../../../../reducers/map.reducer.d';
+import { createLocationselectEvent } from '../../../../util/customEvents/factories';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { isIOS } from '../../../../util/general';
 import { addGeolocateControl } from './controls/geolocateControl.module';
+import PhaseSelectControl from './controls/phaseSelectControl';
+import RoleSelectControl from './controls/roleSelectControl.module';
 import LegendControl from './Legend/legendControl';
 import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
-import RoleSelectControl from './controls/roleSelectControl.module';
 import { onShowTransportOnMapWrapper } from './transport.module';
-import { createLocationselectEvent } from '../../../../util/customEvents/factories';
-import PhaseSelectControl from './controls/phaseSelectControl';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -35,9 +27,9 @@ interface State {
 interface Props {
 	isAdmin: boolean;
 	onMove: (map: mapboxgl.Map) => void;
-	changeDestination: (payload: changeDestinationActionPayload) => void;
+	changeDestination: ConnectedAction<typeof changeDestination>;
 	playerLocations: PlayerLocations;
-	setPlayerLocations: (payload: setPlayerLocationsPayload) => void;
+	setPlayerLocations: ConnectedAction<typeof setPlayerLocations>;
 	isWaitingForLocation: boolean;
 }
 

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 interface Props {
 	isOpen: boolean;
-	toggleLegend: () => void;
+	toggleLegend: ConnectedAction<typeof toggleLegend>;
 }
 
 const LegendWrapper: React.FC<Props> = props => (

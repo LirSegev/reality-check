@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { removeNotification } from '../../../reducers/main.reducer';
-import {
-	Notification,
-	removeNotificationPayload,
-} from '../../../reducers/main.reducer.d';
+import { Notification } from '../../../reducers/main.reducer.d';
 import styles from './Notification.module.css';
 import NotificationView from './Notification.view';
 
@@ -20,7 +18,7 @@ interface State {
 }
 interface Props {
 	notification: Notification;
-	removeNotification: (payload: removeNotificationPayload) => void;
+	removeNotification: ConnectedAction<typeof removeNotification>;
 }
 
 class NotificationContainer extends React.Component<Props, State> {
@@ -93,7 +91,4 @@ class NotificationContainer extends React.Component<Props, State> {
 const mapActions = {
 	removeNotification,
 };
-export default connect(
-	null,
-	mapActions
-)(NotificationContainer);
+export default connect(null, mapActions)(NotificationContainer);

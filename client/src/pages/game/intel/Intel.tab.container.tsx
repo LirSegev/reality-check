@@ -1,21 +1,21 @@
-import React from 'react';
-import IntelTabView from './Intel.tab.view';
 import * as firebase from 'firebase/app';
-import { getGameDocRef } from '../../../util/db';
+import React from 'react';
+import { connect } from 'react-redux';
+
 import {
 	goToMapTab,
 	moveToLocationOnMap,
 } from '../../../reducers/main.reducer';
-import { moveToLocationOnMapPayload } from '../../../reducers/main.reducer.d';
-import { connect } from 'react-redux';
+import { getGameDocRef } from '../../../util/db';
+import IntelTabView from './Intel.tab.view';
 
 interface State {
 	intelItems: DB.Game.Intel.IntelItem[];
 	isAddItemOpen: boolean;
 }
 interface Props {
-	moveToLocationOnMap: (payload: moveToLocationOnMapPayload) => void;
-	moveToMapTab: () => void;
+	moveToLocationOnMap: ConnectedAction<typeof moveToLocationOnMap>;
+	moveToMapTab: ConnectedAction<typeof goToMapTab>;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 

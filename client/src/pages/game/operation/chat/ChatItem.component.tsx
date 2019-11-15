@@ -1,20 +1,22 @@
+import * as firebase from 'firebase/app';
 import React from 'react';
 import { Card } from 'react-onsenui';
-import styles from './Chat.module.css';
-import * as firebase from 'firebase/app';
-import { PlayerLocations } from '../../../../reducers/map.reducer.d';
+import { connect } from 'react-redux';
+
 import { ReduxState } from '../../../../reducers/initialState';
 import { moveToLocationOnMap } from '../../../../reducers/main.reducer';
-import { moveToLocationOnMapPayload } from '../../../../reducers/main.reducer.d';
-import { connect } from 'react-redux';
-import { PlayerLocation } from '../../../../reducers/map.reducer.d';
+import {
+	PlayerLocation,
+	PlayerLocations,
+} from '../../../../reducers/map.reducer.d';
+import styles from './Chat.module.css';
 
 interface Props {
 	author: DB.Game.ChatItem['author'];
 	message: string;
 	timestamp: firebase.firestore.Timestamp;
 	playerLocations: PlayerLocations;
-	moveToLocationOnMap: (payload: moveToLocationOnMapPayload) => void;
+	moveToLocationOnMap: ConnectedAction<typeof moveToLocationOnMap>;
 }
 
 class ChatItem extends React.Component<Props> {

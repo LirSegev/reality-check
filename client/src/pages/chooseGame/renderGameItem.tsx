@@ -3,7 +3,7 @@ import { ListItem } from 'react-onsenui';
 import { changeGameActionPayload } from '../../reducers/main.reducer.d';
 
 const renderGameItem = (
-	changeGame: (payload: changeGameActionPayload) => void
+	changeGame: (payload: changeGameActionPayload) => void //? TODO: Do we need to get this as a prop?
 ) => (row: string) => {
 	function enterGame(e: React.MouseEvent<any, MouseEvent>) {
 		const gameId = (e.currentTarget as HTMLElement).querySelector('span')!

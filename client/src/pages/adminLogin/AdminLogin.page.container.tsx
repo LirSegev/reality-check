@@ -1,20 +1,19 @@
-import React from 'react';
 import * as firebase from 'firebase/app';
-import {
-	startLoading,
-	stopLoading,
-	addNotification,
-} from '../../reducers/main.reducer';
-import { addNotificationPayload } from '../../reducers/main.reducer.d';
+import React from 'react';
 import { connect } from 'react-redux';
 
-// Components
+import {
+	addNotification,
+	startLoading,
+	stopLoading,
+} from '../../reducers/main.reducer';
 import AdminLoginPageView from './AdminLogin.page.view';
 
+// Components
 interface Props {
-	startLoading: () => void;
-	stopLoading: () => void;
-	addNotification: (payload: addNotificationPayload) => void;
+	startLoading: ConnectedAction<typeof startLoading>;
+	stopLoading: ConnectedAction<typeof stopLoading>;
+	addNotification: ConnectedAction<typeof addNotification>;
 }
 
 class AdminLoginPageContainer extends React.Component<Props> {
@@ -71,7 +70,4 @@ const mapDispatchToProps = {
 	stopLoading,
 	addNotification,
 };
-export default connect(
-	null,
-	mapDispatchToProps
-)(AdminLoginPageContainer);
+export default connect(null, mapDispatchToProps)(AdminLoginPageContainer);
