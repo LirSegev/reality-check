@@ -27,7 +27,7 @@ export default class RoleSelectControl implements IControl {
 
 		const menu = document.createElement('div');
 		menu.className = 'menu';
-		const roles = ['chaser', 'intelligence', 'detective'] as PlayerRole[];
+		const roles = ['chaser', 'intelligence', 'detective'] as DB.Game.Players.PlayerRole[];
 		roles.forEach(role => {
 			const item = document.createElement('div');
 			item.className = 'item';
@@ -50,7 +50,7 @@ export default class RoleSelectControl implements IControl {
 	 * Display map layers a player with role `role` would see
 	 */
 	_changeRole = (map: mapboxgl.Map) => (e: Event) => {
-		const role = (e.currentTarget as HTMLInputElement).value as PlayerRole;
+		const role = (e.currentTarget as HTMLInputElement).value as DB.Game.Players.PlayerRole;
 		switch (role) {
 			case 'chaser':
 				map.setLayoutProperty('intelligence-points', 'visibility', 'none');

@@ -4,7 +4,7 @@ import ChatItem from './ChatItem.component';
 import ChatInput from './ChatInput.component';
 
 interface Props {
-	messages: [ChatDoc, string][];
+	messages: [DB.Game.ChatItem, string][];
 	isLoading: boolean;
 }
 

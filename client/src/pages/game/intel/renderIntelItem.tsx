@@ -1,12 +1,12 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
-import { IntelItem, Icons } from './Intel.d';
+import { Icons } from './Intel.d';
 
 interface Props {
 	handleClick: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
 
-const renderIntelItem = (props: Props) => (row: IntelItem) => {
+const renderIntelItem = (props: Props) => (row: DB.Game.Intel.IntelItem) => {
 	const { action, timestamp } = row;
 	const time = new Date(timestamp.toMillis()).toLocaleTimeString('en-GB', {
 		hour: '2-digit',

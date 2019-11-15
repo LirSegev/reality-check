@@ -1,7 +1,7 @@
 import { updateCurrentPlayer } from './db';
 
 export const removePlayerFromDeviceGroup = (gameId: string) => (
-	player: Player | undefined
+	player: DB.Game.Players.Player | undefined
 ) => {
 	if (player && player.messagingToken) {
 		const removeDeviceFromDeviceGroup = firebase

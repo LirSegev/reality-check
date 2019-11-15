@@ -23,7 +23,7 @@ class ChatInput extends React.Component {
 				},
 				message: inputEl.innerText,
 				timestamp: dateToTimestamp(new Date()),
-			} as ChatDoc);
+			} as DB.Game.ChatItem);
 
 		inputEl.innerHTML = '';
 	}

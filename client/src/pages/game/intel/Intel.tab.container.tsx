@@ -1,6 +1,5 @@
 import React from 'react';
 import IntelTabView from './Intel.tab.view';
-import { IntelItem } from './Intel.d';
 import * as firebase from 'firebase/app';
 import { getGameDocRef } from '../../../util/db';
 import {
@@ -11,7 +10,7 @@ import { moveToLocationOnMapPayload } from '../../../reducers/main.reducer.d';
 import { connect } from 'react-redux';
 
 interface State {
-	intelItems: IntelItem[];
+	intelItems: DB.Game.Intel.IntelItem[];
 	isAddItemOpen: boolean;
 }
 interface Props {
@@ -57,10 +56,10 @@ class IntelTabContainer extends React.Component<Props, State> {
 		});
 
 	_updateIntelItems(intel: firebase.firestore.QuerySnapshot) {
-		const newItems = [] as IntelItem[];
+		const newItems = [] as DB.Game.Intel.IntelItem[];
 		intel.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
-				newItems.push(changes.doc.data() as IntelItem);
+				newItems.push(changes.doc.data() as DB.Game.Intel.IntelItem);
 				this.props.incrementUnreadNum('intel');
 			}
 		});
@@ -109,7 +108,4 @@ const mapActions = {
 	moveToMapTab: goToMapTab,
 	moveToLocationOnMap,
 };
-export default connect(
-	null,
-	mapActions
-)(IntelTabContainer);
+export default connect(null, mapActions)(IntelTabContainer);

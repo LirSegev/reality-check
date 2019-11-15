@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Page, List, Fab, Icon, Dialog } from 'react-onsenui';
 import renderIntelItem from './renderIntelItem';
-import { IntelItem } from './Intel.d';
 import NewIntelItemForm from './NewIntelItemForm';
 import styles from './Intel.module.css';
 import { ReduxState } from '../../../reducers/initialState';
 import { connect } from 'react-redux';
 
 interface Props {
-	intelItems: IntelItem[];
+	intelItems: DB.Game.Intel.IntelItem[];
 	isAddItemOpen: boolean;
 	isAdmin: boolean;
 	gameId: string | null;

@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { ActionType } from '../Intel.d';
 import LocationInput from './LocationInput.component';
 import MetroInput from './MetroInput.component';
 import NumberInput from './NumberInput.component';
 
 interface Props {
-	type: ActionType;
+	type: DB.Game.Intel.ActionType;
 	moreInputProps: {
 		onChange: (e: React.ChangeEvent<any>) => void;
 		value: string;

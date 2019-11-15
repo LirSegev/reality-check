@@ -10,10 +10,7 @@ import { connect } from 'react-redux';
 import { PlayerLocation } from '../../../../reducers/map.reducer.d';
 
 interface Props {
-	author: {
-		uid: string;
-		displayName: string;
-	};
+	author: DB.Game.ChatItem['author'];
 	message: string;
 	timestamp: firebase.firestore.Timestamp;
 	playerLocations: PlayerLocations;
@@ -73,7 +70,4 @@ const mapState = (state: ReduxState) => ({
 const mapActions = {
 	moveToLocationOnMap,
 };
-export default connect(
-	mapState,
-	mapActions
-)(ChatItem);
+export default connect(mapState, mapActions)(ChatItem);
