@@ -2,12 +2,12 @@ import React from 'react';
 import { Button, Input, Select } from 'react-onsenui';
 
 import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../../components/LoadingIndicator.component';
-import { ActionType, MetroLine } from '../Intel.d';
+import { MetroLine } from '../Intel.d';
 import MoreInput from './moreInput.component';
 import styles from './NewIntelItemForm.module.css';
 
 interface Props {
-	type: ActionType;
+	type: DB.Game.Intel.ActionType;
 	more: number | MetroLine | string;
 	location: firebase.firestore.GeoPoint | null;
 	time: string;

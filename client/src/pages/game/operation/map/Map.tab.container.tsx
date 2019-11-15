@@ -17,7 +17,6 @@ import {
 } from '../../../../reducers/map.reducer.d';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
 import { isIOS } from '../../../../util/general';
-import { IntelItem } from '../../intel/Intel.d';
 import { addGeolocateControl } from './controls/geolocateControl.module';
 import LegendControl from './Legend/legendControl';
 import styles from './Map.module.css';
@@ -84,7 +83,7 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
 		const mrZRoute = intel.docs
-			.map(doc => doc.data() as IntelItem)
+			.map(doc => doc.data() as DB.Game.Intel.IntelItem)
 			.filter(
 				intel => intel.action.type === 'walking' && intel.action.coordinates
 			)

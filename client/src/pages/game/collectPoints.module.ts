@@ -1,7 +1,6 @@
 import * as firebase from 'firebase/app';
 import { distanceBetweenPoints } from '../../util/general';
 import { getCurrentPlayer, getGameDocRef } from '../../util/db';
-import { ActionType } from './intel/Intel';
 import { store } from './../../index';
 import { addNotification } from '../../reducers/main.reducer';
 
@@ -159,7 +158,7 @@ function onDetectivePointCollected(
 function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference) {
 	gameDocRef
 		.collection('intel')
-		.where('action.type', '==', 'walking' as ActionType)
+		.where('action.type', '==', 'walking' as DB.Game.Intel.ActionType)
 		.get()
 		.then(snap => {
 			const numOfLocationReveals = snap.size;

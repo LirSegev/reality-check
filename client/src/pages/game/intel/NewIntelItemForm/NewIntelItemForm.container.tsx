@@ -6,11 +6,11 @@ import mapboxConfig from '../../../../config/Mapbox';
 import { setIsWaitingForLocation } from '../../../../reducers/map.reducer';
 import { goToMapTab, changeTab } from '../../../../reducers/main.reducer';
 import { getGameDocRef } from '../../../../util/db';
-import { ActionType, IntelItem, MetroLine } from '../Intel.d';
+import { MetroLine } from '../Intel.d';
 import NewIntelItemFormView from './NewIntelItemForm.view';
 
 interface State {
-	type: ActionType;
+	type: DB.Game.Intel.ActionType;
 	more: number | MetroLine | string;
 	location: firebase.firestore.GeoPoint | null;
 	time: string;
@@ -62,7 +62,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 
 	_handleTypeChange(e: React.ChangeEvent<any>) {
 		this.setState({
-			type: (e.target as HTMLSelectElement).value as ActionType,
+			type: (e.target as HTMLSelectElement).value as DB.Game.Intel.ActionType,
 		});
 	}
 
@@ -96,7 +96,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
 					0
 				),
-			} as IntelItem) // TODO: Typecheck at runtime instead of casting
+			} as DB.Game.Intel.IntelItem) // TODO: Typecheck at runtime instead of casting
 			.then(() => {
 				this.props.hideAddItem();
 				// this._sendNotification();
