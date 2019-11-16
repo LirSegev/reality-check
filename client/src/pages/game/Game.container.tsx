@@ -13,6 +13,10 @@ import { changeMapOrientation } from '../../reducers/map.reducer';
 import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
 import GameView from './Game.view';
+import * as t from 'io-ts';
+import { fold, left } from 'fp-ts/es6/Either';
+import { pipe } from 'fp-ts/es6/pipeable';
+import { PathReporter } from 'io-ts/es6/PathReporter';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -163,18 +167,31 @@ class GameContainer extends React.Component<Props, State> {
 		);
 	}
 
-	_onTabChange = (event: any) => {
-		if (event.index !== this.props.tabIndex) this.props.changeTab(event.index);
-		switch (event.index) {
-			case 2:
-				if (this.props.opTabIndex === 1) this._resetUnreadNum('chat');
-				break;
-			case 1:
-				this._resetUnreadNum('intel');
-				break;
-			case 0:
-				this._resetUnreadNum('target');
-		}
+	_onTabChange = (event: unknown) => {
+		const Event = t.type(
+			{
+				index: t.number,
+			},
+			'TabChangeEvent'
+		);
+
+		fold<t.Errors, t.TypeOf<typeof Event>, unknown>(
+			err => pipe(left(err), PathReporter.report, console.error),
+			e => {
+				if (e.index !== this.props.tabIndex) this.props.changeTab(e.index);
+				switch (e.index) {
+					case 2:
+						if (this.props.opTabIndex === 1) this._resetUnreadNum('chat');
+						break;
+					case 1:
+						this._resetUnreadNum('intel');
+						break;
+					case 0:
+						this._resetUnreadNum('target');
+				}
+			}
+		)(Event.decode(event));
+
 	};
 
 	_onOpTabChange = (event: any) => {
