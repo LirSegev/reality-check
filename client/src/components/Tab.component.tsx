@@ -33,7 +33,7 @@ class TabComponent extends React.Component<Props> {
 		});
 	}
 
-	componentDidUpdate(prevProps: any, prevState: any) {
+	componentDidUpdate() {
 		// For some reason this is called at the initial render
 		// since the unreadNum element isn't until after the button element is added
 		// this throws an error at the initial render

@@ -35,12 +35,12 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	_updateSuspectList(snapshot: firebase.firestore.DocumentSnapshot) {
-		const game = snapshot.data();
+		const game = snapshot.data() as DB.GameDoc | undefined;
 		if (game && game['suspect_list'])
 			this.setState(prevState => ({
 				...prevState,
 				// TODO: Remove .map() when sure suspect_list is number[]
-				suspectList: game['suspect_list'].map((val: any) => Number(val)),
+				suspectList: game['suspect_list'].map(val => Number(val)),
 			}));
 	}
 

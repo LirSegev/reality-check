@@ -13,12 +13,12 @@ const renderIntelItem = (props: Props) => (row: DB.Game.Intel.IntelItem) => {
 		minute: '2-digit',
 	});
 
-	let dataAtr: any = {};
+	let dataAtr: { [key: string]: string } = {};
 	let text: string;
 	switch (action.type) {
 		case 'tram':
 			text = `Seen on tram ${action.text}`;
-			dataAtr['data-tram'] = action.text;
+			dataAtr['data-tram'] = String(action.text);
 			break;
 		case 'metro':
 			text = `Seen on the ${action.text} metro`;
@@ -30,7 +30,8 @@ const renderIntelItem = (props: Props) => (row: DB.Game.Intel.IntelItem) => {
 		case 'walking':
 			text = `Seen near ${action.text}`;
 			const point = action.coordinates;
-			if (point) dataAtr['data-coords'] = [point.longitude, point.latitude];
+			if (point)
+				dataAtr['data-coords'] = [point.longitude, point.latitude].join(',');
 			break;
 		default:
 			text = 'Seen';

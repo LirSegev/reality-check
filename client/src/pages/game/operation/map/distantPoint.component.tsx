@@ -66,7 +66,7 @@ class DistantPoint extends React.Component<Props, State> {
 		if (bearing > 360 || bearing < 0)
 			console.error(new Error('Bearing is out of bounds (should be 0-360)'));
 
-		let position: any = {};
+		let position: State['position'] = {};
 		const atan = rad2deg(Math.atan(width / height));
 		switch (true) {
 			case bearing <= atan:
