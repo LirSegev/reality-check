@@ -10,9 +10,10 @@ import {
 	PlayerLocations,
 } from '../../../../reducers/map.reducer.d';
 import styles from './Chat.module.css';
+import { ChatItem } from '../../../../util/db.types';
 
 interface Props {
-	author: DB.Game.ChatItem['author'];
+	author: ChatItem['author'];
 	message: string;
 	timestamp: firebase.firestore.Timestamp;
 	playerLocations: PlayerLocations;

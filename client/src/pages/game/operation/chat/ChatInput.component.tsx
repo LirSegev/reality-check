@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from 'react-onsenui';
 import { getGameDocRef } from '../../../../util/db';
 import styles from './Chat.module.css';
+import { ChatItem } from '../../../../util/db.types';
 
 class ChatInput extends React.Component {
 	constructor(props: {}) {
@@ -23,7 +24,7 @@ class ChatInput extends React.Component {
 				},
 				message: inputEl.innerText,
 				timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
-			} as DB.Game.ChatItem); // TODO: Replace type casting
+			} as ChatItem); // TODO: Replace type casting
 
 		inputEl.innerHTML = '';
 	}

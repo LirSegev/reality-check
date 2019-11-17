@@ -2,9 +2,10 @@ import * as React from 'react';
 import { Page } from 'react-onsenui';
 import ChatItem from './ChatItem.component';
 import ChatInput from './ChatInput.component';
+import { ChatItem as ChatItemType } from '../../../../util/db.types';
 
 interface Props {
-	messages: [DB.Game.ChatItem, string][];
+	messages: [ChatItemType, string][];
 	isLoading: boolean;
 }
 

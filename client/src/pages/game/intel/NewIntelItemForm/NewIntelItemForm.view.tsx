@@ -5,9 +5,10 @@ import { LoadingIndicatorNoStore as LoadingIndicator } from '../../../../compone
 import { MetroLine } from '../Intel.d';
 import MoreInput from './moreInput.component';
 import styles from './NewIntelItemForm.module.css';
+import { ActionType } from '../../../../util/db.types';
 
 interface Props {
-	type: DB.Game.Intel.ActionType;
+	type: ActionType;
 	more: number | MetroLine | string;
 	location: firebase.firestore.GeoPoint | null;
 	time: string;

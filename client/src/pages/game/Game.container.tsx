@@ -14,9 +14,9 @@ import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
 import GameView from './Game.view';
 import * as t from 'io-ts';
-import { fold, left } from 'fp-ts/es6/Either';
-import { pipe } from 'fp-ts/es6/pipeable';
-import { PathReporter } from 'io-ts/es6/PathReporter';
+import { fold, left } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/pipeable';
+import { PathReporter } from 'io-ts/lib/PathReporter';
 
 /**
  * The time interval in seconds to check if the player is close enough to a

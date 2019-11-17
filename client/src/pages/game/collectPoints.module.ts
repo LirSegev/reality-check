@@ -3,6 +3,7 @@ import { distanceBetweenPoints } from '../../util/general';
 import { getCurrentPlayer, getGameDocRef } from '../../util/db';
 import { store } from './../../index';
 import { addNotification } from '../../reducers/main.reducer';
+import { ActionType } from '../../util/db.types';
 
 /**
  * The min distance in meters the player needs to be from a point in order to collect it.
@@ -158,7 +159,7 @@ function onDetectivePointCollected(
 function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference) {
 	gameDocRef
 		.collection('intel')
-		.where('action.type', '==', 'walking' as DB.Game.Intel.ActionType)
+		.where('action.type', '==', 'walking' as ActionType)
 		.get()
 		.then(snap => {
 			const numOfLocationReveals = snap.size;

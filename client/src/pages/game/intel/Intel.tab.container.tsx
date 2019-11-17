@@ -8,9 +8,10 @@ import {
 } from '../../../reducers/main.reducer';
 import { getGameDocRef } from '../../../util/db';
 import IntelTabView from './Intel.tab.view';
+import { IntelItem } from '../../../util/db.types';
 
 interface State {
-	intelItems: DB.Game.Intel.IntelItem[];
+	intelItems: IntelItem[];
 	isAddItemOpen: boolean;
 }
 interface Props {
@@ -56,10 +57,10 @@ class IntelTabContainer extends React.Component<Props, State> {
 		});
 
 	_updateIntelItems(intel: firebase.firestore.QuerySnapshot) {
-		const newItems = [] as DB.Game.Intel.IntelItem[];
+		const newItems = [] as IntelItem[];
 		intel.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
-				newItems.push(changes.doc.data() as DB.Game.Intel.IntelItem);
+				newItems.push(changes.doc.data() as IntelItem);
 				this.props.incrementUnreadNum('intel');
 			}
 		});

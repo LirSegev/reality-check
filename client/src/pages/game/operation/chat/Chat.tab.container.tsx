@@ -2,9 +2,10 @@ import React from 'react';
 import ChatTabView from './Chat.tab.view';
 import firebase from 'firebase/app';
 import { getGameDocRef } from '../../../../util/db';
+import { ChatItem } from '../../../../util/db.types';
 
 interface State {
-	messages: [DB.Game.ChatItem, string][];
+	messages: [ChatItem, string][];
 	isLoading: boolean;
 }
 interface Props {
@@ -32,10 +33,10 @@ class ChatTabContainer extends React.Component<Props, State> {
 	}
 
 	_updateMessages(chatDocs: firebase.firestore.QuerySnapshot) {
-		const newMessages: [DB.Game.ChatItem, string][] = [];
+		const newMessages: [ChatItem, string][] = [];
 		chatDocs.docChanges().forEach(changes => {
 			if (changes.type === 'added') {
-				newMessages.push([changes.doc.data() as DB.Game.ChatItem, changes.doc.id]);
+				newMessages.push([changes.doc.data() as ChatItem, changes.doc.id]);
 				this.props.incrementUnreadNum('chat');
 			}
 		});

@@ -1,5 +1,5 @@
 import * as firebase from 'firebase/app';
-import { fold } from 'fp-ts/es6/Either';
+import { fold } from 'fp-ts/lib/Either';
 import * as t from 'io-ts';
 import React from 'react';
 
@@ -7,13 +7,18 @@ import { store } from '../../../..';
 import mapboxConfig from '../../../../config/Mapbox';
 import { changeTab, goToMapTab } from '../../../../reducers/main.reducer';
 import { setIsWaitingForLocation } from '../../../../reducers/map.reducer';
-import { DB as DBCodec, getGameDocRef } from '../../../../util/db';
+import { getGameDocRef } from '../../../../util/db';
 import { logErrors } from '../../../../util/fp';
 import { MetroLine } from '../Intel.d';
 import NewIntelItemFormView from './NewIntelItemForm.view';
+import {
+	ActionType,
+	IntelItem,
+	IntelItemCodec,
+} from '../../../../util/db.types';
 
 interface State {
-	type: DB.Game.Intel.ActionType;
+	type: ActionType;
 	more: number | MetroLine | string;
 	location: firebase.firestore.GeoPoint | null;
 	time: string;
@@ -65,7 +70,7 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 
 	_handleTypeChange(e: React.ChangeEvent<any>) {
 		this.setState({
-			type: (e.target as HTMLSelectElement).value as DB.Game.Intel.ActionType,
+			type: (e.target as HTMLSelectElement).value as ActionType,
 		});
 	}
 
@@ -98,21 +103,18 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 			timestamp: date,
 		};
 
-		fold<t.Errors, t.TypeOf<typeof DBCodec.Game.Intel.IntelItem>, unknown>(
-			logErrors,
-			intelItem => {
-				getGameDocRef()
-					.collection('intel')
-					.add(intelItem)
-					.then(() => {
-						this.props.hideAddItem();
-						// this._sendNotification();
-					})
-					.catch(err =>
-						console.error(new Error('Error adding intel item:'), err)
-					);
-			}
-		)(DBCodec.Game.Intel.IntelItem.decode(intelItem));
+		fold<t.Errors, IntelItem, unknown>(logErrors, intelItem => {
+			getGameDocRef()
+				.collection('intel')
+				.add(intelItem)
+				.then(() => {
+					this.props.hideAddItem();
+					// this._sendNotification();
+				})
+				.catch(err =>
+					console.error(new Error('Error adding intel item:'), err)
+				);
+		})(IntelItemCodec.decode(intelItem));
 	}
 
 	_sendNotification() {
