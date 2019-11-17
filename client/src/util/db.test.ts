@@ -62,23 +62,6 @@ describe('getGameDocRef()', () => {
 	});
 });
 
-describe('dateToTimestamp()', () => {
-	beforeAll(() => {
-		jest.mock('firebase/app', () => require('firebase'));
-		jest.mock('../index');
-	});
-	afterAll(() => {
-		jest.resetModules();
-	});
-
-	it('returns correct timestamp', () => {
-		const { dateToTimestamp } = require('./db');
-		expect(dateToTimestamp(new Date('4 May 2000 10:32:12'))).toEqual(
-			new firebase.firestore.Timestamp(957429132, 0)
-		);
-	});
-});
-
 describe('getCurrentPlayerRef()', () => {
 	const mockAuth = new firebaseMock.MockAuthentication();
 	const mockFirestore = exposeMockFirebaseApp(firebaseApp).firestore();

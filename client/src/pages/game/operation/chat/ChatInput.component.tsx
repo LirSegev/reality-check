@@ -1,8 +1,8 @@
-import React from 'react';
-import styles from './Chat.module.css';
-import { Button } from 'react-onsenui';
 import firebase from 'firebase/app';
-import { dateToTimestamp, getGameDocRef } from '../../../../util/db';
+import React from 'react';
+import { Button } from 'react-onsenui';
+import { getGameDocRef } from '../../../../util/db';
+import styles from './Chat.module.css';
 
 class ChatInput extends React.Component {
 	constructor(props: {}) {
@@ -22,8 +22,8 @@ class ChatInput extends React.Component {
 					uid,
 				},
 				message: inputEl.innerText,
-				timestamp: dateToTimestamp(new Date()),
-			} as DB.Game.ChatItem);
+				timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+			} as DB.Game.ChatItem); // TODO: Replace type casting
 
 		inputEl.innerHTML = '';
 	}

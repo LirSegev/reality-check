@@ -58,14 +58,6 @@ export function getCurrentPlayerRef(
 	});
 }
 
-export function dateToTimestamp(date: Date): firebase.firestore.Timestamp {
-	const domTimestamp = date.getTime() / 1000 + '';
-	const arr = domTimestamp.split('.').map(num => Number(num));
-	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1] | 0);
-
-	return timestamp;
-}
-
 export function getGameDocRef(): firebase.firestore.DocumentReference {
 	const db = firebase.firestore();
 	const gameId = store.getState().main.gameId;
