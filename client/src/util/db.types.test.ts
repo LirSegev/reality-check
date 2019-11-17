@@ -36,21 +36,21 @@ function expectFailure(result: t.Validation<any>, errors: Array<string>): void {
 	);
 }
 
-describe.only('PlayerCodec', () => {
-	describe('Should succeed validating a valid value', () => {
+describe('PlayerCodec', () => {
+	describe('should succeed validating a valid value', () => {
 		const T = PlayerCodec;
 
 		test('without partials', () => {
-		expectSuccess(
-			T.decode({
-				displayName: 'lir',
-				uid: 'someUid',
-				location: {
-					geopoint: new firebase.firestore.GeoPoint(1, 2),
-					timestamp: new firebase.firestore.Timestamp(1, 2),
-				},
-			})
-		);
+			expectSuccess(
+				T.decode({
+					displayName: 'lir',
+					uid: 'someUid',
+					location: {
+						geopoint: new firebase.firestore.GeoPoint(1, 2),
+						timestamp: new firebase.firestore.Timestamp(1, 2),
+					},
+				})
+			);
 			expectSuccess(
 				T.decode({
 					displayName: 'test',
@@ -60,22 +60,22 @@ describe.only('PlayerCodec', () => {
 			);
 		});
 		test('with partials', () => {
-		expectSuccess(
-			T.decode({
-				displayName: 'lir',
-				uid: 'someUid',
-				location: {
-					geopoint: new firebase.firestore.GeoPoint(1, 2),
-					timestamp: new firebase.firestore.Timestamp(1, 2),
-				},
-				isDeleted: true,
-				messagingToken: 'messaging',
-			})
-		);
-	});
+			expectSuccess(
+				T.decode({
+					displayName: 'lir',
+					uid: 'someUid',
+					location: {
+						geopoint: new firebase.firestore.GeoPoint(1, 2),
+						timestamp: new firebase.firestore.Timestamp(1, 2),
+					},
+					isDeleted: true,
+					messagingToken: 'messaging',
+				})
+			);
+		});
 	});
 
-	it('Should fail validating a invalid value', () => {
+	it('should fail validating a invalid value', () => {
 		const T = PlayerCodec;
 
 		expectFailure(
@@ -90,9 +90,21 @@ describe.only('PlayerCodec', () => {
 				'Invalid value "yes" supplied to : Player/1: optional/isDeleted: boolean',
 			]
 		);
+		expectFailure(
+			T.decode({
+				displayName: 123,
+				uid: null,
+				location: { lat: 12, long: 12 },
+			}),
+			[
+				'Invalid value 123 supplied to : Player/0: required/displayName: string',
+				'Invalid value null supplied to : Player/0: required/uid: string',
+				'Invalid value {"lat":12,"long":12} supplied to : Player/0: required/location: (PlayerLocation | null)/1: null',
+			]
+		);
 	});
 
-	it('Should not pass extra params', () => {
+	it('should not pass extra params', () => {
 		const T = PlayerCodec;
 		expect.assertions(2);
 
