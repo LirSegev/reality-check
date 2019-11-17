@@ -1,11 +1,14 @@
 import * as firebase from 'firebase/app';
+import { fold } from 'fp-ts/es6/Either';
+import * as t from 'io-ts';
 import React from 'react';
 
 import { store } from '../../../..';
 import mapboxConfig from '../../../../config/Mapbox';
+import { changeTab, goToMapTab } from '../../../../reducers/main.reducer';
 import { setIsWaitingForLocation } from '../../../../reducers/map.reducer';
-import { goToMapTab, changeTab } from '../../../../reducers/main.reducer';
-import { getGameDocRef } from '../../../../util/db';
+import { DB as DBCodec, getGameDocRef } from '../../../../util/db';
+import { logErrors } from '../../../../util/fp';
 import { MetroLine } from '../Intel.d';
 import NewIntelItemFormView from './NewIntelItemForm.view';
 
@@ -83,25 +86,33 @@ class NewIntelItemFormContainer extends React.Component<Props, State> {
 	_submit() {
 		const { type, more, location } = this.state;
 		const time = this.state.time.split(':').map(num => Number(num));
+		const date = new Date();
+		date.setHours(time[0], time[1], 0, 0);
 
-		getGameDocRef()
-			.collection('intel')
-			.add({
-				action: {
-					type,
-					text: more,
-					...(location && { coordinates: location }),
-				},
-				timestamp: new firebase.firestore.Timestamp(
-					Math.round(new Date().setHours(time[0], time[1], 0) / 1000),
-					0
-				),
-			} as DB.Game.Intel.IntelItem) // TODO: Typecheck at runtime instead of casting
-			.then(() => {
-				this.props.hideAddItem();
-				// this._sendNotification();
-			})
-			.catch(err => console.error(new Error('Error adding intel item:'), err));
+		const intelItem = {
+			action: {
+				type,
+				text: more,
+				...(location && { coordinates: location }),
+			},
+			timestamp: date,
+		};
+
+		fold<t.Errors, t.TypeOf<typeof DBCodec.Game.Intel.IntelItem>, unknown>(
+			logErrors,
+			intelItem => {
+				getGameDocRef()
+					.collection('intel')
+					.add(intelItem)
+					.then(() => {
+						this.props.hideAddItem();
+						// this._sendNotification();
+					})
+					.catch(err =>
+						console.error(new Error('Error adding intel item:'), err)
+					);
+			}
+		)(DBCodec.Game.Intel.IntelItem.decode(intelItem));
 	}
 
 	_sendNotification() {
