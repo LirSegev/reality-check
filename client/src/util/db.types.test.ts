@@ -1,9 +1,10 @@
-import { PlayerCodec, Player } from './db.types';
-import { map, mapLeft, fold } from 'fp-ts/lib/Either';
-import { pipe } from 'fp-ts/lib/pipeable';
 import * as firebase from 'firebase';
+import { fold } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/pipeable';
 import * as t from 'io-ts';
 import { PathReporter } from 'io-ts/lib/PathReporter';
+
+import { PlayerCodec } from './db.types';
 
 function expectSuccess<T>(result: t.Validation<T>, expected?: T): void {
 	pipe(
@@ -26,7 +27,7 @@ function expectFailure(result: t.Validation<any>, errors: Array<string>): void {
 		result,
 		fold(
 			() => {
-				expect(PathReporter.report(result)).toEqual(errors);
+				expect(PathReporter.report(result)).toIncludeAllMembers(errors);
 			},
 			() => {
 				throw new Error(`${result} is not a left`);
@@ -36,9 +37,10 @@ function expectFailure(result: t.Validation<any>, errors: Array<string>): void {
 }
 
 describe.only('PlayerCodec', () => {
-	it('Should succeed validating a valid value', () => {
+	describe('Should succeed validating a valid value', () => {
 		const T = PlayerCodec;
 
+		test('without partials', () => {
 		expectSuccess(
 			T.decode({
 				displayName: 'lir',
@@ -49,6 +51,15 @@ describe.only('PlayerCodec', () => {
 				},
 			})
 		);
+			expectSuccess(
+				T.decode({
+					displayName: 'test',
+					uid: 'anotherUid',
+					location: null,
+				})
+			);
+		});
+		test('with partials', () => {
 		expectSuccess(
 			T.decode({
 				displayName: 'lir',
@@ -62,6 +73,7 @@ describe.only('PlayerCodec', () => {
 			})
 		);
 	});
+	});
 
 	it('Should fail validating a invalid value', () => {
 		const T = PlayerCodec;
@@ -74,7 +86,6 @@ describe.only('PlayerCodec', () => {
 			[
 				'Invalid value undefined supplied to : Player/0: required/displayName: string',
 				'Invalid value undefined supplied to : Player/0: required/uid: string',
-				'Invalid value undefined supplied to : Player/0: required/location: PlayerLocation',
 				'Invalid value 12345 supplied to : Player/1: optional/messagingToken: string',
 				'Invalid value "yes" supplied to : Player/1: optional/isDeleted: boolean',
 			]

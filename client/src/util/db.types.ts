@@ -145,13 +145,16 @@ export const PlayerCodec = t.exact(
 				// TODO: Change to be optional, need to change implementation
 				displayName: t.string,
 				uid: t.string,
-				location: t.strict(
-					{
-						geopoint: FirebaseGeoPointCodec,
-						timestamp: FirebaseTimestampCodec,
-					},
-					'PlayerLocation'
-				),
+				location: t.union([
+					t.strict(
+						{
+							geopoint: FirebaseGeoPointCodec,
+							timestamp: FirebaseTimestampCodec,
+						},
+						'PlayerLocation'
+					),
+					t.null,
+				]),
 			},
 			'required'
 		),

@@ -1,4 +1,5 @@
 /// <reference types="firebase" />
+/// <reference types="jest-extended" />
 /// <reference types="./util/db" />
 
 declare interface MapOrientation {
@@ -22,4 +23,4 @@ declare type ConnectedAction<T extends (...args: any[]) => any> = (
 	...args: Parameters<T>
 ) => void;
 
-	declare type NonEmptyArray<T> = [T, ...T[]];
+declare type NonEmptyArray<T> = [T, ...T[]];
