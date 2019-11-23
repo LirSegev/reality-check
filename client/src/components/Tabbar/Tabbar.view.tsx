@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './Tabbar.module.css';
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 		content: JSX.Element;
 	}[];
 	index: number;
-	onChange?: (e: { index: number }) => void;
+	handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const TabbarView: React.FC<Props> = props => {
@@ -15,7 +16,16 @@ const TabbarView: React.FC<Props> = props => {
 		const classes = [styles.button];
 		if (index === props.index) classes.push(styles.active);
 
-		return <button className={classes.join(' ')}>{tab.tabTitle}</button>;
+		return (
+			<button
+				className={classes.join(' ')}
+				onClick={props.handleClick}
+				data-index={index}
+				key={`tabButton_${index}-${tab.tabTitle}`}
+			>
+				{tab.tabTitle}
+			</button>
+		);
 	});
 
 	return <div className={styles.bar}>{tabs}</div>;

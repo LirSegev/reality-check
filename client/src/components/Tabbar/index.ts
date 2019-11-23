@@ -1,3 +1,3 @@
-import Tabbar from './Tabbar.view';
+import Tabbar from './Tabbar.container';
 
 export default Tabbar;
