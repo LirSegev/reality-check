@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      someText
+    </h1>
+    <p>
+      Here is some text
+    </p>
+    <h1>
+      table
+    </h1>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            row1
+          </td>
+          <td>
+            value1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            row2
+          </td>
+          <td>
+            value2
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>
+      category
+    </h1>
+    <h1>
+      title
+    </h1>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            row1
+          </td>
+          <td>
+            value1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            row2
+          </td>
+          <td>
+            value2
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>
+      title2
+    </h1>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            row1
+          </td>
+          <td>
+            value1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            row2
+          </td>
+          <td>
+            value2
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;
