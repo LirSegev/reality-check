@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import initialState from './initialState';
 import { moveToLocationOnMap, changeTab } from './main.reducer';
 import { moveToLocationOnMapPayload, changeTabPayload } from './main.reducer.d';
