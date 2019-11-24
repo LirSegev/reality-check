@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './Tabbar.module.css';
 
-interface Props {
+export interface Props {
 	tabs: {
 		tabTitle: string;
 		content: JSX.Element;
