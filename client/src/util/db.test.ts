@@ -4,6 +4,7 @@ import { exposeMockFirebaseApp } from 'ts-mock-firebase';
 import configureStore from 'redux-mock-store';
 // @ts-ignore
 import firebaseMock from 'firebase-mock';
+import mockConsole from 'jest-mock-console';
 
 import { ReduxState } from './../reducers/initialState';
 
@@ -126,7 +127,9 @@ describe('getCurrentPlayerRef()', () => {
 		);
 	});
 
-	it('no player found', () => {
+	it('no player found', async () => {
+		const restoreConsole = mockConsole();
+
 		const { getCurrentPlayerRef } = require('./db');
 		const getGameDocRefMock = jest
 			.fn()
@@ -142,8 +145,10 @@ describe('getCurrentPlayerRef()', () => {
 		});
 
 		expect.assertions(1);
-		expect(getCurrentPlayerRef(getGameDocRefMock)).rejects.toBeInstanceOf(
+		await expect(getCurrentPlayerRef(getGameDocRefMock)).rejects.toBeInstanceOf(
 			Error
 		);
+
+		restoreConsole();
 	});
 });
