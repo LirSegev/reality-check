@@ -28,7 +28,14 @@ const TabbarView: React.FC<Props> = props => {
 		);
 	});
 
-	return <div className={styles.bar}>{tabs}</div>;
+	return (
+		<React.Fragment>
+			<div className={styles.bar}>{tabs}</div>
+			<div className={styles.content} data-testid="content">
+				{props.tabs[props.index].content}
+			</div>
+		</React.Fragment>
+	);
 };
 
 export default TabbarView;
