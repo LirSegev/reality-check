@@ -27,19 +27,22 @@ class TabbarContainer extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props, prevState: State) {
-		const index = this.props.index;
-		if (index !== undefined) {
-			if (index !== prevProps.index) this.setState({ index });
-
-			if (index !== prevState.index && this.props.onChange)
-				this.props.onChange({ index });
-		}
+		const propsIndex = this.props.index;
+		if (propsIndex !== undefined && propsIndex !== prevProps.index)
+			this._changeTab(propsIndex);
 	}
 
 	_handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 		const index = Number(e.currentTarget.dataset.index);
+		this._changeTab(index);
+	}
 
-		this.setState({ index });
+	_changeTab(index: number) {
+		this.setState({
+			index,
+		});
+
+		if (this.props.onChange) this.props.onChange({ index });
 	}
 
 	render() {
