@@ -33,5 +33,5 @@
 }
 
 .suspectStory :global(.ui.segment) {
-	display: unset;
+	display: block;
 }
