@@ -1,10 +1,15 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import SuspectStory from './SuspectStory.component';
 
+beforeAll(() => {
+	window.$ = () => ({
+		accordion: jest.fn(),
+	});
+});
 afterEach(cleanup);
 
-it('renders', () => {
+it.only('renders', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { asFragment } = render(
 		<SuspectStory
 			suspect={{
@@ -31,6 +36,7 @@ it('renders', () => {
 });
 
 it('displays all information', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{
@@ -60,6 +66,7 @@ it('displays all information', () => {
 });
 
 it('displays objects as tables', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{
@@ -76,6 +83,7 @@ it('displays objects as tables', () => {
 });
 
 it('displays nested objects as tables', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{
@@ -94,6 +102,7 @@ it('displays nested objects as tables', () => {
 });
 
 it('displays strings as paragraphs', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{

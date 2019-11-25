@@ -2,88 +2,114 @@
 
 exports[`renders 1`] = `
 <DocumentFragment>
-  <div>
-    <div>
-      <h1>
+  <div
+    class="suspectStory"
+  >
+    <div
+      class="ui basic segment"
+    >
+      <h1
+        class="ui header"
+      >
         someText
       </h1>
       <p>
         Here is some text
       </p>
     </div>
-    <div>
-      <h1>
+    <div
+      class="ui fluid accordion"
+    >
+      <div
+        class="title"
+      >
+        <i
+          class="dropdown icon"
+        />
         table
-      </h1>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              row1
-            </td>
-            <td>
-              value1
-            </td>
-          </tr>
-          <tr>
-            <td>
-              row2
-            </td>
-            <td>
-              value2
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h1>
+      </div>
+      <div
+        class="content"
+      >
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                row1
+              </th>
+              <td>
+                value1
+              </td>
+            </tr>
+            <tr>
+              <th>
+                row2
+              </th>
+              <td>
+                value2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="title"
+      >
+        <i
+          class="dropdown icon"
+        />
         category
-      </h1>
-      <h1>
-        title
-      </h1>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              row1
-            </td>
-            <td>
-              value1
-            </td>
-          </tr>
-          <tr>
-            <td>
-              row2
-            </td>
-            <td>
-              value2
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h1>
-        title2
-      </h1>
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              row1
-            </td>
-            <td>
-              value1
-            </td>
-          </tr>
-          <tr>
-            <td>
-              row2
-            </td>
-            <td>
-              value2
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      </div>
+      <div
+        class="content"
+      >
+        <h3>
+          title
+        </h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                row1
+              </th>
+              <td>
+                value1
+              </td>
+            </tr>
+            <tr>
+              <th>
+                row2
+              </th>
+              <td>
+                value2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>
+          title2
+        </h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                row1
+              </th>
+              <td>
+                value1
+              </td>
+            </tr>
+            <tr>
+              <th>
+                row2
+              </th>
+              <td>
+                value2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </DocumentFragment>
