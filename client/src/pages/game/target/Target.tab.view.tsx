@@ -6,13 +6,21 @@ import Tabbar from '../../../components/Tabbar';
 import SuspectStory from './SuspectStory.component';
 
 export interface Props {
+	selectedSuspect: number | null;
+	suspectList: number[];
 	incrementUnreadNum: (type: UnreadType) => boolean;
+	updateSuspectList: (suspectList: Props['suspectList']) => void;
+	selectSuspect: (id: Props['selectedSuspect']) => void;
 }
 
 const TargetTabView: React.FC<Props> = props => (
 	<Page>
 		<div style={{ height: '100%' }}>
-			<Suspects />
+			<Suspects
+				selectedSuspect={props.selectedSuspect}
+				suspectList={props.suspectList}
+				updateSuspectList={props.updateSuspectList}
+			/>
 			<Tabbar
 				tabs={[
 					{

@@ -1,13 +1,17 @@
-import React from 'react';
 import * as firebase from 'firebase/app';
-import SuspectsView from './Suspects.component.view';
-import { ReduxState } from '../../../../reducers/initialState';
-import { connect } from 'react-redux';
+import React from 'react';
+
 import { getGameDocRef } from '../../../../util/db';
+import SuspectsView from './Suspects.component.view';
 
 interface State {
 	showId: number | undefined;
+}
+
+interface Props {
+	selectedSuspect: number | null;
 	suspectList: number[];
+	updateSuspectList: (suspectList: Props['suspectList']) => void;
 }
 
 /**
@@ -15,11 +19,11 @@ interface State {
  */
 const CHANGE_PHOTO_INTERVAL = 2;
 
-class SuspectsContainer extends React.Component<{}, State> {
-	constructor(props: {}) {
+class SuspectsContainer extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
-		this.state = { showId: undefined, suspectList: [] };
+		this.state = { showId: undefined };
 
 		this._updateSuspectList = this._updateSuspectList.bind(this);
 		this._switch2NextPic = this._switch2NextPic.bind(this);
@@ -34,22 +38,21 @@ class SuspectsContainer extends React.Component<{}, State> {
 	_updateSuspectList(snapshot: firebase.firestore.DocumentSnapshot) {
 		const game = snapshot.data();
 		if (game && game['suspect_list'])
-			this.setState(prevState => ({
-				...prevState,
-				// TODO: Remove .map() when sure suspect_list is number[]
-				suspectList: game['suspect_list'].map((val: any) => Number(val)),
-			}));
+			// TODO: Remove .map() when sure suspect_list is number[]
+			this.props.updateSuspectList(
+				game['suspect_list'].map((val: any) => Number(val))
+			);
 	}
 
-	componentDidUpdate(prevProps: {}, prevState: State) {
+	componentDidUpdate(prevProps: Props) {
 		// prettier-ignore
-		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
-			// state.suspectList has changed
+		if (JSON.stringify(this.props.suspectList) !== JSON.stringify(prevProps.suspectList)) {
+			// props.suspectList has changed
 
 			// Set showId to first suspect
 			this.setState(prev => ({
 				...prev,
-				showId: this.state.suspectList[0],
+				showId: this.props.suspectList[0],
 			}));
 
 			if(this._interval)
@@ -64,8 +67,8 @@ class SuspectsContainer extends React.Component<{}, State> {
 	_switch2NextPic() {
 		this.setState(prev => {
 			if (prev.showId !== undefined) {
-				const indexOfPrev = this.state.suspectList.indexOf(prev.showId);
-				const suspectList = this.state.suspectList;
+				const indexOfPrev = this.props.suspectList.indexOf(prev.showId);
+				const suspectList = this.props.suspectList;
 				return {
 					...prev,
 					showId: suspectList[(indexOfPrev + 1) % suspectList.length],
