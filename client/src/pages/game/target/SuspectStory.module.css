@@ -19,8 +19,26 @@
 	padding: 8px;
 }
 
+.suspectStory th:first-child,
+.suspectStory td:first-child {
+	padding-left: 20px;
+}
+
+.suspectStory th:last-child,
+.suspectStory td:last-child {
+	padding-right: 20px;
+}
+
+.suspectStory :global(.content) h1,
+.suspectStory :global(.content) h2,
+.suspectStory :global(.content) h3,
+.suspectStory :global(.content) h4,
+.suspectStory :global(.content) h5 {
+	margin-left: 20px;
+}
+
 .suspectStory tr:nth-child(even) {
-	background-color: #f2f2f2;
+	background-color: white;
 }
 
 .suspectStory :global(.ui.accordion) {
