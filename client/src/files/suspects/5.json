@@ -133,8 +133,8 @@
 				"Age": "26",
 				"Relationship": "No longer keep in touch"
 			},
-			"Cleo Chelsea Reed": "(Lifespan 1990 - present)",
-			"relation": {
+			"Cleo Chelsea Reed": {
+				"relation": "Ex-girlfriend (1 year : 2011 - 2012)",
 				"Occupation": "Lawyer",
 				"Reason for breakup": "Cleo was bored",
 				"Age": "29",
