@@ -6,15 +6,19 @@ const $ = window.$ as JQueryStatic;
 
 interface Props {
 	suspect: {
-		[title: string]:
-			| string
-			| {
-					[subtitle: string]:
-						| string
-						| {
-								[key: string]: string;
-						  };
-			  };
+		name: string;
+		id: number;
+		data: {
+			[title: string]:
+				| string
+				| {
+						[subtitle: string]:
+							| string
+							| {
+									[key: string]: string;
+							  };
+				  };
+		};
 	};
 }
 
@@ -65,13 +69,16 @@ class SuspectStory extends React.Component<Props> {
 			}
 		};
 
-		const mapSuspects = (title: string) => {
-			const content = props.suspect[title];
+		const mapSuspects = (suspect: Props['suspect']) => (title: string) => {
+			const content = suspect.data[title];
 			if (typeof content === 'string') {
+				const pEls = content
+					.split('\n\n')
+					.map((s, i) => <p key={[title, 'paragraph', i].join('-')}>{s}</p>);
 				return (
 					<div className="ui basic segment" key={title}>
 						<h1 className="ui header">{title}</h1>
-						<p>{content}</p>
+						{pEls}
 					</div>
 				);
 			} else {
@@ -106,7 +113,7 @@ class SuspectStory extends React.Component<Props> {
 			}
 		};
 
-		let els = Object.keys(props.suspect).map(mapSuspects);
+		let els = Object.keys(props.suspect.data).map(mapSuspects(props.suspect));
 		const newEls: JSX.Element[] = [];
 		let tables: JSX.Element[] = [];
 		let lastEl: JSX.Element = <div />;

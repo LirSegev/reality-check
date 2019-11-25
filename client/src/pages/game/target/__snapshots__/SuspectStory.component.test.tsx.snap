@@ -16,6 +16,9 @@ exports[`renders 1`] = `
       <p>
         Here is some text
       </p>
+      <p>
+        new paragraph
+      </p>
     </div>
     <div
       class="ui fluid accordion"

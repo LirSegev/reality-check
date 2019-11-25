@@ -8,24 +8,28 @@ beforeAll(() => {
 });
 afterEach(cleanup);
 
-it.only('renders', () => {
+it('renders', () => {
 	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { asFragment } = render(
 		<SuspectStory
 			suspect={{
-				someText: 'Here is some text',
-				table: {
-					row1: 'value1',
-					row2: 'value2',
-				},
-				category: {
-					title: {
+				name: 'lir',
+				id: 1,
+				data: {
+					someText: 'Here is some text\n\nnew paragraph',
+					table: {
 						row1: 'value1',
 						row2: 'value2',
 					},
-					title2: {
-						row1: 'value1',
-						row2: 'value2',
+					category: {
+						title: {
+							row1: 'value1',
+							row2: 'value2',
+						},
+						title2: {
+							row1: 'value1',
+							row2: 'value2',
+						},
 					},
 				},
 			}}
@@ -40,13 +44,17 @@ it('displays all information', () => {
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{
-				someText: 'Here is some text',
-				table: {
-					row1: 'value1',
-				},
-				'multiple tables': {
-					table1: {
-						subRow1: 'subValue1',
+				name: 'lir',
+				id: 1,
+				data: {
+					someText: 'Here is some text',
+					table: {
+						row1: 'value1',
+					},
+					'multiple tables': {
+						table1: {
+							subRow1: 'subValue1',
+						},
 					},
 				},
 			}}
@@ -70,25 +78,10 @@ it('displays objects as tables', () => {
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{
-				title: {
-					row1: 'value1',
-					row2: 'value2',
-				},
-			}}
-		/>
-	);
-
-	expect(getByText('row1', { selector: 'td' })).toBeDefined();
-	expect(getByText('value1', { selector: 'td' })).toBeDefined();
-});
-
-it('displays nested objects as tables', () => {
-	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
-	const { getByText } = render(
-		<SuspectStory
-			suspect={{
-				title: {
-					subtitle: {
+				name: 'lir',
+				id: 1,
+				data: {
+					title: {
 						row1: 'value1',
 						row2: 'value2',
 					},
@@ -97,7 +90,30 @@ it('displays nested objects as tables', () => {
 		/>
 	);
 
-	expect(getByText('row1', { selector: 'td' })).toBeDefined();
+	expect(getByText('row1', { selector: 'th,td' })).toBeDefined();
+	expect(getByText('value1', { selector: 'td' })).toBeDefined();
+});
+
+it('displays nested objects as tables', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
+	const { getByText } = render(
+		<SuspectStory
+			suspect={{
+				name: 'lir',
+				id: 1,
+				data: {
+					title: {
+						subtitle: {
+							row1: 'value1',
+							row2: 'value2',
+						},
+					},
+				},
+			}}
+		/>
+	);
+
+	expect(getByText('row1', { selector: 'th,td' })).toBeDefined();
 	expect(getByText('value1', { selector: 'td' })).toBeDefined();
 });
 
@@ -106,10 +122,15 @@ it('displays strings as paragraphs', () => {
 	const { getByText } = render(
 		<SuspectStory
 			suspect={{
-				title: 'Here is some text',
+				name: 'lir',
+				id: 1,
+				data: {
+					title: 'Here is some text\n\nnext paragraph',
+				},
 			}}
 		/>
 	);
 
 	expect(getByText('Here is some text', { selector: 'p' })).toBeDefined();
+	expect(getByText('next paragraph', { selector: 'p' })).toBeDefined();
 });
