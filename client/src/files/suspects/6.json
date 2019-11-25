@@ -1,0 +1,157 @@
+{
+	"name": "Miroslav Martinec",
+	"id": 6,
+	"data": {
+		"Miroslav Martinec": "Miroslav is a stable sales assistant at an office supplies store who suffers from a severe phobia of dolls.\n\nMiroslav Martinec is a 30-year-old who enjoys working on cars, reading and donating blood. He is stable and careful, but can also be very pessimistic and a bit moody.\n\nHe is Czech. He started studying computing at university but never finished the course. He has a severe phobia of dolls, and is obsessed with Donald Trump.\n\nPhysically, Miroslav is slightly overweight but otherwise in good shape. He is tall with light skin, redhead and has blue eyes. He has one or two distinguishing features including a birthmark on his left shoulder and a tattoo of Donald Trump on his upper back.\n\nHe grew up in an upper class neighbourhood. After his mother died when he was young, he was raised by his father.\n\nHe is currently single. His most recent romance was with an actress called Veronika Michalová, who was 6 years older than him. They broke up because Veronika wanted somebody with a bit more 'grr'.\n\nMiroslav has one child with ex-girlfriend Marika: Emilie aged 11.\n\nMiroslav's best friend is a sales assistant at the office supplies store called Jan Pelikán. They have a very firey friendship. He also hangs around with Miloslav Hanusek and Mateo Nucci. They enjoy horse riding together.",
+		"basic_information": {
+			"Name": "Miroslav Martinec",
+			"Nickname": "Tall Miroslav",
+			"Reason for nickname": "Descriptive",
+			"Date of birth": "Sunday, 15th Oct 1989 (Age 30)",
+			"Star sign": "Libra",
+			"Nationality": "Czech",
+			"Ethnicity": "Caucasian",
+			"Social class": "Upper class",
+			"Religion": "Agnostic",
+			"Sexuality": "Unknown",
+			"Education": "Some college",
+			"Course": "Computing",
+			"Political views": "Far right",
+			"Relationship status": "Single",
+			"Career paths": "Medicine / Computing"
+		},
+		"physical_characteristics": {
+			"Height": "tall",
+			"Shape": "overweight",
+			"Build": "well-built",
+			"Hair colour": "redhead",
+			"Eyes": "blue",
+			"Glasses/lenses": "glasses",
+			"Distinguishing marks": "a birthmark on his left shoulder a tattoo of Donald Trump on his upper back",
+			"Other words that might be used": "curvacious, full-length, grandiloquent, leggy, long-legged, muscular, overweight, stately, statuesque, tall, well-built"
+		},
+		"personality": {
+			"Positive characteristics": "stable, careful",
+			"Negative characteristics": "pessimistic, moody",
+			"Words often used": "careful, moody, pessimistic, stable",
+			"Moral": "sometimes",
+			"Stable": "sometimes",
+			"Loyal": "sometimes",
+			"Generous": "not at all",
+			"Extrovert": "not at all",
+			"Compassionate": "sometimes",
+			"IQ": "103",
+			"Hobbies": "working on cars, reading, donating blood, horse riding, hockey, cookery, spreading right-wing propoganda, extreme ironing, playing video games",
+			"Phobias": "dolls",
+			"Obsessions": "Donald Trump",
+			"Diet": "eats meat",
+			"Favourite foods": "dark chocolate buttons, ice lollies"
+		},
+		"employment": {
+			"Health centre receptionist": [
+				"Prague Dental Clinic",
+				"2007 - 2017",
+				"resigned"
+			],
+			"Sales assistant": ["Housewares Praha Centrum", "2017 - present"]
+		},
+		"background": {
+			"Early years": "Miroslav grew up in a wealthy neighbourhood. After his mother died when he was young, he was raised by his father",
+			"Formative years": "Miroslav got his first job as a health centre receptionist at age 18. Miroslav started college but quit part way through the course."
+		},
+		"children": {
+			"emilie_medkov\u00e1_martinec": {
+				"Relation": "Daughter",
+				"Occupation": "Student",
+				"Other parent": "Marika Medkov\u00e1",
+				"Age": "11",
+				"Relationship": "They do not get along well"
+			}
+		},
+		"friends": {
+			"jan_pelik\u00e1n": {
+				"Relation": "Friend",
+				"Occupation": "Artist, Sales Assistant",
+				"Age": "28",
+				"Relationship": "They have a very firey friendship"
+			},
+			"miloslav_hanusek": {
+				"Relation": "Friend",
+				"Occupation": "Screenplay writer",
+				"Age": "33",
+				"Relationship": "They have a very firey friendship"
+			},
+			"mateo_nucci": {
+				"Relation": "Friend",
+				"Occupation": "Management consultant",
+				"Age": "35",
+				"Relationship": "They are inseparable"
+			}
+		},
+		"parents": {
+			"alena_martinec_(n\u00e9e_hoda\u010dov\u00e1)": {
+				"Relation": "Mother",
+				"Occupation": "Shop owner",
+				"Age": "Died in 1993 aged 35. (Would have been 61.)",
+				"Cause of death": "influenza",
+				"Relationship": "He idolises her."
+			},
+			"milan_martinec": {
+				"Relation": "Father",
+				"Occupation": "Electrician",
+				"Age": "51",
+				"Relationship": "Generally harmonious."
+			}
+		},
+		"siblings": {
+			"rostislav_hoda\u010dov\u00e1": {
+				"Relation": "Half brother (shared mother)",
+				"Occupation": "Politician",
+				"Age": "45",
+				"Relationship": "Miroslav and Rostislav get on well despite the age gap."
+			},
+			"viktorie_martinec": {
+				"Relation": "Sister",
+				"Occupation": "Politician",
+				"Age": "35",
+				"Relationship": "They are inseparable."
+			}
+		},
+		"former_partners": {
+			"marika_medkov\u00e1": {
+				"Relation": "Ex-girlfriend (1 year 2007 - 2008)",
+				"Occupation": "Legal secretary",
+				"Reason for breakup": "Marika wanted to be with somebody who took more risks",
+				"Age": "28",
+				"Relationship": "Occasional frosty contact"
+			},
+			"veronika_michalov\u00e1": {
+				"Relation": "Ex-girlfriend (6 years 2013 - 2019)",
+				"Occupation": "Actress",
+				"Reason for breakup": "Veronika wanted somebody with a bit more 'grr'",
+				"Age": "36",
+				"Relationship": "Remained friends"
+			}
+		},
+		"political_views": {
+			"Abortion": "undecided",
+			"Racial equality": "undecided",
+			"LGBTQ rights": "against",
+			"Subsidised healthcare": "very against",
+			"Gun control": "against",
+			"Nuclear disarmament": "very against",
+			"Death penalty": "very pro",
+			"Tax cuts for the wealthy": "very pro",
+			"Protecting the environment": "against"
+		},
+		"timeline": {
+			"1989": "Miroslav Martinec is born",
+			"1993": "Mother, Alena Martinec (n\u00e9e Hoda\u010dov\u00e1) dies aged 35 (influenza)",
+			"2007": "Gets together with Marika Medkov\u00e1. Starts work at Prague Dental Clinic as a receptionist",
+			"2008": "Daughter, Emilie Medkov\u00e1 Martinec is born Relationship with Marika Medkov\u00e1 ends (Marika wanted to be with somebody who took more risks).",
+			"2013": "Gets together with Veronika Michalov\u00e1.",
+			"2017": "Resigns from job as a receptionist at Prauge Dental Clinic. Starts work at Housewares Praha Centrum as a sales assistant",
+			"2019": "Relationship with Veronika Michalov\u00e1 ends (Veronika wanted somebody with a bit more 'grr')."
+		}
+	}
+}

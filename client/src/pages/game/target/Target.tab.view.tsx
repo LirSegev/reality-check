@@ -19,7 +19,7 @@ const TargetTabView: React.FC<Props> = props => (
 						tabTitle: 'lir',
 						content: (
 							<SuspectStory
-								suspect={require('../../../files/suspect_stories/0.json')}
+								suspect={require('../../../files/suspects/0.json')}
 							/>
 						),
 					},

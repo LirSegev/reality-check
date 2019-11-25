@@ -1,0 +1,164 @@
+{
+	"name": "Enrique Whisnant",
+	"id": 1,
+	"data": {
+	"Enrique Whisnant": "Although the cause of death  was reported as pneumonia, Enrique, a 25-year-old semi-professional sports person, is convinced that his late girlfriend, Laura Wheeler, was murdered.\n\nHe is a British Christian. He started studying sports science at college but never finished the course.\n\nPhysically, Enrique is in pretty good shape. He is very short with dark skin, black hair and brown eyes.\n\nHe grew up in a working class neighbourhood. Having never really known his parents, he was raised in a series of foster homes.\n\nHe is currently single. His most recent romance was with a student called Laura Wheeler, who was the same age as him. Laura died in 2018. The papers reported the cause of death: 'pneumonia'\n\nEnrique's best friend is a semi-professional sports person called Tatiana Graves. They are inseparable. He also hangs around with Kiaran Mathew and Jackson Rowe. They enjoy binge-watching boxed sets together.",
+    "basic_information": {
+        "Name": "Enrique Whisnant",
+        "Nickname": "Rude Enrique",
+        "Reason for nickname": "Descriptive",
+        "Date of birth": "Friday, 14th Oct 1994 (Age 25)",
+        "Star sign": "Libra",
+        "Nationality": "British",
+        "Ethnicity": "Latino/Hispanic",
+        "Social class": "Working class",
+        "Religion": "Christian",
+        "Sexuality": "Unknown",
+        "Education": "Some college",
+        "Course": "Sports science",
+        "Political views": "Right",
+        "Relationship status": "Single",
+        "Career path": "Athletic"
+    },
+    "physical_characteristics": {
+        "Height": "very short",
+        "Shape": "average",
+        "Build": "average",
+        "Hair colour": "black",
+        "Eyes": "brown",
+        "Glasses/lenses": "none",
+        "Distinguishing marks": "none",
+        "Other words that might be used": "clipped, little, short, squat, stumpy"
+    },
+    "personality": {
+        "Positive characteristics": "friendly, careful",
+        "Negative characteristics": "rude, impatient",
+        "Words often used": "careful, friendly, impatient, rude",
+        "Moral": "sometimes",
+        "Stable": "sometimes",
+        "Loyal": "sometimes",
+        "Generous": "not at all",
+        "Extrovert": "sometimes",
+        "Compassionate": "sometimes",
+        "IQ": "80",
+        "Hobbies": "football, planking, walking, binge-watching boxed sets, theatre, recycling, interviewing suspects, listening to music, worship, watching television, looking for clues",
+        "Bad habits": "obsessing over Laura Wheeler's murder",
+        "Diet": "eats meat",
+        "Favourite foods": "milk chocolate buttons, chocolate biscuits"
+    },
+    "employment": {
+        "Golf caddy": [
+            "Yellowstone Country Club",
+            "2010 - 2014",
+            "resigned"
+        ],
+        "Gym assistant": [
+            "B Fit",
+            "2014 - 2017",
+            "resigned"
+        ],
+        "Semi-professional sports person": [
+            "City Team",
+            "2017 - present"
+        ]
+    },
+    "background": {
+        "Early years": "Enrique grew up in an impoverished neighbourhood. Having never really known his parents, he was raised in a series of foster homes.",
+        "Formative years": "Enrique got his first job as a golf caddy at age 16. Enrique started college but quit part way through the course.",
+        "Most traumatic childhood experience": "His mother leaving when he was two."
+    },
+    "friends": {
+        "louise_robson": {
+            "Relation": "Friend",
+            "Occupation": "Junior doctor",
+            "Age": "22",
+            "Relationship": "They are inseparable"
+        },
+        "rhys_black": {
+            "Relation": "Friend",
+            "Occupation": "Receptionist",
+            "Age": "27",
+            "Relationship": "They have a very firey friendship"
+        },
+        "aaron_moran": {
+            "Relation": "Friend",
+            "Occupation": "Legal secretary",
+            "Age": "23",
+            "Relationship": "They get on well most of the time"
+        }
+    },
+    "parents": {
+        "sophie_fowler": {
+            "Relation": "Mother",
+            "Occupation": "Electrician",
+            "Age": "48",
+            "Relationship": "Non-existent."
+        },
+        "koby_whisnant": {
+            "Relation": "Father",
+            "Occupation": "Scientist",
+            "Age": "71",
+            "Relationship": "Non-existent."
+        }
+    },
+    "siblings": {
+        "nabila_fowler": {
+            "Relation": "Half sister (shared mother)",
+            "Occupation": "Lawyer",
+            "Age": "32",
+            "Relationship": "Enrique and Nabila grew up together. Nevertheless, they are not particularly close."
+        },
+        "mabel_fowler": {
+            "Relation": "Half sister (shared mother)",
+            "Occupation": "Student",
+            "Age": "29",
+            "Relationship": "Enrique is convinced that Mabel was murdered"
+        },
+        "deborah_whisnant": {
+            "Relation": "Half sister (shared father)",
+            "Occupation": "Senior programmer",
+            "Age": "35",
+            "Relationship": "Enrique and Deborah spent a lot of time together before their father walked out on Enrique's mum but contact dwindled after that."
+        }
+    },
+    "former_partners": {
+        "ashley_netta_rice": {
+            "Relation": "Ex-girlfriend (1 year 2012 - 2013)",
+            "Occupation": "Artist",
+            "Reason for breakup": "Ashley wanted to be with somebody more vibrant",
+            "Age": "23",
+            "Relationship": "No longer keep in touch"
+        },
+        "alishia_lynsey_conrad": {
+            "Relation": "Ex-girlfriend (1 year 2014 - 2015)",
+            "Occupation": "Novelist",
+            "Reason for breakup": "Alishia was bored",
+            "Age": "45",
+            "Relationship": "Remained friends"
+        }
+    },
+    "political_views": {
+        "Abortion": "against",
+        "Racial equality": "pro",
+        "LGBTQ rights": "very pro",
+        "Subsidised healthcare": "undecided",
+        "Gun control": "undecided",
+        "Nuclear disarmament": "against",
+        "Death penalty": "undecided",
+        "Tax cuts for the wealthy": "against",
+        "Protecting the environment": "against"
+    },
+    "timeline": {
+        "1994": "Enrique Whisnant is born",
+        "1995": "Father, Koby Kim Whisnant walks out",
+        "1996": "Mother, Alycia McKinley Arnold walks out",
+        "2002": "Half sister (shared mother), Mabel Evalyn Arnold dies aged 12 (influenza)",
+        "2010": "Starts work at Yellowstone Country Club at golf caddy",
+        "2012": "Gets together with Ashley Netta Rice.",
+        "2013": "Relationship with Ashley Netta Rice ends (Ashley wanted to be with somebody more vibrant).",
+        "2014": "Gets together with Alishia Lynsey Conrad. Resigns from job as golf caddy at Yellowstone Country Club Starts work at B Fit at gym assistant",
+        "2015": "Relationship with Alishia Lynsey Conrad ends (Alishia was bored).",
+        "2017": "Gets together with Laura Wheeler. Resigns from job as gym assistant at B Fit Starts work at City Team at semi-professional sports person",
+        "2018": "Girlfriend, Laura Wheeler dies aged 17 (pneumonia)"
+    }
+}}
