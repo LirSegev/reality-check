@@ -11,7 +11,7 @@ exports[`renders 1`] = `
       <h1
         class="ui header"
       >
-        some text
+        Some Text
       </h1>
       <p>
         Here is some text
@@ -29,7 +29,7 @@ exports[`renders 1`] = `
         <i
           class="dropdown icon"
         />
-        table
+        Table
       </div>
       <div
         class="content"
@@ -38,7 +38,7 @@ exports[`renders 1`] = `
           <tbody>
             <tr>
               <th>
-                row1
+                Row1
               </th>
               <td>
                 value1
@@ -46,7 +46,7 @@ exports[`renders 1`] = `
             </tr>
             <tr>
               <th>
-                row2
+                Row2
               </th>
               <td>
                 value2
@@ -61,19 +61,19 @@ exports[`renders 1`] = `
         <i
           class="dropdown icon"
         />
-        category
+        Category
       </div>
       <div
         class="content"
       >
         <h3>
-          title
+          Title
         </h3>
         <table>
           <tbody>
             <tr>
               <th>
-                row1
+                Row1
               </th>
               <td>
                 value1
@@ -81,7 +81,7 @@ exports[`renders 1`] = `
             </tr>
             <tr>
               <th>
-                row2
+                Row2
               </th>
               <td>
                 value2
@@ -90,13 +90,13 @@ exports[`renders 1`] = `
           </tbody>
         </table>
         <h3>
-          title2
+          Title2
         </h3>
         <table>
           <tbody>
             <tr>
               <th>
-                row1
+                Row1
               </th>
               <td>
                 value1
@@ -104,7 +104,7 @@ exports[`renders 1`] = `
             </tr>
             <tr>
               <th>
-                row2
+                Row2
               </th>
               <td>
                 value2

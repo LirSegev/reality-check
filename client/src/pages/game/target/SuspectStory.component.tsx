@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './SuspectStory.module.css';
+import { toTitleCase } from '../../../util/general';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -29,6 +30,7 @@ class SuspectStory extends React.Component<Props> {
 
 	_formatTitle(s: string) {
 		let result = s.replace(/[_-]/g, ' ');
+		result = toTitleCase(result);
 		return result;
 	}
 

@@ -39,6 +39,45 @@ it('renders', () => {
 	expect(asFragment()).toMatchSnapshot();
 });
 
+it('capitalizes', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
+	const { getByText } = render(
+		<SuspectStory
+			suspect={{
+				name: 'lir',
+				id: 1,
+				data: {
+					'space test': 'space',
+					underscore_test: 'underscore',
+					'dash-test': 'dash',
+					one_table: {
+						under_2_test: 'under',
+						'dash-2 test': 'dash',
+					},
+					multiple_tables: {
+						table_1_test: {
+							under_3_test: 'under',
+							'dash-3_test': 'dash',
+						},
+					},
+				},
+			}}
+		/>
+	);
+
+	expect(getByText('Underscore Test')).toBeDefined();
+	expect(getByText('Dash Test')).toBeDefined();
+
+	expect(getByText('One Table')).toBeDefined();
+	expect(getByText('Under 2 Test')).toBeDefined();
+	expect(getByText('Dash 2 Test')).toBeDefined();
+
+	expect(getByText('Multiple Tables')).toBeDefined();
+	expect(getByText('Table 1 Test')).toBeDefined();
+	expect(getByText('Under 3 Test')).toBeDefined();
+	expect(getByText('Dash 3 Test')).toBeDefined();
+});
+
 it('replaces - or _ with space', () => {
 	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
 	const { getByText } = render(
@@ -64,17 +103,17 @@ it('replaces - or _ with space', () => {
 		/>
 	);
 
-	expect(getByText('underscore test')).toBeDefined();
-	expect(getByText('dash test')).toBeDefined();
+	expect(getByText(/^underscore test$/i)).toBeDefined();
+	expect(getByText(/^dash test$/i)).toBeDefined();
 
-	expect(getByText('one table')).toBeDefined();
-	expect(getByText('under 2')).toBeDefined();
-	expect(getByText('dash 2')).toBeDefined();
+	expect(getByText(/^one table$/i)).toBeDefined();
+	expect(getByText(/^under 2$/i)).toBeDefined();
+	expect(getByText(/^dash 2$/i)).toBeDefined();
 
-	expect(getByText('multiple tables')).toBeDefined();
-	expect(getByText('table 1')).toBeDefined();
-	expect(getByText('under 3')).toBeDefined();
-	expect(getByText('dash 3')).toBeDefined();
+	expect(getByText(/^multiple tables$/i)).toBeDefined();
+	expect(getByText(/^table 1$/i)).toBeDefined();
+	expect(getByText(/^under 3$/i)).toBeDefined();
+	expect(getByText(/^dash 3$/i)).toBeDefined();
 });
 
 it('displays all information', () => {
@@ -99,16 +138,16 @@ it('displays all information', () => {
 		/>
 	);
 
-	expect(getByText('someText')).toBeDefined();
-	expect(getByText('Here is some text')).toBeDefined();
+	expect(getByText(/^someText$/i)).toBeDefined();
+	expect(getByText(/^Here is some text$/i)).toBeDefined();
 
-	expect(getByText('row1')).toBeDefined();
-	expect(getByText('value1')).toBeDefined();
+	expect(getByText(/^row1$/i)).toBeDefined();
+	expect(getByText(/^value1$/i)).toBeDefined();
 
-	expect(getByText('multiple tables')).toBeDefined();
-	expect(getByText('table1')).toBeDefined();
-	expect(getByText('subRow1')).toBeDefined();
-	expect(getByText('subValue1')).toBeDefined();
+	expect(getByText(/^multiple tables$/i)).toBeDefined();
+	expect(getByText(/^table1$/i)).toBeDefined();
+	expect(getByText(/^subRow1$/i)).toBeDefined();
+	expect(getByText(/^subValue1$/i)).toBeDefined();
 });
 
 it('displays objects as tables', () => {
@@ -128,8 +167,8 @@ it('displays objects as tables', () => {
 		/>
 	);
 
-	expect(getByText('row1', { selector: 'th,td' })).toBeDefined();
-	expect(getByText('value1', { selector: 'td' })).toBeDefined();
+	expect(getByText(/^row1$/i, { selector: 'th,td' })).toBeDefined();
+	expect(getByText(/^value1$/i, { selector: 'td' })).toBeDefined();
 });
 
 it('displays nested objects as tables', () => {
@@ -151,8 +190,8 @@ it('displays nested objects as tables', () => {
 		/>
 	);
 
-	expect(getByText('row1', { selector: 'th,td' })).toBeDefined();
-	expect(getByText('value1', { selector: 'td' })).toBeDefined();
+	expect(getByText(/^row1$/i, { selector: 'th,td' })).toBeDefined();
+	expect(getByText(/^value1$/i, { selector: 'td' })).toBeDefined();
 });
 
 it('displays strings as paragraphs', () => {
@@ -169,6 +208,6 @@ it('displays strings as paragraphs', () => {
 		/>
 	);
 
-	expect(getByText('Here is some text', { selector: 'p' })).toBeDefined();
-	expect(getByText('next paragraph', { selector: 'p' })).toBeDefined();
+	expect(getByText(/^Here is some text$/i, { selector: 'p' })).toBeDefined();
+	expect(getByText(/^next paragraph$/i, { selector: 'p' })).toBeDefined();
 });

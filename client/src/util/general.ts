@@ -83,3 +83,11 @@ function bearing(
 	brng = rad2deg(brng);
 	return (brng + 360) % 360;
 }
+
+export function toTitleCase(s: string): string {
+	return s
+		.toLowerCase()
+		.split(' ')
+		.map(word => word[0].toUpperCase() + word.slice(1))
+		.join(' ');
+}
