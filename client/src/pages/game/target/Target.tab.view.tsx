@@ -5,6 +5,7 @@ import Tabbar from '../../../components/Tabbar';
 import Clues from './clues';
 import Suspects from './suspects';
 import SuspectStory from './SuspectStory';
+import { toTitleCase } from '../../../util/general';
 
 export interface Props {
 	selectedSuspect: number | null;
@@ -15,10 +16,16 @@ export interface Props {
 }
 
 const TargetTabView: React.FC<Props> = props => {
+	const nameToInitials = (s: string) =>
+		toTitleCase(s)
+			.split(' ')
+			.map((n, i, a) => (i < a.length - 1 ? n[0] + '.' : n))
+			.join(' ');
+
 	const suspectTabs = props.suspectList.map(id => {
 		const json = require(`../../../files/suspects/${id}.json`);
 		return {
-			tabTitle: json.name,
+			tabTitle: nameToInitials(json.name),
 			content: <SuspectStory suspect={json} />,
 		};
 	});
