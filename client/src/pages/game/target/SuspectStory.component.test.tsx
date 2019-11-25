@@ -16,7 +16,7 @@ it('renders', () => {
 				name: 'lir',
 				id: 1,
 				data: {
-					someText: 'Here is some text\n\nnew paragraph',
+					some_text: 'Here is some text\n\nnew paragraph',
 					table: {
 						row1: 'value1',
 						row2: 'value2',
@@ -37,6 +37,44 @@ it('renders', () => {
 	);
 
 	expect(asFragment()).toMatchSnapshot();
+});
+
+it('replaces - or _ with space', () => {
+	const { default: SuspectStory } = require('./SuspectStory.component.tsx');
+	const { getByText } = render(
+		<SuspectStory
+			suspect={{
+				name: 'lir',
+				id: 1,
+				data: {
+					underscore_test: 'underscore',
+					'dash-test': 'dash',
+					one_table: {
+						under_2: 'under',
+						'dash-2': 'dash',
+					},
+					multiple_tables: {
+						table_1: {
+							under_3: 'under',
+							'dash-3': 'dash',
+						},
+					},
+				},
+			}}
+		/>
+	);
+
+	expect(getByText('underscore test')).toBeDefined();
+	expect(getByText('dash test')).toBeDefined();
+
+	expect(getByText('one table')).toBeDefined();
+	expect(getByText('under 2')).toBeDefined();
+	expect(getByText('dash 2')).toBeDefined();
+
+	expect(getByText('multiple tables')).toBeDefined();
+	expect(getByText('table 1')).toBeDefined();
+	expect(getByText('under 3')).toBeDefined();
+	expect(getByText('dash 3')).toBeDefined();
 });
 
 it('displays all information', () => {

@@ -27,6 +27,11 @@ class SuspectStory extends React.Component<Props> {
 		$('.ui.accordion').accordion();
 	}
 
+	_formatTitle(s: string) {
+		let result = s.replace(/[_-]/g, ' ');
+		return result;
+	}
+
 	render() {
 		const props = this.props;
 		const mapTableOrTables = (
@@ -43,7 +48,7 @@ class SuspectStory extends React.Component<Props> {
 			if (typeof subContent === 'string')
 				return (
 					<tr key={[title, subtitle].join('-')}>
-						<th>{subtitle}</th>
+						<th>{this._formatTitle(subtitle)}</th>
 						<td>{subContent}</td>
 					</tr>
 				);
@@ -52,7 +57,7 @@ class SuspectStory extends React.Component<Props> {
 					const value = subContent[key];
 					return (
 						<tr key={[title, subtitle, key].join('-')}>
-							<th>{key}</th>
+							<th>{this._formatTitle(key)}</th>
 							<td>{value}</td>
 						</tr>
 					);
@@ -60,7 +65,7 @@ class SuspectStory extends React.Component<Props> {
 
 				return (
 					<React.Fragment key={[title, subtitle].join('-')}>
-						<h3>{subtitle}</h3>
+						<h3>{this._formatTitle(subtitle)}</h3>
 						<table>
 							<tbody>{result}</tbody>
 						</table>
@@ -77,7 +82,7 @@ class SuspectStory extends React.Component<Props> {
 					.map((s, i) => <p key={[title, 'paragraph', i].join('-')}>{s}</p>);
 				return (
 					<div className="ui basic segment" key={title}>
-						<h1 className="ui header">{title}</h1>
+						<h1 className="ui header">{this._formatTitle(title)}</h1>
 						{pEls}
 					</div>
 				);
@@ -91,7 +96,7 @@ class SuspectStory extends React.Component<Props> {
 						<React.Fragment key={title}>
 							<div className="title">
 								<i className="dropdown icon" />
-								{title}
+								{this._formatTitle(title)}
 							</div>
 							<div className="content">
 								<table>
@@ -105,7 +110,7 @@ class SuspectStory extends React.Component<Props> {
 						<React.Fragment key={title}>
 							<div className="title">
 								<i className="dropdown icon" />
-								{title}
+								{this._formatTitle(title)}
 							</div>
 							<div className="content">{result}</div>
 						</React.Fragment>

@@ -35,6 +35,7 @@
 		"**/.hg": true,
 		"**/CVS": true,
 		"**/.DS_Store": true,
+		"**/__snapshots__/*": true,
 		"build": true
 	}
 }
