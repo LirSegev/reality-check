@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './SuspectStory.module.css';
-import { toTitleCase } from '../../../util/general';
+import { toTitleCase } from '../../../../util/general';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;

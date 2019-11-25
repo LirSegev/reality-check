@@ -4,7 +4,7 @@ import { Page } from 'react-onsenui';
 import Tabbar from '../../../components/Tabbar';
 import Clues from './clues';
 import Suspects from './suspects';
-import SuspectStory from './SuspectStory.component';
+import SuspectStory from './SuspectStory';
 
 export interface Props {
 	selectedSuspect: number | null;
