@@ -9,17 +9,14 @@ interface State {
 	showId: number | undefined;
 	suspectList: number[];
 }
-interface Props {
-	gameId: string | null;
-}
 
 /**
  * The time interval in seconds between switching to next suspect pic.
  */
 const CHANGE_PHOTO_INTERVAL = 2;
 
-class SuspectsContainer extends React.Component<Props, State> {
-	constructor(props: Props) {
+class SuspectsContainer extends React.Component<{}, State> {
+	constructor(props: {}) {
 		super(props);
 
 		this.state = { showId: undefined, suspectList: [] };
@@ -44,7 +41,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 			}));
 	}
 
-	componentDidUpdate(prevProps: Props, prevState: State) {
+	componentDidUpdate(prevProps: {}, prevState: State) {
 		// prettier-ignore
 		if (JSON.stringify(this.state.suspectList) !== JSON.stringify(prevState.suspectList)) {
 			// state.suspectList has changed
@@ -97,7 +94,4 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 }
 
-const mapState = (state: ReduxState) => ({
-	gameId: state.main.gameId,
-});
-export default connect(mapState)(SuspectsContainer);
+export default SuspectsContainer;
