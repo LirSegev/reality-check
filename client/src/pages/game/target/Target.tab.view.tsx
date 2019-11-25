@@ -5,7 +5,7 @@ import Clues from './clues';
 import Tabbar from '../../../components/Tabbar';
 import SuspectStory from './SuspectStory.component';
 
-interface Props {
+export interface Props {
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
