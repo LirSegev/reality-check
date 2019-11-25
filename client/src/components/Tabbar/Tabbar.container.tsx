@@ -3,10 +3,10 @@ import React from 'react';
 import TabbarView from './Tabbar.view';
 
 interface Props {
-	tabs: {
+	tabs: NonEmptyArray<{
 		tabTitle: string;
 		content: JSX.Element;
-	}[];
+	}>;
 	index?: number;
 	onChange?: (e: { index: number }) => void;
 }

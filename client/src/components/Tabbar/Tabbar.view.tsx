@@ -3,10 +3,10 @@ import React from 'react';
 import styles from './Tabbar.module.css';
 
 export interface Props {
-	tabs: {
+	tabs: NonEmptyArray<{
 		tabTitle: string;
 		content: JSX.Element;
-	}[];
+	}>;
 	index: number;
 	handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
