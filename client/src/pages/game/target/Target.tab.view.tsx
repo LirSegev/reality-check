@@ -48,6 +48,11 @@ const TargetTabView: React.FC<Props> = props => {
 						},
 						...suspectTabs,
 					]}
+					index={
+						props.selectedSuspect
+							? props.suspectList.indexOf(props.selectedSuspect) + 1
+							: undefined
+					}
 					onChange={props.onTabChange}
 				/>
 			</div>
