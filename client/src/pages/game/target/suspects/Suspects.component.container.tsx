@@ -51,7 +51,9 @@ class SuspectsContainer extends React.Component<Props, State> {
 				this._stopSwitchingPics();
 				this.setState({ showId: this.props.selectedSuspect });
 			} else {
-				this._startSwitchingPics();
+				this._startSwitchingPics(
+					this.props.suspectList.indexOf(prevProps.selectedSuspect!)
+				);
 			}
 		}
 		if (
@@ -64,11 +66,11 @@ class SuspectsContainer extends React.Component<Props, State> {
 		}
 	}
 
-	_startSwitchingPics() {
+	_startSwitchingPics(startIndex: number = 0) {
 		// Set showId to first suspect
 		this.setState(prev => ({
 			...prev,
-			showId: this.props.suspectList[0],
+			showId: this.props.suspectList[startIndex],
 		}));
 
 		this._stopSwitchingPics();
