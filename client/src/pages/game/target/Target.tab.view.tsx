@@ -8,11 +8,12 @@ import SuspectStory from './SuspectStory';
 import { toTitleCase } from '../../../util/general';
 
 export interface Props {
-	selectedSuspect: number | null;
+	selectedSuspect: number | undefined;
 	suspectList: number[];
 	incrementUnreadNum: (type: UnreadType) => boolean;
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
 	selectSuspect: (id: Props['selectedSuspect']) => void;
+	onTabChange: (e: { index: number }) => void;
 }
 
 const TargetTabView: React.FC<Props> = props => {
@@ -46,6 +47,7 @@ const TargetTabView: React.FC<Props> = props => {
 						},
 						...suspectTabs,
 					]}
+					onChange={props.onTabChange}
 				/>
 			</div>
 		</Page>

@@ -9,7 +9,7 @@ interface State {
 }
 
 interface Props {
-	selectedSuspect: number | null;
+	selectedSuspect: number | undefined;
 	suspectList: number[];
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
 }

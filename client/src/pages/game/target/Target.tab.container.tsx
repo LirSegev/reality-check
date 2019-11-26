@@ -2,13 +2,17 @@ import * as React from 'react';
 import TargetTabView, { Props as ViewProps } from './Target.tab.view';
 
 export interface State {
-	selectedSuspect: number | null;
+	selectedSuspect: number | undefined;
 	suspectList: number[];
 }
 
 type Props = Omit<
 	ViewProps,
-	'updateSuspectList' | 'suspectList' | 'selectSuspect' | 'selectedSuspect'
+	| 'updateSuspectList'
+	| 'suspectList'
+	| 'selectSuspect'
+	| 'selectedSuspect'
+	| 'onTabChange'
 >;
 
 class TargetTabContainer extends React.Component<Props, State> {
@@ -16,12 +20,13 @@ class TargetTabContainer extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			selectedSuspect: null,
+			selectedSuspect: undefined,
 			suspectList: [],
 		};
 
 		this._updateSuspectList = this._updateSuspectList.bind(this);
 		this._selectSuspect = this._selectSuspect.bind(this);
+		this._onTabChange = this._onTabChange.bind(this);
 	}
 
 	_updateSuspectList(suspectList: State['suspectList']) {
@@ -34,12 +39,17 @@ class TargetTabContainer extends React.Component<Props, State> {
 		this.setState({ selectedSuspect: id });
 	}
 
+	_onTabChange(e: { index: number }) {
+		this._selectSuspect(this.state.suspectList[e.index - 1]);
+	}
+
 	render() {
 		return (
 			<TargetTabView
 				{...this.props}
 				updateSuspectList={this._updateSuspectList}
 				selectSuspect={this._selectSuspect}
+				onTabChange={this._onTabChange}
 				{...this.state}
 			/>
 		);
