@@ -14,13 +14,14 @@ export interface Props {
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
 	selectSuspect: (id: Props['selectedSuspect']) => void;
 	onTabChange: (e: { index: number }) => void;
+	isVisible: boolean;
 }
 
 const TargetTabView: React.FC<Props> = props => {
 	const nameToInitials = (s: string) =>
 		toTitleCase(s)
 			.split(' ')
-			.map((n, i, a) => (i < a.length - 1 ? n[0] + '.' : n))
+			.map((n, i, a) => (i < a.length - 1 ? n[0] + '.' : n)) //TODO: implicit any
 			.join(' ');
 
 	const suspectTabs = props.suspectList.map(id => {
@@ -35,6 +36,7 @@ const TargetTabView: React.FC<Props> = props => {
 		<Page>
 			<div style={{ height: '100%' }}>
 				<Suspects
+					isVisible={props.isVisible}
 					selectSuspect={props.selectSuspect}
 					selectedSuspect={props.selectedSuspect}
 					suspectList={props.suspectList}

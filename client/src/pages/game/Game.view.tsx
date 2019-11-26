@@ -32,6 +32,7 @@ const GameView: React.FC<Props> = props => (
 				{
 					content: (
 						<TargetTab
+							tabIndex={0}
 							incrementUnreadNum={props.incrementUnreadNum}
 							key="targetTab-content"
 						/>

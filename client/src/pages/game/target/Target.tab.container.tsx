@@ -1,19 +1,26 @@
 import * as React from 'react';
 import TargetTabView, { Props as ViewProps } from './Target.tab.view';
+import { ReduxState } from '../../../reducers/initialState';
+import { connect } from 'react-redux';
 
 export interface State {
 	selectedSuspect: number | undefined;
 	suspectList: number[];
 }
 
-type Props = Omit<
-	ViewProps,
-	| 'updateSuspectList'
-	| 'suspectList'
-	| 'selectSuspect'
-	| 'selectedSuspect'
-	| 'onTabChange'
->;
+interface Props
+	extends Omit<
+		ViewProps,
+		| 'updateSuspectList'
+		| 'suspectList'
+		| 'selectSuspect'
+		| 'selectedSuspect'
+		| 'onTabChange'
+		| 'isVisible'
+	> {
+	tabIndex: number;
+	visibleTabIndex: number;
+}
 
 class TargetTabContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
@@ -50,10 +57,14 @@ class TargetTabContainer extends React.Component<Props, State> {
 				updateSuspectList={this._updateSuspectList}
 				selectSuspect={this._selectSuspect}
 				onTabChange={this._onTabChange}
+				isVisible={this.props.visibleTabIndex === this.props.tabIndex}
 				{...this.state}
 			/>
 		);
 	}
 }
 
-export default TargetTabContainer;
+const mapState = (state: ReduxState) => ({
+	visibleTabIndex: state.main.tabIndex,
+});
+export default connect(mapState)(TargetTabContainer);

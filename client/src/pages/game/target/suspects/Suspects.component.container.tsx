@@ -13,6 +13,7 @@ interface Props {
 	selectSuspect: (id: Props['selectedSuspect']) => void;
 	suspectList: number[];
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
+	isVisible: boolean;
 }
 
 /**
