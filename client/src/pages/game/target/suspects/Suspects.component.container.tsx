@@ -53,9 +53,11 @@ class SuspectsContainer extends React.Component<Props, State> {
 				this._stopSwitchingPics();
 				this.setState({ showId: this.props.selectedSuspect });
 			} else {
-				this._startSwitchingPics(
-					this.props.suspectList.indexOf(prevProps.selectedSuspect!)
-				);
+				const { suspectList } = this.props;
+				const indexOfCurr = suspectList.indexOf(prevProps.selectedSuspect!);
+				const indexOfNext = (indexOfCurr + 1) % suspectList.length;
+
+				this._startSwitchingPics(indexOfNext);
 			}
 		}
 		if (
