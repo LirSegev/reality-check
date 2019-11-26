@@ -11,20 +11,20 @@ const LegendView: React.FC<Props> = props => (
 			<tr>
 				<td>Mr. Z route</td>
 				<td>
-					<img src="images/legend-icons/mr-z-route.png" alt="Mr Z icon" />
+					<img src="/images/legend-icons/mr-z-route.png" alt="Mr Z icon" />
 				</td>
 			</tr>
 			<tr>
 				<td>Agent</td>
 				<td>
-					<img src="images/legend-icons/player.png" alt="Player icon" />
+					<img src="/images/legend-icons/player.png" alt="Player icon" />
 				</td>
 			</tr>
 			<tr>
 				<td>Intelligence point</td>
 				<td>
 					<img
-						src="images/legend-icons/intelligence-point.png"
+						src="/images/legend-icons/intelligence-point.png"
 						alt="Intelligence point icon"
 					/>
 				</td>
@@ -33,7 +33,7 @@ const LegendView: React.FC<Props> = props => (
 				<td>Detective point</td>
 				<td>
 					<img
-						src="images/legend-icons/detective-point.png"
+						src="/images/legend-icons/detective-point.png"
 						alt="Detective point icon"
 					/>
 				</td>
@@ -45,7 +45,7 @@ const LegendView: React.FC<Props> = props => (
 				<td className={styles.sub}>Starting point</td>
 				<td>
 					<img
-						src="images/legend-icons/start-point.png"
+						src="/images/legend-icons/start-point.png"
 						alt="Start point icon"
 					/>
 				</td>
@@ -54,7 +54,7 @@ const LegendView: React.FC<Props> = props => (
 				<td className={styles.sub}>Interest point</td>
 				<td>
 					<img
-						src="images/legend-icons/interest-point.png"
+						src="/images/legend-icons/interest-point.png"
 						alt="Interest point icon"
 					/>
 				</td>
@@ -63,7 +63,7 @@ const LegendView: React.FC<Props> = props => (
 				<td className={styles.sub}>Blending zone</td>
 				<td>
 					<img
-						src="images/legend-icons/blending-zone.png"
+						src="/images/legend-icons/blending-zone.png"
 						alt="Blending zone icon"
 					/>
 				</td>
@@ -72,7 +72,7 @@ const LegendView: React.FC<Props> = props => (
 				<td className={styles.sub}>Hiding spot</td>
 				<td>
 					<img
-						src="images/legend-icons/hiding-spot.png"
+						src="/images/legend-icons/hiding-spot.png"
 						alt="Hiding spot icon"
 					/>
 				</td>
@@ -81,7 +81,7 @@ const LegendView: React.FC<Props> = props => (
 				<td className={styles.sub}>Shortcut</td>
 				<td>
 					<img
-						src="images/legend-icons/special-station.png"
+						src="/images/legend-icons/special-station.png"
 						alt="Public transport spot icon"
 					/>
 				</td>
