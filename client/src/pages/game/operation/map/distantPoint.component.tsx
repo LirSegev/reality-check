@@ -157,8 +157,8 @@ class DistantPoint extends React.Component<Props, State> {
 					this.props.children
 				) : (
 					<img
-						src="images/arrow-pointing-to-right.png"
-						alt=""
+						src="/images/arrow-pointing-to-right.png"
+						alt="destination"
 						style={{
 							transform: `rotate(${this._getBearing() - 90}deg)`,
 						}}
