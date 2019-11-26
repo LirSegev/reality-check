@@ -45,20 +45,41 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
-		// prettier-ignore
-		if (JSON.stringify(this.props.suspectList) !== JSON.stringify(prevProps.suspectList)) {
-			// props.suspectList has changed
-
-			// Set showId to first suspect
-			this.setState(prev => ({
-				...prev,
-				showId: this.props.suspectList[0],
-			}));
-
-			if(this._interval)
-				clearInterval(this._interval);
-			this._interval = setInterval(this._switch2NextPic, CHANGE_PHOTO_INTERVAL * 1000);
+		if (prevProps.selectedSuspect !== this.props.selectedSuspect) {
+			//* selectedSuspect has changed
+			if (this.props.selectedSuspect) {
+				this._stopSwitchingPics();
+				this.setState({ showId: this.props.selectedSuspect });
+			} else {
+				this._startSwitchingPics();
+			}
 		}
+		if (
+			!this.props.selectedSuspect &&
+			JSON.stringify(this.props.suspectList) !==
+				JSON.stringify(prevProps.suspectList)
+		) {
+			//* suspectList as changed and there is no selectedSuspect
+			this._startSwitchingPics();
+		}
+	}
+
+	_startSwitchingPics() {
+		// Set showId to first suspect
+		this.setState(prev => ({
+			...prev,
+			showId: this.props.suspectList[0],
+		}));
+
+		this._stopSwitchingPics();
+		this._interval = setInterval(
+			this._switch2NextPic,
+			CHANGE_PHOTO_INTERVAL * 1000
+		);
+	}
+
+	_stopSwitchingPics() {
+		if (this._interval) clearInterval(this._interval);
 	}
 
 	/**
@@ -82,7 +103,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	componentWillUnmount() {
-		if (this._interval) clearInterval(this._interval);
+		this._stopSwitchingPics();
 	}
 
 	_interval: any = undefined;
