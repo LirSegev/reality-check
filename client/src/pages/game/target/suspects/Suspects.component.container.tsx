@@ -10,6 +10,7 @@ interface State {
 
 interface Props {
 	selectedSuspect: number | undefined;
+	selectSuspect: (id: Props['selectedSuspect']) => void;
 	suspectList: number[];
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
 }
@@ -27,6 +28,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 
 		this._updateSuspectList = this._updateSuspectList.bind(this);
 		this._switch2NextPic = this._switch2NextPic.bind(this);
+		this._handleClick = this._handleClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -101,7 +103,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	_handleClick(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
-		window.open(`suspects_stories/${e.currentTarget.dataset.suspect_id}.pdf`);
+		this.props.selectSuspect(Number(e.currentTarget.dataset.suspect_id!));
 	}
 
 	componentWillUnmount() {
