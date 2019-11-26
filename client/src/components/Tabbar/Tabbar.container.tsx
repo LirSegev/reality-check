@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import TabbarView from './Tabbar.view';
 
@@ -41,6 +42,11 @@ class TabbarContainer extends React.Component<Props, State> {
 		this.setState({
 			index,
 		});
+
+		(ReactDOM.findDOMNode(this) as Element)
+		.querySelector(`[data-index="${index}"]`)!
+		// @ts-ignore
+			.scrollIntoViewIfNeeded() // TODO: test with IOS
 
 		if (this.props.onChange) this.props.onChange({ index });
 	}
