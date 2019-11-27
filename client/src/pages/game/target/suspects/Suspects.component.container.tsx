@@ -77,12 +77,19 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	_toggleSwitchingPics() {
-		if (this._interval) this._stopSwitchingPics();
+		if (this._interval) this._pauseSwitchingPics();
 		else {
 			if (this._nextStartSwitchingPicsArgs)
 				this._startSwitchingPics(...this._nextStartSwitchingPicsArgs);
 			else this._startSwitchingPics();
 		}
+	}
+
+	_indexPausedOn?: number = undefined;
+	_pauseSwitchingPics() {
+		this._stopSwitchingPics();
+		if (this.state.showId)
+			this._indexPausedOn = this.props.suspectList.indexOf(this.state.showId);
 	}
 
 	_nextStartSwitchingPicsArgs?: [number?] = undefined;
@@ -94,7 +101,8 @@ class SuspectsContainer extends React.Component<Props, State> {
 		else this._nextStartSwitchingPicsArgs = args;
 	}
 
-	_startSwitchingPics(startIndex: number = 0) {
+	_startSwitchingPics(startIndex: number = this._indexPausedOn || 0) {
+		this._indexPausedOn = undefined;
 		const { suspectList } = this.props;
 
 		// Set showId to first suspect
