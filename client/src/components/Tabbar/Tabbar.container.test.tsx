@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import { Props } from './Tabbar.view';
 
 afterEach(cleanup);
@@ -26,17 +26,21 @@ it('renders', () => {
 describe('changes tab', () => {
 	test('on click', () => {
 		jest.mock('./Tabbar.view.tsx', () =>
-			jest
-				.fn()
-				.mockImplementationOnce((props: Props) => {
-					props.handleClick({ currentTarget: { dataset: { index: '1' } } });
-					return <div />;
-				})
-				.mockImplementation(() => <div />)
+			jest.fn().mockImplementation((props: Props) => {
+				return (
+					<div>
+						<button
+							data-testid="button"
+							onClick={props.handleClick}
+							data-index="1"
+						></button>
+					</div>
+				);
+			})
 		);
 
 		const { default: Tabbar } = require('./Tabbar.container.tsx');
-		render(
+		const { getByTestId } = render(
 			<Tabbar
 				tabs={[
 					{
@@ -57,6 +61,8 @@ describe('changes tab', () => {
 			expect.objectContaining({ index: 0 }),
 			{}
 		);
+
+		fireEvent.click(getByTestId('button'));
 		expect(TabbarView).toHaveBeenNthCalledWith(
 			2,
 			expect.objectContaining({ index: 1 }),
@@ -65,7 +71,19 @@ describe('changes tab', () => {
 	});
 
 	test('on index prop change', () => {
-		jest.mock('./Tabbar.view.tsx', () => jest.fn().mockReturnValue(<div />));
+		jest.mock('./Tabbar.view.tsx', () =>
+			jest.fn().mockImplementation((props: Props) => {
+				return (
+					<div>
+						<button
+							data-testid="button"
+							onClick={props.handleClick}
+							data-index="1"
+						></button>
+					</div>
+				);
+			})
+		);
 
 		const { default: Tabbar } = require('./Tabbar.container.tsx');
 		const div = document.createElement('div');
@@ -146,18 +164,22 @@ it('starts with correct tab when index prop is provided', () => {
 describe('calls onChange() when changing tab', () => {
 	test('on click', () => {
 		jest.mock('./Tabbar.view.tsx', () =>
-			jest
-				.fn()
-				.mockImplementationOnce((props: Props) => {
-					props.handleClick({ currentTarget: { dataset: { index: '1' } } });
-					return <div />;
-				})
-				.mockImplementation(() => <div />)
+			jest.fn().mockImplementation((props: Props) => {
+				return (
+					<div>
+						<button
+							data-testid="button"
+							onClick={props.handleClick}
+							data-index="1"
+						></button>
+					</div>
+				);
+			})
 		);
 
 		const onChange = jest.fn();
 		const { default: Tabbar } = require('./Tabbar.container.tsx');
-		render(
+		const { getByTestId } = render(
 			<Tabbar
 				tabs={[
 					{
@@ -173,11 +195,24 @@ describe('calls onChange() when changing tab', () => {
 			/>
 		);
 
+		fireEvent.click(getByTestId('button'));
 		expect(onChange).toBeCalledWith(expect.objectContaining({ index: 1 }));
 	});
 
 	test('on index prop change', () => {
-		jest.mock('./Tabbar.view.tsx', () => jest.fn().mockReturnValue(<div />));
+		jest.mock('./Tabbar.view.tsx', () =>
+			jest.fn().mockImplementation((props: Props) => {
+				return (
+					<div>
+						<button
+							data-testid="button"
+							onClick={props.handleClick}
+							data-index="1"
+						></button>
+					</div>
+				);
+			})
+		);
 
 		const onChange = jest.fn();
 		const { default: Tabbar } = require('./Tabbar.container.tsx');
