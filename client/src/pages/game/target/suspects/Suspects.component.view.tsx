@@ -29,6 +29,7 @@ const SuspectsView: React.FC<Props> = props => {
 			<div id={styles.images}>
 				<img
 					src="/images/suspects/default.jpg"
+					data-testid="default"
 					className={props.showId === undefined ? styles.show : undefined}
 					alt=""
 				/>
