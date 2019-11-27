@@ -48,8 +48,8 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
+		//* selectedSuspect changed
 		if (prevProps.selectedSuspect !== this.props.selectedSuspect) {
-			//* selectedSuspect has changed
 			if (this.props.selectedSuspect) {
 				this._stopSwitchingPics();
 				this.setState({ showId: this.props.selectedSuspect });
@@ -58,17 +58,41 @@ class SuspectsContainer extends React.Component<Props, State> {
 				const indexOfCurr = suspectList.indexOf(prevProps.selectedSuspect!);
 				const indexOfNext = (indexOfCurr + 1) % suspectList.length;
 
-				this._startSwitchingPics(indexOfNext);
+				this._startSwitchingPicsWhenVisible(indexOfNext);
 			}
 		}
+
+		//* suspectList changed and there is no selectedSuspect
 		if (
 			!this.props.selectedSuspect &&
 			JSON.stringify(this.props.suspectList) !==
 				JSON.stringify(prevProps.suspectList)
 		) {
-			//* suspectList as changed and there is no selectedSuspect
-			this._startSwitchingPics();
+			this._startSwitchingPicsWhenVisible();
 		}
+
+		//* isVisible changed
+		if (this.props.isVisible !== prevProps.isVisible) {
+			this._toggleSwitchingPics();
+		}
+	}
+
+	_toggleSwitchingPics() {
+		if (this._interval) this._stopSwitchingPics();
+		else {
+			if (this._nextStartSwitchingPicsArgs)
+				this._startSwitchingPics(...this._nextStartSwitchingPicsArgs);
+			else this._startSwitchingPics();
+		}
+	}
+
+	_nextStartSwitchingPicsArgs?: [number?] = undefined;
+	_startSwitchingPicsWhenVisible(
+		this: SuspectsContainer,
+		...args: Parameters<typeof this._startSwitchingPics>
+	) {
+		if (this.props.isVisible) this._startSwitchingPics(...args);
+		else this._nextStartSwitchingPicsArgs = args;
 	}
 
 	_startSwitchingPics(startIndex: number = 0) {
@@ -87,6 +111,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 
 	_stopSwitchingPics() {
 		if (this._interval) clearInterval(this._interval);
+		this._interval = undefined;
 	}
 
 	/**
