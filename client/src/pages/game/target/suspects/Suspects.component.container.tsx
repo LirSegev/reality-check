@@ -16,10 +16,9 @@ interface Props {
 	isVisible: boolean;
 }
 
-/**
- * The time interval in seconds between switching to next suspect pic.
- */
-const CHANGE_PHOTO_INTERVAL = 2;
+const CHANGE_PHOTO_INTERVAL_MIN = 200;
+const CHANGE_PHOTO_INTERVAL_MAX = 1500;
+const PHOTO_LOOP_CYCLE_DURATION = 2000;
 
 class SuspectsContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
@@ -96,17 +95,22 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	_startSwitchingPics(startIndex: number = 0) {
+		const { suspectList } = this.props;
+
 		// Set showId to first suspect
 		this.setState(prev => ({
 			...prev,
-			showId: this.props.suspectList[startIndex],
+			showId: suspectList[startIndex],
 		}));
 
+		let changePhotoInterval = PHOTO_LOOP_CYCLE_DURATION / suspectList.length;
+		if (changePhotoInterval < CHANGE_PHOTO_INTERVAL_MIN)
+			changePhotoInterval = CHANGE_PHOTO_INTERVAL_MIN;
+		else if (changePhotoInterval > CHANGE_PHOTO_INTERVAL_MAX)
+			changePhotoInterval = CHANGE_PHOTO_INTERVAL_MAX;
+
 		this._stopSwitchingPics();
-		this._interval = setInterval(
-			this._switch2NextPic,
-			CHANGE_PHOTO_INTERVAL * 1000
-		);
+		this._interval = setInterval(this._switch2NextPic, changePhotoInterval);
 	}
 
 	_stopSwitchingPics() {
