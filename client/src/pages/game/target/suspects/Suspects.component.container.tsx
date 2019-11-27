@@ -61,7 +61,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 			}
 		}
 
-		//* suspectList changed and there is no selectedSuspect
+		//* suspectList changed and no selectedSuspect
 		if (
 			!this.props.selectedSuspect &&
 			JSON.stringify(this.props.suspectList) !==
@@ -70,8 +70,11 @@ class SuspectsContainer extends React.Component<Props, State> {
 			this._startSwitchingPicsWhenVisible();
 		}
 
-		//* isVisible changed
-		if (this.props.isVisible !== prevProps.isVisible) {
+		//* isVisible changed and no selectedSuspect
+		if (
+			this.props.isVisible !== prevProps.isVisible &&
+			!this.props.selectedSuspect
+		) {
 			this._toggleSwitchingPics();
 		}
 	}
