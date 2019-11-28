@@ -36,6 +36,7 @@
 		"serve": "npm run build && firebase serve --only hosting",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"coverage": "npm test -- --coverage --watchAll=false",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -60,5 +61,12 @@
 		"firebase-mock": "^2.2.10",
 		"jest-mock-console": "^1.0.0",
 		"redux-mock-store": "^1.5.3"
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"**/*.{ts,tsx}",
+			"!**/node_modules/**",
+			"!**/vendor/**"
+		]
 	}
 }
