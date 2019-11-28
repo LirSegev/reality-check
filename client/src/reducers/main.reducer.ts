@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import uniqid from 'uniqid';
 import initialState from './initialState';
 import {

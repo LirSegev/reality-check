@@ -1,0 +1,174 @@
+{
+	"name": "Kim Van Tho",
+	"id": 5,
+	"data": {
+		"Kim Van Tho": "Kim is a stable health centre receptionist who is obsessed with jazz.\n\nKim Van Tho is a 26-year-old health centre receptionist who enjoys recycling, watching YouTube videos and listening to music. He is stable and reliable, but can also be very pessimistic and a bit grumpy.\n\nHe is Vietnamese. He lives with his family in London. He is obsessed with jazz.\n\nPhysically, Kim is in pretty good shape. He is average-height with brown skin, brown hair and brown eyes.\n\nHe grew up in an upper class neighbourhood. After his father died when he was young, he was raised by his mother.\n\nHe is currently in a relationship with Kai Teddy Thomson. Kai is the same age as him and works as a sales assistant.\n\nKim's best friend is a health centre receptionist called Helena Ross. They get on well most of the time. He also hangs around with Aleksander Scott and Gloria Wang. They enjoy horse riding together.",
+		"basic_information": {
+			"Name": "Kim Van Tho",
+			"Nickname": "Grumpy Kim",
+			"Reason for nickname": "Descriptive",
+			"Date of birth": "Thursday, 14th Oct 1993 (Age 26)",
+			"Star sign": "Libra",
+			"Nationality": "Thai",
+			"Ethnicity": "South Asian",
+			"Social class": "Upper class",
+			"Religion": "Agnostic",
+			"Sexuality": "Unknown",
+			"Education": "Bachelor's degree",
+			"Course": "Unknown",
+			"Political views": "Far right",
+			"Relationship status": "In a relationship with Kai Teddy Thomson",
+			"Career path": "Medicine"
+		},
+		"physical_characteristics": {
+			"Height": "average",
+			"Shape": "average",
+			"Build": "average",
+			"Hair colour": "brown",
+			"Eyes": "brown",
+			"Glasses/lenses": "none",
+			"Distinguishing marks": "none",
+			"Other words that might be used": "average, fair, moderate, normal, ordinary"
+		},
+		"personality": {
+			"Positive characteristics": "stable, reliable",
+			"Negative characteristics": "pessimistic, grumpy",
+			"Words often used": "grumpy, pessimistic, reliable, stable",
+			"Moral": "sometimes",
+			"Stable": "sometimes",
+			"Loyal": "very",
+			"Generous": "sometimes",
+			"Extrovert": "not at all",
+			"Compassionate": "sometimes",
+			"IQ": "82",
+			"Hobbies": "recycling, watching YouTube videos, listening to music, horse riding, walking, swimming, podcasting, watching television, going to the movies",
+			"Obsessions": "jazz",
+			"Diet": "eats meat",
+			"Favourite foods": "donuts, carbonara"
+		},
+		"employment": {
+			"Health centre receptionist": [
+				"Upper Town Medical Practice",
+				"2012 - present"
+			]
+		},
+		"background": {
+			"Early years": "Kim grew up in a wealthy neighbourhood. After his father died when he was young, he was raised by his mother",
+			"Formative years": "Kim went to university and got a degree.. Kim got his first job as a health centre receptionist at age 19"
+		},
+		"current_partner": {
+			"kai_teddy_thomson": {
+				"Relation": "Girlfriend (2019 - present)",
+				"Occupation": "Sales assistant",
+				"Age": "21",
+				"Relationship": "They get on well but lack chemistry"
+			}
+		},
+		"friends": {
+			"helena_ariel_ross": {
+				"Relation": "Friend",
+				"Occupation": "Receptionist",
+				"Age": "22",
+				"Relationship": "They get on well most of the time"
+			},
+			"aleksander_omar_scott": {
+				"Relation": "Friend",
+				"Occupation": "Professional sports person",
+				"Age": "30",
+				"Relationship": "They are inseparable"
+			},
+			"gloria_florence_wang": {
+				"Relation": "Friend",
+				"Occupation": "Journalist",
+				"Age": "27",
+				"Relationship": "They get on well most of the time"
+			}
+		},
+		"parents": {
+			"l\u01b0\u01a1ng_h\u1ed3ng_phan": {
+				"Relation": "Mother",
+				"Occupation": "Scientist",
+				"Age": "55",
+				"Relationship": "Generally harmonious."
+			},
+			"li\u1ec5u_van_tho": {
+				"Relation": "Father",
+				"Occupation": "Lab assistant",
+				"Age": "Died in 1995 aged 25. (Would have been 49.)",
+				"Cause of death": "accident - road traffic",
+				"Relationship": "He idolises him."
+			}
+		},
+		"siblings": {
+			"minh_my_phan": {
+				"Relation": "Half sister (shared mother)",
+				"Occupation": "Politician",
+				"Age": "39",
+				"Relationship": "Sion has always looked out for Kim."
+			},
+			"duc_tan_phan": {
+				"Relation": "Half brother (shared mother)",
+				"Occupation": "Scientist",
+				"Age": "37",
+				"Relationship": "Kim idolises Ryan."
+			},
+			"kiet_le_phan": {
+				"Relation": "Half brother (shared mother)",
+				"Occupation": "Lawyer",
+				"Age": "36",
+				"Relationship": "Kim and Jeff grew up together. Nevertheless, they are not particularly close."
+			},
+			"anh_tuan_tho": {
+				"Relation": "Brother",
+				"Occupation": "Novelist",
+				"Age": "31",
+				"Relationship": "They do not get on well."
+			}
+		},
+		"former_partners": {
+			"pearl_shelley_reynolds": {
+				"Relation": "Ex-girlfriend (1 year 2009 - 2010)",
+				"Occupation": "Works in a fast food chain",
+				"Reason for breakup": "Pearl felt Kim was too closed to new ideas",
+				"Age": "26",
+				"Relationship": "No longer keep in touch"
+			},
+			"Cleo Chelsea Reed": {
+				"relation": "Ex-girlfriend (1 year : 2011 - 2012)",
+				"Occupation": "Lawyer",
+				"Reason for breakup": "Cleo was bored",
+				"Age": "29",
+				"Relationship": "Occasional frosty contact"
+			},
+			"lowri_jennifer_kumar": {
+				"Relation": "Ex-girlfriend (1 year 2013 - 2014)",
+				"Occupation": "Real estate agent",
+				"Reason for breakup": "Lowri was bored",
+				"Age": "42",
+				"Relationship": "No longer keep in touch"
+			}
+		},
+		"political_views": {
+			"Abortion": "pro",
+			"Racial equality": "very pro",
+			"LGBTQ rights": "very pro",
+			"Subsidised healthcare": "against",
+			"Gun control": "undecided",
+			"Nuclear disarmament": "very against",
+			"Death penalty": "pro",
+			"Tax cuts for the wealthy": "pro",
+			"Protecting the environment": "undecided"
+		},
+		"timeline": {
+			"1993": "Kim Tho is born",
+			"1995": "Father, Li\u1ec5u Van Tho dies aged 25 (accident - road traffic)",
+			"2009": "Gets together with Pearl Shelley Reynolds.",
+			"2010": "Relationship with Pearl Shelley Reynolds ends (Pearl felt Kim was too closed to new ideas).",
+			"2011": "Gets together with Cleo Chelsea Reed.",
+			"2012": "Relationship with Cleo Chelsea Reed ends (Cleo was bored). Starts work at Upper Town Medical Practice at health centre receptionist",
+			"2013": "Gets together with Lowri Jennifer Kumar.",
+			"2014": "Relationship with Lowri Jennifer Kumar ends (Lowri was bored).",
+			"2019": "Gets together with Kai Teddy Thomson."
+		}
+	}
+}

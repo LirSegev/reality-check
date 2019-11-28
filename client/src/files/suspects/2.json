@@ -1,0 +1,150 @@
+{
+	"name": "Eliot Brousseau",
+	"id": 2,
+	"data": {
+		"Eliot Brousseau": "Eliot Brousseau is a 20-year-old student who enjoys listening to music, social card games and praying. He is intelligent and careful, but can also be very rude and a bit grumpy.\n\nHe is a French Christian. He is currently at college. He is allergic to Brazil nuts. He is obsessed with bagels.\n\nPhysically, Eliot is in good shape. He is tall with white skin, black hair and green eyes.\n\nHe grew up in a working class neighbourhood. He was raised by his mother, his father having left when he was young.\n\nHe is currently single. His most recent romance was with a journalist called Jeanette Langelier, who was 20 years older than him. They broke up because Eliot found Jeanette's political views too conservative.\n\nEliot's best friend is a student called Jaroslav Bílek. They get on well most of the time. He also hangs around with Stefan Ebersbacher and Ivana Mátlová. They enjoy checking news stories against the Czech Prime Minister together.",
+		"basic_information": {
+			"Name": "Eliot Brousseau",
+			"Nicknames": "Dai / Tall Eliot",
+			"Reason for nicknames": "Derived from Eliot / Descriptive",
+			"Date of birth": "Wednesday, 13th Oct 1999 (Age 20)",
+			"Star sign": "Libra",
+			"Nationality": "French",
+			"Ethnicity": "Caucasian",
+			"Social class": "Working class",
+			"Religion": "Christian",
+			"Sexuality": "Unknown",
+			"Education": "Bachelor's degree",
+			"Political views": "Left",
+			"Relationship status": "Single",
+			"Career path": "Secret service"
+		},
+		"physical_characteristics": {
+			"Height": "tall",
+			"Shape": "underweight",
+			"Build": "average",
+			"Hair colour": "black",
+			"Eyes": "green",
+			"Glasses/lenses": "contact lenses",
+			"Distinguishing marks": "none",
+			"Other words that might be used": "full-length, grandiloquent, leggy, long-legged, slim, stately, statuesque, tall"
+		},
+		"personality": {
+			"Positive characteristics": "intelligent, careful",
+			"Negative characteristics": "rude, grumpy",
+			"Words often used": "careful, grumpy, intelligent, rude",
+			"Moral": "sometimes",
+			"Stable": "sometimes",
+			"Loyal": "sometimes",
+			"Generous": "sometimes",
+			"Extrovert": "not at all",
+			"Compassionate": "very",
+			"IQ": "114",
+			"Hobbies": "listening to music, social card games, praying, checking news stories against the Czech Prime Minister, bowling, reading, working on cars, upcycling",
+			"Obsessions": "bagels",
+			"Diet": "eats meat",
+			"Favourite foods": "mangoes, carbonara",
+			"Allergies and intolerances": "Brazil nuts"
+		},
+		"employment": {
+			"Part time clerk": ["CIA (Czech Intelligence Agency)", "2017 - present"]
+		},
+		"background": {
+			"Early years": "Eliot grew up in an impoverished neighbourhood. He was raised by his mother, his father having left when he was young.",
+			"Formative years": "Eliot got is first job as a part time clerk at age 18. Eliot went to univeristy and got a degree.",
+			"Most traumatic childhood experience": "His father leaving when he was three."
+		},
+		"friends": {
+			"jaroslav_b\u00edlek": {
+				"Relation": "Friend",
+				"Occupation": "Legal secretary, student",
+				"Age": "25",
+				"Relationship": "They get on well most of the time"
+			},
+			"stefan_ebersbacher": {
+				"Relation": "Friend",
+				"Occupation": "Kitchen assistant",
+				"Age": "25",
+				"Relationship": "They are inseparable"
+			},
+			"ivana_m\u00e1tlov\u00e1": {
+				"Relation": "Friend",
+				"Occupation": "Artist",
+				"Age": "20",
+				"Relationship": "They get on well most of the time"
+			}
+		},
+		"parents": {
+			"catherine_brousseau": {
+				"Relation": "Mother",
+				"Occupation": "Novelist",
+				"Age": "49",
+				"Relationship": "Generally harmonious."
+			},
+			"\u00e9douard_gaillard": {
+				"Relation": "Father",
+				"Occupation": "Lawyer",
+				"Age": "54",
+				"Relationship": "Infrequent contact."
+			}
+		},
+		"siblings": {
+			"denise_brousseau": {
+				"Relation": "Half sister (shared mother)",
+				"Occupation": "Lawyer",
+				"Age": "33",
+				"Relationship": "Eliot idolises Denise."
+			},
+			"harriette_brousseau": {
+				"Relation": "Half sister (shared mother)",
+				"Occupation": "Lab assistant",
+				"Age": "25",
+				"Relationship": "Eliot and Harriette grew up together. They are inseparable."
+			},
+			"jos\u00e9phine_gaillard": {
+				"Relation": "Half sister (shared father)",
+				"Occupation": "Admin assistant",
+				"Age": "38",
+				"Relationship": "Eliot and Jos\u00e9phine spent a lot of time together before their father walked out on Eliot's mum and see each other from time to time."
+			},
+			"genevre_gaillard": {
+				"Relation": "Half sister (shared father)",
+				"Occupation": "Management consultant",
+				"Age": "36",
+				"Relationship": "Eliot and Genevre spent a lot of time together before their father walked out on Eliot's mum and see each other from time to time."
+			},
+			"yvette_gaillard": {
+				"Relation": "Half sister (shared father)",
+				"Occupation": "Lab assistant",
+				"Age": "24",
+				"Relationship": "Eliot and Yvette spent a lot of time together before their father walked out on Eliot's mum but contact dwindled after that."
+			}
+		},
+		"former_partners": {
+			"jeanette_langelier": {
+				"Relation": "Ex-girlfriend (1 year 2016 - 2017)",
+				"Occupation": "Journalist",
+				"Reason for breakup": "Eliot found Jeanette\u2019s political views too conservative",
+				"Age": "40",
+				"Relationship": "Remained friends"
+			}
+		},
+		"political_views": {
+			"Abortion": "very pro",
+			"Racial equality": "very pro",
+			"LGBTQ rights": "very pro",
+			"Subsidised healthcare": "very pro",
+			"Gun control": "very pro",
+			"Nuclear disarmament": "undecided",
+			"Death penalty": "very against",
+			"Tax cuts for the wealthy": "against",
+			"Protecting the environment": "pro"
+		},
+		"timeline": {
+			"1999": "Eliot Brousseau is born",
+			"2002": "Father, \u00c9douard Gaillard walks out",
+			"2016": "Gets together with Jeanette Langelier.",
+			"2017": "Relationship with Jeanette Langelier ends (Eliot found Jeannete\u2019s political views too conservative). Moves to the Czech Republic to become a student Starts work at the CIA (Czech Intelligence Agency) as a part time clerk"
+		}
+	}
+}

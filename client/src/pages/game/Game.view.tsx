@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Page, Tabbar } from 'react-onsenui';
-import Tab from '../../components/Tab.component';
-import TargetTabView from './target';
-import OperationTabView from './operation';
-import IntelTabView from './intel';
-import { ReduxState } from '../../reducers/initialState';
 import { connect } from 'react-redux';
+
+import Tab from '../../components/Tab.component';
+import { ReduxState } from '../../reducers/initialState';
+import IntelTabView from './intel';
+import OperationTabView from './operation';
+import TargetTab from './target';
 
 interface Props {
 	tabIndex: number;
@@ -30,7 +31,8 @@ const GameView: React.FC<Props> = props => (
 			renderTabs={() => [
 				{
 					content: (
-						<TargetTabView
+						<TargetTab
+							tabIndex={0}
 							incrementUnreadNum={props.incrementUnreadNum}
 							key="targetTab-content"
 						/>

@@ -1,0 +1,159 @@
+{
+    "name": "Petr Janů",
+    "id": 8,
+    "data": {    
+    "Petr Janů": "Petr is a kind lab assistant who suffers from a severe phobia of crowds.\n\nPetr Janů is a 25-year-old lab assistant who enjoys binge-watching boxed sets, golf and watching sport. He is kind and reliable, but can also be very lazy and a bit impatient.\n\nHe is Czech. He finished school and then left academia. He is allergic to pine cones. He has a severe phobia of crowds.\n\nPhysically, Petr is slightly overweight but otherwise in good shape. He is very tall with walnut skin, brown hair and black eyes.\n\nHe grew up in a middle class neighbourhood. He was raised in a happy family home with two loving parents.\n\nHe is currently married to Maryam Eli Ramirez. Maryam is the same age as him and works as a novelist.\n\nPetr's best friend is a lab assistant called Maya Walter Němec. They have a very firey friendship. He also hangs around with Kyra Allen and Byron Palmer. They enjoy theatre together.",
+    "basic_information": {
+        "Name": "Petr Janů",
+        "Nickname": "Tall Petr",
+        "Reason for nickname": "Descriptive",
+        "Date of birth": "Friday, 14th Oct 1994 (Age 25)",
+        "Star sign": "Libra",
+        "Nationality": "Czech",
+        "Ethnicity": "Caribbean",
+        "Social class": "Middle class",
+        "Religion": "Agnostic",
+        "Sexuality": "Unknown",
+        "Education": "High school",
+        "Political views": "Centre",
+        "Relationship status": "Married to Maryam Eli Ramirez",
+        "Career path": "Science"
+    },
+    "physical_characteristics": {
+        "Height": "very tall",
+        "Shape": "overweight",
+        "Build": "average",
+        "Hair colour": "brown",
+        "Hairstyle": "hair shaved to grade 2 all over",
+        "Eyes": "black",
+        "Face shape": "diamond",
+        "Glasses/lenses": "none",
+        "Distinguishing marks": "none",
+        "Other words that might be used": "curvacious, full-length, grandiloquent, leggy, long-legged, overweight, stately, statuesque, tall"
+    },
+    "personality": {
+        "Positive characteristics": "kind, reliable",
+        "Negative characteristics": "lazy, impatient",
+        "Words often used": "impatient, kind, lazy, reliable",
+        "Moral": "sometimes",
+        "Stable": "sometimes",
+        "Loyal": "very",
+        "Generous": "very",
+        "Extrovert": "sometimes",
+        "Compassionate": "very",
+        "IQ": "112",
+        "Hobbies": "binge-watching boxed sets, golf, watching sport, theatre, swimming, helping old ladies across the road, playing video games, reading, extreme ironing, attending museums",
+        "Phobias": "crowds",
+        "Diet": "eats meat",
+        "Favourite foods": "carbonara, ice lollies",
+        "Allergies and intolerances": "pine cones"
+    },
+    "employment": {
+        "Lab assistant": [
+            "Ring Road Research Lab",
+            "2012 - present"
+        ]
+    },
+    "background": {
+        "Early years": "Petr grew up in a middle class neighbourhood. He was raised in a happy family home with two loving parents.",
+        "Formative years": "Petr got is first job as a lab assistant at age 18. Petr decided not to go to college."
+    },
+    "current_partner": {
+        "maryam_eli_ramirez": {
+            "Relation": "Wife (2017 - present)",
+            "Occupation": "Novelist",
+            "Age": "18",
+            "Relationship": "They are madly in love"
+        }
+    },
+    "friends": {
+        "maya_walter_němec": {
+            "Relation": "Friend",
+            "Occupation": "Electrician",
+            "Age": "27",
+            "Relationship": "They have a very firey friendship"
+        },
+        "kyra_phoebe_allen": {
+            "Relation": "Friend",
+            "Occupation": "Novelist",
+            "Age": "29",
+            "Relationship": "They have a very firey friendship"
+        },
+        "byron_ioan_palmer": {
+            "Relation": "Friend",
+            "Occupation": "Artist",
+            "Age": "25",
+            "Relationship": "They have a very firey friendship"
+        }
+    },
+    "parents": {
+        "felix_barbara_janu_(née_scott)": {
+            "Relation": "Mother",
+            "Occupation": "Scientist",
+            "Age": "57",
+            "Relationship": "Generally harmonious."
+        },
+        "jesse_michael_janu": {
+            "Relation": "Father",
+            "Occupation": "Plumber",
+            "Age": "59",
+            "Relationship": "Generally harmonious."
+        }
+    },
+    "siblings": {
+        "gabriel_jakub_janu": {
+            "Relation": "Brother",
+            "Occupation": "Sous chef",
+            "Age": "36",
+            "Relationship": "They are not particularly close."
+        },
+        "jace_mateo_janu": {
+            "Relation": "Brother",
+            "Occupation": "Admin assistant",
+            "Age": "34",
+            "Relationship": "They are not particularly close."
+        },
+        "khloe_paige_janu": {
+            "Relation": "Sister",
+            "Occupation": "Sous chef",
+            "Age": "33",
+            "Relationship": "They are inseparable."
+        }
+    },
+    "former_partners": {
+        "vera_natalie_lloyd": {
+            "Relation": "Ex-girlfriend (1 year 2011 - 2012)",
+            "Occupation": "Junior manager",
+            "Reason for breakup": "Vera felt Petr was too much of a doormat",
+            "Age": "28",
+            "Relationship": "No longer keep in touch"
+        },
+        "neve_sapphire_adam": {
+            "Relation": "Ex-girlfriend (3 years 2013 - 2016)",
+            "Occupation": "Builder",
+            "Reason for breakup": "Neve felt smothered by Petr's generosity",
+            "Age": "29",
+            "Relationship": "Occasional frosty contact"
+        }
+    },
+    "political_views": {
+        "Abortion": "pro",
+        "Racial equality": "very pro",
+        "LGBTQ rights": "very pro",
+        "Subsidised healthcare": "undecided",
+        "Gun control": "undecided",
+        "Nuclear disarmament": "very against",
+        "Death penalty": "undecided",
+        "Tax cuts for the wealthy": "against",
+        "Protecting the environment": "undecided"
+    },
+    "timeline": {
+        "1994": "Petr Janů is born",
+        "2011": "Gets together with Vera Natalie Lloyd.",
+        "2012": "Relationship with Vera Natalie Lloyd ends (Vera felt Petr was too much of a doormat). Starts work at Ring Road Research Lab at lab assistant",
+        "2013": "Gets together with Neve Sapphire Adam.",
+        "2016": "Relationship with Neve Sapphire Adam ends (Neve felt smothered by Petr's generosity).",
+        "2017": "Gets together with Maryam Eli Ramirez.",
+        "2019": "Marries Maryam Eli Ramirez."
+    }
+}}
