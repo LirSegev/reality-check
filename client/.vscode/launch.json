@@ -7,8 +7,15 @@
 		{
 			"type": "chrome",
 			"request": "launch",
-			"name": "Debug React Run",
+			"name": "Debug React Run https",
 			"url": "https://localhost:5000",
+			"webRoot": "${workspaceFolder}/src"
+		}
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "Debug React Run http",
+			"url": "http://localhost:5000",
 			"webRoot": "${workspaceFolder}/src"
 		}
 	]

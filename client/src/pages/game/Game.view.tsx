@@ -11,8 +11,8 @@ import TargetTab from './target';
 interface Props {
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
-	onTabChange: (e: any) => void;
-	onOpTabChange: (e: any) => void;
+	onTabChange: (e: unknown) => void;
+	onOpTabChange: (e: unknown) => void;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 	unreadNums: {
 		chat: number;

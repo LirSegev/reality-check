@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app';
 import { updateCurrentPlayer } from './db';
+import { Player } from './db.types';
 
 export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 	/**
@@ -16,7 +17,7 @@ export function signOut(isAdmin?: boolean, notInGame?: boolean) {
 			doBeforeSignOut.push(
 				updateCurrentPlayer({
 					isDeleted: true,
-				} as DB.Game.Players.Player)
+				} as Player)
 			);
 		} else console.error(new Error('Error no gameID'));
 	}

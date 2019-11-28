@@ -5,9 +5,10 @@ import NewIntelItemForm from './NewIntelItemForm';
 import styles from './Intel.module.css';
 import { ReduxState } from '../../../reducers/initialState';
 import { connect } from 'react-redux';
+import { IntelItem } from '../../../util/db.types';
 
 interface Props {
-	intelItems: DB.Game.Intel.IntelItem[];
+	intelItems: IntelItem[];
 	isAddItemOpen: boolean;
 	isAdmin: boolean;
 	gameId: string | null;

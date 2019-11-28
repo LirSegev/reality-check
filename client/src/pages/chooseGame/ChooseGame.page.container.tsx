@@ -22,11 +22,9 @@ class ChooseGamePageContainer extends React.Component<Props, State> {
 		this.state = {
 			gameList: [],
 		};
-
-		this._renderGameItem = this._renderGameItem(props.changeGame);
 	}
 
-	_renderGameItem: any = renderGameItem;
+	_renderGameItem = renderGameItem(this.props.changeGame);
 
 	componentWillMount() {
 		const db = firebase.firestore();

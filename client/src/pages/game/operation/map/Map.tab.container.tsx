@@ -5,10 +5,17 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { ReduxState } from '../../../../reducers/initialState';
-import { changeDestination, setPlayerLocations } from '../../../../reducers/map.reducer';
-import { PlayerLocation, PlayerLocations } from '../../../../reducers/map.reducer.d';
+import {
+	changeDestination,
+	setPlayerLocations,
+} from '../../../../reducers/map.reducer';
+import {
+	PlayerLocation,
+	PlayerLocations,
+} from '../../../../reducers/map.reducer.d';
 import { createLocationselectEvent } from '../../../../util/customEvents/factories';
 import { getCurrentPlayer, getGameDocRef } from '../../../../util/db';
+import { IntelItem, Player, PlayerRole } from '../../../../util/db.types';
 import { isIOS } from '../../../../util/general';
 import { addGeolocateControl } from './controls/geolocateControl.module';
 import PhaseSelectControl from './controls/phaseSelectControl';
@@ -75,7 +82,7 @@ class MapTabContainer extends React.Component<Props, State> {
 
 	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
 		const mrZRoute = intel.docs
-			.map(doc => doc.data() as DB.Game.Intel.IntelItem)
+			.map(doc => doc.data() as IntelItem)
 			.filter(
 				intel => intel.action.type === 'walking' && intel.action.coordinates
 			)
@@ -93,7 +100,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	_updatePlayerLocations(playerList: firebase.firestore.QuerySnapshot) {
 		let playerLocations: { [key: string]: PlayerLocation } = {};
 		playerList.forEach(doc => {
-			const player = doc.data() as DB.Game.Players.Player;
+			const player = doc.data() as Player;
 
 			if (player.location && player.uid !== firebase.auth().currentUser!.uid) {
 				const playerLocation: PlayerLocation = {
@@ -217,14 +224,11 @@ class MapTabContainer extends React.Component<Props, State> {
 	/**
 	 * Set up listeners to hide collected points and show points based on player's role
 	 */
-	_showIntelligenceAndDetectivePoints(
-		map: mapboxgl.Map,
-		role?: DB.Game.Players.PlayerRole
-	) {
+	_showIntelligenceAndDetectivePoints(map: mapboxgl.Map, role?: PlayerRole) {
 		if (this.props.isAdmin) {
 			// Hide collected points for all roles
 			const roles = ['detective', 'intelligence'] as Exclude<
-				DB.Game.Players.PlayerRole,
+				PlayerRole,
 				'chaser'
 			>[];
 			roles.forEach(role => {
@@ -262,7 +266,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	_hideCollectedPoints(
 		map: mapboxgl.Map,
 		layerId: string,
-		playerRole: Exclude<DB.Game.Players.PlayerRole, 'chaser'>
+		playerRole: Exclude<PlayerRole, 'chaser'>
 	) {
 		getGameDocRef().onSnapshot(
 			snapshot => {

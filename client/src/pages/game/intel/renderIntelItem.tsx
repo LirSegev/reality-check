@@ -1,24 +1,25 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
 import { Icons } from './Intel.d';
+import { IntelItem } from '../../../util/db.types';
 
 interface Props {
 	handleClick: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
 
-const renderIntelItem = (props: Props) => (row: DB.Game.Intel.IntelItem) => {
+const renderIntelItem = (props: Props) => (row: IntelItem) => {
 	const { action, timestamp } = row;
 	const time = new Date(timestamp.toMillis()).toLocaleTimeString('en-GB', {
 		hour: '2-digit',
 		minute: '2-digit',
 	});
 
-	let dataAtr: any = {};
+	let dataAtr: { [key: string]: string } = {};
 	let text: string;
 	switch (action.type) {
 		case 'tram':
 			text = `Seen on tram ${action.text}`;
-			dataAtr['data-tram'] = action.text;
+			dataAtr['data-tram'] = String(action.text);
 			break;
 		case 'metro':
 			text = `Seen on the ${action.text} metro`;
@@ -30,7 +31,8 @@ const renderIntelItem = (props: Props) => (row: DB.Game.Intel.IntelItem) => {
 		case 'walking':
 			text = `Seen near ${action.text}`;
 			const point = action.coordinates;
-			if (point) dataAtr['data-coords'] = [point.longitude, point.latitude];
+			if (point)
+				dataAtr['data-coords'] = [point.longitude, point.latitude].join(',');
 			break;
 		default:
 			text = 'Seen';

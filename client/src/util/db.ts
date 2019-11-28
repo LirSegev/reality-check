@@ -1,5 +1,6 @@
 import * as firebase from 'firebase/app';
 import { store } from '../index';
+import { Player } from './db.types';
 
 /**
  * Updates the data of the current player in the database.
@@ -20,13 +21,11 @@ export async function updateCurrentPlayer(
 /**
  * Gets the data of the current player from the database.
  */
-export async function getCurrentPlayer(): Promise<
-	DB.Game.Players.Player | undefined
-> {
+export async function getCurrentPlayer(): Promise<Player | undefined> {
 	try {
 		const ref = await getCurrentPlayerRef();
 		const doc = await ref.get();
-		return doc.data() as DB.Game.Players.Player | undefined;
+		return doc.data() as Player | undefined;
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error getting current user');
@@ -54,14 +53,6 @@ export function getCurrentPlayerRef(
 				reject(new Error('Getting current user DocumentReference'));
 			});
 	});
-}
-
-export function dateToTimestamp(date: Date): firebase.firestore.Timestamp {
-	const domTimestamp = date.getTime() / 1000 + '';
-	const arr = domTimestamp.split('.').map(num => Number(num));
-	const timestamp = new firebase.firestore.Timestamp(arr[0], arr[1] | 0);
-
-	return timestamp;
 }
 
 export function getGameDocRef(): firebase.firestore.DocumentReference {

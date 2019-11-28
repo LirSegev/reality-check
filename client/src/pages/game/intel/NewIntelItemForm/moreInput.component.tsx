@@ -3,9 +3,10 @@ import React from 'react';
 import LocationInput from './LocationInput.component';
 import MetroInput from './MetroInput.component';
 import NumberInput from './NumberInput.component';
+import { ActionType } from '../../../../util/db.types';
 
 interface Props {
-	type: DB.Game.Intel.ActionType;
+	type: ActionType;
 	moreInputProps: {
 		onChange: (e: React.ChangeEvent<any>) => void;
 		value: string;
