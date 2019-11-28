@@ -1,15 +1,13 @@
-import React from 'react';
 import * as firebase from 'firebase/app';
-import CluesView from './Clues.component.view';
-import { connect } from 'react-redux';
-import { ReduxState } from '../../../../reducers/initialState';
+import React from 'react';
+
 import { getGameDocRef } from '../../../../util/db';
+import CluesView from './Clues.component.view';
 
 interface State {
 	clues: { [key: string]: string };
 }
 interface Props {
-	gameId: string | null;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
@@ -43,7 +41,4 @@ class CluesContainer extends React.Component<Props, State> {
 	}
 }
 
-const mapState = (state: ReduxState) => ({
-	gameId: state.main.gameId,
-});
-export default connect(mapState)(CluesContainer);
+export default CluesContainer;
