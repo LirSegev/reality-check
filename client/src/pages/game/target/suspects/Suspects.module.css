@@ -4,20 +4,19 @@
 
 #images {
 	height: 100%;
-	position: relative;
+	text-align: center;
+	background-image: url(/images/suspects/background.jpg);
+	background-repeat: repeat-x;
+	background-size: contain;
 }
 
 #images img {
 	height: 100%;
-	width: 100%;
 	object-fit: cover;
 
-	position: absolute;
-	top: 0;
-	left: 0;
 	display: none;
 }
 
 #images img.show {
-	display: initial;
+	display: inline-block;
 }
