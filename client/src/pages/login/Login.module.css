@@ -4,6 +4,10 @@
 	width: 180px;
 }
 
+#login p:first-child {
+	margin-top: 1em;
+}
+
 #login p > *:not(ons-button) {
 	width: 100%;
 }

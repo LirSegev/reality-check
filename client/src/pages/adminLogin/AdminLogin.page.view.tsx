@@ -8,7 +8,7 @@ interface Props {
 const AdminLoginPageView: React.FC<Props> = props => (
 	<Page>
 		<section style={{ textAlign: 'center' }}>
-			<p>
+			<p style={{ marginTop: '1em' }}>
 				<Input
 					name="email"
 					type="email"
