@@ -1,0 +1,145 @@
+{
+	"name": "Calan Stanley Cameron",
+	"id": 4,
+	"data": {
+		"Calan Stanley Cameron": "Calan is an intelligent health centre receptionist who is obsessed with tank tops.\n\nCalan Cameron is a 26-year-old health centre receptionist who enjoys going to the movies, golf and escapology. He is intelligent and caring, but can also be very pessimistic and a bit grumpy.\n\nHe is British. He finished school and then left academia. He is obsessed with tank tops.\n\nPhysically, Calan is in pretty good shape. He is average-height with light skin, dark blond hair and brown eyes.\n\nHe grew up in an upper class neighbourhood. He was raised by his mother, his father having left when he was young.\n\nHe is currently in a relationship with Keely Kye Thornton. Keely is 8 years older than him and works as an artist.\n\nCalan's best friend is a health centre receptionist called Teagan Miller. They get on well most of the time. He also hangs around with Arabella Macdonald and Bryan Chambers. They enjoy charity work together.",
+		"basic_information": {
+			"Name": "Calan Stanley Cameron",
+			"Nicknames": "Stan",
+			"Reason for nicknames": "Derived from Stanley / Descriptive",
+			"Date of birth": "Thursday, 14th Oct 1993 (Age 26)",
+			"Star sign": "Libra",
+			"Nationality": "British",
+			"Ethnicity": "Mixed",
+			"Social class": "Upper class",
+			"Religion": "Agnostic",
+			"Sexuality": "Unknown",
+			"Education": "High school",
+			"Political views": "Centre",
+			"Relationship status": "In a relationship with Keely Kye Thornton",
+			"Career path": "Medicine"
+		},
+		"physical_characteristics": {
+			"Height": "average",
+			"Shape": "average",
+			"Build": "average",
+			"Hair colour": "dark blond",
+			"Eyes": "brown",
+			"Glasses/lenses": "none",
+			"Distinguishing marks": "none",
+			"Other words that might be used": "average, fair, moderate, normal, ordinary"
+		},
+		"personality": {
+			"Positive characteristics": "intelligent, caring",
+			"Negative characteristics": "pessimistic, grumpy",
+			"Words often used": "caring, grumpy, intelligent, pessimistic",
+			"Moral": "sometimes",
+			"Stable": "sometimes",
+			"Loyal": "sometimes",
+			"Generous": "sometimes",
+			"Extrovert": "sometimes",
+			"Compassionate": "very",
+			"IQ": "119",
+			"Hobbies": "going to the movies, golf, escapology, charity work, hockey, watching sport, chess, social card games, jigsaw puzzles",
+			"Obsessions": "tank tops",
+			"Diet": "eats meat",
+			"Favourite foods": "jammy biscuits, pizza"
+		},
+		"employment": {
+			"Health centre receptionist": ["Hooper Health Centre", "2011 - present"]
+		},
+		"background": {
+			"Early years": "Calan grew up in a wealthy neighbourhood. He was raised by his mother, his father having left when he was young.",
+			"Formative years": "Calan got his first job as a health centre receptionist at age 18.. Calan decided not to go to college.",
+			"Most traumatic childhood experience": "His father leaving when he was one."
+		},
+		"current_partner": {
+			"keely_kye_thornton": {
+				"Relation": "Girlfriend (2019 - present)",
+				"Occupation": "Computer engineer",
+				"Age": "34",
+				"Relationship": "They love each other but argue a lot"
+			}
+		},
+		"friends": {
+			"teagan_darcey_miller": {
+				"Relation": "Friend",
+				"Occupation": "Personal trainer",
+				"Age": "30",
+				"Relationship": "They get on well most of the time"
+			},
+			"arabella_stephanie_macdonald": {
+				"Relation": "Friend",
+				"Occupation": "Junior manager",
+				"Age": "22",
+				"Relationship": "They get on well most of the time"
+			},
+			"bryan_barry_chambers": {
+				"Relation": "Friend",
+				"Occupation": "Cleaner",
+				"Age": "27",
+				"Relationship": "They get on well most of the time"
+			},
+			"ethel_neve_cameron": {
+				"Relation": "Mother",
+				"Occupation": "Lawyer",
+				"Age": "45",
+				"Relationship": "Generally harmonious."
+			},
+			"ellis_mike_smith": {
+				"Relation": "Father",
+				"Occupation": "Electrician",
+				"Age": "58",
+				"Relationship": "Infrequent contact."
+			}
+		},
+		"siblings": {
+			"keir_shannon_smith": {
+				"Relation": "Half brother (shared father)",
+				"Occupation": "Kitchen assistant",
+				"Age": "42",
+				"Relationship": "Calan and Keir spent a lot of time together before their father walked out on Calan's mum but do not see each other as siblings."
+			},
+			"rory_kyla_smith": {
+				"Relation": "Half sister (shared father)",
+				"Occupation": "Artist",
+				"Age": "40",
+				"Relationship": "Calan and Rory spent a lot of time together before their father walked out on Calan's mum but do not see each other as siblings."
+			},
+			"rafferty_shaun_cameron": {
+				"Relation": "Brother",
+				"Occupation": "Journalist",
+				"Age": "28",
+				"Relationship": "They do not get on well."
+			}
+		},
+		"former_partners": {
+			"olive_kerri_hammond": {
+				"Relation": "Ex-girlfriend (4 years 2013 - 2017)",
+				"Occupation": "Electrician",
+				"Reason for breakup": "Olive wanted somebody more 'badass'",
+				"Age": "26",
+				"Relationship": "Remained friends"
+			}
+		},
+		"political_views": {
+			"Abortion": "pro",
+			"Racial equality": "very pro",
+			"LGBTQ rights": "very pro",
+			"Subsidised healthcare": "against",
+			"Gun control": "undecided",
+			"Nuclear disarmament": "very against",
+			"Death penalty": "undecided",
+			"Tax cuts for the wealthy": "undecided",
+			"Protecting the environment": "undecided"
+		},
+		"timeline": {
+			"1993": "Calan Cameron is born",
+			"1994": "Father, Ellis Mike Smith walks out",
+			"2011": "Starts work at Hooper Health Centre as a receptionist",
+			"2013": "Gets together with Olive Kerri Hammond.",
+			"2017": "Relationship with Olive Kerri Hammond ends (Olive wanted somebody more 'badass').",
+			"2019": "Gets together with Keely Kye Thornton."
+		}
+	}
+}

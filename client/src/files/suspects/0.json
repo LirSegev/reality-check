@@ -1,0 +1,159 @@
+{
+	"name": "Tom\u00e1\u0161 N\u011bmec",
+	"id": 0,
+	"data": {
+		"Tom\u00e1\u0161 N\u011bmec": "Tomáš is a kind IT technician who is obsessed with the murder of his half sister Emilie, six years ago.\n\nTomáš Němec is a 24-year-old IT technician whose life is dominated by solving the murder of his half sister, Emilie Němec. Emilie was stabbed in 2013 and the killer was never brought to justice.\n\nHe is Czech. He started studying computing at college but never finished the course. He is allergic to shellfish. He has a severe phobia of water\n\nPhysically, Tomáš is in pretty good shape. He is average-height with light skin, red blond hair and blue eyes. Unusually, he has a prosthetic foot; a shark ate his.\n\nHe grew up in a working class neighbourhood. His mother left when he was young, leaving him with his father, who was a drunk.\n\nHe is currently single. His most recent romance was with a student called Eliška Musilová, who was the same age as him. They broke up because Eliška couldn't deal with Tomáš's obsession with Emilie's death.\n\nTomáš's best friend is an IT technician called Roman ﻿Svoboda. They are inseparable. He also hangs around with Miroslav Javorský and Soňa Šebková. They enjoy cycling together.",
+		"basic_information": {
+			"Name": "Tom\u00e1\u0161 N\u011bmec",
+			"Nickname": "Lazy Tom\u00e1\u0161",
+			"Reason for nickname": "Descriptive",
+			"Date of birth": "Saturday, 14th Oct 1995 (Age 24)",
+			"Star sign": "Libra",
+			"Nationality": "Czech",
+			"Ethnicity": "Caucasian",
+			"Social class": "Working class",
+			"Religion": "Agnostic",
+			"Sexuality": "Unknown",
+			"Education": "Some college",
+			"Course": "Computing",
+			"Political views": "Centre",
+			"Relationship status": "Single",
+			"Career path": "Computing"
+		},
+		"physical_characteristic": {
+			"Height": "average",
+			"Shape": "average",
+			"Build": "average",
+			"Hair colour": "brown",
+			"Eyes": "blue",
+			"Glasses/lenses": "none",
+			"Prosthetics": "prosthetic foot"
+		},
+		"personality": {
+			"Positive characteristics": "kind, careful",
+			"Negative characteristics": "lazy, untidy",
+			"Words often used": "careful, kind, lazy, untidy",
+			"Other words that might be used": "aware, benevolent, benignant, blowsy, careful, cautious, certain, charitable, close, cluttered, conscientious, considerate, deliberate, detailed, disheveled, dishevelled, disorderly, elaborate, elaborated, forgiving, frowsy, frowzy, generous, genial, gentle, good, gracious, heedful, helpful, higgledy-piggledy, hospitable, hugger-mugger, humane, jumbled, kind, kindhearted, lazy, littered, measured, merciful, messy, mindful, minute, mussy, narrow, openhearted, painstaking, particular, provident, rumpled, scraggly, scrupulous, slatternly, sloppy, slouchy, slovenly, sluttish, sprawling, straggly, studious, sure, sympathetic, thorough, thoughtful, thrifty, tolerant, topsy-turvy, tousled, troubled, unhurried, unkempt, untidy",
+			"Moral": "sometimes",
+			"Stable": "sometimes",
+			"Loyal": "sometimes",
+			"Generous": "sometimes",
+			"Extrovert": "not at all",
+			"Compassionate": "very",
+			"IQ": "101",
+			"Hobbies": "looking for clues, planking, interviewing suspects, cycling, going to the movies, eating out, charity work, escapology, jigsaw puzzles, bowling",
+			"Bad habits": "obsessing over Emilie N\u011bmec\u2019s murder",
+			"Phobias": "water",
+			"Diet": "eats meat",
+			"Favourite foods": "blueberry muffins, chocolate biscuits",
+			"Allergies and intolerances": "shellfish"
+		},
+		"employment": {
+			"Sales assistant at book store": ["Luxor", "2014 - 2018", "resigned"],
+			"IT technician": ["Arbes Technologies", "2018 - present"]
+		},
+		"background": {
+			"Early years": "Tom\u00e1\u0161 grew up in an impoverished neighbourhood. His mother left when he was young, leaving him with his father, who was a drunk.",
+			"Formative years": "Tom\u00e1\u0161 started college but quit part way through the course.. Tom\u00e1\u0161 got is first job as a sales assistant at office supplies store at age 19",
+			"Most traumatic childhood experience": "His mother leaving when he was four."
+		},
+		"friends": {
+			"roman_\ufeffsvoboda": {
+				"Relation": "Friend",
+				"Occupation": "IT Technician",
+				"Age": "23",
+				"Relationship": "They are inseparable"
+			},
+			"miroslav_javorsk\u00fd": {
+				"Relation": "Friend",
+				"Occupation": "Junior manager",
+				"Age": "19",
+				"Relationship": "They get on well most of the time"
+			},
+			"so\u0148a_\u0161ebkov\u00e1": {
+				"Relation": "Friend",
+				"Occupation": "Sous chef",
+				"Age": "19",
+				"Relationship": "They are inseparable"
+			}
+		},
+		"parents": {
+			"karol\u00edna_h\u00e1jkov\u00e1": {
+				"Relation": "Mother",
+				"Occupation": "Journalist",
+				"Age": "47",
+				"Relationship": "Non-existent."
+			},
+			"franti\u0161ek_n\u011bmec": {
+				"Relation": "Father",
+				"Occupation": "Plumber",
+				"Age": "43",
+				"Relationship": "Fractious."
+			}
+		},
+		"siblings": {
+			"monika_h\u00e1jkov\u00e1": {
+				"Relation": "Half sister (shared mother)",
+				"Occupation": "Lab assistant",
+				"Age": "31",
+				"Relationship": "Tom\u00e1\u0161 and Maisie grew up together. Nevertheless, they are not particularly close."
+			},
+			"emilie_n\u011bmec": {
+				"Relation": "Half sister (shared mother)",
+				"Occupation": "Artist",
+				"Age": "Died in 2013 aged 22. (Would have been 28.)",
+				"Cause of death": "murdered - stabbed",
+				"Relationship": "Tom\u00e1\u0161 is obsessed with solving Emilie\u2019s murder"
+			},
+			"mat\u011bj_n\u011bmec": {
+				"Relation": "Half brother (shared father)",
+				"Occupation": "Lab assistant",
+				"Age": "27",
+				"Relationship": "Tom\u00e1\u0161 and Mat\u011bj grew up in separate homes but see each other a lot."
+			},
+			"martin_n\u011bmec": {
+				"Relation": "Brother",
+				"Occupation": "Sales assistant",
+				"Age": "26",
+				"Relationship": "They do not get on well."
+			}
+		},
+		"former_partners": {
+			"sandra_p\u00ed\u0161ov\u00e1": {
+				"Relation": "Ex-girlfriend (4 years 2011 - 2015)",
+				"Occupation": "Kitchen assistant",
+				"Reason for breakup": "Sandra felt Tom\u00e1\u0161 was so cautious that he was afraid to live",
+				"Age": "37",
+				"Relationship": "Occasional frosty contact"
+			},
+			"eli\u0161ka_musilov\u00e1": {
+				"Relation": "Ex-girlfriend (1 year 2018 - 2019)",
+				"Occupation": "Student",
+				"Reason for breakup": "Eli\u0161ka couldn't deal with Tom\u00e1\u0161's obsession with Emilie\u2019s death",
+				"Age": "24",
+				"Relationship": "Occasional frosty contact"
+			}
+		},
+		"political_views": {
+			"Abortion": "pro",
+			"Racial equality": "pro",
+			"LGBTQ rights": "very pro",
+			"Subsidised healthcare": "pro",
+			"Gun control": "undecided",
+			"Nuclear disarmament": "very against",
+			"Death penalty": "undecided",
+			"Tax cuts for the wealthy": "against",
+			"Protecting the environment": "undecided"
+		},
+		"timeline": {
+			"1995": "Tom\u00e1\u0161 N\u011bmec is born",
+			"1999": "Mother, Karol\u00edna H\u00e1jkov\u00e1 walks out",
+			"2011": "Gets together with Sandra P\u00ed\u0161ov\u00e1.",
+			"2013": "Emilie N\u011bmec is murdered. Half sister (shared mother), Emilie dies aged 22 (murdered - stabbed)",
+			"2014": "Starts work at Luxor book store as a sales assistant",
+			"2015": "Tom\u00e1\u0161 is attacked by a shark and loses foot Relationship with Sandra P\u00ed\u0161ov\u00e1 ends (Sandra felt Tom\u00e1\u0161 was so cautious that he was afraid to live).",
+			"2018": "Gets together with Eli\u0161ka Musilov\u00e1. Resigns from job as a sales assistant at Luxor Starts work at Arbes Technologies at IT technician",
+			"2019": "Relationship with Eli\u0161ka Musilov\u00e1 ends (Eli\u0161ka couldn't deal with Tom\u00e1\u0161's obsession Emilie\u2019s death)."
+		}
+	}
+}

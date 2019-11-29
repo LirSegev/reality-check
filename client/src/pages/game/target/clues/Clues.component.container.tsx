@@ -1,15 +1,13 @@
-import React from 'react';
 import * as firebase from 'firebase/app';
-import CluesView from './Clues.component.view';
-import { connect } from 'react-redux';
-import { ReduxState } from '../../../../reducers/initialState';
+import React from 'react';
+
 import { getGameDocRef } from '../../../../util/db';
+import CluesView from './Clues.component.view';
 
 interface State {
 	clues: { [key: string]: string };
 }
 interface Props {
-	gameId: string | null;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 }
 
@@ -21,21 +19,29 @@ class CluesContainer extends React.Component<Props, State> {
 			clues: {},
 		};
 
-		this._updateClues = this._updateClues.bind(this);
+		this._onSnapshot = this._onSnapshot.bind(this);
 	}
 
 	componentDidMount() {
-		getGameDocRef().onSnapshot(this._updateClues, err =>
+		getGameDocRef().onSnapshot(this._onSnapshot, err =>
 			console.error(new Error('Getting game doc snapshot'), err)
 		);
 	}
 
-	_updateClues(snapshot: firebase.firestore.DocumentSnapshot) {
-		const data = snapshot.data();
-		if (data && data['detective_clues']) {
-			this.setState({ clues: data['detective_clues'] });
-			this.props.incrementUnreadNum('target');
+	_onSnapshot(snapshot: firebase.firestore.DocumentSnapshot) {
+		const game = snapshot.data() as DB.GameDoc | undefined;
+		if (
+			game &&
+			game.detective_clues &&
+			JSON.stringify(game.detective_clues) !== JSON.stringify(this.state.clues)
+		) {
+			this._updateClues(game.detective_clues);
 		}
+	}
+
+	_updateClues(clues: State['clues']) {
+		this.setState({ clues });
+		this.props.incrementUnreadNum('target');
 	}
 
 	render() {
@@ -43,7 +49,4 @@ class CluesContainer extends React.Component<Props, State> {
 	}
 }
 
-const mapState = (state: ReduxState) => ({
-	gameId: state.main.gameId,
-});
-export default connect(mapState)(CluesContainer);
+export default CluesContainer;

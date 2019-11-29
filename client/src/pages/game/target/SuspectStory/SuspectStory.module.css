@@ -1,0 +1,55 @@
+.suspectStory h1,
+.suspectStory h2,
+.suspectStory h3,
+.suspectStory h4,
+.suspectStory h5 {
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.suspectStory table {
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.suspectStory th,
+.suspectStory td {
+	text-align: left;
+	padding: 8px;
+}
+
+.suspectStory th:first-child,
+.suspectStory td:first-child {
+	padding-left: 20px;
+}
+
+.suspectStory th:last-child,
+.suspectStory td:last-child {
+	padding-right: 20px;
+}
+
+.suspectStory :global(.content) h1,
+.suspectStory :global(.content) h2,
+.suspectStory :global(.content) h3,
+.suspectStory :global(.content) h4,
+.suspectStory :global(.content) h5 {
+	margin-left: 20px;
+}
+
+.suspectStory tr:nth-child(even) {
+	background-color: white;
+}
+
+.suspectStory :global(.ui.accordion) {
+	padding-bottom: 50px;
+}
+
+.suspectStory :global(.ui.accordion .title:not(.ui)) {
+	font-size: 18px;
+	padding-left: 20px;
+}
+
+.suspectStory :global(.ui.segment) {
+	display: block;
+}

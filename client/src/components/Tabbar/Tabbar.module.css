@@ -1,0 +1,64 @@
+.bar {
+	width: 100%;
+	height: calc(2.5em * 1.15);
+	margin-top: calc((-2.5em * 0.15) / 2);
+	overflow-x: scroll;
+	display: flex;
+}
+
+.bar .button {
+	min-width: fit-content;
+	padding: 0 0.5em;
+	height: 2.5em;
+	line-height: 1em;
+	flex-grow: 1;
+	font-weight: bold;
+	margin-top: calc((2.5em * 0.15) / 2);
+}
+
+.bar .button.active {
+	z-index: 1;
+	background-color: #cacaca;
+	transform: scale(1.15);
+}
+
+/* 
+	Button styling from onsen ui
+*/
+.bar button:focus {
+	border-top: none;
+	box-shadow: none;
+	outline: 0;
+}
+.bar button {
+	/* font-weight: 400; */
+	box-sizing: border-box;
+	background-clip: padding-box;
+	padding: 0;
+	margin: 0;
+	/* font: inherit; */
+	/* color: inherit; */
+	background: transparent;
+	border: none;
+	/* line-height: normal; */
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	position: relative;
+	display: inline-block;
+	text-decoration: none;
+	padding: 0;
+	/* height: 49px; */
+	letter-spacing: 0;
+	/* color: #999; */
+	vertical-align: top;
+	background-color: transparent;
+	border-top: none;
+	/* width: 100%; */
+	/* font-weight: 400; */
+	/* line-height: 49px; */
+}

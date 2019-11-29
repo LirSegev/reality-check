@@ -140,6 +140,7 @@ class MapTabContainer extends React.Component<Props, State> {
 					const phase = game.phase || 0;
 					const zoneNum = phase > MAX_ZONE ? MAX_ZONE : phase; // Set zoneNum to phase or MAX_ZONE
 					map.setFilter('zone', ['==', 'zone', zoneNum]);
+					map.setFilter('zone-border', ['==', 'zone', zoneNum]);
 				}
 			},
 			err => console.error('At _showZone(): ', err)

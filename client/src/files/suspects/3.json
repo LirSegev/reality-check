@@ -1,0 +1,154 @@
+{
+	"name": "Jacqueline Geraldine Thomas",
+	"id": 3,
+	"data": {
+		"Jacqueline Geraldine Thomas": "Jacqueline is an intelligent middle manager who suffers from a severe phobia of bees\n\nJacqueline Geraldine Thomas is a 27-year-old middle manager who enjoys reading, praying and cycling. She is intelligent and reliable, but can also be very lazy and a bit impatient.\n\nShe is a French Christian. She has a degree in business studies. She has a severe phobia of bees, and is obsessed with gangnam style.\n\nPhysically, Jacqueline is in pretty good shape. She is tall with white skin, brown hair and green eyes. She has a tattoo of Psy on her lower back.\n\nShe grew up in an upper class neighbourhood. She was raised in a happy family home with two loving parents.\n\nShe is currently in a relationship with Antoine Labbé. Antoine is 11 years older than her and works as a lab assistant in France.\n\nJacqueline's best friend is a middle manager called Dominic Lejeune. They are inseparable. She also hangs around with Amarante Sevier and Xavier Therrien. They enjoy watching YouTube videos together.",
+		"basic_information": {
+			"Name": "Jacqueline Geraldine Thomas",
+			"Nicknames": "Deena / Tall Jacqueline",
+			"Reason for nicknames": "Derived from Geraldine / Descriptive",
+			"Date of birth": "Wednesday, 14th Oct 1992 (Age 27)",
+			"Star sign": "Libra",
+			"Nationality": "French",
+			"Ethnicity": "Caucasian",
+			"Social class": "Upper class",
+			"Religion": "Christian",
+			"Sexuality": "Unknown",
+			"Education": "Bachelor's degree",
+			"Course": "Business studies",
+			"Political views": "Right",
+			"Relationship status": "In a relationship with Antoine Labb\u00e9",
+			"Career path": "Business"
+		},
+		"physical_characteristics": {
+			"Height": "tall",
+			"Shape": "average",
+			"Build": "average",
+			"Hair colour": "brown",
+			"Eyes": "green",
+			"Glasses/lenses": "glasses",
+			"Distinguishing marks": "a tattoo of Psy on her lower back",
+			"Other words that might be used": "full-length, grandiloquent, leggy, long-legged, stately, statuesque, tall"
+		},
+		"personality": {
+			"Positive characteristics": "intelligent, reliable",
+			"Negative characteristics": "lazy, impatient",
+			"Words often used": "impatient, intelligent, lazy, reliable",
+			"Moral": "sometimes",
+			"Stable": "sometimes",
+			"Loyal": "very",
+			"Generous": "sometimes",
+			"Extrovert": "not at all",
+			"Compassionate": "sometimes",
+			"IQ": "114",
+			"Hobbies": "football, reading, praying, watching YouTube videos, attending gallaries, watching sport, going to the movies, cycling, helping old ladies across the road, chess",
+			"Phobias": "bees",
+			"Obsessions": "gangnam style",
+			"Diet": "eats meat",
+			"Favourite foods": "chocolate cake, suet pudding"
+		},
+		"employment": {
+			"Admin assistant": ["Nixon Paris", "2010 - 2014", "resigned"],
+			"Junior manager": ["Hotel Titon", "2014 - 2017", "resigned"],
+			"Middle manager": ["Hotel Titon", "2017 - present"]
+		},
+		"background": {
+			"Early years": "Jacqueline grew up in a wealthy neighbourhood. She was raised in a happy family home with two loving parents.",
+			"Formative years": "Jacqueline got her first job as an admin assistant at age 18. Jacqueline went to university and got a degree."
+		},
+		"current_partner": {
+			"antoine_labb\u00e9": {
+				"Relation": "Boyfriend (2019 - present)",
+				"Occupation": "Lab assistant",
+				"Age": "38",
+				"Relationship": "They get on well but lack chemistry"
+			}
+		},
+		"friends": {
+			"dominic_lejeune": {
+				"Relation": "Friend",
+				"Occupation": "Uber driver",
+				"Age": "30",
+				"Relationship": "They are inseparable"
+			},
+			"amarante_sevier": {
+				"Relation": "Friend",
+				"Occupation": "Legal secretary",
+				"Age": "25",
+				"Relationship": "They are inseparable"
+			},
+			"xavier_therrien": {
+				"Relation": "Friend",
+				"Occupation": "Builder",
+				"Age": "31",
+				"Relationship": "They have a very firey friendship"
+			}
+		},
+		"parents": {
+			"jessamine_hannah_thomas_(n\u00e9e_casgrain)": {
+				"Relation": "Mother",
+				"Occupation": "Artist",
+				"Age": "51",
+				"Relationship": "Generally harmonious."
+			},
+			"gabriel_dominique_thomas": {
+				"Relation": "Father",
+				"Occupation": "Electrician",
+				"Age": "59",
+				"Relationship": "Generally harmonious."
+			}
+		},
+		"siblings": {
+			"perrin_andr\u00e9_thomas": {
+				"Relation": "Brother",
+				"Occupation": "Novelist",
+				"Age": "25",
+				"Relationship": "They are inseparable."
+			},
+			"v\u00e9ronique_danielle_thomas": {
+				"Relation": "Sister",
+				"Occupation": "Student",
+				"Age": "24",
+				"Relationship": "They are not particularly close."
+			}
+		},
+		"former_partners": {
+			"francis_auger": {
+				"Relation": "Ex-boyfriend (4 years 2008 - 2012)",
+				"Occupation": "Carpenter",
+				"Reason for breakup": "Francis wanted to be with somebody less conventional",
+				"Age": "27",
+				"Relationship": "Remained friends"
+			},
+			"paul_mass\u00e9": {
+				"Relation": "Late boyfriend (4 years 2014 - 2018)",
+				"Occupation": "Artist",
+				"Age": "Died in 2018 aged 39. (Would have been 40.)",
+				"Cause of death": "cancer"
+			}
+		},
+		"political_views": {
+			"Abortion": "pro",
+			"Racial equality": "undecided",
+			"LGBTQ rights": "very pro",
+			"Subsidised healthcare": "against",
+			"Gun control": "very pro",
+			"Nuclear disarmament": "undecided",
+			"Death penalty": "against",
+			"Tax cuts for the wealthy": "very pro",
+			"Protecting the environment": "pro"
+		},
+		"timeline": {
+			"1992": "Jacqueline Thomas is born",
+			"1993": "Brother, Perrin Andr\u00e9 Thomas is born",
+			"1995": "Sister, V\u00e9ronique Danielle Thomas is born",
+			"2008": "Gets together with Francis Auger.",
+			"2010": "Starts work at Nixon Paris as an admin assistant",
+			"2012": "Relationship with Francis Auger ends (Francis wanted to be with somebody less conventional).",
+			"2014": "Gets together with Paul Mass\u00e9. Resigns from job as an admin assistant at Nixon Paris Starts work at Hotel Titon as a junior manager",
+			"2017": "Finishes her job as a junior manager at Hotel Titon Starts work at Hotel Titon as a middle manager",
+			"2018": "Boyfriend, Paul Mass\u00e9 dies aged 39 (cancer)",
+			"2019": "Gets together with Antoine Labb\u00e9."
+		}
+	}
+}

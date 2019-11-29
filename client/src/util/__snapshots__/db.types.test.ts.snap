@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayerCodec should fail validating an invalid value 1`] = `
+Array [
+  "Invalid value undefined supplied to : Player/0: required/displayName: string",
+  "Invalid value undefined supplied to : Player/0: required/role: PlayerRole",
+  "Invalid value undefined supplied to : Player/0: required/uid: string",
+  "Invalid value undefined supplied to : Player/0: required/location: (PlayerLocation | null)/0: PlayerLocation",
+  "Invalid value undefined supplied to : Player/0: required/location: (PlayerLocation | null)/1: null",
+  "Invalid value 12345 supplied to : Player/1: optional/messagingToken: string",
+  "Invalid value \\"yes\\" supplied to : Player/1: optional/isDeleted: boolean",
+]
+`;
+
+exports[`PlayerCodec should fail validating an invalid value 2`] = `
+Array [
+  "Invalid value 123 supplied to : Player/0: required/displayName: string",
+  "Invalid value \\"lir\\" supplied to : Player/0: required/role: PlayerRole",
+  "Invalid value null supplied to : Player/0: required/uid: string",
+  "Invalid value undefined supplied to : Player/0: required/location: (PlayerLocation | null)/0: PlayerLocation/geopoint: FirebaseGeoPoint",
+  "Invalid value undefined supplied to : Player/0: required/location: (PlayerLocation | null)/0: PlayerLocation/timestamp: FirebaseTimestamp",
+  "Invalid value {\\"lat\\":12,\\"long\\":12} supplied to : Player/0: required/location: (PlayerLocation | null)/1: null",
+]
+`;

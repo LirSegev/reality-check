@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <div
+    class="suspectStory"
+  >
+    <div
+      class="ui basic segment"
+    >
+      <h1
+        class="ui header"
+      >
+        Some Text
+      </h1>
+      <p>
+        Here is some text
+      </p>
+      <p>
+        new paragraph
+      </p>
+    </div>
+    <div
+      class="ui fluid accordion"
+    >
+      <div
+        class="title"
+      >
+        <i
+          class="dropdown icon"
+        />
+        Table
+      </div>
+      <div
+        class="content"
+      >
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Row1
+              </th>
+              <td>
+                value1
+              </td>
+            </tr>
+            <tr>
+              <th>
+                Row2
+              </th>
+              <td>
+                value2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="title"
+      >
+        <i
+          class="dropdown icon"
+        />
+        Category
+      </div>
+      <div
+        class="content"
+      >
+        <h3>
+          Title
+        </h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Row1
+              </th>
+              <td>
+                value1
+              </td>
+            </tr>
+            <tr>
+              <th>
+                Row2
+              </th>
+              <td>
+                value2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>
+          Title2
+        </h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Row1
+              </th>
+              <td>
+                value1
+              </td>
+            </tr>
+            <tr>
+              <th>
+                Row2
+              </th>
+              <td>
+                value2
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

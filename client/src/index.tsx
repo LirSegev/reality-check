@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContainer from './App.container';
 import * as serviceWorker from './serviceWorker';
-import { configureStore } from 'redux-starter-kit';
+import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
 import * as mainActions from './reducers/main.reducer';
