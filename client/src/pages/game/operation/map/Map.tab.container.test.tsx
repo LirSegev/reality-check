@@ -198,9 +198,9 @@ it('dispatches map/setPlayerLocations action', done => {
 describe('marks player locations', () => {
 	test('on style load', done => {
 		jest.isolateModules(async () => {
-			const mockMap = {
+			const mockMap = ({
 				getSource: jest.fn(),
-			};
+			} as Partial<mapboxgl.Map>) as mapboxgl.Map;
 			jest.mock(
 				'./Map.tab.view.tsx',
 				() => (props: React.ComponentProps<typeof MapTabViewImport>) => {
@@ -273,5 +273,116 @@ describe('marks player locations', () => {
 		});
 	});
 
-	test.todo('on playerLocations change');
+	test('on playerLocations change', done => {
+		jest.isolateModules(async () => {
+			const mockSetData = jest.fn();
+			const mockMap = ({
+				getSource: jest.fn().mockImplementation(id => {
+					const mockSource = {
+						setData: mockSetData,
+					};
+					if (id === 'player-locations') return mockSource;
+					else return undefined;
+				}),
+			} as Partial<mapboxgl.Map>) as mapboxgl.Map;
+			jest.mock(
+				'./Map.tab.view.tsx',
+				() => (props: React.ComponentProps<typeof MapTabViewImport>) => {
+					props.onStyleLoad(mockMap);
+					return <div />;
+				}
+			);
+
+			const MapTabContainer = require('./Map.tab.container')
+				.default as typeof MapTabContainerImport;
+
+			const setLayerSource = jest
+				.spyOn(MapTabContainer.WrappedComponent.prototype, '_setLayerSource')
+				.mockImplementation();
+			jest
+				.spyOn(
+					MapTabContainer.WrappedComponent.prototype,
+					'_showIntelligenceAndDetectivePoints'
+				)
+				.mockImplementation();
+			jest
+				.spyOn(MapTabContainer.WrappedComponent.prototype, '_showChaserPoints')
+				.mockImplementation();
+			jest
+				.spyOn(MapTabContainer.WrappedComponent.prototype, '_showZone')
+				.mockImplementation();
+			jest
+				.spyOn(MapTabContainer.WrappedComponent.prototype, '_listenToLongPress')
+				.mockImplementation();
+			jest
+				.spyOn(MapTabContainer.WrappedComponent.prototype, '_addControls')
+				.mockImplementation();
+
+			let { el: MapTabContainerWithState } = withState(MapTabContainer, {
+				map: {
+					playerLocations: {
+						someUid: {
+							latitude: 10.11,
+							longitude: 20.22,
+							playerName: 'somePlayer',
+							timestamp: 123456,
+						},
+					} as ReduxState['map']['playerLocations'],
+				},
+			} as DeepPartial<ReduxState>);
+			const { rerender } = render(
+				<MapTabContainerWithState onMove={() => {}} />
+			);
+
+			({ el: MapTabContainerWithState } = withState(MapTabContainer, {
+				map: {
+					playerLocations: {
+						someUid: {
+							latitude: 10.14,
+							longitude: 20.17,
+							playerName: 'somePlayer',
+							timestamp: 123456,
+						},
+					} as ReduxState['map']['playerLocations'],
+				},
+			} as DeepPartial<ReduxState>));
+			rerender(<MapTabContainerWithState onMove={() => {}} />);
+
+			await waitForExpect(() => {
+				expect(setLayerSource).not.toBeCalled();
+				expect(mockSetData).toHaveBeenNthCalledWith(1, {
+					type: 'FeatureCollection',
+					features: [
+						{
+							type: 'Feature',
+							properties: {
+								name: 'somePlayer',
+							},
+							geometry: {
+								type: 'Point',
+								coordinates: [20.22, 10.11],
+							},
+						},
+					],
+				} as GeoJSON.FeatureCollection<GeoJSON.Geometry>);
+				expect(mockSetData).toHaveBeenNthCalledWith(2, {
+					type: 'FeatureCollection',
+					features: [
+						{
+							type: 'Feature',
+							properties: {
+								name: 'somePlayer',
+							},
+							geometry: {
+								type: 'Point',
+								coordinates: [20.17, 10.14],
+							},
+						},
+					],
+				} as GeoJSON.FeatureCollection<GeoJSON.Geometry>);
+				expect(mockSetData).toBeCalledTimes(2);
+			}, 3500);
+			done();
+		});
+	});
 });
