@@ -1,4 +1,6 @@
 import { cleanup, render } from '@testing-library/react';
+// @ts-ignore
+import firebaseMock from 'firebase-mock';
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import {
@@ -10,6 +12,7 @@ import waitForExpect from 'wait-for-expect';
 
 import { app as firebaseApp } from '../../../../mocks/firebase';
 import { ReduxState } from '../../../../reducers/initialState';
+import { setPlayerLocationsPayload } from '../../../../reducers/map.reducer.d';
 import { IntelItem, Player } from '../../../../util/db.types';
 import { generateWithStore } from '../../../../util/testHelpers';
 import MapTabContainerImport from './Map.tab.container';
@@ -56,10 +59,10 @@ beforeEach(() => {
 		suspect_list: [1],
 	} as DB.GameDoc);
 	mockFirestore.mocker.loadDocument('games/game/players/currPlayer', {
-		displayName: 'lir',
+		displayName: 'myName',
 		location: null,
 		role: 'chaser',
-		uid: 'someUID',
+		uid: 'myUid',
 	} as Player);
 	mockFirestore.mocker.loadCollection('games/game/intel', {
 		1: {
@@ -113,6 +116,70 @@ it('renders', done => {
 				{}
 			);
 		});
+		done();
+	});
+});
+
+it('dispatches map/setPlayerLocations action', done => {
+	jest.isolateModules(async () => {
+		const mockAuth = new firebaseMock.MockAuthentication();
+		const mockSDK: {
+			auth: () => typeof mockAuth;
+		} = new firebaseMock.MockFirebaseSdk(
+			null,
+			() => mockAuth,
+			null,
+			null,
+			null
+		);
+		jest.doMock('firebase/app', () => mockSDK);
+		mockSDK.auth().changeAuthState({
+			uid: 'myUid',
+		});
+		mockSDK.auth().flush();
+
+		const MapTabContainer = require('./Map.tab.container')
+			.default as typeof MapTabContainerImport;
+		const { el: MapTabContainerWithState, store } = withState(
+			MapTabContainer,
+			{}
+		);
+		render(<MapTabContainerWithState onMove={() => {}} />);
+
+		const playerData: Player = {
+			displayName: 'somePlayer',
+			role: 'intelligence',
+			uid: 'someUid',
+			location: {
+				geopoint: new MockGeoPoint(10, 20),
+				timestamp: {
+					seconds: 12345,
+					nanoseconds: 0,
+				} as firebase.firestore.Timestamp,
+			},
+		};
+		mockFirestore.collection('games/game/players').add(playerData);
+
+		await waitForExpect(() => {
+			const actions = store.getActions() as Array<{
+				type: string;
+				payload: unknown;
+			}>;
+			expect(actions).toHaveLength(1);
+			expect(actions[0]).toEqual({
+				type: 'map/setPlayerLocations',
+				payload: {
+					playerLocations: {
+						someUid: {
+							playerName: 'somePlayer',
+							latitude: 10,
+							longitude: 20,
+							timestamp: 12345,
+						},
+					},
+				} as setPlayerLocationsPayload,
+			});
+		}, 4000);
 		done();
 	});
 });
