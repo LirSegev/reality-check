@@ -94,6 +94,7 @@ class GameContainer extends React.Component<Props, State> {
 		});
 	}
 
+	// TODO: move method to Map component
 	_onMapMove(map: mapboxgl.Map) {
 		const bounds = map.getBounds();
 		this.props.changeMapOrientation({
@@ -191,7 +192,6 @@ class GameContainer extends React.Component<Props, State> {
 				}
 			}
 		)(Event.decode(event));
-
 	};
 
 	_onOpTabChange = (event: any) => {
