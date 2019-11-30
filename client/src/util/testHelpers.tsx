@@ -18,10 +18,13 @@ export function generateWithStore<S extends {}>(
 			...state,
 		} as S);
 
-		return (props: JSX.LibraryManagedAttributes<typeof Element, P>) => (
-			<Provider store={store}>
-				<Element {...props} />
-			</Provider>
-		);
+		return {
+			el: (props: JSX.LibraryManagedAttributes<typeof Element, P>) => (
+				<Provider store={store}>
+					<Element {...props} />
+				</Provider>
+			),
+			store,
+		};
 	};
 }

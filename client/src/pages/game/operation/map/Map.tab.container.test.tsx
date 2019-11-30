@@ -85,7 +85,7 @@ it('renders', done => {
 	jest.isolateModules(async () => {
 		const MapTabContainer = require('./Map.tab.container')
 			.default as typeof MapTabContainerImport;
-		const MapTabContainerWithState = withState(MapTabContainer, {});
+		const { el: MapTabContainerWithState } = withState(MapTabContainer, {});
 		const { asFragment } = render(
 			<MapTabContainerWithState onMove={() => {}} />
 		);

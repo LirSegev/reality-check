@@ -28,7 +28,7 @@ it('renders', () => {
 	jest.isolateModules(() => {
 		jest.doMock('./Target.tab.view.tsx', () => () => <div />);
 		const { default: TargetTab } = require('./Target.tab.container');
-		const TargetTabWithStore = withStore(
+		const { el: TargetTabWithStore } = withStore(
 			TargetTab as typeof TargetTabContainerImport,
 			{
 				main: {
@@ -58,7 +58,7 @@ it('updateSuspectList() works', () => {
 				.mockImplementation(() => <div />)
 		);
 		const { default: TargetTab } = require('./Target.tab.container');
-		const TargetTabWithStore = withStore(
+		const { el: TargetTabWithStore } = withStore(
 			TargetTab as typeof TargetTabContainerImport,
 			{
 				main: {
@@ -100,7 +100,7 @@ it('selectSuspect() works', () => {
 				.mockImplementation(() => <div />)
 		);
 		const { default: TargetTab } = require('./Target.tab.container');
-		const TargetTabWithStore = withStore(
+		const { el: TargetTabWithStore } = withStore(
 			TargetTab as typeof TargetTabContainerImport,
 			{
 				main: {
