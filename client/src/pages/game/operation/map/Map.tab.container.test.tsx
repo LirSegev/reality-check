@@ -84,8 +84,8 @@ beforeEach(() => {
 });
 afterEach(mockFirestore.mocker.reset);
 
-it('renders', done => {
-	jest.isolateModules(async () => {
+it('renders', () => {
+	jest.isolateModules(() => {
 		const MapTabContainer = require('./Map.tab.container')
 			.default as typeof MapTabContainerImport;
 		const { el: MapTabContainerWithState } = withState(MapTabContainer, {});
@@ -94,6 +94,15 @@ it('renders', done => {
 		);
 
 		expect(asFragment()).toMatchSnapshot();
+	});
+});
+
+it('updates mrZRoute', done => {
+	jest.isolateModules(async () => {
+		const MapTabContainer = require('./Map.tab.container')
+			.default as typeof MapTabContainerImport;
+		const { el: MapTabContainerWithState } = withState(MapTabContainer, {});
+		render(<MapTabContainerWithState onMove={() => {}} />);
 
 		mockFirestore.collection('games/game/intel').add({
 			action: {
@@ -115,7 +124,7 @@ it('renders', done => {
 				}),
 				{}
 			);
-		});
+		}, 3000);
 		done();
 	});
 });
