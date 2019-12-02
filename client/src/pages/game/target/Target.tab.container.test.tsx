@@ -7,36 +7,19 @@ import configureStore from 'redux-mock-store';
 import initialState, { ReduxState } from '../../../reducers/initialState';
 import TargetTabContainerImport from './Target.tab.container';
 import { Props as TargetTabViewProps } from './Target.tab.view';
+import { generateWithStore } from '../../../util/testHelpers';
 
 const mockStore = configureStore<ReduxState>();
-
-function withStore<P>(
-	Element: ConnectedComponent<React.ComponentType<any>, P>,
-	state: DeepPartial<ReduxState> & {
-		main: Pick<ReduxState['main'], 'tabIndex'>;
-	}
-) {
-	const baseState: ReduxState = {
-		...initialState,
-		main: {
-			...initialState.main,
-			gameId: 'someGameId',
-			isLoading: false,
-			tabIndex: 0,
-		},
-	};
-
-	const store = mockStore({
-		...baseState,
-		...state,
-	} as ReduxState);
-
-	return (props: JSX.LibraryManagedAttributes<typeof Element, P>) => (
-		<Provider store={store}>
-			<Element {...props} />
-		</Provider>
-	);
-}
+const baseState: ReduxState = {
+	...initialState,
+	main: {
+		...initialState.main,
+		gameId: 'someGameId',
+		isLoading: false,
+		tabIndex: 0,
+	},
+};
+const withStore = generateWithStore(mockStore, baseState);
 
 afterEach(cleanup);
 // afterEach(jest.resetModules);
@@ -45,7 +28,7 @@ it('renders', () => {
 	jest.isolateModules(() => {
 		jest.doMock('./Target.tab.view.tsx', () => () => <div />);
 		const { default: TargetTab } = require('./Target.tab.container');
-		const TargetTabWithStore = withStore(
+		const { el: TargetTabWithStore } = withStore(
 			TargetTab as typeof TargetTabContainerImport,
 			{
 				main: {
@@ -75,7 +58,7 @@ it('updateSuspectList() works', () => {
 				.mockImplementation(() => <div />)
 		);
 		const { default: TargetTab } = require('./Target.tab.container');
-		const TargetTabWithStore = withStore(
+		const { el: TargetTabWithStore } = withStore(
 			TargetTab as typeof TargetTabContainerImport,
 			{
 				main: {
@@ -117,7 +100,7 @@ it('selectSuspect() works', () => {
 				.mockImplementation(() => <div />)
 		);
 		const { default: TargetTab } = require('./Target.tab.container');
-		const TargetTabWithStore = withStore(
+		const { el: TargetTabWithStore } = withStore(
 			TargetTab as typeof TargetTabContainerImport,
 			{
 				main: {
