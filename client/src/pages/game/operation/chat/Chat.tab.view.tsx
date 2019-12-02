@@ -22,6 +22,7 @@ const ChatTabView: React.FC<Props> = props => {
 		<Page id="chat-page" renderFixed={() => <ChatInput />}>
 			{props.isLoading ? (
 				<div
+					data-testid="loader"
 					style={{
 						margin: 'auto',
 						width: 'fit-content',
