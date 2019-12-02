@@ -45,6 +45,13 @@ class NotificationContainer extends React.Component<Props, State> {
 		const duration = this.props.notification.duration || DEFAULT_DURATION;
 		if (duration !== 'none')
 			this.timeout.push(setTimeout(this._close, duration * 1000));
+
+		this._playNotificationSound();
+	}
+
+	_playNotificationSound() {
+		const sound = new Audio('/audio/point-blank.mp3');
+		sound.play();
 	}
 
 	componentWillUnmount() {
