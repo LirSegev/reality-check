@@ -17,6 +17,7 @@ import * as t from 'io-ts';
 import { fold, left } from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/pipeable';
 import { PathReporter } from 'io-ts/lib/PathReporter';
+import { Player } from '../../util/db.types';
 
 /**
  * The time interval in seconds to check if the player is close enough to a
@@ -150,10 +151,11 @@ class GameContainer extends React.Component<Props, State> {
 		this._lastPos = pos;
 	}
 
+	// TODO: only update if changed
 	_updatePlayerLocation(pos: Position) {
 		const { latitude, longitude } = pos.coords;
 
-		const data = {
+		const data: Partial<Player> = {
 			location: {
 				geopoint: new firebase.firestore.GeoPoint(latitude, longitude),
 				timestamp: new firebase.firestore.Timestamp(
