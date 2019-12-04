@@ -176,8 +176,8 @@ it('dispatches map/setPlayerLocations action', done => {
 				type: string;
 				payload: unknown;
 			}>;
-			expect(actions).toHaveLength(1);
-			expect(actions[0]).toEqual({
+			expect(actions).toHaveLength(2);
+			expect(actions[1]).toEqual({
 				type: 'map/setPlayerLocations',
 				payload: {
 					playerLocations: {

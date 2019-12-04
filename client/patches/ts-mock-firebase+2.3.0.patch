@@ -1,0 +1,31 @@
+diff --git a/node_modules/ts-mock-firebase/lib/firestore/MockCollectionReference.js b/node_modules/ts-mock-firebase/lib/firestore/MockCollectionReference.js
+index 00c134f..f11fab8 100644
+--- a/node_modules/ts-mock-firebase/lib/firestore/MockCollectionReference.js
++++ b/node_modules/ts-mock-firebase/lib/firestore/MockCollectionReference.js
+@@ -277,10 +277,23 @@ var MockCollectionReference = /** @class */ (function () {
+          */
+         this.onSnapshot = function (optionsOrObserverOrOnNext, observerOrOnNextOrOnError, onErrorOrOnCompletion) {
+             if (typeof optionsOrObserverOrOnNext === 'function') {
+-                _this._snapshotCallbackHandler.add(optionsOrObserverOrOnNext);
+-                return function () {
+-                    _this._snapshotCallbackHandler.remove(optionsOrObserverOrOnNext);
++                var callback = optionsOrObserverOrOnNext;
++                var unsubscribe = function() {
++                  _this._snapshotCallbackHandler.remove(callback);
+                 };
++                _this._snapshotCallbackHandler.add(callback);
++          
++                // Make the initial call to onSnapshot listener
++                var documentChanges = _this.getQueryDocumentSnapshots().map(function(snapshot, newIndex) {
++                    return{
++                  type: 'added',
++                  doc: snapshot,
++                  oldIndex: -1,
++                  newIndex,
++                    };
++                });
++                _this.fireBatchDocumentChange(documentChanges);
++                return unsubscribe;
+             }
+             throw new Error('Not implemented yet');
+         };
