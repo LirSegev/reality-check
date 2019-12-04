@@ -2,12 +2,10 @@
 	"name": "Josef Pechal",
 	"id": 10,
 	"data": {
-	"Josef Pechal": "Josef is a stable chorus actor who enjoys writing\n\nJosef Pechal is a 22-year-old chorus actor who enjoys writing, adult colouring books and eating out. He is stable and creative, but can also be very cowardly and a bit moody.\n\nHe is a Czech Christian. He didn't finish school.\n\nPhysically, Josef is in good shape. He is tall with light skin, brown hair and green eyes.\n\nHe grew up in a middle class neighbourhood. After his father died when he was young, he was raised by his mother.\n\nHe is currently single. His most recent romance was with a cleaner called Nadine Tyrell Patel, who was the same age as him. They broke up because Nadine wanted to be with somebody less conventional.\n\nJosef's best friend is a chorus actor called Nicole O'Doherty. They get on well most of the time. He also hangs around with Edmund Gray and Aya King. They enjoy planking together.",
+	"Josef Pechal": "Josef Pechal is a 22-year-old chorus actor who enjoys writing, adult colouring books and eating out. He is stable and creative, but can also be very cowardly and a bit moody.\n\nHe is a Czech Christian. He didn't finish school.\n\nPhysically, Josef is in good shape. He is tall with light skin, brown hair and green eyes.\n\nHe grew up in a middle class neighbourhood. After his father died when he was young, he was raised by his mother.\n\nHe is currently single. His most recent romance was with a cleaner called Marie Kotková, who was the same age as him. They broke up because Marie wanted to be with somebody less conventional.\n\nJosef's best friend is a chorus actor called Nikola Borovcová. They get on well most of the time. He also hangs around with Otto Vašek and Anna Zoubková. They enjoy planking together.",
     "basic_information": {
         "Name": "Josef Pechal",
-        "Nicknames": "Joe / Tall Josef",
-        "Reason for nicknames": "Derived from Josef / Descriptive",
-        "Date of birth": "Monday, 13th Oct 1997 (Age 22)",
+        "Date of birth": "Monday, 13th Oct 1997",
         "Star sign": "Libra",
         "Nationality": "Czech",
         "Ethnicity": "Caucasian",
@@ -24,9 +22,7 @@
         "Shape": "underweight",
         "Build": "average",
         "Hair colour": "brown",
-        "Hairstyle": "short-medium sides with a long, floppy fringe",
         "Eyes": "green",
-        "Face shape": "oval",
         "Glasses/lenses": "none",
         "Distinguishing marks": "none",
         "Other words that might be used": "full-length, grandiloquent, leggy, long-legged, slim, stately, statuesque, tall"
@@ -43,12 +39,11 @@
         "Compassionate": "sometimes",
         "IQ": "97",
         "Hobbies": "writing, adult colouring books, eating out, planking, ferret racing, photography, worship",
-        "Diet": "eats meat",
         "Favourite foods": "pizza, roast dinner"
     },
     "employment": {
         "Extra": [
-            "20th Century Snake",
+            "20th Century Czech Republic Studios",
             "2013 - 2017",
             "resigned"
         ],
@@ -58,23 +53,23 @@
         ]
     },
     "background": {
-        "Early years": "Josef grew up in a middle class neighbourhood. After his father died when he was young, he was raised by his mother",
-        "Formative years": "Josef got is first job as a extra at age 16. Josef dropped out of school."
+        "Early years": "Josef grew up in a middle class neighbourhood. After his father died when he was young, he was raised by his mother.",
+        "Formative years": "Josef got his first job as an extra at age 16. Josef dropped out of school."
     },
     "friends": {
-        "nicole_marilyn_o’doherty": {
+        "nikola_borovcová": {
             "Relation": "Friend",
-            "Occupation": "Junior doctor",
+            "Occupation": "Chorus actor",
             "Age": "21",
             "Relationship": "They get on well most of the time"
         },
-        "edmund_amelie_gray": {
+        "otto_vašek": {
             "Relation": "Friend",
             "Occupation": "Screenplay writer",
             "Age": "19",
             "Relationship": "They are inseparable"
         },
-        "aya_emmy_king": {
+        "anna_zoubková": {
             "Relation": "Friend",
             "Occupation": "Sales assistant",
             "Age": "25",
@@ -82,34 +77,34 @@
         }
     },
     "parents": {
-        "sabrina_devon_pechal_(née_reyes)": {
+        "jaroslava_pechal_(née_Bízová)": {
             "Relation": "Mother",
-            "Occupation": "Burglar",
+            "Occupation": "Lawyer",
             "Age": "49",
             "Relationship": "Generally harmonious."
         },
-        "rafael_marion_pechal": {
+        "petr_pechal": {
             "Relation": "Father",
             "Occupation": "Sales assistant",
-            "Age": "Died in 1999 aged 22. (Would have been 42.)",
-            "Cause of death": "cancer",
+            "Age": "Died in 1999 aged 22",
+            "Cause of death": "Car accident",
             "Relationship": "He idolises him."
         }
     },
     "siblings": {
-        "elijah_jaiden_reyes": {
+        "ivana_bízová": {
             "Relation": "Half sister (shared mother)",
             "Occupation": "Personal trainer",
-            "Age": "33",
-            "Relationship": "Josef idolises Elijah."
+            "Age": "27",
+            "Relationship": "Josef idolises Ivana."
         },
-        "alison_libby_reyes": {
+        "eva_bízová": {
             "Relation": "Half sister (shared mother)",
             "Occupation": "Electrician",
-            "Age": "31",
+            "Age": "25",
             "Relationship": "Josef and Alison grew up together. They get on well most of the time."
         },
-        "flynn_aliza_pechal": {
+        "anna_pechal": {
             "Relation": "Sister",
             "Occupation": "Kitchen assistant",
             "Age": "23",
@@ -117,18 +112,11 @@
         }
     },
     "former_partners": {
-        "billy_irene_bennett": {
-            "Relation": "Ex-girlfriend (2 years 2013 - 2015)",
-            "Occupation": "Lawyer",
-            "Reason for breakup": "Billy wanted somebody less dastardly",
-            "Age": "41",
-            "Relationship": "Occasional frosty contact"
-        },
-        "nadine_tyrell_patel": {
+        "marie_kotková": {
             "Relation": "Ex-girlfriend (2 years 2016 - 2018)",
             "Occupation": "Cleaner",
-            "Reason for breakup": "Nadine wanted to be with somebody less conventional",
-            "Age": "19",
+            "Reason for breakup": "Marie wanted to be with somebody less conventional",
+            "Age": "22",
             "Relationship": "Remained friends"
         }
     },
@@ -145,11 +133,10 @@
     },
     "timeline": {
         "1997": "Josef Pechal is born",
-        "1999": "Father, Rafael Marion Pechal dies aged 22 (cancer)",
-        "2013": "Gets together with Billy Irene Bennett. Starts work at 20th Century Snake at extra",
-        "2015": "Relationship with Billy Irene Bennett ends (Billy wanted somebody less dastardly).",
-        "2016": "Gets together with Nadine Tyrell Patel.",
-        "2017": "Resigns from job as extra at 20th Century Snake Starts work at The Minsqueak Theatre at chorus actor",
-        "2018": "Relationship with Nadine Tyrell Patel ends (Nadine wanted to be with somebody less conventional)."
+        "1999": "Father, Petr Pechal dies aged 22 (car accident)",
+        "2013": "Starts work at 20th Century Czech Republic Studios as an extra",
+        "2016": "Gets together with Marie Kotková",
+        "2017": "Resigns from job as an extra at 20th Century Czech Republic Studios. Starts work at The Minsqueak Theatre at a chorus actor",
+        "2018": "Relationship with Marie Kotková ends (Marie wanted to be with somebody less conventional)"
     }
 }}

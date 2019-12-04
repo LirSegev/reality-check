@@ -2,12 +2,10 @@
 	"name": "Vojtěch Peterka",
 	"id": 7,
 	"data": {
-	"Vojtěch Peterka": "Vojtěch is a kind former local activist who is obsessed with over-knee socks.\n\nVojtech Peterka is a 26-year-old former local activist who enjoys Rubix cube, theatre and photography. He is kind and caring, but can also be very cowardly and a bit impatient.\n\nHe is Czech. He didn't finish school. He is allergic to nickel. He is obsessed with over-knee socks.\n\nPhysically, Vojtech is in good shape. He is very short with olive skin, black hair and brown eyes.\n\nHe grew up in a working class neighbourhood. He was raised by his father, his mother having left when he was young.\n\nHe is currently in a relationship with Mollie Connie Walker. Mollie is 10 years older than him and works as a legal secretary.\n\nVojtěch's best friend is a former local activist called Howard Zhang. They are inseparable. He also hangs around with Ariel Rogers and Anne Wood. They enjoy binge-watching boxed sets together.",
+	"Vojtěch Peterka": "Vojtech Peterka is a 26-year-old former local activist who enjoys Rubik's cube, theatre and photography. He is kind and caring, but can also be very cowardly and a bit impatient.\n\nHe is Czech. He didn't finish school. He is allergic to nickel. He is obsessed with over-knee socks.\n\nPhysically, Vojtech is in good shape. He is very short with olive skin, black hair and brown eyes.\n\nHe grew up in a working class neighbourhood. He was raised by his father, his mother having left when he was young.\n\nHe is currently in a relationship with Veronika Jindrová. Veronika is 10 years older than him and works as a legal secretary.\n\nVojtěch's best friend is a former local activist called Martin Skoumal. They are inseparable. He also hangs around with Petr Hajný and Tereza Boušová. They enjoy binge-watching boxed sets together.",
     "basic_information": {
         "Name": "Vojtěch Peterka",
-        "Nickname": "Kind Vojtěch",
-        "Reason for nickname": "Descriptive",
-        "Date of birth": "Thursday, 14th Oct 1993 (Age 26)",
+        "Date of birth": "Thursday, 14th Oct 1993",
         "Star sign": "Libra",
         "Nationality": "Czech",
         "Ethnicity": "Mixed",
@@ -15,8 +13,8 @@
         "Religion": "Aetheist",
         "Sexuality": "Unknown",
         "Education": "Less than high school",
-        "Political views": "Centre",
-        "Relationship status": "In a relationship with Mollie Connie Walker",
+        "Political views": "Center",
+        "Relationship status": "In a relationship with Veronika Jindrová",
         "Career paths": "Politics / Secret service"
     },
     "physical_characteristics": {
@@ -24,7 +22,6 @@
         "Shape": "underweight",
         "Build": "average",
         "Hair colour": "black",
-        "Hairstyle": "hair shaved to grade 2 all over",
         "Eyes": "brown",
         "Face shape": "round",
         "Glasses/lenses": "glasses",
@@ -42,26 +39,25 @@
         "Extrovert": "sometimes",
         "Compassionate": "very",
         "IQ": "114",
-        "Hobbies": "Rubix cube, theatre, photography, binge-watching boxed sets, helping old ladies across the road, meditation, bowling",
+        "Hobbies": "Rubik's cube, theatre, photography, binge-watching boxed sets, helping old ladies across the road, meditation, bowling",
         "Obsessions": "over-knee socks",
-        "Diet": "eats meat",
-        "Favourite foods": "ice cream, suet pudding",
+        "Favourite foods": "ice cream, sushi",
         "Allergies and intolerances": "nickel"
     },
     "employment": {
         "Local activist": [
-            "The Centre Party",
+            "Zelení (Green Party)",
             "2011 - 2019",
             "resigned (7 year itch)"
         ]
     },
     "background": {
-        "Early years": "Vojtěch grew up in an impoverished neighbourhood. He was raised by his father, his mother having left when he was young.",
-        "Formative years": "Vojtěch got is first job as a local activist at age 18. Vojtěch dropped out of school.",
-        "Most traumatic childhood experience": "His mother leaving when he was one."
+        "Early years": "Vojtěch grew up in an impoverished neighbourhood. He was raised by his father, his mother having left when he was young",
+        "Formative years": "Vojtěch got his first job as a local activist at age 18. Vojtěch dropped out of school.",
+        "Most traumatic childhood experience": "His mother leaving when he was one"
     },
     "current_partner": {
-        "mollie_connie_walker": {
+        "veronika_jindrová": {
             "Relation": "Girlfriend (2015 - present)",
             "Occupation": "Legal secretary",
             "Age": "36",
@@ -69,19 +65,19 @@
         }
     },
     "friends": {
-        "howard_sebastian_zhang": {
+        "martin_skoumal": {
             "Relation": "Friend",
             "Occupation": "Sales assistant",
             "Age": "28",
             "Relationship": "They are inseparable"
         },
-        "ariel_marissa_rogers": {
+        "petr_hajný": {
             "Relation": "Friend",
             "Occupation": "Cleaner",
             "Age": "23",
             "Relationship": "They have a very firey friendship"
         },
-        "anne_dora_wood": {
+        "tereza_boušová": {
             "Relation": "Friend",
             "Occupation": "Personal trainer",
             "Age": "31",
@@ -89,13 +85,13 @@
         }
     },
     "parents": {
-        "lena_isabel_rodriguez": {
+        "lenka_pokorná": {
             "Relation": "Mother",
-            "Occupation": "Plumber",
-            "Age": "42",
+            "Occupation": "Actress",
+            "Age": "47",
             "Relationship": "Non-existent."
         },
-        "edgar_bob_peterka": {
+        "jaroslav_peterka": {
             "Relation": "Father",
             "Occupation": "Cleaner",
             "Age": "48",
@@ -103,17 +99,17 @@
         }
     },
     "former_partners": {
-        "ada_vanessa_ortiz": {
+        "terezie_horová": {
             "Relation": "Ex-girlfriend (1 year 2010 - 2011)",
             "Occupation": "Politician",
-            "Reason for breakup": "Ada wanted somebody with a bit more 'grr'",
+            "Reason for breakup": "Terezie wanted somebody with a bit more 'grr'",
             "Age": "25",
             "Relationship": "Occasional frosty contact"
         },
-        "leah_carter_lewis": {
+        "jitka_jeníková": {
             "Relation": "Ex-girlfriend (1 year 2012 - 2013)",
             "Occupation": "Sales assistant",
-            "Reason for breakup": "Leah wanted somebody less dastardly",
+            "Reason for breakup": "Jitka wanted somebody less dastardly",
             "Age": "23",
             "Relationship": "No longer keep in touch"
         }
@@ -131,12 +127,12 @@
     },
     "timeline": {
         "1993": "Vojtěch Peterka is born",
-        "1994": "Mother, Lena Isabel Rodriguez walks out",
-        "2010": "Gets together with Ada Vanessa Ortiz.",
-        "2011": "Relationship with Ada Vanessa Ortiz ends (Ada wanted somebody with a bit more 'grr'). Starts work at The Centre Party at local activist",
-        "2012": "Gets together with Leah Carter Lewis.",
-        "2013": "Relationship with Leah Carter Lewis ends (Leah wanted somebody less dastardly).",
-        "2015": "Gets together with Mollie Connie Walker.",
-        "2019": "Resigns (7 year itch) from job as local activist at The Centre Party"
+        "1994": "Mother, Lenka Pokorná walks out",
+        "2010": "Gets together with Terezie Horová",
+        "2011": "Relationship with Terezie Horová ends (Terezie wanted somebody with a bit more 'grr') Starts work at the Green Party as a local activist",
+        "2012": "Gets together with Jitka Jeníková",
+        "2013": "Relationship with Jitka Jeníková ends (Jitka wanted somebody less dastardly)",
+        "2015": "Gets together with Veronika Jindrová",
+        "2019": "Resigns from job as a local activist at the Green Party"
     }
 }}

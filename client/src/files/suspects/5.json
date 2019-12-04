@@ -2,12 +2,10 @@
 	"name": "Kim Van Tho",
 	"id": 5,
 	"data": {
-		"Kim Van Tho": "Kim is a stable health centre receptionist who is obsessed with jazz.\n\nKim Van Tho is a 26-year-old health centre receptionist who enjoys recycling, watching YouTube videos and listening to music. He is stable and reliable, but can also be very pessimistic and a bit grumpy.\n\nHe is Vietnamese. He lives with his family in London. He is obsessed with jazz.\n\nPhysically, Kim is in pretty good shape. He is average-height with brown skin, brown hair and brown eyes.\n\nHe grew up in an upper class neighbourhood. After his father died when he was young, he was raised by his mother.\n\nHe is currently in a relationship with Kai Teddy Thomson. Kai is the same age as him and works as a sales assistant.\n\nKim's best friend is a health centre receptionist called Helena Ross. They get on well most of the time. He also hangs around with Aleksander Scott and Gloria Wang. They enjoy horse riding together.",
+		"Kim Van Tho": "Kim is a stable health centre receptionist who is obsessed with jazz.\n\nKim Van Tho is a 26-year-old health centre receptionist who enjoys recycling, watching YouTube videos and listening to music. He is stable and reliable, but can also be very pessimistic and a bit grumpy.\n\nHe is Vietnamese. He lives with his family in London.  He is obsessed with jazz.\n\nPhysically, Kim is in pretty good shape. He is average-height with brown skin, brown hair and brown eyes.\n\nHe grew up in an upper class neighbourhood. After his father died when he was young, he was raised by his mother.\n\nHe is currently in a relationship with Kai Teddy Thomson. Kai is the same age as him and works as a sales assistant.\n\nKim's best friend is a health centre receptionist called Helena Ross. They get on well most of the time. He also hangs around with Aleksander Scott and Gloria Wang. They enjoy horse riding together.",
 		"basic_information": {
 			"Name": "Kim Van Tho",
-			"Nickname": "Grumpy Kim",
-			"Reason for nickname": "Descriptive",
-			"Date of birth": "Thursday, 14th Oct 1993 (Age 26)",
+			"Date of birth": "Thursday, 14th Oct 1993",
 			"Star sign": "Libra",
 			"Nationality": "Thai",
 			"Ethnicity": "South Asian",
@@ -43,8 +41,7 @@
 			"IQ": "82",
 			"Hobbies": "recycling, watching YouTube videos, listening to music, horse riding, walking, swimming, podcasting, watching television, going to the movies",
 			"Obsessions": "jazz",
-			"Diet": "eats meat",
-			"Favourite foods": "donuts, carbonara"
+			"Favourite foods": "donuts, pasta"
 		},
 		"employment": {
 			"Health centre receptionist": [
@@ -54,7 +51,7 @@
 		},
 		"background": {
 			"Early years": "Kim grew up in a wealthy neighbourhood. After his father died when he was young, he was raised by his mother",
-			"Formative years": "Kim went to university and got a degree.. Kim got his first job as a health centre receptionist at age 19"
+			"Formative years": "Kim went to university and got a degree. Kim got his first job as a health centre receptionist at age 19"
 		},
 		"current_partner": {
 			"kai_teddy_thomson": {
@@ -88,13 +85,13 @@
 			"l\u01b0\u01a1ng_h\u1ed3ng_phan": {
 				"Relation": "Mother",
 				"Occupation": "Scientist",
-				"Age": "55",
+				"Age": "58",
 				"Relationship": "Generally harmonious."
 			},
 			"li\u1ec5u_van_tho": {
 				"Relation": "Father",
-				"Occupation": "Lab assistant",
-				"Age": "Died in 1995 aged 25. (Would have been 49.)",
+				"Occupation": "Waiter",
+				"Age": "Died in 1995 aged 35",
 				"Cause of death": "accident - road traffic",
 				"Relationship": "He idolises him."
 			}
@@ -133,8 +130,8 @@
 				"Age": "26",
 				"Relationship": "No longer keep in touch"
 			},
-			"Cleo Chelsea Reed": {
-				"relation": "Ex-girlfriend (1 year : 2011 - 2012)",
+			"cleo_chelsea_reed": {
+				"relation": "Ex-girlfriend (1 year 2011 - 2012)",
 				"Occupation": "Lawyer",
 				"Reason for breakup": "Cleo was bored",
 				"Age": "29",
@@ -162,13 +159,13 @@
 		"timeline": {
 			"1993": "Kim Tho is born",
 			"1995": "Father, Li\u1ec5u Van Tho dies aged 25 (accident - road traffic)",
-			"2009": "Gets together with Pearl Shelley Reynolds.",
-			"2010": "Relationship with Pearl Shelley Reynolds ends (Pearl felt Kim was too closed to new ideas).",
-			"2011": "Gets together with Cleo Chelsea Reed.",
-			"2012": "Relationship with Cleo Chelsea Reed ends (Cleo was bored). Starts work at Upper Town Medical Practice at health centre receptionist",
-			"2013": "Gets together with Lowri Jennifer Kumar.",
-			"2014": "Relationship with Lowri Jennifer Kumar ends (Lowri was bored).",
-			"2019": "Gets together with Kai Teddy Thomson."
+			"2009": "Gets together with Pearl Shelley Reynolds",
+			"2010": "Relationship with Pearl Shelley Reynolds ends (Pearl felt Kim was too closed to new ideas)",
+			"2011": "Gets together with Cleo Chelsea Reed",
+			"2012": "Relationship with Cleo Chelsea Reed ends (Cleo was bored). Starts work at Upper Town Medical Practice as a health centre receptionist",
+			"2013": "Gets together with Lowri Jennifer Kumar",
+			"2014": "Relationship with Lowri Jennifer Kumar ends (Lowri was bored)",
+			"2019": "Gets together with Kai Teddy Thomson"
 		}
 	}
 }
