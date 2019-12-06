@@ -17,8 +17,8 @@ interface Props {
 }
 
 const CHANGE_PHOTO_INTERVAL_MIN = 200;
-const CHANGE_PHOTO_INTERVAL_MAX = 1500;
-const PHOTO_LOOP_CYCLE_DURATION = 2000;
+const CHANGE_PHOTO_INTERVAL_MAX = 2000;
+const PHOTO_LOOP_CYCLE_DURATION = 8000;
 
 class SuspectsContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
