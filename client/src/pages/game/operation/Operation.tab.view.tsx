@@ -19,7 +19,6 @@ const OperationTabView: React.FC<Props> = props => (
 		<Tabbar
 			index={props.tabIndex}
 			position="auto"
-			swipeable={true}
 			// @ts-ignore
 			onPreChange={props.onTabChange}
 			renderTabs={() => [

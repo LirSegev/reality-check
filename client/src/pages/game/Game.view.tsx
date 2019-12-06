@@ -28,7 +28,6 @@ const GameView: React.FC<Props> = props => (
 			// @ts-ignore
 			onPreChange={props.onTabChange}
 			position="auto"
-			swipeable={true}
 			renderTabs={() => [
 				{
 					content: (
