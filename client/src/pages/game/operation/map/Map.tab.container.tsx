@@ -57,6 +57,7 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
+		// TODO: unsubscribe on dismount
 		getGameDocRef()
 			.collection('players')
 			.onSnapshot(this._updatePlayerLocations, err =>
