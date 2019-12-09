@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import { either } from 'fp-ts/lib/Either';
 import * as t from 'io-ts';
 
@@ -186,6 +186,56 @@ export const ChatItemCodec = t.strict(
 	'ChatItem'
 );
 export type ChatItem = t.TypeOf<typeof ChatItemCodec>;
+
+export const PlayerRefCodec = t.intersection(
+	[
+		t.type(
+			{
+				uid: t.string,
+				displayName: t.string,
+			},
+			'required'
+		),
+		t.partial(
+			{
+				role: PlayerRoleCodec,
+			},
+			'optional'
+		),
+	],
+	'PlayerRef'
+);
+export type PlayerRef = t.TypeOf<typeof PlayerRefCodec>;
+
+export const PlayerActionCodec = t.intersection(
+	[
+		t.strict({
+			subject: PlayerRefCodec,
+			timestamp: FirebaseTimestampCodec,
+		}),
+		t.union([
+			t.strict({
+				action: t.literal('marked'),
+				object: t.strict({
+					id: t.number,
+					name: t.string,
+				}),
+			}),
+			t.strict({
+				action: t.literal('questioned'),
+			}),
+			t.strict({
+				action: t.literal('collected'),
+				object: t.strict({
+					type: PlayerRoleCodec,
+				}),
+			}),
+		]),
+	],
+	'PlayerAction'
+);
+
+export type PlayerAction = t.TypeOf<typeof PlayerActionCodec>;
 
 export const GameDocCodec = t.partial({
 	chaser_sequence_num: t.number,

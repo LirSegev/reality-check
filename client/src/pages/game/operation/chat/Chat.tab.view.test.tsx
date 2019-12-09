@@ -1,10 +1,10 @@
 import { cleanup, render } from '@testing-library/react';
 import React from 'react';
-import { MockTimestamp } from 'ts-mock-firebase';
+import { Page } from 'react-onsenui';
 
 import ChatTabViewImport from './Chat.tab.view';
 import ChatItemComponent from './ChatItem.component';
-import { Page } from 'react-onsenui';
+import ActionItemComponent from './ActionItem.component';
 
 beforeEach(() => {
 	jest.mock('./ChatInput.component.tsx', () => () => <div />);
@@ -12,32 +12,70 @@ beforeEach(() => {
 		Page: (
 			props: React.PropsWithChildren<React.ComponentProps<typeof Page>>
 		) => (
-			<div>
-				<div>{props.children}</div>
-				<div>{(props.renderFixed!() as unknown) as JSX.Element}</div>
+			<div data-testid="onsenpage">
+				<div data-testid="onsenpage_content">{props.children}</div>
+				<div data-testif="onsenpage_fixed">
+					{(props.renderFixed!() as unknown) as JSX.Element}
+				</div>
 			</div>
 		),
 	}));
 	jest.mock(
 		'./ChatItem.component.tsx',
 		() => (props: React.ComponentPropsWithoutRef<typeof ChatItemComponent>) => (
-			<div>
+			<div className="chat_message">
 				<div>{props.author.displayName}</div>
 				<div>{props.message}</div>
 			</div>
 		)
+	);
+	jest.mock(
+		'./ActionItem.component.tsx',
+		() => (
+			props: React.ComponentPropsWithoutRef<typeof ActionItemComponent>
+		) => {
+			const { subject, action } = props.action;
+			return (
+				<div className="chat_action">
+					<div>{subject.displayName}</div>
+					<div>{action}</div>
+				</div>
+			);
+		}
 	);
 });
 afterEach(cleanup);
 afterEach(jest.resetModules);
 
 it('renders', () => {
-	jest.doMock('./ChatItem.component.tsx', () => () => <div />);
+	jest.doMock('./ChatItem.component.tsx', () => () => (
+		<div className="chat_message" />
+	));
+	jest.doMock('./ActionItem.component.tsx', () => () => (
+		<div className="chat_action" />
+	));
+	const firebase = require('firebase');
 	const ChatTabView = require('./Chat.tab.view')
 		.default as typeof ChatTabViewImport;
 	const { asFragment } = render(
 		<ChatTabView
 			isLoading={false}
+			actions={[
+				[
+					{
+						subject: {
+							displayName: 'someName',
+							uid: 'someUid',
+						},
+						action: 'collected',
+						object: {
+							type: 'detective',
+						},
+						timestamp: new firebase.firestore.Timestamp(12, 0),
+					},
+					'action_id',
+				],
+			]}
 			messages={[
 				[
 					{
@@ -46,7 +84,7 @@ it('renders', () => {
 							uid: 'someUid',
 						},
 						message: 'someMessage',
-						timestamp: new MockTimestamp(10, 0),
+						timestamp: new firebase.firestore.Timestamp(10, 0),
 					},
 					'id',
 				],
@@ -58,11 +96,13 @@ it('renders', () => {
 });
 
 it('displays messages', () => {
+	const firebase = require('firebase');
 	const ChatTabView = require('./Chat.tab.view')
 		.default as typeof ChatTabViewImport;
 	const { getByText } = render(
 		<ChatTabView
 			isLoading={false}
+			actions={[]}
 			messages={[
 				[
 					{
@@ -71,7 +111,7 @@ it('displays messages', () => {
 							uid: 'someUid',
 						},
 						message: 'someMessage',
-						timestamp: new MockTimestamp(10, 0),
+						timestamp: new firebase.firestore.Timestamp(10, 0),
 					},
 					'id',
 				],
@@ -83,13 +123,43 @@ it('displays messages', () => {
 	expect(getByText('someMessage')).toBeVisible();
 });
 
-it.todo('displays actions');
+it('displays actions', () => {
+	const firebase = require('firebase');
+	const ChatTabView = require('./Chat.tab.view')
+		.default as typeof ChatTabViewImport;
+	const { getByText } = render(
+		<ChatTabView
+			isLoading={false}
+			messages={[]}
+			actions={[
+				[
+					{
+						subject: {
+							uid: 'someUid',
+							displayName: 'someName',
+						},
+						action: 'collected',
+						object: {
+							type: 'intelligence',
+						},
+						timestamp: new firebase.firestore.Timestamp(12, 0),
+					},
+					'someDocId',
+				],
+			]}
+		/>
+	);
+
+	expect(getByText('someName')).toBeVisible();
+	expect(getByText('collected')).toBeVisible();
+	// expect(getByText('intelligence')).toBeVisible();
+});
 
 it('shows loader', () => {
 	const ChatTabView = require('./Chat.tab.view')
 		.default as typeof ChatTabViewImport;
 	const { getByTestId } = render(
-		<ChatTabView isLoading={true} messages={[]} />
+		<ChatTabView isLoading={true} messages={[]} actions={[]} />
 	);
 
 	expect(getByTestId('loader')).toBeVisible();
