@@ -1,12 +1,13 @@
 import { cleanup, render } from '@testing-library/react';
+import * as firebase from 'firebase';
 import React from 'react';
 import { exposeMockFirebaseApp, MockTimestamp } from 'ts-mock-firebase';
+import waitForExpect from 'wait-for-expect';
 
 import { app as firebaseApp } from '../../../../mocks/firebase';
-import { ChatItem } from '../../../../util/db.types';
+import { ChatItem, PlayerAction } from '../../../../util/db.types';
 import ChatTabContainerImport from './Chat.tab.container';
 import ChatTabViewImport from './Chat.tab.view';
-import waitForExpect from 'wait-for-expect';
 
 const mockFirestore = exposeMockFirebaseApp(firebaseApp).firestore();
 beforeAll(() => {
@@ -116,6 +117,7 @@ it('updates messages on new message', async () => {
 						'anotherDocId',
 					],
 				],
+				actions: [],
 			} as React.ComponentProps<typeof ChatTabViewImport>,
 			{}
 		);
@@ -154,4 +156,89 @@ it('calls scrollChatTabToBottom on new chat message', async () => {
 	await waitForExpect(() => {
 		expect(scrollToBottom).toBeCalled();
 	});
+});
+
+it('displays preexisting actions', async () => {
+	mockFirestore.mocker.loadDocument('games/game/actions/someDocId', {
+		subject: {
+			uid: 'someUid',
+			displayName: 'someName',
+		},
+		action: 'questioned',
+		timestamp: new firebase.firestore.Timestamp(22, 0),
+	} as PlayerAction);
+
+	jest.doMock('./Chat.tab.view.tsx', () => jest.fn().mockReturnValue(<div />));
+
+	const ChatTabContainer = require('./Chat.tab.container')
+		.default as typeof ChatTabContainerImport;
+	render(<ChatTabContainer incrementUnreadNum={() => true} />);
+
+	const ChatTabView = require('./Chat.tab.view');
+	await waitForExpect(() => {
+		expect(ChatTabView).toHaveBeenCalledWith(
+			{
+				isLoading: false,
+				messages: [],
+				actions: [
+					[
+						{
+							subject: {
+								uid: 'someUid',
+								displayName: 'someName',
+							},
+							action: 'questioned',
+							timestamp: new firebase.firestore.Timestamp(22, 0),
+						},
+						'someDocId',
+					],
+				],
+			} as React.ComponentProps<typeof ChatTabViewImport>,
+			{}
+		);
+	}, 3500);
+});
+
+it('updates action on new action', async () => {
+	jest.doMock('./Chat.tab.view.tsx', () => jest.fn().mockReturnValue(<div />));
+
+	const ChatTabContainer = require('./Chat.tab.container')
+		.default as typeof ChatTabContainerImport;
+	render(<ChatTabContainer incrementUnreadNum={() => true} />);
+
+	mockFirestore.doc('games/game/actions/anotherDocId').set({
+		subject: {
+			uid: 'anotherUid',
+			displayName: 'anotherName',
+		},
+		action: 'questioned',
+		timestamp: new firebase.firestore.Timestamp(43, 0),
+	} as PlayerAction);
+
+	const ChatTabView = require('./Chat.tab.view');
+	await waitForExpect(() => {
+		expect(ChatTabView).toHaveBeenLastCalledWith(
+			{
+				isLoading: false,
+				messages: [],
+				actions: [
+					[
+						{
+							subject: {
+								uid: 'anotherUid',
+								displayName: 'anotherName',
+							},
+							action: 'questioned',
+							timestamp: {
+								seconds: 43,
+								nanoseconds: 0,
+							} as firebase.firestore.Timestamp,
+						},
+						'anotherDocId',
+					],
+				],
+			} as React.ComponentProps<typeof ChatTabViewImport>,
+			{}
+		);
+	}, 3500);
 });
