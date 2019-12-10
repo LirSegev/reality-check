@@ -26,7 +26,7 @@ class ChatTabContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		getGameDocRef()
 			.collection('chat')
-			.orderBy('timestamp')
+			.orderBy('timestamp') // TODO: test if chat.tab.view sorts correctly, and if so remove
 			.onSnapshot(this._updateMessages, err =>
 				console.error(new Error('Error getting chat docs'), err)
 			);

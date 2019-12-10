@@ -27,13 +27,13 @@ const ChatTabView: React.FC<Props> = props => {
 		(a, b) => a[0].timestamp.toMillis() - b[0].timestamp.toMillis()
 	);
 
-	const els = chatMessagesAndActions.map(data => {
+	const els = chatMessagesAndActions.map(item => {
 		let result: React.ReactElement | undefined = undefined;
 		let errors: Errors[] = [];
 
 		//* Handle  messages
 		pipe(
-			ChatItemCodec.decode(data[0]),
+			ChatItemCodec.decode(item[0]),
 			fold(
 				err => {
 					errors.push(err);
@@ -41,7 +41,7 @@ const ChatTabView: React.FC<Props> = props => {
 				message => {
 					result = (
 						<ChatItem
-							key={`chat-message_${data[1]}`}
+							key={`chat-message_${item[1]}`}
 							author={message.author}
 							message={message.message}
 							timestamp={message.timestamp}
@@ -53,14 +53,14 @@ const ChatTabView: React.FC<Props> = props => {
 		//* Handle actions
 		if (!result)
 			pipe(
-				PlayerActionCodec.decode(data[0]),
+				PlayerActionCodec.decode(item[0]),
 				fold(
 					err => {
 						errors.push(err);
 					},
 					action => {
 						result = (
-							<ActionItem key={`chat-message_${data[1]}`} action={action} />
+							<ActionItem key={`chat-message_${item[1]}`} action={action} />
 						);
 					}
 				)

@@ -155,6 +155,8 @@ it('displays actions', () => {
 	// expect(getByText('intelligence')).toBeVisible();
 });
 
+it.todo('displays messages and actions sorted by timestamp');
+
 it('shows loader', () => {
 	const ChatTabView = require('./Chat.tab.view')
 		.default as typeof ChatTabViewImport;
