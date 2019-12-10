@@ -1,5 +1,8 @@
 import React from 'react';
+import { Card } from 'react-onsenui';
+
 import { PlayerAction } from '../../../../util/db.types';
+import styles from './Chat.module.css';
 
 interface Props {
 	action: PlayerAction;
@@ -19,7 +22,14 @@ const ActionItemComponent: React.FC<Props> = ({ action }) => {
 			text = `${action.subject.displayName} ${action.action} a suspect`;
 			break;
 	}
-	return <div>{text}</div>;
+	return (
+		<React.Fragment>
+			<div style={{ clear: 'both' }}></div>
+			<Card className={[styles.chatItem, styles.middle, styles.action].join(' ')} >
+				{text}
+			</Card>
+		</React.Fragment>
+	);
 };
 
 export default ActionItemComponent;

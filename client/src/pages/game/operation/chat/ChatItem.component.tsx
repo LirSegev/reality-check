@@ -53,6 +53,7 @@ class ChatItem extends React.Component<Props> {
 
 		return (
 			<Card className={[styles.chatItem, side].join(' ')}>
+				{/* TODO: is the div needed? */}
 				<div onClick={this._goToAuthorLocationOnMap}>
 					{!isOwn && (
 						<div className={styles.author}>{props.author.displayName}</div>

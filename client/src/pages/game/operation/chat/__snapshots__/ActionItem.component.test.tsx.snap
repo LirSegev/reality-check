@@ -2,7 +2,12 @@
 
 exports[`renders 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    style="clear: both;"
+  />
+  <div
+    class="chatItem middle action"
+  >
     someName questioned a suspect
   </div>
 </DocumentFragment>

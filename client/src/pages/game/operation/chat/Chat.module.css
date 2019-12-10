@@ -24,6 +24,15 @@
 	border-top-right-radius: 0;
 }
 
+:global(.card).chatItem.middle {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+:global(.card).chatItem.action {
+	width: fit-content;
+}
+
 .content {
 	font-size: 19px;
 }

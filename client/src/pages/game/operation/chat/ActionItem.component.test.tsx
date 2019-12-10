@@ -1,8 +1,21 @@
-import React from 'react';
 import { cleanup, render } from '@testing-library/react';
-import ActionItem from './ActionItem.component';
 import * as firebase from 'firebase';
+import React from 'react';
+import { Card } from 'react-onsenui';
 
+import ActionItemImport from './ActionItem.component';
+
+let ActionItem: typeof ActionItemImport;
+
+beforeAll(() => {
+	jest.mock('react-onsenui', () => ({
+		Card: (
+			props: React.PropsWithChildren<React.ComponentProps<typeof Card>>
+		) => <div className={props.className}>{props.children}</div>,
+	}));
+
+	ActionItem = require('./ActionItem.component').default;
+});
 afterEach(cleanup);
 
 it('renders', () => {
