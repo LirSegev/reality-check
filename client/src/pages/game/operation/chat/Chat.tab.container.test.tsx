@@ -32,7 +32,7 @@ it('renders', () => {
 });
 
 // TODO: fix mockFirestore to call snapshot listener on init
-it.skip('displays preexisting messages', async () => {
+it('displays preexisting messages', async () => {
 	mockFirestore.mocker.loadDocument('games/game/chat/someDocId', {
 		author: {
 			displayName: 'someName',
@@ -61,11 +61,15 @@ it.skip('displays preexisting messages', async () => {
 								uid: 'someUid',
 							},
 							message: 'someMessage',
-							timestamp: { seconds: 22, nanoseconds: 0 },
+							timestamp: {
+								seconds: 22,
+								nanoseconds: 0,
+							} as firebase.firestore.Timestamp,
 						},
 						'someDocId',
 					],
 				],
+				actions: [],
 			} as React.ComponentProps<typeof ChatTabViewImport>,
 			{}
 		);
@@ -73,22 +77,11 @@ it.skip('displays preexisting messages', async () => {
 });
 
 it('updates messages on new message', async () => {
-	mockFirestore.mocker.loadDocument('games/game/chat/someDocId', {
-		author: {
-			displayName: 'someName',
-			uid: 'someUid',
-		},
-		message: 'someMessage',
-		timestamp: new MockTimestamp(22, 0),
-	} as ChatItem);
-
 	jest.doMock('./Chat.tab.view.tsx', () => jest.fn().mockReturnValue(<div />));
 
 	const ChatTabContainer = require('./Chat.tab.container')
 		.default as typeof ChatTabContainerImport;
-	const { getByText } = render(
-		<ChatTabContainer incrementUnreadNum={() => true} />
-	);
+	render(<ChatTabContainer incrementUnreadNum={() => true} />);
 
 	mockFirestore.doc('games/game/chat/anotherDocId').set({
 		author: {
