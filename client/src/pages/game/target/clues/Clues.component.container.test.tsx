@@ -48,6 +48,7 @@ describe('incrementUnreadNum()', () => {
 		expect(incrementUnreadNum).toBeCalledTimes(2);
 	});
 
+	// TODO: check if can delete
 	it.skip('calls incrementUnreadNum() on suspect_list change', () => {
 		mockFirestore.mocker.loadDocument('games/game', {
 			suspect_list: [1],

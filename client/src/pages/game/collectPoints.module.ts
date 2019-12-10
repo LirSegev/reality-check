@@ -3,7 +3,7 @@ import { distanceBetweenPoints } from '../../util/general';
 import { getCurrentPlayer, getGameDocRef } from '../../util/db';
 import { store } from './../../index';
 import { addNotification } from '../../reducers/main.reducer';
-import { ActionType } from '../../util/db.types';
+import { ActionType, PlayerAction, PlayerRole } from '../../util/db.types';
 
 /**
  * The min distance in meters the player needs to be from a point in order to collect it.
@@ -64,7 +64,7 @@ function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
  */
 function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 	getCurrentPlayer()
-		.then(player => (player && player.role !== 'chaser' ? player.role : ''))
+		.then(player => player!.role)
 		.then(pointType => {
 			try {
 				const docRef = getGameDocRef();
@@ -97,7 +97,7 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 							})
 							.then(() => {
 								getClues(pointType, newPoint);
-								sendNotification(newPoint);
+								onPointCollected(pointType)
 							})
 							.catch(err =>
 								console.error(new Error('Updating collected points list'), err)
@@ -113,22 +113,22 @@ function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
 		.catch(err => console.error(new Error('Getting current player'), err));
 }
 
-function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
+function getClues(pointType: PlayerRole, point: mapboxgl.MapboxGeoJSONFeature) {
 	try {
 		const gameDocRef = getGameDocRef();
 		switch (pointType) {
 			case 'intelligence':
-				onIntelligencePointCollected(gameDocRef);
+				giveIntelligenceClue(gameDocRef);
 				break;
 			case 'detective':
-				onDetectivePointCollected(gameDocRef, point);
+				giveDetectiveClue(gameDocRef, point);
 		}
 	} catch (err) {
 		console.error(new Error('Getting clues'), err);
 	}
 }
 
-function onDetectivePointCollected(
+function giveDetectiveClue(
 	gameDocRef: firebase.firestore.DocumentReference,
 	point: mapboxgl.MapboxGeoJSONFeature
 ) {
@@ -156,7 +156,7 @@ function onDetectivePointCollected(
 }
 
 // prettier-ignore
-function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference) {
+function giveIntelligenceClue(gameDocRef: firebase.firestore.DocumentReference) {
 	gameDocRef
 		.collection('intel')
 		.where('action.type', '==', 'walking' as ActionType)
@@ -184,7 +184,29 @@ function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentRef
 		);
 }
 
-function sendNotification(point: mapboxgl.MapboxGeoJSONFeature) {
+function onPointCollected(pointType: PlayerRole) {
+	addAction(pointType);
+	sendNotification();
+}
+
+async function addAction(pointType: PlayerRole) {
+	const {displayName, role, uid} = (await getCurrentPlayer())!;
+		const action: PlayerAction = {
+			subject: {
+				displayName: displayName,
+				role: role,
+				uid: uid,
+			},
+			action: 'collected',
+			object: {
+				type: pointType,
+			},
+			timestamp: firebase.firestore.Timestamp.fromMillis(Date.now())
+		}
+		getGameDocRef().collection('actions').add(action)
+}
+
+function sendNotification() {
 	store.dispatch(
 		addNotification({
 			notification: {
