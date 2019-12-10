@@ -19,6 +19,9 @@ service cloud.firestore {
       match /chat/{id} {
         allow read, create: if request.auth != null;
       }
+      match /actions/{id} {
+        allow read, create: if request.auth != null;
+      }
     }
   }
 }

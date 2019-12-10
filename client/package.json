@@ -36,6 +36,7 @@
 	"scripts": {
 		"start": "PORT=5000 react-scripts start",
 		"serve": "npm run build && firebase serve --only hosting",
+		"deploy": "firebase deploy",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"coverage": "npm test -- --coverage --watchAll=false",
