@@ -40,7 +40,7 @@ const GameView: React.FC<Props> = props => (
 					tab: (
 						<Tab
 							unreadNum={props.unreadNums.target}
-							label="Target"
+							label="Suspects"
 							key="targetTab-button"
 						/>
 					),
@@ -55,7 +55,7 @@ const GameView: React.FC<Props> = props => (
 					tab: (
 						<Tab
 							unreadNum={props.unreadNums.intel}
-							label="Intel"
+							label="Timeline"
 							key="intelTab-button"
 						/>
 					),
