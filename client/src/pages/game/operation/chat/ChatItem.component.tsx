@@ -55,7 +55,9 @@ class ChatItem extends React.Component<Props> {
 			<Card className={[styles.chatItem, side].join(' ')}>
 				<div onClick={this._goToAuthorLocationOnMap}>
 					{!isOwn && (
-						<div className={styles.author}>{props.author.displayName}</div>
+						<div className={styles.author}>
+							{props.author.displayName || 'HQ'}
+						</div>
 					)}
 					<div className={styles.content}>
 						{props.message}
