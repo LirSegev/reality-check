@@ -1,5 +1,12 @@
 import React from 'react';
 
+import styles from './SuspectList.module.css';
+
+function removeMiddleName(name: string): string {
+	const names = name.split(' ');
+	return [names[0], names.pop()].join(' ');
+}
+
 interface Props {
 	suspect: SuspectFile;
 }
@@ -28,7 +35,7 @@ const SuspectIdentifiersView: React.FC<Props> = ({ suspect }) => (
 				alt=""
 			/>
 		</div>
-		{suspect.name}
+		<div className={styles.suspectName}>{removeMiddleName(suspect.name)}</div>
 	</React.Fragment>
 );
 
