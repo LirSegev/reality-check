@@ -1,6 +1,8 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
 
+import SuspectIdentifiers from './SuspectIdentifiers.view';
+
 interface Props {
 	handleSuspectClick: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
@@ -10,35 +12,14 @@ const renderSuspectListItem = (props: Props) => (id: number) => {
 
 	return (
 		<ListItem
-			key={`suspectList_suspect-${id}`}
-			data-suspect_id={id}
+			key={`suspectList_suspect-${suspect.id}`}
+			data-suspect_id={suspect.id}
 			tappable
 			onClick={props.handleSuspectClick}
 		>
 			<div className="left">
-				<div
-					className="ui mini circular image"
-					style={{
-						width: '35px',
-						height: '35px',
-						flex: 'none',
-						borderRadius: '50%',
-					}}
-				>
-					<img
-						style={{
-							width: '60px',
-							height: '60px',
-							marginLeft: '-12px',
-							marginTop: '-8px',
-							maxWidth: 'unset',
-							borderRadius: 'unset',
-						}}
-						src={`/images/suspects/${id}.jpg`}
-						alt=""
-					/>
-				</div>
-				{suspect.name}
+				<SuspectIdentifiers suspect={suspect} />
+			</div>
 			</div>
 			{/* <div className="right">right</div> */}
 		</ListItem>
