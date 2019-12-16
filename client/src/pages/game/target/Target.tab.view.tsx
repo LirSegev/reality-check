@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Page } from 'react-onsenui';
 
 import Tabbar from '../../../components/Tabbar';
+import { toTitleCase } from '../../../util/general';
 import Clues from './clues';
+import SuspectList from './SuspectList';
 import Suspects from './suspects';
 import SuspectStory from './SuspectStory';
-import { toTitleCase } from '../../../util/general';
 
 export interface Props {
 	selectedSuspect: number | undefined;
@@ -41,6 +42,10 @@ const TargetTabView: React.FC<Props> = props => {
 					selectedSuspect={props.selectedSuspect}
 					suspectList={props.suspectList}
 					updateSuspectList={props.updateSuspectList}
+				/>
+				<SuspectList
+					suspectList={props.suspectList}
+					selectSuspect={props.selectSuspect}
 				/>
 				<Tabbar
 					tabs={[
