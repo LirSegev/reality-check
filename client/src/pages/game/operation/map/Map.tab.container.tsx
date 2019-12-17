@@ -124,11 +124,31 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._showZone(map);
 		this._listenToLongPress(map, this._onLongPress);
 		this._addControls(map);
+		this._stopSwiping(map);
 
 		document.addEventListener(
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
 		);
+	}
+
+	_stopSwiping(map: mapboxgl.Map) {
+		/**
+		 * Width in pixels of areas for swiping
+		 */
+		const THRESHOLD = 50;
+
+		const listener = (e: mapboxgl.MapTouchEvent & mapboxgl.EventData) => {
+			if (
+				e.point.x >= THRESHOLD &&
+				e.point.x <= map.getContainer().clientWidth - THRESHOLD
+			)
+				e.originalEvent.stopPropagation();
+		};
+
+		map.on('touchstart', listener);
+		// map.on('touchmove', listener);
+		// map.on('touchend', listener);
 	}
 
 	_showZone(map: mapboxgl.Map) {
