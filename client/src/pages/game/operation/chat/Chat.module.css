@@ -31,6 +31,9 @@
 
 :global(.card).chatItem.action {
 	width: fit-content;
+	border-radius: 16px;
+	padding: 7px 22px;
+	background-color: #fffdfa;
 }
 
 .content {
