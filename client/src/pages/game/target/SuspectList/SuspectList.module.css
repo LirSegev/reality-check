@@ -1,3 +1,17 @@
+:global(.ui.form).suspectSelectors {
+	display: flex;
+}
+
+:global(.ui.form).suspectSelectors :global(.field) {
+	margin-right: 0.5em;
+	width: 2.5em;
+	text-align: center;
+}
+
+:global(.ui.form).suspectSelectors :global(.field):last-child {
+	margin-right: 0;
+}
+
 .suspectName {
 	margin-left: 0.5em;
 	font-weight: 500;

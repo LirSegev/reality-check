@@ -1,13 +1,17 @@
 import React from 'react';
 import { ListItem } from 'react-onsenui';
 
+import SuspectSelectors from './SuspectSelectors';
 import SuspectIdentifiers from './SuspectIdentifiers.view';
 
 interface Props {
 	handleSuspectClick: (e: React.MouseEvent<any, MouseEvent>) => void;
 }
 
-const renderSuspectListItem = (props: Props) => (id: number) => {
+const renderSuspectListItem = (props: Props) => (
+	id: number,
+	rowIndex: number
+) => {
 	const suspect = require(`../../../../files/suspects/${id}.json`) as SuspectFile;
 
 	return (
@@ -20,8 +24,9 @@ const renderSuspectListItem = (props: Props) => (id: number) => {
 			<div className="left">
 				<SuspectIdentifiers suspect={suspect} />
 			</div>
+			<div className="right">
+				<SuspectSelectors showLegend={rowIndex === 0} />
 			</div>
-			{/* <div className="right">right</div> */}
 		</ListItem>
 	);
 };
