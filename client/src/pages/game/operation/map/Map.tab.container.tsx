@@ -56,19 +56,29 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._onLongPress = this._onLongPress.bind(this);
 	}
 
-	componentDidMount() {
-		getGameDocRef()
-			.collection('players')
-			.onSnapshot(this._updatePlayerLocations, err =>
-				console.error(new Error('Error getting player list'), err)
-			);
+	_snapshots: Array<() => void> = [];
 
-		getGameDocRef()
-			.collection('intel')
-			.orderBy('timestamp')
-			.onSnapshot(this._updateMrZRoute, err =>
-				console.error(new Error('Error getting intel snapshot:'), err)
-			);
+	componentDidMount() {
+		this._snapshots.push(
+			getGameDocRef()
+				.collection('players')
+				.onSnapshot(this._updatePlayerLocations, err =>
+					console.error(new Error('Error getting player list'), err)
+				)
+		);
+
+		this._snapshots.push(
+			getGameDocRef()
+				.collection('intel')
+				.orderBy('timestamp')
+				.onSnapshot(this._updateMrZRoute, err =>
+					console.error(new Error('Error getting intel snapshot:'), err)
+				)
+		);
+	}
+
+	componentWillUnmount() {
+		this._snapshots.forEach(unsubscribe => unsubscribe());
 	}
 
 	componentDidUpdate(prevProps: Props) {
