@@ -24,6 +24,8 @@ import 'firebase/functions';
 import 'firebase/storage';
 import firebaseConfig from './config/firebase';
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+export { db };
 
 // Eruda
 (function() {

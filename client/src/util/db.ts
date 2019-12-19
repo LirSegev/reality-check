@@ -1,5 +1,5 @@
 import * as firebase from 'firebase/app';
-import { store } from '../index';
+import { store, db } from '../index';
 import { Player } from './db.types';
 
 /**
@@ -56,7 +56,6 @@ export function getCurrentPlayerRef(
 }
 
 export function getGameDocRef(): firebase.firestore.DocumentReference {
-	const db = firebase.firestore();
 	const gameId = store.getState().main.gameId;
 	if (!gameId)
 		throw new Error('Could not get gameDocRef because gameId is not set');
