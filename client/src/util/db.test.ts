@@ -1,5 +1,4 @@
 import { app as firebaseApp } from '../mocks/firebase';
-import firebase from 'firebase';
 import { exposeMockFirebaseApp } from 'ts-mock-firebase';
 import configureStore from 'redux-mock-store';
 // @ts-ignore
@@ -40,6 +39,7 @@ describe('getGameDocRef()', () => {
 					gameId: 'someGameId',
 				},
 			} as ReduxState),
+			db: mockFirestore,
 		}));
 
 		expect(getGameDocRef()).toEqual(
