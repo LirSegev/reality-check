@@ -24,6 +24,21 @@ import 'firebase/functions';
 import 'firebase/storage';
 import firebaseConfig from './config/firebase';
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+if (process.env.REACT_APP_IS_LOCAL) {
+	db.settings({
+		host: 'localhost:8080',
+		ssl: false,
+	});
+
+	// Create game doc
+	db.doc('games/test')
+		.get()
+		.then(doc => {
+			if (!doc.exists) db.doc('games/test').set({ data: true });
+		});
+}
+export { db };
 
 // Eruda
 (function() {

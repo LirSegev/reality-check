@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import LoginPageValidView from './Login-valid.page.view';
 import LoginPageInvalidView from './Login-invalid.page.view';
 import { Page } from 'react-onsenui';
+import { db } from '../../index';
 
 interface Props {
 	match: match<{ gameId: string }>;
@@ -33,7 +34,6 @@ class LoginPageContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		this._isMounted = true;
 
-		const db = firebase.firestore();
 		db.collection('games')
 			.doc(this.props.match.params.gameId)
 			.get()
@@ -75,7 +75,4 @@ const mapDispatchToProps = {
 	stopLoading,
 	startLoading,
 };
-export default connect(
-	null,
-	mapDispatchToProps
-)(LoginPageContainer);
+export default connect(null, mapDispatchToProps)(LoginPageContainer);

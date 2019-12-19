@@ -1,4 +1,3 @@
-import * as firebase from 'firebase/app';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -6,6 +5,7 @@ import { ReduxState } from '../../reducers/initialState';
 import { changeGame, stopLoading } from '../../reducers/main.reducer';
 import ChooseGamePageView from './ChooseGame.page.view';
 import renderGameItem from './renderGameItem';
+import { db } from '../../index';
 
 interface Props {
 	stopLoading: ConnectedAction<typeof stopLoading>;
@@ -27,7 +27,6 @@ class ChooseGamePageContainer extends React.Component<Props, State> {
 	_renderGameItem = renderGameItem(this.props.changeGame);
 
 	componentWillMount() {
-		const db = firebase.firestore();
 		db.collection('games')
 			.get()
 			.then(games => {

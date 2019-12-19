@@ -176,8 +176,8 @@ it('dispatches map/setPlayerLocations action', done => {
 				type: string;
 				payload: unknown;
 			}>;
-			expect(actions).toHaveLength(1);
-			expect(actions[0]).toEqual({
+			expect(actions).toHaveLength(2);
+			expect(actions[1]).toEqual({
 				type: 'map/setPlayerLocations',
 				payload: {
 					playerLocations: {
@@ -200,6 +200,7 @@ describe('marks player locations', () => {
 		jest.isolateModules(async () => {
 			const mockMap = ({
 				getSource: jest.fn(),
+				on: jest.fn(),
 			} as Partial<mapboxgl.Map>) as mapboxgl.Map;
 			jest.mock(
 				'./Map.tab.view.tsx',
@@ -284,6 +285,7 @@ describe('marks player locations', () => {
 					if (id === 'player-locations') return mockSource;
 					else return undefined;
 				}),
+				on: jest.fn(),
 			} as Partial<mapboxgl.Map>) as mapboxgl.Map;
 			jest.mock(
 				'./Map.tab.view.tsx',

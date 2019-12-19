@@ -10,6 +10,7 @@ import {
 } from './reducers/main.reducer';
 import { signOut } from './util/firebase';
 import { PlayerRole } from './util/db.types';
+import { db } from './index';
 
 interface State {
 	isLogged: boolean;
@@ -83,7 +84,7 @@ class AppContainer extends React.Component<Props, State> {
 		isNew: boolean
 	) {
 		// prettier-ignore
-		const gameDoc = firebase.firestore().collection('games').doc(gameId);
+		const gameDoc = db.collection('games').doc(gameId);
 
 		if (isNew) {
 			// New player
@@ -106,7 +107,6 @@ class AppContainer extends React.Component<Props, State> {
 		} else {
 			// Player resigning in
 
-			const db = firebase.firestore();
 			db.collection('games')
 				.doc(gameId)
 				.get()
