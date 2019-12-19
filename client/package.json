@@ -35,7 +35,7 @@
 	},
 	"scripts": {
 		"start": "PORT=5000 react-scripts start",
-		"serve": "npm run build && firebase serve --only hosting",
+		"start:local": "firebase emulators:start --only firestore & PORT=5000 REACT_APP_IS_LOCAL=true react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"coverage": "npm test -- --coverage --watchAll=false",
