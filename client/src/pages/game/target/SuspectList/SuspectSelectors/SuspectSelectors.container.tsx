@@ -21,22 +21,16 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 	};
 
 	componentDidMount() {
-		this._getStateFromDb();
-	}
-
-	_getStateFromDb = async () => {
-		const game = await getGameDocRef()
-			.get()
-			.then(doc => doc.data() as DB.GameDoc | undefined);
-		if (game) {
+		getGameDocRef().onSnapshot(snapshot => {
+			const game = (snapshot.data() as DB.GameDoc) || undefined;
 			this.setState({
 				isMarked:
 					(game.marked_suspects?.indexOf(this.props.suspectId) ?? -1) >= 0,
 				isHidden:
 					(game.hidden_suspects?.indexOf(this.props.suspectId) ?? -1) >= 0,
 			});
-		}
-	};
+		});
+	}
 
 	_stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
 
