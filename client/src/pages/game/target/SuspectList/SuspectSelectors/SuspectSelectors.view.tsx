@@ -6,7 +6,9 @@ import styles from '../SuspectList.module.css';
 interface Props {
 	stopPropagation: (e: React.MouseEvent) => void;
 	handleMarkChange: () => void;
+	handleHideChange: () => void;
 	isMarked: boolean;
+	isHidden: boolean;
 	showLegend: boolean;
 }
 
@@ -15,6 +17,8 @@ const SuspectSelectorsView: React.FC<Props> = ({
 	showLegend,
 	handleMarkChange,
 	isMarked,
+	handleHideChange,
+	isHidden,
 }) => (
 	<div
 		className={['ui form', styles.suspectSelectors].join(' ')}
@@ -26,7 +30,7 @@ const SuspectSelectorsView: React.FC<Props> = ({
 		</div>
 		<div className="field">
 			{showLegend && <label>Hide</label>}
-			<Checkbox />
+			<Checkbox onChange={handleHideChange} checked={isHidden} />
 		</div>
 	</div>
 );
