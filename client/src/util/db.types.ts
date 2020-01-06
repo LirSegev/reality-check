@@ -193,6 +193,8 @@ export const GameDocCodec = t.partial({
 	collected_intelligence_points: t.array(t.number),
 	//? I think it might not a NonEmptyArray
 	// suspect_list: NonEmptyArray<t.number | t.string>,
+	marked_suspects: t.array(t.number),
+	hidden_suspects: t.array(t.number),
 	// TODO: Use array instead of object
 	// detective_clues: { [property: t.string]: t.string },
 	phase: t.number,

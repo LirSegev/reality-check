@@ -25,7 +25,7 @@ const renderSuspectListItem = (props: Props) => (
 				<SuspectIdentifiers suspect={suspect} />
 			</div>
 			<div className="right">
-				<SuspectSelectors showLegend={rowIndex === 0} />
+				<SuspectSelectors showLegend={rowIndex === 0} suspectId={suspect.id} />
 			</div>
 		</ListItem>
 	);

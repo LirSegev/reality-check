@@ -7,6 +7,8 @@ declare namespace DB {
 		collected_identity_points?: number[];
 		collected_intelligence_points?: number[];
 		suspect_list: NonEmptyArray<number | string>;
+		marked_suspects?: number[];
+		hidden_suspects?: number[];
 		detective_clues?: { [property: string]: string };
 		phase?: number;
 	}
