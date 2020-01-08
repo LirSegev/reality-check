@@ -7,6 +7,7 @@ import Clues from './clues';
 import SuspectList from './SuspectList';
 import Suspects from './suspects';
 import SuspectStory from './SuspectStory';
+import styles from './Target.module.css';
 
 export interface Props {
 	selectedSuspect: number | undefined;
@@ -33,8 +34,8 @@ const TargetTabView: React.FC<Props> = props => {
 		const isHidden = props.hiddenSuspects.indexOf(id) >= 0;
 		const isMarked = props.markedSuspects.indexOf(id) >= 0;
 		const classes: string[] = [];
-		if (isHidden) classes.push('hidden');
-		if (isMarked) classes.push('marked');
+		if (isHidden) classes.push(styles.hiddenTab);
+		if (isMarked) classes.push(styles.markedTab);
 
 		return {
 			tabTitle: nameToInitials(json.name),
