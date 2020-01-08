@@ -7,6 +7,7 @@ interface Props {
 	tabs: NonEmptyArray<{
 		tabTitle: string;
 		content: JSX.Element;
+		className?: string;
 	}>;
 	index?: number;
 	onChange?: (e: { index: number }) => void;
