@@ -53,6 +53,7 @@ const TargetTabView: React.FC<Props> = props => {
 					selectedSuspect={props.selectedSuspect}
 					suspectList={props.suspectList}
 					updateSuspectList={props.updateSuspectList}
+					hiddenSuspects={props.hiddenSuspects}
 				/>
 				<SuspectList
 					suspectList={props.suspectList}

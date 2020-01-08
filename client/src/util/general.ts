@@ -104,13 +104,21 @@ export function putInArray<T, K>(array: Array<T>, element: K): Array<T | K> {
 }
 
 /**
- * Removes element from array.
+ * Removes elements from array.
  */
-export function removeFromArray<T>(array: Array<T>, element: T): Array<T> {
-	const index = array.indexOf(element);
-	if (index >= 0)
-		return produce(array, draft => {
-			draft.splice(index, 1);
-		});
-	else return [...array];
+export function removeFromArray<T>(
+	array: Array<T>,
+	...elements: T[]
+): Array<T> {
+	let result = array;
+	elements.forEach(el => {
+		const index = result.indexOf(el);
+		if (index >= 0)
+			result = produce(result, draft => {
+				draft.splice(index, 1);
+			});
+		else result = [...result];
+	});
+
+	return result;
 }

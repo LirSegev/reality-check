@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getGameDocRef } from '../../../../util/db';
 import SuspectsView from './Suspects.component.view';
+import { removeFromArray } from '../../../../util/general';
 
 interface State {
 	showId: number | undefined;
@@ -12,6 +13,7 @@ interface Props {
 	selectedSuspect: number | undefined;
 	selectSuspect: (id: Props['selectedSuspect']) => void;
 	suspectList: number[];
+	hiddenSuspects: number[];
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
 	isVisible: boolean;
 }
@@ -25,6 +27,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 		super(props);
 
 		this.state = { showId: undefined };
+		this._updateNonHiddenSuspects();
 
 		this._updateSuspectList = this._updateSuspectList.bind(this);
 		this._switch2NextPic = this._switch2NextPic.bind(this);
@@ -47,6 +50,8 @@ class SuspectsContainer extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
+		this._updateNonHiddenSuspects();
+
 		//* selectedSuspect changed
 		if (prevProps.selectedSuspect !== this.props.selectedSuspect) {
 			if (this.props.selectedSuspect) {
@@ -77,6 +82,14 @@ class SuspectsContainer extends React.Component<Props, State> {
 		) {
 			this._toggleSwitchingPics();
 		}
+	}
+
+	_nonHiddenSuspects: number[] = [];
+	_updateNonHiddenSuspects() {
+		this._nonHiddenSuspects = removeFromArray(
+			this.props.suspectList,
+			...this.props.hiddenSuspects
+		);
 	}
 
 	_toggleSwitchingPics() {
@@ -135,8 +148,8 @@ class SuspectsContainer extends React.Component<Props, State> {
 	_switch2NextPic() {
 		this.setState(prev => {
 			if (prev.showId !== undefined) {
-				const indexOfPrev = this.props.suspectList.indexOf(prev.showId);
-				const suspectList = this.props.suspectList;
+				const suspectList = this._nonHiddenSuspects;
+				const indexOfPrev = suspectList.indexOf(prev.showId);
 				return {
 					...prev,
 					showId: suspectList[(indexOfPrev + 1) % suspectList.length],
