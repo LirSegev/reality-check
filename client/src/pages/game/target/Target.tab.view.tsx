@@ -11,6 +11,8 @@ import SuspectStory from './SuspectStory';
 export interface Props {
 	selectedSuspect: number | undefined;
 	suspectList: number[];
+	hiddenSuspects: number[];
+	markedSuspects: number[];
 	incrementUnreadNum: (type: UnreadType) => boolean;
 	updateSuspectList: (suspectList: Props['suspectList']) => void;
 	selectSuspect: (id: Props['selectedSuspect']) => void;
@@ -27,9 +29,17 @@ const TargetTabView: React.FC<Props> = props => {
 
 	const suspectTabs = props.suspectList.map(id => {
 		const json = require(`../../../files/suspects/${id}.json`);
+
+		const isHidden = props.hiddenSuspects.indexOf(id) >= 0;
+		const isMarked = props.markedSuspects.indexOf(id) >= 0;
+		const classes: string[] = [];
+		if (isHidden) classes.push('hidden');
+		if (isMarked) classes.push('marked');
+
 		return {
 			tabTitle: nameToInitials(json.name),
 			content: <SuspectStory suspect={json} />,
+			className: classes.join(' '),
 		};
 	});
 

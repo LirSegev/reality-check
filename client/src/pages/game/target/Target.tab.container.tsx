@@ -2,10 +2,13 @@ import * as React from 'react';
 import TargetTabView, { Props as ViewProps } from './Target.tab.view';
 import { ReduxState } from '../../../reducers/initialState';
 import { connect } from 'react-redux';
+import { getGameDocRef } from '../../../util/db';
 
 export interface State {
 	selectedSuspect: number | undefined;
 	suspectList: number[];
+	hiddenSuspects: number[];
+	markedSuspects: number[];
 }
 
 interface Props
@@ -17,6 +20,8 @@ interface Props
 		| 'selectedSuspect'
 		| 'onTabChange'
 		| 'isVisible'
+		| 'markedSuspects'
+		| 'hiddenSuspects'
 	> {
 	tabIndex: number;
 	visibleTabIndex: number;
@@ -29,11 +34,23 @@ class TargetTabContainer extends React.Component<Props, State> {
 		this.state = {
 			selectedSuspect: undefined,
 			suspectList: [],
+			hiddenSuspects: [],
+			markedSuspects: [],
 		};
 
 		this._updateSuspectList = this._updateSuspectList.bind(this);
 		this._selectSuspect = this._selectSuspect.bind(this);
 		this._onTabChange = this._onTabChange.bind(this);
+	}
+
+	componentDidMount() {
+		getGameDocRef().onSnapshot(snap => {
+			const game = snap.data() as DB.GameDoc;
+			this.setState({
+				markedSuspects: game?.marked_suspects ?? [],
+				hiddenSuspects: game?.hidden_suspects ?? [],
+			});
+		});
 	}
 
 	_updateSuspectList(suspectList: State['suspectList']) {
