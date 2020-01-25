@@ -10,6 +10,7 @@ interface Props {
 	isMarked: boolean;
 	isHidden: boolean;
 	showLegend: boolean;
+	isAdmin: boolean;
 }
 
 const SuspectSelectorsView: React.FC<Props> = ({
@@ -19,20 +20,37 @@ const SuspectSelectorsView: React.FC<Props> = ({
 	isMarked,
 	handleHideChange,
 	isHidden,
-}) => (
-	<div
-		className={['ui form', styles.suspectSelectors].join(' ')}
-		onClick={stopPropagation}
-	>
-		<div className="field">
-			{showLegend && <label>Mark</label>}
-			<Checkbox onChange={handleMarkChange} checked={isMarked} />
+	isAdmin,
+}) => {
+	const playerButtons = (
+		<React.Fragment>
+			<div className="field">
+				{showLegend && <label>Mark</label>}
+				<Checkbox onChange={handleMarkChange} checked={isMarked} />
+			</div>
+			<div className="field">
+				{showLegend && <label>Hide</label>}
+				<Checkbox onChange={handleHideChange} checked={isHidden} />
+			</div>
+		</React.Fragment>
+	);
+
+	const adminButtons = (
+		<React.Fragment>
+			<div className="field">
+				<Checkbox />
+			</div>
+		</React.Fragment>
+	);
+
+	return (
+		<div
+			className={['ui form', styles.suspectSelectors].join(' ')}
+			onClick={stopPropagation}
+		>
+			{isAdmin ? adminButtons : playerButtons}
 		</div>
-		<div className="field">
-			{showLegend && <label>Hide</label>}
-			<Checkbox onChange={handleHideChange} checked={isHidden} />
-		</div>
-	</div>
-);
+	);
+};
 
 export default SuspectSelectorsView;

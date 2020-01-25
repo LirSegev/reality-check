@@ -4,6 +4,7 @@ import { db } from '../../../../..';
 import { getGameDocRef } from '../../../../../util/db';
 import { putInArray, removeFromArray } from '../../../../../util/general';
 import SuspectSelectorsView from './SuspectSelectors.view';
+import { store } from '../../../../../index';
 
 interface Props {
 	showLegend: boolean;
@@ -95,6 +96,7 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 					isMarked,
 					isHidden,
 					handleHideChange,
+					isAdmin: store.getState().main.isAdmin,
 				}}
 			/>
 		);
