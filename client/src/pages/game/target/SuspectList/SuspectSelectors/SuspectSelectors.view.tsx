@@ -9,6 +9,7 @@ interface Props {
 	handleHideChange: () => void;
 	isMarked: boolean;
 	isHidden: boolean;
+	isInList: boolean;
 	showLegend: boolean;
 	isAdmin: boolean;
 }
@@ -21,6 +22,7 @@ const SuspectSelectorsView: React.FC<Props> = ({
 	handleHideChange,
 	isHidden,
 	isAdmin,
+	isInList,
 }) => {
 	const playerButtons = (
 		<React.Fragment>
@@ -38,7 +40,7 @@ const SuspectSelectorsView: React.FC<Props> = ({
 	const adminButtons = (
 		<React.Fragment>
 			<div className="field">
-				<Checkbox />
+				<Checkbox checked={isInList} />
 			</div>
 		</React.Fragment>
 	);

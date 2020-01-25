@@ -13,12 +13,14 @@ interface Props {
 interface State {
 	isMarked: boolean;
 	isHidden: boolean;
+	isInList: boolean;
 }
 
 class SuspectSelectorsContainer extends React.Component<Props, State> {
 	state = {
 		isMarked: false,
 		isHidden: false,
+		isInList: false,
 	};
 
 	componentDidMount() {
@@ -29,6 +31,10 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 					(game.marked_suspects?.indexOf(this.props.suspectId) ?? -1) >= 0,
 				isHidden:
 					(game.hidden_suspects?.indexOf(this.props.suspectId) ?? -1) >= 0,
+				isInList:
+					(game.suspect_list
+						?.map(n => Number(n))
+						.indexOf(this.props.suspectId) ?? -1) >= 0,
 			});
 		});
 	}
@@ -85,7 +91,7 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 			props,
 			state,
 		} = this;
-		const { isMarked, isHidden } = state;
+		const { isMarked, isHidden, isInList } = state;
 		const { showLegend } = props;
 		return (
 			<SuspectSelectorsView
@@ -96,6 +102,7 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 					isMarked,
 					isHidden,
 					handleHideChange,
+					isInList,
 					isAdmin: store.getState().main.isAdmin,
 				}}
 			/>
