@@ -4,6 +4,11 @@ import { ReduxState } from '../../../reducers/initialState';
 import { connect } from 'react-redux';
 import { getGameDocRef } from '../../../util/db';
 
+/**
+ * List of usable suspects
+ */
+export const AVAIL_SUSPECTS: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
 export interface State {
 	selectedSuspect: number | undefined;
 	suspectList: number[];
@@ -64,7 +69,7 @@ class TargetTabContainer extends React.Component<Props, State> {
 	}
 
 	_onTabChange(e: { index: number }) {
-		this._selectSuspect(this.state.suspectList[e.index - 1]);
+		this._selectSuspect(AVAIL_SUSPECTS[e.index - 1]);
 	}
 
 	render() {

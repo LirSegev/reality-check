@@ -1,13 +1,10 @@
 import React from 'react';
-import { Icon, Dialog, List } from 'react-onsenui';
-import renderSuspectListItem from './renderSuspectListItem';
-import { store } from '../../../../index';
-import styles from './SuspectList.module.css';
+import { Dialog, Icon, List } from 'react-onsenui';
 
-/**
- * List of usable suspects
- */
-const AVAIL_SUSPECTS: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+import { store } from '../../../..';
+import { AVAIL_SUSPECTS } from '../Target.tab.container';
+import renderSuspectListItem from './renderSuspectListItem';
+import styles from './SuspectList.module.css';
 
 interface Props {
 	suspectList: number[];

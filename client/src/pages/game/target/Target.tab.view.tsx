@@ -8,6 +8,7 @@ import SuspectList from './SuspectList';
 import Suspects from './suspects';
 import SuspectStory from './SuspectStory';
 import styles from './Target.module.css';
+import { AVAIL_SUSPECTS } from './Target.tab.container';
 
 export interface Props {
 	selectedSuspect: number | undefined;
@@ -28,13 +29,14 @@ const TargetTabView: React.FC<Props> = props => {
 			.map((n, i, a) => (i < a.length - 1 ? n[0] + '.' : n)) //TODO: implicit any
 			.join(' ');
 
-	const suspectTabs = props.suspectList.map(id => {
+	const suspectTabs = AVAIL_SUSPECTS.map(id => {
 		const json = require(`../../../files/suspects/${id}.json`);
 
+		const isInList = props.suspectList.indexOf(id) >= 0;
 		const isHidden = props.hiddenSuspects.indexOf(id) >= 0;
 		const isMarked = props.markedSuspects.indexOf(id) >= 0;
 		const classes: string[] = [];
-		if (isHidden) classes.push(styles.hiddenTab);
+		if (isHidden || !isInList) classes.push(styles.hiddenTab);
 		if (isMarked) classes.push(styles.markedTab);
 
 		return {
@@ -69,7 +71,7 @@ const TargetTabView: React.FC<Props> = props => {
 					]}
 					index={
 						props.selectedSuspect
-							? props.suspectList.indexOf(props.selectedSuspect) + 1
+							? AVAIL_SUSPECTS.indexOf(props.selectedSuspect) + 1
 							: undefined
 					}
 					onChange={props.onTabChange}
