@@ -43,10 +43,7 @@ class SuspectsContainer extends React.Component<Props, State> {
 	_updateSuspectList(snapshot: firebase.firestore.DocumentSnapshot) {
 		const game = snapshot.data() as DB.GameDoc | undefined;
 		if (game && game['suspect_list'])
-			// TODO: Remove .map() when sure suspect_list is number[]
-			this.props.updateSuspectList(
-				game['suspect_list'].map(val => Number(val))
-			);
+			this.props.updateSuspectList(game['suspect_list']);
 	}
 
 	componentDidUpdate(prevProps: Props) {

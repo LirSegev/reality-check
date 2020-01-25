@@ -31,15 +31,21 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 					(game.marked_suspects?.indexOf(this.props.suspectId) ?? -1) >= 0,
 				isHidden:
 					(game.hidden_suspects?.indexOf(this.props.suspectId) ?? -1) >= 0,
-				isInList:
-					(game.suspect_list
-						?.map(n => Number(n))
-						.indexOf(this.props.suspectId) ?? -1) >= 0,
+				isInList: (game.suspect_list?.indexOf(this.props.suspectId) ?? -1) >= 0,
 			});
 		});
 	}
 
 	_stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
+
+	_handleIsInListChange = () => {
+		this.setState(prevState => {
+			const isInList = !prevState.isInList;
+
+			this._updateDb('list', isInList);
+			return { isInList };
+		});
+	};
 
 	_handleMarkChange = () => {
 		this.setState(prevState => {
@@ -59,24 +65,35 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 		});
 	};
 
-	_updateDb(property: 'hidden' | 'marked', newValue: boolean) {
+	_updateDb(property: 'hidden' | 'marked' | 'list', newValue: boolean) {
 		db.runTransaction(async transaction => {
 			const gameDoc = await transaction
 				.get(getGameDocRef())
 				.then(doc => doc.data() as DB.GameDoc | undefined);
 
 			if (gameDoc) {
-				let list =
-					(property === 'marked'
-						? gameDoc.marked_suspects
-						: gameDoc.hidden_suspects) || [];
+				let list = [];
+				let key = '';
+				switch (property) {
+					case 'marked':
+						list = gameDoc.marked_suspects || [];
+						key = 'marked_suspects';
+						break;
+					case 'hidden':
+						list = gameDoc.hidden_suspects || [];
+						key = 'hidden_suspects';
+						break;
+					case 'list':
+						key = 'suspect_list';
+						list = gameDoc.suspect_list || [];
+				}
 
 				list = newValue
 					? putInArray(list, this.props.suspectId)
 					: removeFromArray(list, this.props.suspectId);
 
 				const updateData: Partial<DB.GameDoc> = {
-					[`${property}_suspects`]: list,
+					[key]: list,
 				};
 				return transaction.update(getGameDocRef(), updateData);
 			}
@@ -88,6 +105,7 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 			_stopPropagation: stopPropagation,
 			_handleMarkChange: handleMarkChange,
 			_handleHideChange: handleHideChange,
+			_handleIsInListChange: handleInListChange,
 			props,
 			state,
 		} = this;
@@ -103,6 +121,7 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 					isHidden,
 					handleHideChange,
 					isInList,
+					handleInListChange,
 					isAdmin: store.getState().main.isAdmin,
 				}}
 			/>

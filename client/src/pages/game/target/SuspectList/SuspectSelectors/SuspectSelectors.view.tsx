@@ -7,6 +7,7 @@ interface Props {
 	stopPropagation: (e: React.MouseEvent) => void;
 	handleMarkChange: () => void;
 	handleHideChange: () => void;
+	handleInListChange: () => void;
 	isMarked: boolean;
 	isHidden: boolean;
 	isInList: boolean;
@@ -22,6 +23,7 @@ const SuspectSelectorsView: React.FC<Props> = ({
 	handleHideChange,
 	isHidden,
 	isAdmin,
+	handleInListChange,
 	isInList,
 }) => {
 	const playerButtons = (
@@ -40,7 +42,7 @@ const SuspectSelectorsView: React.FC<Props> = ({
 	const adminButtons = (
 		<React.Fragment>
 			<div className="field">
-				<Checkbox checked={isInList} />
+				<Checkbox onChange={handleInListChange} checked={isInList} />
 			</div>
 		</React.Fragment>
 	);
