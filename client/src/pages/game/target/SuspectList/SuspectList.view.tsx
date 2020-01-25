@@ -1,6 +1,12 @@
 import React from 'react';
 import { Icon, Dialog, List } from 'react-onsenui';
 import renderSuspectListItem from './renderSuspectListItem';
+import { store } from '../../../../index';
+
+/**
+ * List of usable suspects
+ */
+const AVAIL_SUSPECTS: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 interface Props {
 	suspectList: number[];
@@ -23,7 +29,9 @@ const SuspectListView: React.FC<Props> = ({
 		</div>
 		<Dialog isOpen={isOpen} onCancel={closeList}>
 			<List
-				dataSource={suspectList}
+				dataSource={
+					store.getState().main.isAdmin ? AVAIL_SUSPECTS : suspectList
+				}
 				renderRow={renderSuspectListItem({ handleSuspectClick })}
 			/>
 		</Dialog>
