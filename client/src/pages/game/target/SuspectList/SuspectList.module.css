@@ -16,3 +16,8 @@
 	margin-left: 0.5em;
 	font-weight: 500;
 }
+
+#suspectList {
+	max-height: 80vh;
+	overflow: scroll;
+}

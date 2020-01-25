@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon, Dialog, List } from 'react-onsenui';
 import renderSuspectListItem from './renderSuspectListItem';
 import { store } from '../../../../index';
+import styles from './SuspectList.module.css';
 
 /**
  * List of usable suspects
@@ -29,6 +30,7 @@ const SuspectListView: React.FC<Props> = ({
 		</div>
 		<Dialog isOpen={isOpen} onCancel={closeList}>
 			<List
+				id={styles.suspectList}
 				dataSource={
 					store.getState().main.isAdmin ? AVAIL_SUSPECTS : suspectList
 				}
