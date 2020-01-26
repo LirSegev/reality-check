@@ -200,6 +200,7 @@ describe('marks player locations', () => {
 		jest.isolateModules(async () => {
 			const mockMap = ({
 				getSource: jest.fn(),
+				on: jest.fn(),
 			} as Partial<mapboxgl.Map>) as mapboxgl.Map;
 			jest.mock(
 				'./Map.tab.view.tsx',
@@ -284,6 +285,7 @@ describe('marks player locations', () => {
 					if (id === 'player-locations') return mockSource;
 					else return undefined;
 				}),
+				on: jest.fn(),
 			} as Partial<mapboxgl.Map>) as mapboxgl.Map;
 			jest.mock(
 				'./Map.tab.view.tsx',

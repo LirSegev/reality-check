@@ -1,3 +1,5 @@
+import produce from 'immer';
+
 export function isIOS() {
 	return !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 }
@@ -90,4 +92,33 @@ export function toTitleCase(s: string): string {
 		.split(' ')
 		.map(word => word[0].toUpperCase() + word.slice(1))
 		.join(' ');
+}
+
+/**
+ * Adds element to array of it doesn't already exist.
+ */
+export function putInArray<T, K>(array: Array<T>, element: K): Array<T | K> {
+	// @ts-ignore
+	if (array.indexOf(element) >= 0) return [...array];
+	else return [...array, element];
+}
+
+/**
+ * Removes elements from array.
+ */
+export function removeFromArray<T>(
+	array: Array<T>,
+	...elements: T[]
+): Array<T> {
+	let result = array;
+	elements.forEach(el => {
+		const index = result.indexOf(el);
+		if (index >= 0)
+			result = produce(result, draft => {
+				draft.splice(index, 1);
+			});
+		else result = [...result];
+	});
+
+	return result;
 }

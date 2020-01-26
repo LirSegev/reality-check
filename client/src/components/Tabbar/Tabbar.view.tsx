@@ -6,6 +6,7 @@ export interface Props {
 	tabs: NonEmptyArray<{
 		tabTitle: string;
 		content: JSX.Element;
+		className?: string;
 	}>;
 	index: number;
 	handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -14,6 +15,8 @@ export interface Props {
 const TabbarView: React.FC<Props> = props => {
 	const tabs = props.tabs.map((tab, index) => {
 		const classes = [styles.button];
+		if (tab.className) classes.push(tab.className);
+
 		if (index === props.index) classes.push(styles.active);
 
 		return (

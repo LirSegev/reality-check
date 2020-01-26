@@ -15,16 +15,17 @@ class ChatInput extends React.Component {
 	handleSend(e?: React.MouseEvent<HTMLElement, MouseEvent>) {
 		const inputEl = this.refs.input as HTMLDivElement;
 		const { displayName, uid } = firebase.auth().currentUser!;
+		const chatItem: ChatItem = {
+			author: {
+				displayName,
+				uid,
+			},
+			message: inputEl.innerText,
+			timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+		};
 		getGameDocRef()
 			.collection('chat')
-			.add({
-				author: {
-					displayName,
-					uid,
-				},
-				message: inputEl.innerText,
-				timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
-			} as ChatItem); // TODO: Replace type casting
+			.add(chatItem);
 
 		inputEl.innerHTML = '';
 	}

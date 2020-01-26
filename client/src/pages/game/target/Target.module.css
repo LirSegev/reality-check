@@ -1,0 +1,7 @@
+button.markedTab {
+	background-color: yellow;
+}
+
+button.hiddenTab {
+	display: none;
+}

@@ -116,22 +116,27 @@ class GameContainer extends React.Component<Props, State> {
 
 	_GPSWatchId: number | undefined = undefined;
 
+	_timestamps: NodeJS.Timeout[] = [];
+
 	componentDidMount() {
 		this.props.stopLoading();
 
 		if (navigator.geolocation && !this.props.isAdmin)
 			navigator.geolocation.getCurrentPosition(pos => {
 				this._updateLastPos(pos);
-				// TODO: clear all intervals at componentWillUnmount()
 				// Update player location in db
-				setInterval(() => {
-					if (this._lastPos) this._updatePlayerLocation(this._lastPos);
-				}, LOCATION_UPDATES_INTERVAL * 1000);
+				this._timestamps.push(
+					setInterval(() => {
+						if (this._lastPos) this._updatePlayerLocation(this._lastPos);
+					}, LOCATION_UPDATES_INTERVAL * 1000)
+				);
 
 				// Collect detective/intelligence points
-				setInterval(() => {
-					if (this._lastPos) collectClosePoints(this._lastPos);
-				}, CHECK_FOR_POINTS_INTERVAL * 1000);
+				this._timestamps.push(
+					setInterval(() => {
+						if (this._lastPos) collectClosePoints(this._lastPos);
+					}, CHECK_FOR_POINTS_INTERVAL * 1000)
+				);
 			});
 
 		this._GPSWatchId = navigator.geolocation.watchPosition(this._onGPSMove);
@@ -139,6 +144,7 @@ class GameContainer extends React.Component<Props, State> {
 
 	componentWillUnmount() {
 		if (this._GPSWatchId) navigator.geolocation.clearWatch(this._GPSWatchId);
+		this._timestamps.forEach(id => clearInterval(id));
 	}
 
 	_lastPos: Position | null = null;

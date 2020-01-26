@@ -2,12 +2,10 @@
 	"name": "Zdeněk Pokorný",
 	"id": 9,
 	"data": {
-	"Zdeněk Pokorný": "Zdeněk is an intelligent scientific researcher who enjoys helping old ladies across the road\n\nZdeněk Pokorný is a 35-year-old scientific researcher who enjoys helping old ladies across the road, theatre and learning new languages. He is intelligent and caring, but can also be very pessimistic and a bit moody.\n\nHe is Czech. He has a degree in chemistry.\n\nPhysically, Zdeněk is in good shape. He is very tall with light skin, red blond hair and blue eyes.\n\nHe grew up in a working class neighbourhood. He was raised by his mother, his father having left when he was young.\n\nHe is currently single. His most recent romance was with a pick pocket called Aisha Hilda Bryant, who was the same age as him. They broke up because Zdeněk got fed up of being taken advantage of.\n\nZdeněk's best friend is a scientific researcher called Tyler Richardson. They have a very firey friendship. He also hangs around with Tracey Torres and Barry Walsh. They enjoy bowling together.",
+	"Zdeněk Pokorný": "Zdeněk Pokorný is a 35-year-old scientific researcher who enjoys helping old ladies across the road, theatre and learning new languages. He is intelligent and caring, but can also be very pessimistic and a bit moody.\n\nHe is Czech. He has a degree in chemistry.\n\nPhysically, Zdeněk is in good shape. He is very tall with light skin, red blond hair and blue eyes.\n\nHe grew up in a working class neighbourhood. He was raised by his mother, his father having left when he was young.\n\nHe is currently single. His most recent romance was with a pick pocket called Petra Dohnalová, who was the same age as him. They broke up because Zdeněk got fed up of being taken advantage of.\n\nZdeněk's best friend is a scientific researcher called Hanuš Rezler. They have a very firey friendship. He also hangs around with Viktoriya Polednová and Vladimír Kopecký. They enjoy drinking beer together.",
     "basic_information": {
         "Name": "Zdeněk Pokorný",
-        "Nickname": "Tall Zdeněk",
-        "Reason for nickname": "Descriptive",
-        "Date of birth": "Tuesday, 16th Oct 1984 (Age 35)",
+        "Date of birth": "Tuesday, 16th Oct 1984",
         "Star sign": "Libra",
         "Nationality": "Czech",
         "Ethnicity": "Caucasian",
@@ -25,12 +23,9 @@
         "Shape": "underweight",
         "Build": "average",
         "Hair colour": "red blond",
-        "Hairstyle": "shaved head, completely hairless",
         "Eyes": "blue",
-        "Face shape": "oval",
         "Glasses/lenses": "contact lenses",
-        "Distinguishing marks": "none",
-        "Other words that might be used": "full-length, grandiloquent, leggy, long-legged, slim, stately, statuesque, tall"
+        "Distinguishing marks": "none"
     },
     "personality": {
         "Positive characteristics": "intelligent, caring",
@@ -43,13 +38,12 @@
         "Extrovert": "sometimes",
         "Compassionate": "very",
         "IQ": "119",
-        "Hobbies": "helping old ladies across the road, theatre, learning new languages, bowling, watching sport, reading",
-        "Diet": "eats meat",
+        "Hobbies": "helping old ladies across the road, theatre, learning new languages, bowling, watching sport, reading, drinking",
         "Favourite foods": "chocolate cake, soup"
     },
     "employment": {
         "Lab assistant": [
-            "Astounding University",
+            "Charles University",
             "2002 - 2007",
             "resigned"
         ],
@@ -59,29 +53,29 @@
             "resigned"
         ],
         "Scientific researcher": [
-            "Prof Snooby's Research Hospital",
+            "Prof's Research Hospital",
             "2010 - present"
         ]
     },
     "background": {
         "Early years": "Zdeněk grew up in an impoverished neighbourhood. He was raised by his mother, his father having left when he was young.",
-        "Formative years": "Zdeněk got is first job as a lab assistant at age 18. Zdeněk went to univeristy and got a degree.",
-        "Most traumatic childhood experience": "His father leaving when he was two."
+        "Formative years": "Zdeněk got his first job as a lab assistant at age 18. Zdeněk went to univeristy and got a degree",
+        "Most traumatic childhood experience": "His father leaving when he was two"
     },
     "friends": {
-        "tyler_sienna_richardson": {
+        "hanuš_rezler": {
             "Relation": "Friend",
-            "Occupation": "Sous chef",
+            "Occupation": "Scientific researcher",
             "Age": "32",
             "Relationship": "They have a very firey friendship"
         },
-        "tracey_isla_torres": {
+        "viktoriya_polednová": {
             "Relation": "Friend",
             "Occupation": "Receptionist",
             "Age": "33",
             "Relationship": "They get on well most of the time"
         },
-        "barry_norman_walsh": {
+        "vladimír_kopecký": {
             "Relation": "Friend",
             "Occupation": "Electrician",
             "Age": "40",
@@ -89,33 +83,33 @@
         }
     },
     "parents": {
-        "yvonne_pauline_pokorny": {
+        "marina_pokorny": {
             "Relation": "Mother",
-            "Occupation": "Electrician",
+            "Occupation": "Bus driver",
             "Age": "63",
             "Relationship": "Generally harmonious."
         },
-        "nicola_eddie_simpson": {
+        "pavel_kunz": {
             "Relation": "Father",
             "Occupation": "Senior programmer",
-            "Age": "57",
+            "Age": "60",
             "Relationship": "Non-existent."
         }
     },
     "siblings": {
-        "filip_ronnie_simpson": {
+        "stanislav_kunz": {
             "Relation": "Half brother (shared father)",
             "Occupation": "Sous chef",
             "Age": "39",
-            "Relationship": "Zdenek and Filip spent a lot of time together before their father walked out on Zdenek's mum but do not see each other as siblings."
+            "Relationship": "Zdenek and Stanislav spent a lot of time together before their father walked out on Zdenek's mum but do not see each other as siblings."
         },
-        "stella_beth_pokorny": {
+        "marcela_pokorny": {
             "Relation": "Sister",
             "Occupation": "Sous chef",
             "Age": "37",
             "Relationship": "They get on well most of the time."
         },
-        "stacy_beulah_pokorny": {
+        "jana_pokorny": {
             "Relation": "Sister",
             "Occupation": "Politician",
             "Age": "36",
@@ -123,25 +117,25 @@
         }
     },
     "former_partners": {
-        "lyla_gertrude_lopez": {
+        "helena_knollová": {
             "Relation": "Ex-girlfriend (1 year 2004 - 2005)",
             "Occupation": "Legal secretary",
-            "Reason for breakup": "Lyla wanted somebody more 'badass'",
+            "Reason for breakup": "Helena wanted somebody more 'badass'",
             "Age": "36",
             "Relationship": "Remained friends"
         },
-        "helena_denise_brooks": {
+        "marie_bílková": {
             "Relation": "Ex-girlfriend (1 year 2010 - 2011)",
-            "Occupation": "Electrician",
-            "Reason for breakup": "Helena wanted somebody with a bit more 'grr'",
-            "Age": "54",
+            "Occupation": "Lawyer",
+            "Reason for breakup": "Marie wanted somebody with a bit more 'grr'",
+            "Age": "34",
             "Relationship": "No longer keep in touch"
         },
-        "aisha_hilda_bryant": {
+        "petra_dohnalová": {
             "Relation": "Ex-girlfriend (2 years 2014 - 2016)",
             "Occupation": "Pick pocket",
             "Reason for breakup": "Zdenek got fed up of being taken advantage of",
-            "Age": "25",
+            "Age": "35",
             "Relationship": "Occasional frosty contact"
         }
     },
@@ -158,14 +152,14 @@
     },
     "timeline": {
         "1984": "Zdeněk Pokorný is born",
-        "1986": "Father, Nicola Eddie Simpson walks out",
-        "2002": "Starts work at Astounding University at lab assistant",
-        "2004": "Gets together with Lyla Gertrude Lopez.",
-        "2005": "Relationship with Lyla Gertrude Lopez ends (Lyla wanted somebody more 'badass').",
-        "2007": "Resigns from job as lab assistant at Astounding University Starts work at Research Me at junior scientific researcher",
-        "2010": "Gets together with Helena Denise Brooks. Resigns from job as junior scientific researcher at Research Me Starts work at Prof Snooby's Research Hospital at scientific researcher",
-        "2011": "Relationship with Helena Denise Brooks ends (Helena wanted somebody with a bit more 'grr').",
-        "2014": "Gets together with Aisha Hilda Bryant.",
-        "2016": "Relationship with Aisha Hilda Bryant ends (Zdeněk got fed up of being taken advantage of)."
+        "1986": "Father, Pavel Kunz walks out",
+        "2002": "Starts work at Charles University as a lab assistant",
+        "2004": "Gets together with Helena Knollová",
+        "2005": "Relationship with Helena Knollová ends (Helena wanted somebody more 'badass')",
+        "2007": "Resigns from job as a lab assistant at Charles University. Starts work at Research Me at junior scientific researcher",
+        "2010": "Gets together with Marie Bílková. Resigns from job as junior scientific researcher at Research Me. Starts work at Prof's Research Hospital as a scientific researcher",
+        "2011": "Relationship with Marie Bílková ends (Marie wanted somebody with a bit more 'grr')",
+        "2014": "Gets together with Petra Dohnalová",
+        "2016": "Relationship with Petra Dohnalová ends (Zdeněk got fed up of being taken advantage of)"
     }
 }}

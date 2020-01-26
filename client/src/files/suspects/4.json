@@ -5,9 +5,7 @@
 		"Calan Stanley Cameron": "Calan is an intelligent health centre receptionist who is obsessed with tank tops.\n\nCalan Cameron is a 26-year-old health centre receptionist who enjoys going to the movies, golf and escapology. He is intelligent and caring, but can also be very pessimistic and a bit grumpy.\n\nHe is British. He finished school and then left academia. He is obsessed with tank tops.\n\nPhysically, Calan is in pretty good shape. He is average-height with light skin, dark blond hair and brown eyes.\n\nHe grew up in an upper class neighbourhood. He was raised by his mother, his father having left when he was young.\n\nHe is currently in a relationship with Keely Kye Thornton. Keely is 8 years older than him and works as an artist.\n\nCalan's best friend is a health centre receptionist called Teagan Miller. They get on well most of the time. He also hangs around with Arabella Macdonald and Bryan Chambers. They enjoy charity work together.",
 		"basic_information": {
 			"Name": "Calan Stanley Cameron",
-			"Nicknames": "Stan",
-			"Reason for nicknames": "Derived from Stanley / Descriptive",
-			"Date of birth": "Thursday, 14th Oct 1993 (Age 26)",
+			"Date of birth": "Thursday, 14th Oct 1993",
 			"Star sign": "Libra",
 			"Nationality": "British",
 			"Ethnicity": "Mixed",
@@ -42,7 +40,6 @@
 			"IQ": "119",
 			"Hobbies": "going to the movies, golf, escapology, charity work, hockey, watching sport, chess, social card games, jigsaw puzzles",
 			"Obsessions": "tank tops",
-			"Diet": "eats meat",
 			"Favourite foods": "jammy biscuits, pizza"
 		},
 		"employment": {
@@ -50,7 +47,7 @@
 		},
 		"background": {
 			"Early years": "Calan grew up in a wealthy neighbourhood. He was raised by his mother, his father having left when he was young.",
-			"Formative years": "Calan got his first job as a health centre receptionist at age 18.. Calan decided not to go to college.",
+			"Formative years": "Calan got his first job as a health centre receptionist at age 18. Calan decided not to go to college.",
 			"Most traumatic childhood experience": "His father leaving when he was one."
 		},
 		"current_partner": {
@@ -79,7 +76,9 @@
 				"Occupation": "Cleaner",
 				"Age": "27",
 				"Relationship": "They get on well most of the time"
-			},
+			}
+		},
+		"parents": {
 			"ethel_neve_cameron": {
 				"Relation": "Mother",
 				"Occupation": "Lawyer",
@@ -97,26 +96,26 @@
 			"keir_shannon_smith": {
 				"Relation": "Half brother (shared father)",
 				"Occupation": "Kitchen assistant",
-				"Age": "42",
+				"Age": "38",
 				"Relationship": "Calan and Keir spent a lot of time together before their father walked out on Calan's mum but do not see each other as siblings."
 			},
 			"rory_kyla_smith": {
 				"Relation": "Half sister (shared father)",
 				"Occupation": "Artist",
-				"Age": "40",
+				"Age": "36",
 				"Relationship": "Calan and Rory spent a lot of time together before their father walked out on Calan's mum but do not see each other as siblings."
 			},
 			"rafferty_shaun_cameron": {
 				"Relation": "Brother",
 				"Occupation": "Journalist",
-				"Age": "28",
+				"Age": "27",
 				"Relationship": "They do not get on well."
 			}
 		},
 		"former_partners": {
 			"olive_kerri_hammond": {
 				"Relation": "Ex-girlfriend (4 years 2013 - 2017)",
-				"Occupation": "Electrician",
+				"Occupation": "Graphic designer",
 				"Reason for breakup": "Olive wanted somebody more 'badass'",
 				"Age": "26",
 				"Relationship": "Remained friends"
@@ -137,9 +136,9 @@
 			"1993": "Calan Cameron is born",
 			"1994": "Father, Ellis Mike Smith walks out",
 			"2011": "Starts work at Hooper Health Centre as a receptionist",
-			"2013": "Gets together with Olive Kerri Hammond.",
-			"2017": "Relationship with Olive Kerri Hammond ends (Olive wanted somebody more 'badass').",
-			"2019": "Gets together with Keely Kye Thornton."
+			"2013": "Gets together with Olive Kerri Hammond",
+			"2017": "Relationship with Olive Kerri Hammond ends (Olive wanted somebody more 'badass')",
+			"2019": "Gets together with Keely Kye Thornton"
 		}
 	}
 }
