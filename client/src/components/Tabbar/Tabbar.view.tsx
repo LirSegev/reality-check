@@ -10,6 +10,7 @@ export interface Props {
 	}>;
 	index: number;
 	handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+	barRef: React.RefObject<HTMLDivElement>;
 }
 
 const TabbarView: React.FC<Props> = props => {
@@ -33,7 +34,9 @@ const TabbarView: React.FC<Props> = props => {
 
 	return (
 		<React.Fragment>
-			<div className={styles.bar}>{tabs}</div>
+			<div className={styles.bar} ref={props.barRef}>
+				{tabs}
+			</div>
 			<div className={styles.content} data-testid="content">
 				{props.tabs[props.index].content}
 			</div>

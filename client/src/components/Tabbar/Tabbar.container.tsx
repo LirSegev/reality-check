@@ -28,6 +28,13 @@ class TabbarContainer extends React.Component<Props, State> {
 		this._handleClick = this._handleClick.bind(this);
 	}
 
+	_barRef = React.createRef<HTMLDivElement>();
+	componentDidMount() {
+		this._barRef.current?.addEventListener('touchstart', e => {
+			e.stopPropagation();
+		});
+	}
+
 	componentDidUpdate(prevProps: Props, prevState: State) {
 		const propsIndex = this.props.index;
 		if (propsIndex !== undefined && propsIndex !== prevProps.index)
@@ -59,6 +66,7 @@ class TabbarContainer extends React.Component<Props, State> {
 				tabs={this.props.tabs}
 				index={this.state.index}
 				handleClick={this._handleClick}
+				barRef={this._barRef}
 			/>
 		);
 	}
