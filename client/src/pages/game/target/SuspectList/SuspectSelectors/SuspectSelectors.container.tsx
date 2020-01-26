@@ -1,10 +1,12 @@
+import * as firebase from 'firebase/app';
 import React from 'react';
 
 import { db } from '../../../../..';
-import { getGameDocRef } from '../../../../../util/db';
+import { store } from '../../../../..';
+import { getCurrentPlayer, getGameDocRef } from '../../../../../util/db';
+import { PlayerAction } from '../../../../../util/db.types';
 import { putInArray, removeFromArray } from '../../../../../util/general';
 import SuspectSelectorsView from './SuspectSelectors.view';
-import { store } from '../../../../../index';
 
 interface Props {
 	showLegend: boolean;
@@ -50,11 +52,34 @@ class SuspectSelectorsContainer extends React.Component<Props, State> {
 	_handleMarkChange = () => {
 		this.setState(prevState => {
 			const isMarked = !prevState.isMarked;
+			if (isMarked) this._addMarkedAction();
 
 			this._updateDb('marked', isMarked);
 			return { isMarked };
 		});
 	};
+
+	async _addMarkedAction() {
+		const player = (await getCurrentPlayer())!;
+		const suspect = require(`../../../../../files/suspects/${this.props.suspectId}.json`);
+		const action: PlayerAction = {
+			action: 'marked',
+			object: {
+				id: suspect.id,
+				name: suspect.name,
+			},
+			subject: {
+				displayName: player.displayName,
+				uid: player.uid,
+				role: player.role,
+			},
+			timestamp: firebase.firestore.Timestamp.fromMillis(Date.now()),
+		};
+
+		getGameDocRef()
+			.collection('actions')
+			.add(action);
+	}
 
 	_handleHideChange = () => {
 		this.setState(prevState => {
