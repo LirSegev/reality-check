@@ -49,6 +49,10 @@ const TargetTabView: React.FC<Props> = props => {
 	return (
 		<Page>
 			<div style={{ height: '100%' }}>
+				<SuspectList
+					suspectList={props.suspectList}
+					selectSuspect={props.selectSuspect}
+				/>
 				<Suspects
 					isVisible={props.isVisible}
 					selectSuspect={props.selectSuspect}
@@ -56,10 +60,6 @@ const TargetTabView: React.FC<Props> = props => {
 					suspectList={props.suspectList}
 					updateSuspectList={props.updateSuspectList}
 					hiddenSuspects={props.hiddenSuspects}
-				/>
-				<SuspectList
-					suspectList={props.suspectList}
-					selectSuspect={props.selectSuspect}
 				/>
 				<Tabbar
 					tabs={[

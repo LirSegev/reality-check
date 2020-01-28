@@ -21,9 +21,9 @@ const SuspectListView: React.FC<Props> = ({
 	openList,
 	handleSuspectClick,
 }) => (
-	<React.Fragment>
-		<div onClick={openList}>
-			<Icon size={20} icon="fa-filter" />
+	<div id={styles.suspectListWrapper}>
+		<div id={styles.openListIconWrapper} onClick={openList}>
+			<Icon size={20} icon="fa-list-ul" />
 		</div>
 		<Dialog isOpen={isOpen} onCancel={closeList}>
 			<List
@@ -34,7 +34,7 @@ const SuspectListView: React.FC<Props> = ({
 				renderRow={renderSuspectListItem({ handleSuspectClick })}
 			/>
 		</Dialog>
-	</React.Fragment>
+	</div>
 );
 
 export default SuspectListView;
