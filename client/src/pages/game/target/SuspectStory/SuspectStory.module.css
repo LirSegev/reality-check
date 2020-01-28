@@ -39,6 +39,7 @@
 
 .suspectStory tr:nth-child(even) {
 	background-color: white;
+	width: 40%;
 }
 
 .suspectStory :global(.ui.accordion) {
