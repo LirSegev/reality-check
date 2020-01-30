@@ -5,7 +5,6 @@ import {
 	changeGameActionPayload,
 	moveToLocationOnMapPayload,
 	changeTabPayload,
-	changeOpTabPayload,
 	addNotificationPayload,
 	removeNotificationPayload,
 } from './main.reducer.d';
@@ -32,20 +31,15 @@ const main = createSlice({
 		},
 		goToMapTab(state) {
 			state.tabIndex = 2;
-			state.opTabIndex = 0;
 		},
 		moveToLocationOnMap(
 			state,
 			action: PayloadAction<moveToLocationOnMapPayload>
 		) {
 			state.tabIndex = 2;
-			state.opTabIndex = 0;
 		},
 		changeTab(state, action: PayloadAction<changeTabPayload>) {
 			state.tabIndex = action.payload;
-		},
-		changeOpTab(state, action: PayloadAction<changeOpTabPayload>) {
-			state.opTabIndex = action.payload;
 		},
 		addNotification(state, action: PayloadAction<addNotificationPayload>) {
 			state.notifications.unshift({
@@ -72,7 +66,6 @@ export const {
 	changeGame,
 	adminSignin,
 	signOut,
-	changeOpTab,
 	changeTab,
 	goToMapTab,
 	moveToLocationOnMap,

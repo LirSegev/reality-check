@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import Tab from '../../components/Tab.component';
 import { ReduxState } from '../../reducers/initialState';
 import IntelTabView from './intel';
-import OperationTabView from './operation';
+import ChatTab from './operation/chat';
+import MapTab from './operation/map';
 import TargetTab from './target';
 
 interface Props {
 	tabIndex: number;
 	onMapMove: (map: mapboxgl.Map) => void;
 	onTabChange: (e: unknown) => void;
-	onOpTabChange: (e: unknown) => void;
 	incrementUnreadNum: (type: UnreadType) => boolean;
 	unreadNums: {
 		chat: number;
@@ -62,22 +62,21 @@ const GameView: React.FC<Props> = props => (
 					),
 				},
 				{
+					content: <MapTab key="mapTab-content" onMove={props.onMapMove} />,
+					tab: <Tab label="Map" key="mapTab-button" />,
+				},
+				{
 					content: (
-						<OperationTabView
+						<ChatTab
 							incrementUnreadNum={props.incrementUnreadNum}
-							onTabChange={props.onOpTabChange}
-							key="operationTab-content"
-							onMapMove={props.onMapMove}
-							unreadNumChat={props.unreadNums.chat}
+							key="chatTab-content"
 						/>
 					),
 					tab: (
 						<Tab
-							unreadNum={
-								props.tabIndex === 2 ? undefined : props.unreadNums.chat
-							}
-							label="Operation"
-							key="operationTab-button"
+							label="Chat"
+							unreadNum={props.unreadNums.chat}
+							key="chatTab-button"
 						/>
 					),
 				},
