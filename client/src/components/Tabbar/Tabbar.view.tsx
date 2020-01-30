@@ -6,14 +6,18 @@ export interface Props {
 	tabs: NonEmptyArray<{
 		tabTitle: string;
 		content: JSX.Element;
+		className?: string;
 	}>;
 	index: number;
 	handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+	barRef: React.RefObject<HTMLDivElement>;
 }
 
 const TabbarView: React.FC<Props> = props => {
 	const tabs = props.tabs.map((tab, index) => {
 		const classes = [styles.button];
+		if (tab.className) classes.push(tab.className);
+
 		if (index === props.index) classes.push(styles.active);
 
 		return (
@@ -30,7 +34,9 @@ const TabbarView: React.FC<Props> = props => {
 
 	return (
 		<React.Fragment>
-			<div className={styles.bar}>{tabs}</div>
+			<div className={styles.bar} ref={props.barRef}>
+				{tabs}
+			</div>
 			<div className={styles.content} data-testid="content">
 				{props.tabs[props.index].content}
 			</div>

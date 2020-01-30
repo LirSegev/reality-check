@@ -17,6 +17,12 @@ declare interface MapOrientation {
 	};
 }
 
+declare interface SuspectFile {
+	name: string;
+	id: number;
+	data: { [key: string]: any };
+}
+
 declare type UnreadType = 'chat' | 'intel' | 'target';
 
 declare type ConnectedAction<T extends (...args: any[]) => any> = (

@@ -55,15 +55,28 @@ class SuspectStory extends React.Component<Props> {
 					</tr>
 				);
 			else {
-				const result = Object.keys(subContent).map(key => {
-					const value = subContent[key];
-					return (
-						<tr key={[title, subtitle, key].join('-')}>
-							<th>{this._formatTitle(key)}</th>
-							<td>{value}</td>
-						</tr>
-					);
-				});
+				let result = [<div></div>];
+				if (Array.isArray(subContent)) {
+					result = Object.keys(subContent).map(key => {
+						const value = subContent[key];
+						return (
+							<tr key={[title, subtitle, key].join('-')}>
+								{/* <th>{this._formatTitle(key)}</th> */}
+								<td>{value}</td>
+							</tr>
+						);
+					});
+				} else {
+					result = Object.keys(subContent).map(key => {
+						const value = subContent[key];
+						return (
+							<tr key={[title, subtitle, key].join('-')}>
+								<th>{this._formatTitle(key)}</th>
+								<td>{value}</td>
+							</tr>
+						);
+					});
+				}
 
 				return (
 					<React.Fragment key={[title, subtitle].join('-')}>

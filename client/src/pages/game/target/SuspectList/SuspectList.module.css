@@ -1,0 +1,38 @@
+:global(.ui.form).suspectSelectors {
+	display: flex;
+}
+
+:global(.ui.form).suspectSelectors :global(.field) {
+	margin-right: 0.5em;
+	width: 2.5em;
+	text-align: center;
+}
+
+:global(.ui.form).suspectSelectors :global(.field):last-child {
+	margin-right: 0;
+}
+
+.suspectName {
+	margin-left: 0.5em;
+	font-weight: 500;
+}
+
+#suspectList {
+	max-height: 80vh;
+	overflow: scroll;
+}
+
+#suspectListWrapper {
+	position: absolute;
+	right: 0;
+}
+
+#openListIconWrapper {
+	margin: 10px;
+	padding: 7px;
+	padding-bottom: 5px;
+	background: #bcd4d6;
+	border: solid 3px #a6bbbd;
+	border-radius: 4px;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
