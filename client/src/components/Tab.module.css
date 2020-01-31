@@ -2,9 +2,12 @@
 	min-width: 1em;
 	min-height: 1em;
 	margin-left: 0.5em;
+	margin-top: 0.25em;
 	padding: 0.33em !important;
 	font-size: 0.66em;
 	vertical-align: super;
+	position: absolute;
+	top: 0;
 }
 
 :global(.ui.circular.label).label:empty {

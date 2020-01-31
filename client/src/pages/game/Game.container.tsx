@@ -4,11 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { ReduxState } from '../../reducers/initialState';
-import {
-	changeOpTab,
-	changeTab,
-	stopLoading,
-} from '../../reducers/main.reducer';
+import { changeTab, stopLoading } from '../../reducers/main.reducer';
 import { changeMapOrientation } from '../../reducers/map.reducer';
 import { updateCurrentPlayer } from '../../util/db';
 import collectClosePoints from './collectPoints.module';
@@ -33,11 +29,9 @@ const LOCATION_UPDATES_INTERVAL = 10;
 interface Props {
 	stopLoading: ConnectedAction<typeof stopLoading>;
 	changeTab: ConnectedAction<typeof changeTab>;
-	changeOpTab: ConnectedAction<typeof changeOpTab>;
 	changeMapOrientation: ConnectedAction<typeof changeMapOrientation>;
 	isAdmin: boolean;
 	tabIndex: number;
-	opTabIndex: number;
 }
 interface State {
 	unreadNums: {
@@ -71,9 +65,9 @@ class GameContainer extends React.Component<Props, State> {
 	 * @return true if incremented or false if canceled because of the current tab index
 	 */
 	_incrementUnreadNum(type: 'chat' | 'intel' | 'target'): boolean {
-		const { tabIndex, opTabIndex } = this.props;
+		const { tabIndex } = this.props;
 		if (
-			(type === 'chat' && tabIndex === 2 && opTabIndex === 1) ||
+			(type === 'chat' && tabIndex === 3) ||
 			(type === 'intel' && tabIndex === 1) ||
 			(type === 'target' && tabIndex === 0)
 		)
@@ -189,8 +183,8 @@ class GameContainer extends React.Component<Props, State> {
 			e => {
 				if (e.index !== this.props.tabIndex) this.props.changeTab(e.index);
 				switch (e.index) {
-					case 2:
-						if (this.props.opTabIndex === 1) this._resetUnreadNum('chat');
+					case 3:
+						this._resetUnreadNum('chat');
 						break;
 					case 1:
 						this._resetUnreadNum('intel');
@@ -202,19 +196,11 @@ class GameContainer extends React.Component<Props, State> {
 		)(Event.decode(event));
 	};
 
-	_onOpTabChange = (event: any) => {
-		event.stopPropagation();
-		if (event.index !== this.props.opTabIndex)
-			this.props.changeOpTab(event.index);
-		if (event.index === 1) this._resetUnreadNum('chat');
-	};
-
 	render() {
 		return (
 			<GameView
 				unreadNums={this.state.unreadNums}
 				incrementUnreadNum={this._incrementUnreadNum}
-				onOpTabChange={this._onOpTabChange}
 				onTabChange={this._onTabChange}
 				onMapMove={this._onMapMove}
 			/>
@@ -225,12 +211,11 @@ class GameContainer extends React.Component<Props, State> {
 const mapDispatchToProps = {
 	stopLoading,
 	changeTab,
-	changeOpTab,
 	changeMapOrientation,
 };
 const mapState = (state: ReduxState) => {
 	const { main } = state;
-	const { isAdmin, tabIndex, opTabIndex } = main;
-	return { isAdmin, tabIndex, opTabIndex };
+	const { isAdmin, tabIndex } = main;
+	return { isAdmin, tabIndex };
 };
 export default connect(mapState, mapDispatchToProps)(GameContainer);

@@ -7,7 +7,6 @@ export default {
 		isLoading: true,
 		isAdmin: false,
 		tabIndex: 2,
-		opTabIndex: 0,
 		notifications: [],
 	},
 	map: {
@@ -28,7 +27,6 @@ export interface ReduxState {
 		isLoading: boolean;
 		isAdmin: boolean;
 		tabIndex: number;
-		opTabIndex: number;
 		notifications: Notification[];
 	};
 	map: {
