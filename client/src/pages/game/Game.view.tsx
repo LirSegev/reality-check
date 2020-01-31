@@ -41,6 +41,7 @@ const GameView: React.FC<Props> = props => (
 					tab: (
 						<Tab
 							unreadNum={props.unreadNums.target}
+							icon="fa-id-badge"
 							label="Suspects"
 							key="targetTab-button"
 						/>
@@ -56,6 +57,7 @@ const GameView: React.FC<Props> = props => (
 					tab: (
 						<Tab
 							unreadNum={props.unreadNums.intel}
+							icon="fa-align-left"
 							label="Timeline"
 							key="intelTab-button"
 						/>
@@ -63,7 +65,7 @@ const GameView: React.FC<Props> = props => (
 				},
 				{
 					content: <MapTab key="mapTab-content" onMove={props.onMapMove} />,
-					tab: <Tab label="Map" key="mapTab-button" />,
+					tab: <Tab icon="fa-map" label="Map" key="mapTab-button" />,
 				},
 				{
 					content: (
@@ -75,6 +77,7 @@ const GameView: React.FC<Props> = props => (
 					tab: (
 						<Tab
 							label="Chat"
+							icon="fa-comments"
 							unreadNum={props.unreadNums.chat}
 							key="chatTab-button"
 						/>
