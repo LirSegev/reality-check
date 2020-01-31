@@ -61,14 +61,22 @@ class ChooseGamePageContainer extends React.Component<Props, State> {
 				title: 'Create game',
 			})
 			.then((name: string) => {
-				db.collection('games')
+				return db
+					.collection('games')
 					.doc(encodeURIComponent(name))
 					.set({ phase: 1 })
 					.then(() => {
 						this._getGameList();
+						this.props.addNotification({
+							notification: {
+								type: 'success',
+								header: 'Created new game',
+							},
+						});
 					});
 			})
-			.catch(() => {
+			.catch((err: any) => {
+				console.log('err: ', err);
 				this.props.addNotification({
 					notification: {
 						type: 'error',
