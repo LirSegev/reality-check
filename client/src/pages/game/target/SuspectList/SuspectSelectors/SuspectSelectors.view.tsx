@@ -1,7 +1,7 @@
 import React from 'react';
-import { Checkbox } from 'react-onsenui';
 
 import styles from '../SuspectList.module.css';
+import Checkbox from './Checkbox.component.tsx';
 
 interface Props {
 	stopPropagation: (e: React.MouseEvent) => void;
