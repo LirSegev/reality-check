@@ -1,17 +1,16 @@
 import * as React from 'react';
 import styles from './Suspects.module.css';
+import { AVAIL_SUSPECTS } from '../Target.tab.container'
 
 interface Props {
 	showId: number | undefined;
 	handleClick: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
 }
 
-const NUMBER_OF_SUSPECT_IMAGES = 17;
-
 const SuspectsView: React.FC<Props> = props => {
 	// Build suspect img elements and push to imgEls
 	let imgEls: JSX.Element[] = [];
-	for (let suspectId = 0; suspectId <= NUMBER_OF_SUSPECT_IMAGES; suspectId++) {
+	for (let suspectId of AVAIL_SUSPECTS) {
 		imgEls.push(
 			<img
 				src={`/images/suspects/${suspectId}.jpg`}
