@@ -7,7 +7,7 @@ import { getGameDocRef } from '../../../util/db';
 /**
  * List of usable suspects
  */
-export const AVAIL_SUSPECTS: number[] = [100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+export const AVAIL_SUSPECTS: number[] = [8, 1, 3, 5, 6, 7, 4, 100, 9, 2, 10, 11];
 
 export interface State {
 	selectedSuspect: number | undefined;
