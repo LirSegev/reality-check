@@ -2,7 +2,7 @@
 	"name": "Tom\u00e1\u0161 N\u011bmec",
 	"id": 100,
 	"data": {
-		"Tom\u00e1\u0161 N\u011bmec": "Tomáš is a kind IT technician who is obsessed with the murder of his half sister Emilie, six years ago.\n\nTomáš Němec is a 24-year-old IT technician whose life is dominated by solving the murder of his half sister, Emilie Němec. Emilie was stabbed in 2013 and the killer was never brought to justice.\n\nHe is Czech. He started studying computing at college but never finished the course. He is allergic to shellfish. He has a severe phobia of water.\n\nPhysically, Tomáš is in pretty good shape. He is average-height with light skin, red blond hair and blue eyes. Unusually, he has a prosthetic foot; a shark ate his.\n\nHe grew up in a working class neighbourhood. His mother left when he was young, leaving him with his father, who was a drunk.\n\nHe is currently single. His most recent romance was with a student called Eliška Musilová, who was the same age as him. They broke up because Eliška couldn't deal with Tomáš's obsession with Emilie's death.\n\nTomáš's best friend is an IT technician called Roman ﻿Svoboda. They are inseparable. He also hangs around with Miroslav Javorský and Soňa Šebková. They enjoy cycling together.",
+		"Tom\u00e1\u0161 N\u011bmec": "Tomáš is a kind IT technician who is obsessed with the death of his half sister Emilie, five years ago.\n\nTomáš Němec is a 24-year-old IT technician whose life is dominated by solving the death of his half sister, Emilie Němec. Emilie was killed in a work accident, but he thinks there's something the authorities didn't tell him.\n\nHe is Czech. He started studying computing at college but never finished the course. He is allergic to shellfish. He has a severe phobia of water.\n\nPhysically, Tomáš is in pretty good shape. He is average-height with light skin, red blond hair and blue eyes.\n\nHe grew up in a working class neighbourhood. His mother left when he was young, leaving him with his father, who was a drunk.\n\nHe is currently single. His most recent romance was with a student called Eliška Musilová, who was the same age as him. They broke up because Eliška couldn't deal with Tomáš's obsession with Emilie's death.\n\nTomáš's best friend is an IT technician called Roman ﻿Svoboda. They are inseparable. He also hangs around with Miroslav Javorský and Soňa Šebková. They enjoy cycling together.",
 		"basic_information": {
 			"Name": "Tom\u00e1\u0161 N\u011bmec",
 			"Date of birth": "Saturday, 14th Oct 1995",
@@ -24,8 +24,7 @@
 			"Build": "average",
 			"Hair colour": "brown",
 			"Eyes": "blue",
-			"Glasses/lenses": "none",
-			"Prosthetics": "prosthetic foot"
+			"Glasses/lenses": "none"
 		},
 		"personality": {
 			"Positive characteristics": "kind, careful",
@@ -90,20 +89,20 @@
 		"siblings": {
 			"mat\u011bj_h\u00e1jkov\u00e1": {
 				"Relation": "Half brother (shared mother)",
-				"Occupation": "Lab assistant",
+				"Occupation": "Author",
 				"Age": "31",
 				"Relationship": "Tom\u00e1\u0161 and Mat\u011bj grew up together. Nevertheless, they are not particularly close."
 			},
 			"emilie_n\u011bmec": {
 				"Relation": "Half sister (shared mother)",
-				"Occupation": "Artist",
-				"Age": "Died in 2013 aged 22.",
-				"Cause of death": "",
-				"Relationship": "Tom\u00e1\u0161 is obsessed with solving Emilie\u2019s murder"
+				"Occupation": "Lab assistant",
+				"Age": "Died in 2015 aged 24.",
+				"Cause of death": "Work accident",
+				"Relationship": "Tom\u00e1\u0161 is obsessed with Emilie\u2019s death"
 			},
 			"monika_n\u011bmec": {
 				"Relation": "Half sister (shared father)",
-				"Occupation": "Lab assistant",
+				"Occupation": "Sous chef",
 				"Age": "27",
 				"Relationship": "Tom\u00e1\u0161 and Monika grew up in separate homes but see each other a lot."
 			},
@@ -145,9 +144,9 @@
 			"1995": "Tom\u00e1\u0161 N\u011bmec is born",
 			"1999": "Mother, Karol\u00edna H\u00e1jkov\u00e1 walks out",
 			"2011": "Gets together with Sandra P\u00ed\u0161ov\u00e1.",
-			"2013": "Emilie N\u011bmec is murdered. Half sister (shared mother), Emilie dies aged 22 (murdered - stabbed)",
+			"2015": "Emilie N\u011bmec is killed.",
 			"2014": "Starts work at Luxor book store as a sales assistant",
-			"2015": "Tom\u00e1\u0161 is attacked by a shark and loses foot. Relationship with Sandra P\u00ed\u0161ov\u00e1 ends (Sandra felt Tom\u00e1\u0161 was so cautious that he was afraid to live).",
+			"2015": "Relationship with Sandra P\u00ed\u0161ov\u00e1 ends (Sandra felt Tom\u00e1\u0161 was so cautious that he was afraid to live).",
 			"2018": "Gets together with Eli\u0161ka Musilov\u00e1. Resigns from job as a sales assistant at Luxor. Starts work at Arbes Technologies at IT technician",
 			"2019": "Relationship with Eli\u0161ka Musilov\u00e1 ends (Eli\u0161ka couldn't deal with Tom\u00e1\u0161's obsession Emilie\u2019s death)."
 		}
