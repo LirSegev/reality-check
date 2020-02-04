@@ -25,6 +25,8 @@
 #suspectListWrapper {
 	position: absolute;
 	right: 0;
+	top: 2.5em;
+	z-index: 11;
 }
 
 #openListIconWrapper {
