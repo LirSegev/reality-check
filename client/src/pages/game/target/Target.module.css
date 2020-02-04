@@ -5,3 +5,8 @@ button.markedTab {
 button.hiddenTab {
 	display: none;
 }
+
+#targetTab {
+	height: 100%;
+	overflow: scroll;
+}

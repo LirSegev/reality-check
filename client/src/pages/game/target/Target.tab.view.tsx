@@ -48,7 +48,7 @@ const TargetTabView: React.FC<Props> = props => {
 
 	return (
 		<Page>
-			<div style={{ height: '100%' }}>
+			<div id={styles.targetTab}>
 				<SuspectList
 					suspectList={props.suspectList}
 					selectSuspect={props.selectSuspect}
