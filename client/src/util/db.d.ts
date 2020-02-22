@@ -11,5 +11,6 @@ declare namespace DB {
 		hidden_suspects?: number[];
 		detective_clues?: { [property: string]: string };
 		phase?: number;
+		notes?: { [name: string]: string };
 	}
 }
