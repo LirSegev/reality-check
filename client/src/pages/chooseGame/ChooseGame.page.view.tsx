@@ -1,13 +1,20 @@
 import * as React from 'react';
-import { Page, List } from 'react-onsenui';
+import { Fab, Icon, List, Page } from 'react-onsenui';
 
 interface Props {
 	gameList: string[];
 	renderGameItem: (row: string) => JSX.Element;
+	createGame: () => void;
 }
 
 const ChooseGamePageView: React.FC<Props> = props => (
-	<Page>
+	<Page
+		renderFixed={() => (
+			<Fab position="bottom right" onClick={props.createGame}>
+				<Icon icon="md-plus" />
+			</Fab>
+		)}
+	>
 		<List dataSource={props.gameList} renderRow={props.renderGameItem} />
 	</Page>
 );
