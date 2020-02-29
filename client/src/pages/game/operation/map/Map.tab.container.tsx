@@ -146,7 +146,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		/**
 		 * Width in pixels of areas for swiping
 		 */
-		const THRESHOLD = 50;
+		const THRESHOLD = 25;
 
 		const listener = (e: mapboxgl.MapTouchEvent & mapboxgl.EventData) => {
 			if (
