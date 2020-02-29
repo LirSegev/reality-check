@@ -5,7 +5,7 @@ interface State {
 	isOpen: boolean;
 }
 interface Props {
-	button?: JSX.Element;
+	button: JSX.Element;
 	content?: JSX.Element;
 }
 
@@ -30,8 +30,10 @@ class DialogWithButtonContainer extends React.Component<Props, State> {
 		return (
 			<DialogWithButtonView
 				isOpen={this.state.isOpen}
+				openList={this._open}
+				closeList={this._close}
 				button={this.props.button}
-				content={this.props.content || this.props.children}
+				content={this.props.content ?? this.props.children}
 			/>
 		);
 	}

@@ -5,7 +5,7 @@ interface Props {
 	isOpen: boolean;
 	closeList: () => void;
 	openList: () => void;
-	content: JSX.Element;
+	content: React.ReactNode;
 	button: JSX.Element;
 }
 
