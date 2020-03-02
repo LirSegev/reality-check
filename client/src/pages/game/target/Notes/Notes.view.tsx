@@ -29,6 +29,7 @@ const NotesView: React.FC<Props> = ({
 					name={name}
 					onChange={handleChange}
 					value={content}
+					placeholder="You can write your notes here"
 				></textarea>
 			</div>
 		</Dialog>
