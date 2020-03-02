@@ -24,7 +24,13 @@ const NotesView: React.FC<Props> = ({
 			<Icon size={20} icon="fa-edit" />
 		</div>
 		<Dialog isOpen={isOpen} onCancel={closeNotes}>
-			<textarea name={name} onChange={handleChange} value={content}></textarea>
+			<div className="ui form">
+				<textarea
+					name={name}
+					onChange={handleChange}
+					value={content}
+				></textarea>
+			</div>
 		</Dialog>
 	</div>
 );
