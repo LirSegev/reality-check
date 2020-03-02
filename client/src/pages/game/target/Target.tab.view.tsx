@@ -51,7 +51,7 @@ const TargetTabView: React.FC<Props> = props => {
 		<Page>
 			<div id={styles.targetTab}>
 				<div id={styles.floatingIconsWrapper}>
-					<Notes name={'main'} />
+					<Notes name={props.selectedSuspect ? `suspect-${props.selectedSuspect}` : 'clues'} />
 					<SuspectList
 						suspectList={props.suspectList}
 						selectSuspect={props.selectSuspect}

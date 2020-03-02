@@ -8,6 +8,7 @@ interface Props {
 	openNotes: () => void;
 	handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	content: string;
+	name: string;
 }
 
 const NotesView: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const NotesView: React.FC<Props> = ({
 	closeNotes,
 	openNotes,
 	handleChange,
+	name,
 	content,
 }) => (
 	<div id={styles.notesWrapper}>
@@ -22,7 +24,7 @@ const NotesView: React.FC<Props> = ({
 			<Icon size={20} icon="fa-edit" />
 		</div>
 		<Dialog isOpen={isOpen} onCancel={closeNotes}>
-			<textarea onChange={handleChange} value={content}></textarea>
+			<textarea name={name} onChange={handleChange} value={content}></textarea>
 		</Dialog>
 	</div>
 );

@@ -7,47 +7,60 @@ interface Props {
 }
 interface State {
 	isOpen: boolean;
-	content: string;
+	notes: { [name: string]: string };
 }
 
 class NotesContainer extends React.Component<Props, State> {
 	state: State = {
 		isOpen: false,
-		content: '',
+		notes: {},
 	};
 
 	componentDidMount() {
 		getGameDocRef().onSnapshot(
 			snap => {
 				const { notes } = (snap.data() as DB.GameDoc | undefined) ?? {};
-				if (notes && notes[this.props.name])
-					this._updateContent(notes[this.props.name]);
+				if (notes)
+					this.setState({
+						notes,
+					});
 			},
 			err => console.error(err)
 		);
 	}
 
-	_timeout: NodeJS.Timeout | null = null;
-	_updateContent = (value: string) => {
-		this.setState({
-			content: value,
-		});
+	_updateContent = (name: string, value: string) => {
+		this.setState(prevState => ({
+			...prevState,
+			notes: {
+				...prevState.notes,
+				[name]: value,
+			},
+		}));
 	};
 
-	_updateDB = (value: string) => {
+	_updateDB = (name: string, value: string) => {
 		getGameDocRef().update({
-			[`notes.${this.props.name}`]: value,
+			[`notes.${name}`]: value,
 		});
 	};
 
+	_timeout: NodeJS.Timeout | null = null;
 	_handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		/**
+		 * Delay in milliseconds before saving to db
+		 */
+		const SAVE_DELAY = 1000;
+
 		const content = e.currentTarget.value;
-		this._updateContent(content);
+		const name = e.currentTarget.name;
+
+		this._updateContent(name, content);
 
 		if (this._timeout) clearTimeout(this._timeout);
 		this._timeout = setTimeout(() => {
-			this._updateDB(content);
-		}, 1000);
+			this._updateDB(name, content);
+		}, SAVE_DELAY);
 	};
 
 	_openNotes = () => {
@@ -68,9 +81,10 @@ class NotesContainer extends React.Component<Props, State> {
 				{...{
 					closeNotes: this._closeNotes,
 					openNotes: this._openNotes,
-					content: this.state.content,
+					content: this.state.notes[this.props.name] ?? '',
 					handleChange: this._handleChange,
 					isOpen: this.state.isOpen,
+					name: this.props.name,
 				}}
 			/>
 		);
