@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, Icon } from 'react-onsenui';
+import styles from './Notes.module.css';
 
 interface Props {
 	isOpen: boolean;
@@ -16,9 +17,9 @@ const NotesView: React.FC<Props> = ({
 	handleChange,
 	content,
 }) => (
-	<div>
-		<div onClick={openNotes}>
-			<Icon size={20} icon="fa-list-ul" />
+	<div id={styles.notesWrapper}>
+		<div id={styles.openNotesIconWrapper} onClick={openNotes}>
+			<Icon size={20} icon="fa-edit" />
 		</div>
 		<Dialog isOpen={isOpen} onCancel={closeNotes}>
 			<textarea onChange={handleChange} value={content}></textarea>
