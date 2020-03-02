@@ -23,6 +23,7 @@ interface NotificationWithoutId {
 	header: string;
 	content?: string;
 	/**
+	 * Duration in seconds.
 	 * Defaults to 2s
 	 */
 	duration?: number | 'none';

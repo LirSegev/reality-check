@@ -98,7 +98,7 @@ function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
 		const gameDocRef = getGameDocRef();
 		switch (pointType) {
 			case 'intelligence':
-				onIntelligencePointCollected(gameDocRef);
+				onIntelligencePointCollected(gameDocRef, point);
 				break;
 			case 'detective':
 				onDetectivePointCollected(gameDocRef, point);
@@ -134,24 +134,32 @@ function onDetectivePointCollected(
 }
 
 // prettier-ignore
-function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference) {
-	gameDocRef
-		.collection('intel')
-		.where('action.type', '==', 'walking' as ActionType)
-		.get()
-		.then(snap => {
-			const numOfLocationReveals = snap.size;
+function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentReference, point: mapboxgl.MapboxGeoJSONFeature) {
+	if(point.properties?.route === 1)
+		gameDocRef
+			.collection('intel')
+			.where('action.type', '==', 'walking' as ActionType)
+			.get()
+			.then(snap => {
+				const numOfLocationReveals = snap.size;
 
-			gameDocRef.update({
-				chaser_sequence_num: numOfLocationReveals,
-			});
-		})
-		.catch(err =>
-			console.error(
-				new Error("Getting intel items with action.type == 'walking'"),
-				err
-			)
-		);
+				gameDocRef.update({
+					chaser_sequence_num: numOfLocationReveals,
+				});
+			})
+			.catch(err =>
+				console.error(
+					new Error("Getting intel items with action.type == 'walking'"),
+					err
+				)
+			);
+			else store.dispatch(addNotification({
+				notification:{
+					type: 'warning',
+					header: "This CCTV doesn't have info on Mr. Z, try another one.",
+					duration: 4,
+				}
+			}))
 }
 
 function sendNotification(point: mapboxgl.MapboxGeoJSONFeature) {
