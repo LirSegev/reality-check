@@ -1,0 +1,9 @@
+#openNotesIconWrapper {
+	margin: 10px;
+	padding: 7px;
+	padding-bottom: 5px;
+	background: #bcd4d6;
+	border: solid 3px #a6bbbd;
+	border-radius: 4px;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}

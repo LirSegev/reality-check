@@ -4,6 +4,11 @@
 	margin-top: calc((-2.5em * 0.15) / 2);
 	overflow-x: scroll;
 	display: flex;
+
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background-color: #efeff4;
 }
 
 .bar .button {

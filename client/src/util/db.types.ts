@@ -196,5 +196,6 @@ export const GameDocCodec = t.partial({
 	hidden_suspects: t.array(t.number),
 	// TODO: Use array instead of object
 	// detective_clues: { [property: t.string]: t.string },
+	// notes: {[name: t.string]: t.string}
 	phase: t.number,
 });

@@ -5,3 +5,15 @@ button.markedTab {
 button.hiddenTab {
 	display: none;
 }
+
+#targetTab {
+	height: 100%;
+	overflow: scroll;
+}
+
+#floatingIconsWrapper {
+	position: absolute;
+	right: 0;
+	bottom: 1em;
+	z-index: 11;
+}

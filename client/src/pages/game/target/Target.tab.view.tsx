@@ -9,6 +9,7 @@ import Suspects from './suspects';
 import SuspectStory from './SuspectStory';
 import styles from './Target.module.css';
 import { AVAIL_SUSPECTS } from './Target.tab.container';
+import Notes from './Notes';
 
 export interface Props {
 	selectedSuspect: number | undefined;
@@ -48,11 +49,14 @@ const TargetTabView: React.FC<Props> = props => {
 
 	return (
 		<Page>
-			<div style={{ height: '100%' }}>
-				<SuspectList
-					suspectList={props.suspectList}
-					selectSuspect={props.selectSuspect}
-				/>
+			<div id={styles.targetTab}>
+				<div id={styles.floatingIconsWrapper}>
+					<Notes name={props.selectedSuspect ? `suspect-${props.selectedSuspect}` : 'clues'} />
+					<SuspectList
+						suspectList={props.suspectList}
+						selectSuspect={props.selectSuspect}
+					/>
+				</div>
 				<Suspects
 					isVisible={props.isVisible}
 					selectSuspect={props.selectSuspect}
