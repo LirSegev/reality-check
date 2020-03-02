@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { db } from '../../../../..';
+import { db, store } from '../../../../..';
 import { getGameDocRef } from '../../../../../util/db';
 import { putInArray, removeFromArray } from '../../../../../util/general';
 import SuspectSelectorsView from './SuspectSelectors.view';
-import { store } from '../../../../../index';
 
 interface Props {
 	showLegend: boolean;

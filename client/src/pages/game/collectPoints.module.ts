@@ -1,9 +1,11 @@
 import * as firebase from 'firebase/app';
-import { distanceBetweenPoints } from '../../util/general';
-import { getCurrentPlayer, getGameDocRef } from '../../util/db';
-import { store } from './../../index';
+
+import { db } from '../..';
 import { addNotification } from '../../reducers/main.reducer';
+import { getCurrentPlayer, getGameDocRef } from '../../util/db';
 import { ActionType } from '../../util/db.types';
+import { distanceBetweenPoints } from '../../util/general';
+import { store } from './../..';
 
 /**
  * The min distance in meters the player needs to be from a point in order to collect it.
@@ -20,8 +22,7 @@ export default function collectClosePoints(myPos: Position) {
 		let points = JSON.parse(pointsStringified) as mapboxgl.MapboxGeoJSONFeature[];
 		points = sortPoints(myPos, points);
 
-		for (let key = 0; key < points.length; key++) {
-			const feature = points[key];
+		for (const feature of points) {
 			// prettier-ignore
 			const distance = distanceBetweenPoints(myPos.coords, featureToCoord(feature));
 			if (distance > MIN_DISTANCE) break;
@@ -32,11 +33,10 @@ export default function collectClosePoints(myPos: Position) {
 			if (collectedPointsStringified && typeof phase === 'string') {
 				// prettier-ignore
 				const collectedPoints = JSON.parse(collectedPointsStringified) as string[];
-				// Check if point has already been collected
 				if (
 					(!feature!.properties!.phase || // For intelligence points
 						feature!.properties!.phase <= Number(phase)) && // For detective points
-					!collectedPoints.includes(feature!.properties!.id) // Check point is not already collected
+					!collectedPoints.includes(feature!.properties!.id) //* Check point is not already collected
 				) {
 					collectPoint(feature);
 					break;
@@ -62,55 +62,35 @@ function sortPoints(pos: Position, points: mapboxgl.MapboxGeoJSONFeature[]) {
  * Add the id of a Geo\Json point to the collected points list in db.
  * @param newPoint GeoJson of the point to be collected
  */
-function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
-	getCurrentPlayer()
-		.then(player => (player && player.role !== 'chaser' ? player.role : ''))
-		.then(pointType => {
-			try {
-				const docRef = getGameDocRef();
-				let gameDoc: {} | undefined;
+async function collectPoint(newPoint: mapboxgl.MapboxGeoJSONFeature) {
+	try {
+		const pointType = await getCurrentPlayer().then(player =>
+			player && player.role !== 'chaser' ? player.role : ''
+		);
+		const docRef = getGameDocRef();
 
-				docRef
-					.get()
-					.then(doc => doc.data())
-					.then(game => {
-						gameDoc = game;
-						if (game)
-							return game[`collected_${pointType}_points`] as
-								| number[]
-								| undefined;
-					})
-					.then(prevPoints => {
-						let points;
+		db.runTransaction(async transaction => {
+			const game = await transaction.get(docRef).then(doc => doc.data());
 
-						if (prevPoints)
-							points = [...prevPoints, newPoint.properties!.id as number];
-						else points = [newPoint.properties!.id as number];
+			const prevPoints = game
+				? (game[`collected_${pointType}_points`] as number[] | undefined)
+				: undefined;
 
-						return points;
-					})
-					.then(newPoints => {
-						docRef
-							.set({
-								...gameDoc,
-								[`collected_${pointType}_points`]: newPoints,
-							})
-							.then(() => {
-								getClues(pointType, newPoint);
-								sendNotification(newPoint);
-							})
-							.catch(err =>
-								console.error(new Error('Updating collected points list'), err)
-							);
-					})
-					.catch(err =>
-						console.error(new Error('Getting collected points'), err)
-					);
-			} catch (err) {
-				console.error(new Error('Collecting point'), err);
-			}
-		})
-		.catch(err => console.error(new Error('Getting current player'), err));
+			const newPoints = prevPoints
+				? [...prevPoints, newPoint.properties!.id as number]
+				: [newPoint.properties!.id as number];
+
+			transaction.update(docRef, {
+				[`collected_${pointType}_points`]: newPoints,
+			});
+		}).then(() => {
+			sendNotification(newPoint);
+		});
+
+		getClues(pointType, newPoint);
+	} catch (err) {
+		console.log(err);
+	}
 }
 
 function getClues(pointType: string, point: mapboxgl.MapboxGeoJSONFeature) {
@@ -132,27 +112,25 @@ function onDetectivePointCollected(
 	gameDocRef: firebase.firestore.DocumentReference,
 	point: mapboxgl.MapboxGeoJSONFeature
 ) {
-	gameDocRef
-		.get()
-		.then(doc => doc.data())
-		.then(game => {
-			let detectiveClues = {};
-			if (point.properties && point.properties.clue)
-				detectiveClues =
-					game && game['detective_clues']
-						? {
-								...game['detective_clues'],
-								...JSON.parse(point.properties.clue),
-						  }
-						: JSON.parse(point.properties.clue);
-			else console.error(new Error("Point doesn't have 'clue' property"));
+	db.runTransaction(async transaction => {
+		const game = await transaction
+			.get(gameDocRef)
+			.then(doc => doc.data() as DB.GameDoc | undefined);
 
-			gameDocRef.set({
-				...game,
+		if (point.properties?.clue) {
+			const detectiveClues =
+				game && game['detective_clues']
+					? {
+							...game['detective_clues'],
+							...JSON.parse(point.properties.clue),
+					  }
+					: JSON.parse(point.properties.clue);
+
+			transaction.update(gameDocRef, {
 				detective_clues: detectiveClues,
 			});
-		})
-		.catch(err => console.error(new Error('Getting game doc'), err));
+		} else console.error(new Error("Point doesn't have 'clue' property"));
+	});
 }
 
 // prettier-ignore
@@ -164,17 +142,9 @@ function onIntelligencePointCollected(gameDocRef: firebase.firestore.DocumentRef
 		.then(snap => {
 			const numOfLocationReveals = snap.size;
 
-			gameDocRef
-				.get()
-				.then(doc => doc.data())
-				.then(game => {
-					// TODO: Use update() not set()
-					gameDocRef.set({
-						...game,
-						chaser_sequence_num: numOfLocationReveals,
-					});
-				})
-				.catch(err => console.error(new Error('Getting game doc'), err));
+			gameDocRef.update({
+				chaser_sequence_num: numOfLocationReveals,
+			});
 		})
 		.catch(err =>
 			console.error(

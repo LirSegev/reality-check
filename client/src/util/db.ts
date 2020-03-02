@@ -22,10 +22,21 @@ export async function updateCurrentPlayer(
  * Gets the data of the current player from the database.
  */
 export async function getCurrentPlayer(): Promise<Player | undefined> {
+	let player: Player | undefined = undefined;
+
+	try {
+		player = JSON.parse(sessionStorage.getItem('currentPlayer') as any);
+	} catch (err) {}
+
+	if (player) return player;
+
 	try {
 		const ref = await getCurrentPlayerRef();
 		const doc = await ref.get();
-		return doc.data() as Player | undefined;
+		player = doc.data() as Player | undefined;
+		// Save to sessionStorage
+		sessionStorage.setItem('currentPlayer', JSON.stringify(player));
+		return player;
 	} catch (err) {
 		console.error(err);
 		throw new Error('Error getting current user');
