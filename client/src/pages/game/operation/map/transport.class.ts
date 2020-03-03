@@ -1,6 +1,9 @@
 import { getGameDocRef } from '../../../../util/db';
 import { MetroLine } from '../../intel/Intel.d';
 import { IntelItem } from '../../../../util/db.types';
+import { multiLineString } from '@turf/helpers';
+// @ts-ignore
+import dissolve from 'geojson-dissolve';
 
 class Transport {
 	transportLayerName = 'transport-routes';
@@ -85,6 +88,36 @@ class Transport {
 				}
 				return ['==', ['get', 'L_METRO'], mLine];
 		}
+	};
+
+	getLine = (
+		type: 'tram' | 'metro',
+		line: number | string
+	): GeoJSON.Feature<GeoJSON.MultiLineString> => {
+		const { source, sourceLayer } = this.map.getLayer(
+			this.transportLayerName
+		) as Omit<mapboxgl.Layer, 'source-layer'> & { sourceLayer: string };
+
+		const features = this.map.querySourceFeatures(source as string, {
+			sourceLayer,
+			filter: this._createFilter(type, line),
+		});
+
+		let dissolved = dissolve(features) as
+			| GeoJSON.MultiLineString
+			| GeoJSON.LineString;
+		let counter = 1;
+
+		while (counter < 5 && dissolved.type !== 'LineString') {
+			const newDissolved = dissolve(dissolved);
+			if (JSON.stringify(dissolved) === JSON.stringify(newDissolved)) break;
+			dissolved = newDissolved;
+			counter++;
+		}
+
+		if (dissolved.type === 'LineString')
+			return multiLineString([dissolved.coordinates]);
+		return multiLineString(dissolved.coordinates);
 	};
 }
 

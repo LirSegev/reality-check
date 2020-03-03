@@ -18,6 +18,7 @@
 		"firebase": "^6.6.2",
 		"fp-ts": "^2.3.1",
 		"fsevents": "^2.1.2",
+		"geojson-dissolve": "^3.1.0",
 		"immer": "^4.0.2",
 		"io-ts": "^2.0.3",
 		"mapbox-gl": "^1.6.1",
