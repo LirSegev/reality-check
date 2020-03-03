@@ -3,6 +3,8 @@ import { MetroLine } from '../../intel/Intel.d';
 import { IntelItem } from '../../../../util/db.types';
 
 class Transport {
+	transportLayerName = 'transport-routes';
+
 	constructor(public map: mapboxgl.Map) {
 		this._listenToIntelItems(this._onNewIntelItems);
 	}
@@ -39,7 +41,7 @@ class Transport {
 	 *
 	 * @memberof Transport
 	 */
-	public hide = () => {
+	hide = () => {
 		this.show('metro', 0);
 	};
 
@@ -48,11 +50,23 @@ class Transport {
 	 *
 	 * @memberof Transport
 	 */
-	public show = (type: 'tram' | 'metro', line: number | string) => {
+	show = (type: 'tram' | 'metro', line: number | string) => {
+		this.map.setFilter(this.transportLayerName, this._createFilter(type, line));
+	};
+
+	/**
+	 * Returns a mapbox filter based on transport type and line
+	 *
+	 * @private
+	 * @memberof Transport
+	 */
+	private _createFilter = (
+		type: 'tram' | 'metro',
+		line: number | string
+	): unknown[] => {
 		switch (type) {
 			case 'tram':
-				this.map.setFilter('transport-routes', ['has', `L_TRAM[${line}]`]);
-				break;
+				return ['has', `L_TRAM[${line}]`];
 
 			case 'metro':
 				let mLine: string;
@@ -69,12 +83,7 @@ class Transport {
 					default:
 						mLine = '*';
 				}
-				this.map.setFilter('transport-routes', [
-					'==',
-					['get', 'L_METRO'],
-					mLine,
-				]);
-				break;
+				return ['==', ['get', 'L_METRO'], mLine];
 		}
 	};
 }
