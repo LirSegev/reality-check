@@ -23,7 +23,6 @@ import RoleSelectControl from './controls/roleSelectControl.module';
 import LegendControl from './Legend/legendControl';
 import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
-import { onShowTransportOnMapWrapper } from './transport.module';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -126,7 +125,6 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_onStyleLoad(map: mapboxgl.Map) {
-		// addTransportRoutesLayer(map);
 		this._markPlayerLocations = this._markPlayerLocationsWrapper(map);
 		this._markPlayerLocations();
 		this._showIntelligenceAndDetectivePoints(map);
