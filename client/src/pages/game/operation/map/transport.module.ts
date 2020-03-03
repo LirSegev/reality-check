@@ -1,4 +1,5 @@
 import { MetroLine } from '../../intel/Intel.d';
+import { getGameDocRef } from '../../../../util/db';
 import {
 	FeatureCollection,
 	Geometry,
@@ -6,42 +7,58 @@ import {
 	Feature as GeoFeature,
 } from 'geojson';
 
-export const onShowTransportOnMapWrapper = (map: mapboxgl.Map) => (
-	e: Event
-) => {
-	const { type, line } = (e as CustomEvent<{
-		type: 'tram' | 'metro';
-		line: number | string;
-	}>).detail;
-
-	switch (type) {
-		case 'tram':
-			map.setFilter('transport-routes', [
-				'has',
-				`L_TRAM[${line}]`
-			]);
-			break;
-
-		case 'metro':
-			let mLine: string;
-			switch (line) {
-				case MetroLine.A:
-					mLine = 'METRO A';
-					break;
-				case MetroLine.B:
-					mLine = 'METRO B';
-					break;
-				case MetroLine.C:
-					mLine = 'METRO C';
-					break;
-				default:
-					mLine = '*';
-			}
-			map.setFilter('transport-routes', ['==', ['get', 'L_METRO'], mLine]);
-			break;
+class Transport {
+	constructor(public map: mapboxgl.Map) {
+		this._listenToIntelItems(this._onNewIntelItems);
 	}
-};
 
+	private _listenToIntelItems = (
+		cb: (snapshot: firebase.firestore.QuerySnapshot) => void
+	) => {
+		getGameDocRef()
+			.collection('intel')
+			.orderBy('timestamp', 'desc')
+			.onSnapshot(cb, err =>
+				console.error(new Error('Error getting intel snapshot:'), err)
+			);
+	};
+
+	private _onNewIntelItems = (snapshot: firebase.firestore.QuerySnapshot) => {};
+
+	public show = (type: 'tram' | 'metro', line: number | string) => {
+		switch (type) {
+			case 'tram':
+				this.map.setFilter('transport-routes', ['has', `L_TRAM[${line}]`]);
+				break;
+
+			case 'metro':
+				let mLine: string;
+				switch (line) {
+					case MetroLine.A:
+						mLine = 'METRO A';
+						break;
+					case MetroLine.B:
+						mLine = 'METRO B';
+						break;
+					case MetroLine.C:
+						mLine = 'METRO C';
+						break;
+					default:
+						mLine = '*';
+				}
+				this.map.setFilter('transport-routes', [
+					'==',
+					['get', 'L_METRO'],
+					mLine,
+				]);
+				break;
+		}
+	};
+}
+
+/**
+ * @deprecated
+ */
 export function addTransportRoutesLayer(map: mapboxgl.Map) {
 	const geoJsonUrl =
 		'http://opendata.iprpraha.cz/CUR/DOP/DOP_PID_TRASY_L/WGS_84/DOP_PID_TRASY_L.json';
@@ -73,6 +90,9 @@ export function addTransportRoutesLayer(map: mapboxgl.Map) {
 		);
 }
 
+/**
+ * @deprecated used only in addTransportRoutesLayer()
+ */
 function tramListStringToArray(res: any) {
 	if (res.features)
 		return {

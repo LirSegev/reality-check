@@ -135,21 +135,6 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._listenToLongPress(map, this._onLongPress);
 		this._addControls(map);
 		this._stopSwiping(map);
-
-		document.addEventListener(
-			'show-transport-on-map',
-			onShowTransportOnMapWrapper(map)
-		);
-		document.addEventListener('hide-transport-on-map', e => {
-			onShowTransportOnMapWrapper(map)(
-				new CustomEvent(e.type, {
-					detail: {
-						type: 'metro',
-						line: 0,
-					},
-				})
-			);
-		});
 	}
 
 	_stopSwiping(map: mapboxgl.Map) {

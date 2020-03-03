@@ -79,20 +79,7 @@ class IntelTabContainer extends React.Component<Props, State> {
 				lat: coords[1],
 				zoom: 16,
 			});
-		} else if (data.tram) this._showTransportOnMap('tram', data.tram);
-		else if (data.metro) this._showTransportOnMap('metro', data.metro);
-	}
-
-	_showTransportOnMap(type: 'tram' | 'metro', line: number | string) {
-		document.dispatchEvent(
-			new CustomEvent('show-transport-on-map', {
-				detail: {
-					type,
-					line,
-				},
-			})
-		);
-		this.props.moveToMapTab();
+		}
 	}
 
 	render = () => (
