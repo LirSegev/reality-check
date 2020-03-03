@@ -140,6 +140,16 @@ class MapTabContainer extends React.Component<Props, State> {
 			'show-transport-on-map',
 			onShowTransportOnMapWrapper(map)
 		);
+		document.addEventListener('hide-transport-on-map', e => {
+			onShowTransportOnMapWrapper(map)(
+				new CustomEvent(e.type, {
+					detail: {
+						type: 'metro',
+						line: 0,
+					},
+				})
+			);
+		});
 	}
 
 	_stopSwiping(map: mapboxgl.Map) {
