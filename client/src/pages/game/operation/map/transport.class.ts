@@ -1,11 +1,6 @@
-import { MetroLine } from '../../intel/Intel.d';
 import { getGameDocRef } from '../../../../util/db';
-import {
-	FeatureCollection,
-	Geometry,
-	GeoJsonProperties,
-	Feature as GeoFeature,
-} from 'geojson';
+import { MetroLine } from '../../intel/Intel.d';
+import { IntelItem } from '../../../../util/db.types';
 
 class Transport {
 	constructor(public map: mapboxgl.Map) {
@@ -23,8 +18,36 @@ class Transport {
 			);
 	};
 
-	private _onNewIntelItems = (snapshot: firebase.firestore.QuerySnapshot) => {};
+	private _onNewIntelItems = (snapshot: firebase.firestore.QuerySnapshot) => {
+		if (!snapshot.empty) {
+			const lastIntel = (snapshot.docs[0].data() as IntelItem).action;
 
+			switch (lastIntel.type) {
+				case 'metro':
+				case 'tram':
+					this.show(lastIntel.type, lastIntel.text);
+					break;
+				default:
+					this.hide();
+					break;
+			}
+		}
+	};
+
+	/**
+	 * Hide all transport
+	 *
+	 * @memberof Transport
+	 */
+	public hide = () => {
+		this.show('metro', 0);
+	};
+
+	/**
+	 * Show specific transport line
+	 *
+	 * @memberof Transport
+	 */
 	public show = (type: 'tram' | 'metro', line: number | string) => {
 		switch (type) {
 			case 'tram':
@@ -55,3 +78,5 @@ class Transport {
 		}
 	};
 }
+
+export default Transport;

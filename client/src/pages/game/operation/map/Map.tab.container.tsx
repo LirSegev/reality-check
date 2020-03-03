@@ -23,6 +23,7 @@ import RoleSelectControl from './controls/roleSelectControl.module';
 import LegendControl from './Legend/legendControl';
 import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
+import Transport from './transport.class';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -133,6 +134,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._listenToLongPress(map, this._onLongPress);
 		this._addControls(map);
 		this._stopSwiping(map);
+		new Transport(map);
 	}
 
 	_stopSwiping(map: mapboxgl.Map) {
