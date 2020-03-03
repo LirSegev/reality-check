@@ -57,8 +57,17 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_snapshots: Array<() => void> = [];
+	_onStyleLoad(map: mapboxgl.Map) {
+		this._markPlayerLocations = this._markPlayerLocationsWrapper(map);
+		this._markPlayerLocations();
+		this._showIntelligenceAndDetectivePoints(map);
+		this._showChaserPoints(map);
+		this._showZone(map);
+		this._listenToLongPress(map, this._onLongPress);
+		this._addControls(map);
+		this._stopSwiping(map);
+		new Transport(map);
 
-	componentDidMount() {
 		this._snapshots.push(
 			getGameDocRef()
 				.collection('players')
@@ -100,7 +109,7 @@ class MapTabContainer extends React.Component<Props, State> {
 				// @ts-ignore
 				const point = intel.action.coordinates as firebase.firestore.GeoPoint;
 				return [point.longitude, point.latitude];
-			});
+		});
 
 		this.setState({
 			mrZRoute,
@@ -123,18 +132,6 @@ class MapTabContainer extends React.Component<Props, State> {
 			}
 		});
 		this.props.setPlayerLocations({ playerLocations });
-	}
-
-	_onStyleLoad(map: mapboxgl.Map) {
-		this._markPlayerLocations = this._markPlayerLocationsWrapper(map);
-		this._markPlayerLocations();
-		this._showIntelligenceAndDetectivePoints(map);
-		this._showChaserPoints(map);
-		this._showZone(map);
-		this._listenToLongPress(map, this._onLongPress);
-		this._addControls(map);
-		this._stopSwiping(map);
-		new Transport(map);
 	}
 
 	_stopSwiping(map: mapboxgl.Map) {
