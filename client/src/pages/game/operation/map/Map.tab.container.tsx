@@ -23,7 +23,7 @@ import RoleSelectControl from './controls/roleSelectControl.module';
 import LegendControl from './Legend/legendControl';
 import styles from './Map.module.css';
 import MapTabView from './Map.tab.view';
-import { onShowTransportOnMapWrapper } from './transport.module';
+import Transport from './transport.class';
 
 // @ts-ignore
 const $ = window.$ as JQueryStatic;
@@ -57,8 +57,17 @@ class MapTabContainer extends React.Component<Props, State> {
 	}
 
 	_snapshots: Array<() => void> = [];
+	_onStyleLoad(map: mapboxgl.Map) {
+		this._markPlayerLocations = this._markPlayerLocationsWrapper(map);
+		this._markPlayerLocations();
+		this._showIntelligenceAndDetectivePoints(map);
+		this._showChaserPoints(map);
+		this._showZone(map);
+		this._listenToLongPress(map, this._onLongPress);
+		this._addControls(map);
+		this._stopSwiping(map);
+		const transport = new Transport(map);
 
-	componentDidMount() {
 		this._snapshots.push(
 			getGameDocRef()
 				.collection('players')
@@ -71,7 +80,7 @@ class MapTabContainer extends React.Component<Props, State> {
 			getGameDocRef()
 				.collection('intel')
 				.orderBy('timestamp')
-				.onSnapshot(this._updateMrZRoute, err =>
+				.onSnapshot(this._updateMrZRoute(transport), err =>
 					console.error(new Error('Error getting intel snapshot:'), err)
 				)
 		);
@@ -90,22 +99,50 @@ class MapTabContainer extends React.Component<Props, State> {
 			this._markPlayerLocations();
 	}
 
-	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
-		const mrZRoute = intel.docs
-			.map(doc => doc.data() as IntelItem)
-			.filter(
-				intel => intel.action.type === 'walking' && intel.action.coordinates
-			)
-			.map(intel => {
-				// @ts-ignore
-				const point = intel.action.coordinates as firebase.firestore.GeoPoint;
-				return [point.longitude, point.latitude];
-			});
+	_updateMrZRoute = (transport: Transport) => (
+		intel: firebase.firestore.QuerySnapshot
+	) => {
+		const intelItems = intel.docs.map(doc => doc.data() as IntelItem);
+		const mrZRoute: [number, number][] = [];
+		intelItems.forEach(({ action: item }, i, items) => {
+			if (item.type === 'walking') {
+				const point = item.coordinates as firebase.firestore.GeoPoint;
+				mrZRoute.push(this._GeoPointToCoord(point));
+			} else if (item.type !== 'bus') {
+				if (i === 0) {
+					// first
+				} else if (i === items.length - 1) {
+					// last
+				} else {
+					// middle
+					const prev = items[i - 1].action;
+					const next = items[i + 1].action;
+					if (prev.type === 'walking' && next.type === 'walking') {
+						// between two walking points
+						const route = transport.getLine(item.type, item.text);
+						const line = transport.routeOnLine(
+							this._GeoPointToCoord(prev.coordinates),
+							this._GeoPointToCoord(next.coordinates),
+							route
+						);
+
+						mrZRoute.push(
+							...(line.geometry?.coordinates as [number, number][])
+						);
+					}
+				}
+			}
+		});
 
 		this.setState({
 			mrZRoute,
 		});
-	}
+	};
+
+	_GeoPointToCoord = (point: firebase.firestore.GeoPoint): [number, number] => [
+		point.longitude,
+		point.latitude,
+	];
 
 	_updatePlayerLocations(playerList: firebase.firestore.QuerySnapshot) {
 		let playerLocations: { [key: string]: PlayerLocation } = {};
@@ -123,23 +160,6 @@ class MapTabContainer extends React.Component<Props, State> {
 			}
 		});
 		this.props.setPlayerLocations({ playerLocations });
-	}
-
-	_onStyleLoad(map: mapboxgl.Map) {
-		// addTransportRoutesLayer(map);
-		this._markPlayerLocations = this._markPlayerLocationsWrapper(map);
-		this._markPlayerLocations();
-		this._showIntelligenceAndDetectivePoints(map);
-		this._showChaserPoints(map);
-		this._showZone(map);
-		this._listenToLongPress(map, this._onLongPress);
-		this._addControls(map);
-		this._stopSwiping(map);
-
-		document.addEventListener(
-			'show-transport-on-map',
-			onShowTransportOnMapWrapper(map)
-		);
 	}
 
 	_stopSwiping(map: mapboxgl.Map) {
