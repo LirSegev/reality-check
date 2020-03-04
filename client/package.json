@@ -4,6 +4,9 @@
 	"private": true,
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.2.1",
+		"@turf/distance": "^5.1.5",
+		"@turf/helpers": "^6.1.4",
+		"@turf/line-slice": "^5.1.5",
 		"@types/jest": "^24.0.25",
 		"@types/jquery": "^3.3.31",
 		"@types/mapbox-gl": "^1.6.1",

@@ -1,3 +1,6 @@
+import pointToPointDist from '@turf/distance';
+import { lineString } from '@turf/helpers';
+import lineSlice from '@turf/line-slice';
 import * as firebase from 'firebase/app';
 import { GeoJSONSource, NavigationControl } from 'mapbox-gl';
 import React from 'react';
@@ -66,7 +69,7 @@ class MapTabContainer extends React.Component<Props, State> {
 		this._listenToLongPress(map, this._onLongPress);
 		this._addControls(map);
 		this._stopSwiping(map);
-		new Transport(map);
+		const transport = new Transport(map);
 
 		this._snapshots.push(
 			getGameDocRef()
@@ -80,7 +83,7 @@ class MapTabContainer extends React.Component<Props, State> {
 			getGameDocRef()
 				.collection('intel')
 				.orderBy('timestamp')
-				.onSnapshot(this._updateMrZRoute, err =>
+				.onSnapshot(this._updateMrZRoute(transport), err =>
 					console.error(new Error('Error getting intel snapshot:'), err)
 				)
 		);
@@ -99,22 +102,100 @@ class MapTabContainer extends React.Component<Props, State> {
 			this._markPlayerLocations();
 	}
 
-	_updateMrZRoute(intel: firebase.firestore.QuerySnapshot) {
-		const mrZRoute = intel.docs
-			.map(doc => doc.data() as IntelItem)
-			.filter(
-				intel => intel.action.type === 'walking' && intel.action.coordinates
-			)
-			.map(intel => {
-				// @ts-ignore
-				const point = intel.action.coordinates as firebase.firestore.GeoPoint;
-				return [point.longitude, point.latitude];
+	_updateMrZRoute = (transport: Transport) => (
+		intel: firebase.firestore.QuerySnapshot
+	) => {
+		const intelItems = intel.docs.map(doc => doc.data() as IntelItem);
+		const mrZRoute: [number, number][] = [];
+		intelItems.forEach(({ action: item }, i, items) => {
+			if (item.type === 'walking') {
+				const point = item.coordinates as firebase.firestore.GeoPoint;
+				mrZRoute.push(this._GeoPointToCoord(point));
+			} else if (item.type !== 'bus') {
+				if (i === 0) {
+					// first
+				} else if (i === items.length - 1) {
+					// last
+				} else {
+					// middle
+					const prev = items[i - 1].action;
+					const next = items[i + 1].action;
+					if (prev.type === 'walking' && next.type === 'walking') {
+						// between two walking points
+						const route = transport.getLine(item.type, item.text);
+
+						const startTime = Date.now();
+						/**
+						 * Max time to calculate route in milliseconds
+						 */
+						const MAX_TIME = 200;
+						while (Date.now() - startTime <= MAX_TIME) {
+							const prevCoords = mrZRoute[mrZRoute.length - 1];
+							const nextCoords = this._GeoPointToCoord(next.coordinates);
+
+							const lines = route.geometry.coordinates
+								.map(coords => {
+									let slice = lineSlice(
+										prevCoords,
+										nextCoords,
+										lineString(coords)
+									);
+
+									const sliceCoords = slice.geometry!.coordinates;
+									const distFromPrev = pointToPointDist(prevCoords, nextCoords);
+									const distFromStart = pointToPointDist(
+										sliceCoords[0],
+										nextCoords
+									);
+									const distFromEnd = pointToPointDist(
+										sliceCoords[sliceCoords.length - 1],
+										nextCoords
+									);
+
+									if (distFromStart < distFromEnd && slice.geometry)
+										slice.geometry.coordinates = slice.geometry.coordinates.reverse();
+
+									return {
+										line: slice,
+										distChange:
+											distFromPrev - Math.min(distFromEnd, distFromStart),
+										distFromPrev: pointToPointDist(
+											prevCoords,
+											slice.geometry!.coordinates[0]
+										),
+									};
+								})
+								// Sort from closest to prev to farthest from prev
+								.sort((a, b) => a.distFromPrev - b.distFromPrev);
+
+							/**
+							 * Closest line which gets us closer to target
+							 */
+							const slice = lines.find(line => line.distChange > 0)?.line;
+							// No line will get us closer to target
+							if (!slice) break;
+
+							const coords =
+								(slice?.geometry?.coordinates as
+									| [number, number][]
+									| undefined) ?? [];
+
+							mrZRoute.push(...coords);
+						}
+					}
+				}
+			}
 		});
 
 		this.setState({
 			mrZRoute,
 		});
-	}
+	};
+
+	_GeoPointToCoord = (point: firebase.firestore.GeoPoint): [number, number] => [
+		point.longitude,
+		point.latitude,
+	];
 
 	_updatePlayerLocations(playerList: firebase.firestore.QuerySnapshot) {
 		let playerLocations: { [key: string]: PlayerLocation } = {};
